@@ -15,7 +15,7 @@ func main(){
 	MainSite := Router.Host("forcamp.ga").Subrouter()
 	APISite := Router.Host("api.forcamp.ga").Subrouter()
 	APISite.HandleFunc("/", defaultHandler)
-	MainSite.HandleFunc("/", defaultHandler)
 	http.ListenAndServe(":80", Router)
-	http.ListenAndServeTLS(":81", "/etc/letsencrypt/forcamp.ga/fullchain.pem", "/etc/letsencrypt/forcamp.ga/privkey.pem", Router)
+	http.ListenAndServeTLS(":81", "./conf/tls/apiforcamp.pem", "./conf/tls/apiforcamp_key.pem", APISite)
+	http.ListenAndServeTLS(":81", "./conf/tls/forcamp.pem", "./conf/tls/forcamp_key.pem", MainSite)
 }
