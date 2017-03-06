@@ -17,4 +17,5 @@ func main(){
 	APISite.HandleFunc("/", defaultHandler)
 	MainSite.HandleFunc("/", defaultHandler)
 	http.ListenAndServe(":80", Router)
+	http.ListenAndServeTLS(":81", "/etc/letsencrypt/forcamp.ga/fullchain.pem", "/etc/letsencrypt/forcamp.ga/privkey.pem", Router)
 }
