@@ -2,34 +2,29 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"net/http"
-	"fmt"
-	"crypto/tls"
+	"forcamp/src/handlers"
+	"forcamp/conf"
+	"forcamp/src/handlers/templates"
+	"forcamp/src/handlers/folders"
 )
 
-func defaultHandler(w http.ResponseWriter, r *http.Request)  {
-	fmt.Fprintf(w, "Hello!")
-}
-
-func main(){
+func main() {
 	Router := mux.NewRouter()
-	WWWSite := Router.Host("www.forcamp.ga").Subrouter()
-	MainSite := Router.Host("forcamp.ga").Subrouter()
-	APISite := Router.Host("api.forcamp.ga").Subrouter()
-	MainSite.HandleFunc("/", defaultHandler)
-	APISite.HandleFunc("/", defaultHandler)
-	WWWSite.HandleFunc("/", defaultHandler)
-	TlsConfig := &tls.Config{}
-	TlsConfig.Certificates = make([]tls.Certificate, 3)
-	TlsConfig.Certificates[0], _ = tls.LoadX509KeyPair("./conf/tls/apiforcamp.pem", "./conf/tls/apiforcamp_key.pem")
-	TlsConfig.Certificates[1], _ = tls.LoadX509KeyPair("./conf/tls/forcamp.pem", "./conf/tls/forcamp_key.pem")
-	TlsConfig.Certificates[2], _ = tls.LoadX509KeyPair("./conf/tls/wwwforcamp.pem", "./conf/tls/wwwforcamp_key.pem")
-	TlsConfig.BuildNameToCertificate()
-	Server := http.Server{
-		Handler: Router,
-		TLSConfig: TlsConfig,
-	}
-	TLSListener, _ := tls.Listen("tcp", ":443", TlsConfig)
-	http.ListenAndServe(":80", Router)
-	Server.Serve(TLSListener)
+
+	WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
+	MainSite := Router.Host(conf.MAIN_SITE_DOMAIN).Subrouter()
+	APISite := Router.Host(conf.API_SITE_DOMAIN).Subrouter()
+	handlers.HandleDefault(WWWSite)
+	handlers.HandleDefault(MainSite)
+	handlers.HandleDefault(APISite)
+	templates.HandleTemplate_Index(WWWSite)
+	templates.HandleTemplate_Index(MainSite)
+	folders.HandleFolder_CSS(WWWSite)
+	folders.HandleFolder_Fonts(WWWSite)
+	folders.HandleFolder_Scripts(WWWSite)
+	folders.HandleFolder_CSS(MainSite)
+	folders.HandleFolder_Fonts(MainSite)
+	folders.HandleFolder_Scripts(MainSite)
+	handlers.HandleHTTP(Router)
+	handlers.HandleTLS(Router)
 }
