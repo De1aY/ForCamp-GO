@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src/handlers/templates"
 	"forcamp/src/handlers/folders"
-	"net/http"
+	//"net/http"
 )
 
 func main() {
@@ -25,6 +25,6 @@ func main() {
 	folders.HandleFolder_CSS(MainSite)
 	folders.HandleFolder_Fonts(MainSite)
 	folders.HandleFolder_Scripts(MainSite)
-	http.ListenAndServe(conf.SERVER_PORT, Router)
+	//http.ListenAndServe(conf.SERVER_PORT, Router)
 	handlers.HandleTLS(Router)
 }
