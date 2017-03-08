@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/forcamp.iml" filepath="$PROJECT_DIR$/forcamp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wwwroot/wwwroot.iml" filepath="$PROJECT_DIR$/wwwroot/wwwroot.iml" />
     </modules>
   </component>
 </project>

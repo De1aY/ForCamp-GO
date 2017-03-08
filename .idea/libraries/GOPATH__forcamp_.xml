@@ -21,7 +21,6 @@
       <root url="file:///usr/lib/go-1.7/src/debug" />
       <root url="file:///usr/lib/go-1.7/src/os" />
       <root url="file:///usr/lib/go-1.7/src/builtin" />
-      <root url="file://$PROJECT_DIR$/../zauth" />
       <root url="file:///usr/lib/go-1.7/src/go" />
       <root url="file:///usr/lib/go-1.7/src/runtime" />
       <root url="file:///usr/lib/go-1.7/src/bytes" />
@@ -70,7 +69,6 @@
       <root url="file:///usr/lib/go-1.7/src/debug" />
       <root url="file:///usr/lib/go-1.7/src/os" />
       <root url="file:///usr/lib/go-1.7/src/builtin" />
-      <root url="file://$PROJECT_DIR$/../zauth" />
       <root url="file:///usr/lib/go-1.7/src/go" />
       <root url="file:///usr/lib/go-1.7/src/runtime" />
       <root url="file:///usr/lib/go-1.7/src/bytes" />
@@ -98,7 +96,6 @@
       <root url="file:///usr/lib/go-1.7/src/unicode" />
     </SOURCES>
     <excluded>
-      <root url="file://$PROJECT_DIR$/wwwroot" />
       <root url="file://$PROJECT_DIR$" />
     </excluded>
   </library>
