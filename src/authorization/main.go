@@ -58,10 +58,14 @@ func CheckToken(token string, ResponseWriter http.ResponseWriter) bool {
 }
 
 func VerifyToken(token string, ResponseWriter http.ResponseWriter) bool{
-	if CheckToken(token, ResponseWriter){
-		return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+	if len(token) > 0 {
+		if CheckToken(token, ResponseWriter) {
+			return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+		} else {
+			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+		}
 	} else {
-		return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+		return conf.PrintError(conf.ErrUserTokenEmpty, ResponseWriter)
 	}
 }
 
