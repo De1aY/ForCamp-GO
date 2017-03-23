@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"forcamp/conf"
+	"forcamp/src"
 )
 
 // Parse 'GET' data to AuthInf
@@ -18,7 +19,7 @@ func getAuthorizationData(r *http.Request) authorization.AuthInf{
 }
 
 func LoginAndPasswordAuthHandler(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/json")
+	src.SetHeaders_API(w)
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusOK)
 		authInf := getAuthorizationData(r)
@@ -30,5 +31,5 @@ func LoginAndPasswordAuthHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleAuthorizationByLoginAndPassword(router *mux.Router)  {
-	router.HandleFunc("/signin", LoginAndPasswordAuthHandler)
+	router.HandleFunc("/token.get", LoginAndPasswordAuthHandler)
 }

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"forcamp/conf"
+	"forcamp/src"
 )
 
 // Parse 'Token' from 'GET' data
@@ -14,7 +15,7 @@ func getToken(r *http.Request) string{
 }
 
 func TokenVerificationHandler(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Content-Type", "application/json")
+	src.SetHeaders_API(w)
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusOK)
 		authorization.VerifyToken(getToken(r), w)
@@ -25,5 +26,5 @@ func TokenVerificationHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleTokenVerification(router *mux.Router)  {
-	router.HandleFunc("/token", TokenVerificationHandler)
+	router.HandleFunc("/token.verify", TokenVerificationHandler)
 }

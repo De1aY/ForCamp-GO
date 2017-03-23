@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,900&subset=cyrillic-ext");
+@import '../node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css';
 
-$MainColor: #0272FC;
-$AccentColor: #F84339;
+$MainColor: #3F51B5;
+$AccentColor: #FF4081;
 $SuccessColor: #1BD964;
 $WarnColor: #FF772B;
 $OtherColor: #8649BA;
@@ -11,4 +12,82 @@ $TextColor_Main_Hover: #014c8c;
 
 * {
   font-family: 'Roboto', sans-serif;
+}
+
+.fc-card {
+  background-color: $TextColor_Accent;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12), 0 3px 5px -1px rgba(0, 0, 0, .2);
+  z-index: 999;
+  min-height: 180px;
+  min-width: 420px;
+}
+
+.fc-card--border {
+  border-bottom: 1px solid rgba(0, 0, 0, .1)
+}
+
+.fc-card .fc-card__title {
+  width: 100%;
+  min-height: 50px;
+}
+
+.fc-card .fc-card__title .fc-card__title-text {
+  padding: 10px;
+  font-size: 27px;
+  color: $TextColor_Main;
+  text-transform: capitalize;
+}
+
+.fc-card .fc-card__content {
+  padding: 10px 10px 0 10px;
+  min-height: 50px;
+}
+
+.fc-card .fc-card__content .fc-card__content--width100{
+  width: 100%;
+}
+
+.fc-card .fc-card__content:focus {
+  outline: none;
+}
+
+.fc-card .fc-card__content .fc-card__content--button{
+  margin: 2px 0 0 0;
+  float: right;
+  color: $MainColor;
+  transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 0 16px;
+  height: 36px;
+  min-height: 46px;
+}
+
+.fc-card .fc-card__content .fc-card__content--button:hover{
+  background-color: rgba(158,158,158,.2);
+}
+
+.fc-card .fc-card--nopad{
+  padding-top: 0;
+}
+
+#loading_screen{
+  text-align: center;
+  vertical-align: middle;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $MainColor;
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  z-index: 999;
+
+  i{
+    margin-top: 25%;
+    color: $TextColor_Accent;
+  }
+
 }

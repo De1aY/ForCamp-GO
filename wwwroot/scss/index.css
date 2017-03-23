@@ -1,40 +1,132 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,900&subset=cyrillic-ext");
+@import url(../node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css);
 * {
   font-family: 'Roboto', sans-serif; }
 
-body #logo i {
-  text-decoration: none;
-  color: #0272FC; }
-body #sign_in {
-  color: #1686ff;
-  text-transform: capitalize;
-  font-size: 18px; }
-body #sign_in:hover {
-  cursor: pointer; }
-body #sign_up {
-  color: #005ee8;
-  font-weight: 700;
-  text-transform: capitalize;
-  font-size: 18px;
-  border-bottom: transparent solid 2px; }
-body #sign_up:hover {
-  cursor: pointer;
-  border-bottom: #0272FC solid 2px; }
-body #header__button-collapse {
-  color: #0272FC;
-  border: none; }
-body .header__menu {
+.fc-card {
+  background-color: #FFFFFF;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  min-height: 180px;
+  min-width: 420px; }
+
+.fc-card--border {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+
+.fc-card .fc-card__title {
+  width: 100%;
+  min-height: 50px; }
+
+.fc-card .fc-card__title .fc-card__title-text {
+  padding: 10px;
+  font-size: 27px;
+  color: #000;
+  text-transform: capitalize; }
+
+.fc-card .fc-card__content {
+  padding: 10px 10px 0 10px;
+  min-height: 50px; }
+
+.fc-card .fc-card__content .fc-card__content--width100 {
+  width: 100%; }
+
+.fc-card .fc-card__content:focus {
+  outline: none; }
+
+.fc-card .fc-card__content .fc-card__content--button {
+  margin: 2px 0 0 0;
+  float: right;
+  color: #3F51B5;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: none;
+  border: none;
+  box-shadow: none;
   text-transform: uppercase;
-  transition: all ease .2s;
-  font-size: 18px;
-  color: #1686ff; }
-body .header__menu:hover {
-  color: #1686ff; }
-  body .header__menu:hover a {
-    text-decoration: none; }
-body .header__menu-active {
-  color: #005ee8 !important;
-  font-weight: 700;
-  border-bottom: #0272FC solid 2px; }
+  font-size: 14px;
+  padding: 0 16px;
+  height: 36px;
+  min-height: 46px; }
+
+.fc-card .fc-card__content .fc-card__content--button:hover {
+  background-color: rgba(158, 158, 158, 0.2); }
+
+.fc-card .fc-card--nopad {
+  padding-top: 0; }
+
+#loading_screen {
+  text-align: center;
+  vertical-align: middle;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #3F51B5;
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  z-index: 999; }
+  #loading_screen i {
+    margin-top: 25%;
+    color: #FFFFFF; }
+
+body .container {
+  z-index: 10;
+  height: 100%;
+  overflow: hidden; }
+  body .container .navbar-brand {
+    color: #FFFFFF;
+    text-shadow: #000000 0 0 2px;
+    font-size: 48px; }
+  body .container .navbar-brand:hover {
+    color: #FFFFFF; }
+  body .container .navbar-text {
+    text-align: right;
+    margin-top: 11px; }
+  body .container #content__top-text {
+    font-size: 36px;
+    text-align: center; }
+  body .container #content__top-down {
+    text-align: center;
+    font-size: 17px;
+    animation: bounce 4s infinite; }
+  body .container #content__top-down-arrows:hover {
+    cursor: pointer; }
+  body .container #content__top {
+    color: #FFFFFF;
+    text-shadow: #000000 0 0 2px;
+    position: absolute;
+    width: 100%;
+    bottom: 80px; }
+body .content__top {
+  top: 0;
+  position: absolute;
+  z-index: -1;
+  background: url("../media/images/ForCamp_MainPage-Background.png") center;
+  height: 100vh;
+  width: 100vw;
+  max-height: 1200px; }
+body #content__center {
+  margin-top: 100vh;
+  z-index: 30;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: #FF4081; }
+
+@keyframes bounce {
+  from {
+    transform: translateY(0); }
+  50% {
+    transform: translateY(15px); }
+  to {
+    transform: translateY(0); } }
+@keyframes underline_sign_in {
+  from {
+    width: 0; }
+  to {
+    width: 83px; } }
+@keyframes underline_portal {
+  from {
+    width: 0; }
+  to {
+    width: 83px; } }
 
 /*# sourceMappingURL=index.css.map */

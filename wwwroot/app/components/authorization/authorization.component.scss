@@ -1,0 +1,97 @@
+$MainColor: #3F51B5;
+$AccentColor: #FF4081;
+$SuccessColor: #1BD964;
+$WarnColor: #FF772B;
+$OtherColor: #8649BA;
+$TextColor_Main: #000;
+$TextColor_Accent: #FFFFFF;
+$TextColor_Main_Hover: #014c8c;
+
+#sign_in{
+  text-transform: uppercase;
+  color: $TextColor_Accent;
+  text-shadow: #000000 0 0 2px;
+  font-size: 24px;
+}
+
+#sign_in:hover{
+  cursor: pointer;
+}
+
+#sign_in:hover::after{
+  content: " ";
+  margin-left: -81px;
+  position: absolute;
+  width: 0;
+  animation: underline_sign_in 0.2s 1;
+  height: 2px;
+  margin-top: 32px;
+  background-color: $TextColor_Accent;
+  animation-fill-mode: forwards;
+}
+
+#portal{
+  text-transform: uppercase;
+  color: $TextColor_Accent;
+  text-shadow: #000000 0 0 2px;
+  font-size: 24px;
+}
+
+#portal:hover{
+  cursor: pointer;
+}
+
+#portal:hover::after{
+  content: " ";
+  margin-left: -94.22px;
+  position: absolute;
+  width: 0;
+  animation: underline_portal 0.2s 1;
+  height: 2px;
+  margin-top: 32px;
+  background-color: $TextColor_Accent;
+  animation-fill-mode: forwards;
+}
+
+.pop-up__background{
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#pop-up__sign_in-form{
+  padding: 0;
+}
+
+#pop-up__sign_in{
+  background-color: rgba(0,0,0,0.6);
+  z-index: 100;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 101vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@keyframes underline_sign_in {
+  from{
+    width: 0;
+  }
+  to{
+    width: 83px;
+  }
+}
+
+@keyframes underline_portal {
+  from{
+    width: 0;
+  }
+  to{
+    width: 94.22px;
+  }
+}

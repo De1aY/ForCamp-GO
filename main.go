@@ -14,8 +14,10 @@ func main() {
 	APISite := Router.Host(conf.API_SITE_DOMAIN).Subrouter()
 	handlers.HandleAuthorizationByLoginAndPassword(APISite)
 	handlers.HandleTokenVerification(APISite)
+	handlers.HandleGetUserLoginByToken(APISite)
+	handlers.HandleGetUserData(APISite)
 	handlers.HandleFolder_MainSite(WWWSite)
 	handlers.HandleFolder_MainSite(MainSite)
-	go http.ListenAndServe(":80", Router)
+	go http.ListenAndServe(conf.SERVER_PORT, Router)
 	handlers.HandleTLS(Router)
 }

@@ -2,7 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1eae2d23-cc1e-45b5-ba3b-bc4d0fb8de99" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/authorization/main.go" afterPath="$PROJECT_DIR$/src/authorization/main.go" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/media/images/ForCamp_MainPage-Background.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wwwroot/media/svg/logo.svg" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/app.component.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/app.component.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/app.component.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/app.module.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/app.module.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/wwwroot/app/app.module.ts" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/authorization/checkData.go" afterPath="$PROJECT_DIR$/src/authorization/authorization_checkData.go" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/authorization/main.go" afterPath="$PROJECT_DIR$/src/authorization/authorization_main.go" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/authorization/tests/main_test.go" afterPath="$PROJECT_DIR$/src/authorization/tests/authorization_main_test.go" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/authorization/tools.go" afterPath="$PROJECT_DIR$/src/authorization/authorization_tools.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__forcamp_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__forcamp_.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/typescript-compiler.xml" afterPath="$PROJECT_DIR$/.idea/typescript-compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/forcamp.iml" afterPath="$PROJECT_DIR$/forcamp.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database.go" afterPath="$PROJECT_DIR$/src/database.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/handlers/authorizationHandler.go" afterPath="$PROJECT_DIR$/src/handlers/authorizationHandler.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" afterPath="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/main.js" afterPath="$PROJECT_DIR$/wwwroot/app/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/main.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/main.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/main.ts" afterPath="$PROJECT_DIR$/wwwroot/app/main.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/index.html" afterPath="$PROJECT_DIR$/wwwroot/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/package.json" afterPath="$PROJECT_DIR$/wwwroot/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/_main.scss" afterPath="$PROJECT_DIR$/wwwroot/scss/_main.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/index.css" afterPath="$PROJECT_DIR$/wwwroot/scss/index.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/index.css.map" afterPath="$PROJECT_DIR$/wwwroot/scss/index.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/index.scss" afterPath="$PROJECT_DIR$/wwwroot/scss/index.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/systemjs.config.js" afterPath="$PROJECT_DIR$/wwwroot/systemjs.config.js" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,75 +53,71 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="63" lean-forward="true" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
-              <folding>
-                <element signature="e#14#102#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/authorization/main.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="59" column="71" lean-forward="false" selection-start-line="59" selection-start-column="71" selection-end-line="59" selection-end-column="71" />
-              <folding>
-                <element signature="e#23#76#0" expanded="true" />
-                <element signature="n#!!block;n#Authorize#0" expanded="false" />
-                <element signature="n#!!block;n#setUserToken#0" expanded="false" />
-                <element signature="n#!!block;n#getToken#0" expanded="false" />
-                <element signature="n#!!block;n#CheckToken#0" expanded="false" />
-                <element signature="n#!!block;n#VerifyToken#0" expanded="false" />
-                <element signature="n#!!block;n#checkCurrentSessionsVal#0" expanded="false" />
-                <element signature="n#!!block;n#deleteOldestSession#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+            <state relative-caret-position="204">
+              <caret line="17" column="42" lean-forward="false" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tokenVerificationHandler.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go">
+      <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="137">
+              <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orgpanel.component.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="25" column="23" lean-forward="true" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
               <folding>
-                <element signature="n#!!block;n#getToken#0" expanded="false" />
-                <element signature="n#!!block;n#HandleTokenVerification#0" expanded="false" />
+                <element signature="e#0#48#0" expanded="true" />
+                <element signature="n#!!block;n#UserData#0" expanded="false" />
+                <element signature="n#!!block;n#getUserLoginFromResponse#0;n#OrgPanelComponent#0" expanded="false" />
+                <element signature="n#!!block;n#getUserDataFromResponse#0;n#OrgPanelComponent#0" expanded="false" />
+                <element signature="n#!!block;n#getUserData#0;n#OrgPanelComponent#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_main.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/scss/_main.scss">
+      <file leaf-file-name="user.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/src/user.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="45" lean-forward="false" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
+              <folding>
+                <element signature="e#0#49#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orgpanel.module.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.module.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" column="65" lean-forward="false" selection-start-line="16" selection-start-column="65" selection-end-line="16" selection-end-column="65" />
+              <folding>
+                <element signature="e#0#46#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orgpanel.component.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="64" lean-forward="false" selection-start-line="0" selection-start-column="64" selection-end-line="0" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/scss/index.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="51" column="28" lean-forward="false" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
+              <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -102,9 +130,9 @@
       <list>
         <option value="package_json" />
         <option value="JavaScript File" />
-        <option value="TypeScript File" />
         <option value="HTML File" />
         <option value="Go File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -115,7 +143,8 @@
       <find>Fonts</find>
       <find>NodeModules</find>
       <find>w</find>
-      <find>w</find>
+      <find>&lt;</find>
+      <find>log.Fatal(</find>
     </findStrings>
     <replaceStrings>
       <replace>CSS</replace>
@@ -137,50 +166,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/conf/settings.go" />
-        <option value="$PROJECT_DIR$/conf/handlers.go" />
-        <option value="$PROJECT_DIR$/conf/paths.go" />
-        <option value="$PROJECT_DIR$/conf/paths_templates.go" />
-        <option value="$PROJECT_DIR$/conf/tls/tls.go" />
-        <option value="$PROJECT_DIR$/conf/tls.go" />
-        <option value="$PROJECT_DIR$/src/handlers/tlsHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/indexHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/scriptsHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/folders/fontsHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/folders/scriptsHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/templates/indexHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/httpHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/folders/cssHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/defaultHandler.go" />
-        <option value="$PROJECT_DIR$/wwwroot/angular-cli.json" />
-        <option value="$PROJECT_DIR$/wwwroot/systemjs.config.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.component.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/app/main.ts" />
-        <option value="$PROJECT_DIR$/src/handlers/folders/nodeModulesHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/folders/appHandler.go" />
-        <option value="$PROJECT_DIR$/conf/paths/folders.go" />
-        <option value="$PROJECT_DIR$/conf/folders.go" />
-        <option value="$PROJECT_DIR$/wwwroot/package.json" />
-        <option value="$PROJECT_DIR$/wwwroot/tsconfig.json" />
-        <option value="$PROJECT_DIR$/src/handlers/mainSiteHandler.go" />
-        <option value="$PROJECT_DIR$/wwwroot/index.html" />
-        <option value="$PROJECT_DIR$/wwwroot/scss/_main.scss" />
-        <option value="$PROJECT_DIR$/wwwroot/scss/index.scss" />
-        <option value="$PROJECT_DIR$/conf/database.go" />
-        <option value="$PROJECT_DIR$/src/crypt/main.go" />
-        <option value="$PROJECT_DIR$/conf/errors.go" />
-        <option value="$PROJECT_DIR$/conf/error.go" />
-        <option value="$PROJECT_DIR$/src/authorization/requests.go" />
-        <option value="$PROJECT_DIR$/src/database.go" />
-        <option value="$PROJECT_DIR$/src/authorization/checkData.go" />
-        <option value="$PROJECT_DIR$/src/handlers/authorizationHandler.go" />
         <option value="$PROJECT_DIR$/src/authorization/tools.go" />
-        <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/conf/codes.go" />
         <option value="$PROJECT_DIR$/src/authorization/tests/main_test.go" />
-        <option value="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" />
         <option value="$PROJECT_DIR$/src/authorization/main.go" />
+        <option value="$PROJECT_DIR$/wwwroot/scss/index.css" />
+        <option value="$PROJECT_DIR$/conf/settings.go" />
+        <option value="$PROJECT_DIR$/wwwroot/app/authorization/authorization.componenet.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/authorization/authorization.component.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/authorization/authorization.module.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/authorization/authorization.component.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/modules/authorization/authorization.module.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/modules/authorization/authorization.component.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/modules/authorization/authorization.component.scss" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/conf.ts" />
+        <option value="$PROJECT_DIR$/src/handlers/mainSiteHandler.go" />
+        <option value="$PROJECT_DIR$/src/handlers/authorizationHandler.go" />
+        <option value="$PROJECT_DIR$/src/authorization/tests/authorization_main_test.go" />
+        <option value="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" />
+        <option value="$PROJECT_DIR$/src/headers.go" />
+        <option value="$PROJECT_DIR$/src/handlers/tlsHandler.go" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.js" />
+        <option value="$PROJECT_DIR$/wwwroot/package.json" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/systemjs.config.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.scss" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.componenet.scss" />
+        <option value="$PROJECT_DIR$/wwwroot/index.html" />
+        <option value="$PROJECT_DIR$/wwwroot/scss/index.scss" />
+        <option value="$PROJECT_DIR$/wwwroot/scss/_main.scss" />
+        <option value="$PROJECT_DIR$/wwwroot/scss/main.scss" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.routing.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/app.module.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/main.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/main.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/checkToken.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/checkToken.service.ts" />
+        <option value="$PROJECT_DIR$/src/user/users_main.go" />
+        <option value="$PROJECT_DIR$/src/database.go" />
+        <option value="$PROJECT_DIR$/src/handlers/getUserLoginHandler.go" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/src/handlers/getUserDataHandler.go" />
+        <option value="$PROJECT_DIR$/src/users/tests/users_main_test.go" />
+        <option value="$PROJECT_DIR$/src/users/users_getUserData.go" />
+        <option value="$PROJECT_DIR$/src/users/users_getUserLogin.go" />
+        <option value="$PROJECT_DIR$/src/users/users_main.go" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.module.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/user.service.ts" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.ts" />
       </list>
     </option>
   </component>
@@ -195,9 +231,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="27" />
-    <option name="width" value="1366" />
-    <option name="height" value="741" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1696" />
+    <option name="height" value="1026" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -214,8 +251,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -238,6 +273,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forcamp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forcamp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forcamp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forcamp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -252,17 +327,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="handlers" />
+              <option name="myItemId" value="conf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -273,36 +346,32 @@
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="editor.config.accepted" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../InnoFinTech" />
+    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="configurable.Global.libraries.is.expanded" value="true" />
+    <property name="configurable.Project.libraries.is.expanded" value="true" />
+    <property name="configurable.Module.libraries.is.expanded" value="true" />
+    <property name="eu.ydp.idea.ts.spec.generator.settings.spec.template" value="import {$ClassName$} from '$TestsRelativePath$../src/$classRelativePath$/$ClassName$';&#10;&#10;describe('$ClassName$', () =&gt; {&#10;  let $ObjName$:$ClassName$;&#10;&#10;  beforeEach(() =&gt; {&#10;    $ObjName$ = new $ClassName$();&#10;  });&#10;&#10;  describe('', () =&gt; {&#10;    it('', () =&gt; {&#10;      // given&#10;&#10;      // when&#10;&#10;      // then&#10;    });&#10;  });&#10;});&#10;" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GoPath\src\forcamp\wwwroot\app\modules" />
       <recent name="$PROJECT_DIR$/conf" />
       <recent name="$PROJECT_DIR$/wwwroot/src" />
       <recent name="$PROJECT_DIR$/wwwroot" />
       <recent name="$PROJECT_DIR$/src/handlers/folders" />
-      <recent name="$PROJECT_DIR$/src/handlers/templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.All in 'forcamp/src/authorization/tests'">
+  <component name="RunManager" selected="Go Test.All in 'forcamp/src/users/tests'">
     <configuration default="false" name="Build main.go and run" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="forcamp" />
       <working_directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
       <kind value="FILE" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Build forcamp/wwwroot and run" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
-      <module name="wwwroot" />
-      <working_directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="forcamp/wwwroot" />
       <method />
     </configuration>
     <configuration default="false" name="All in 'forcamp/src/authorization/tests'" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true">
@@ -313,22 +382,30 @@
       <package value="forcamp/src/authorization/tests" />
       <method />
     </configuration>
-    <configuration default="false" name="TestLoginAndPasswordHandler in main_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true">
+    <configuration default="false" name="TestGetUserLogin in users_main_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true">
       <module name="forcamp" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="forcamp/src/authorization/tests" />
-      <pattern value="^TestLoginAndPasswordHandler$" />
+      <package value="forcamp/src/users/tests" />
+      <pattern value="^TestGetUserLogin$" />
       <method />
     </configuration>
-    <configuration default="false" name="TestTokenVerification in main_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true">
+    <configuration default="false" name="All in 'forcamp/src/users/tests'" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true">
       <module name="forcamp" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="forcamp/src/authorization/tests" />
-      <pattern value="^TestTokenVerification$" />
+      <package value="forcamp/src/users/tests" />
+      <method />
+    </configuration>
+    <configuration default="false" name="TestGetUserData in users_main_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true">
+      <module name="forcamp" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="forcamp/src/users/tests" />
+      <pattern value="^TestGetUserData$" />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -336,61 +413,6 @@
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
       <predefined_log_file id="idea.log" enabled="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Java" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <Java />
-      <Profilers>
-        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
-        <option name="GAPID_ENABLED" value="false" />
-        <option name="GAPID_DISABLE_PCS" value="false" />
-        <option name="SUPPORT_LIB_ENABLED" value="true" />
-        <option name="INSTRUMENTATION_ENABLED" value="true" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="DEBUGGER_TYPE" value="Java" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <Java />
-      <Profilers>
-        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
-        <option name="GAPID_ENABLED" value="false" />
-        <option name="GAPID_DISABLE_PCS" value="false" />
-        <option name="SUPPORT_LIB_ENABLED" value="true" />
-        <option name="INSTRUMENTATION_ENABLED" value="true" />
-      </Profilers>
       <method />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -495,40 +517,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="CucumberRunConfigurationType" factoryName="Cucumber">
-      <predefined_log_file id="RUBY_CUCUMBER" enabled="true" />
-      <module name="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
-      <envs />
-      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
-      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
-      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
-        <COVERAGE_PATTERN ENABLED="true">
-          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
-        </COVERAGE_PATTERN>
-      </EXTENSION>
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*.feature" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TAGS_FILTER" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_NAME_FILTER" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_ARGS" VALUE="--color -r features" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="VERBOSE_OPTION" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_RUNNER_PATH" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_RUNNER" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SETTINGS_VERSION" VALUE="2" />
       <method />
     </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -643,37 +631,6 @@
       <setting name="launchBrowser" value="true" />
       <setting name="launchBrowserUrl" value="" />
       <setting name="depsClasspath" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JRubyCucumberRunConfigurationType" factoryName="JRuby Cucumber">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" value="-Dforce.jruby.jit=true -Djruby.debug.fullTrace=true" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*.feature" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TAGS_FILTER" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_NAME_FILTER" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_ARGS" VALUE="--color -r features" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="VERBOSE_OPTION" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_RUNNER_PATH" VALUE="" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_RUNNER" VALUE="false" />
-      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SETTINGS_VERSION" VALUE="2" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -816,40 +773,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <classRegexps />
-      <testRegexps />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <classRegexps />
-      <testRegexps />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -882,33 +805,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="TestUnitRunConfigurationType" factoryName="Test::Unit/Shoulda/Minitest">
-      <predefined_log_file id="RUBY_TESTUNIT" enabled="true" />
-      <module name="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
-      <envs />
-      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
-      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
-      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
-        <COVERAGE_PATTERN ENABLED="true">
-          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
-        </COVERAGE_PATTERN>
-      </EXTENSION>
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_METHOD_NAME" VALUE="" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
-      <RTEST_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_OPTIONS" VALUE="" />
       <method />
     </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
@@ -1069,37 +965,20 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <classRegexps />
-      <testRegexps />
-      <envs />
-      <method />
-    </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Go Application.Build main.go and run" />
-      <item index="1" class="java.lang.String" itemvalue="Go Application.Build forcamp/wwwroot and run" />
-      <item index="2" class="java.lang.String" itemvalue="Go Test.All in 'forcamp/src/authorization/tests'" />
-      <item index="3" class="java.lang.String" itemvalue="Go Test.TestLoginAndPasswordHandler in main_test.go" />
-      <item index="4" class="java.lang.String" itemvalue="Go Test.TestTokenVerification in main_test.go" />
+      <item index="1" class="java.lang.String" itemvalue="Go Test.All in 'forcamp/src/authorization/tests'" />
+      <item index="2" class="java.lang.String" itemvalue="Go Test.TestGetUserLogin in users_main_test.go" />
+      <item index="3" class="java.lang.String" itemvalue="Go Test.All in 'forcamp/src/users/tests'" />
+      <item index="4" class="java.lang.String" itemvalue="Go Test.TestGetUserData in users_main_test.go" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Go Application.Build main.go and run" />
-        <item index="1" class="java.lang.String" itemvalue="Go Test.All in 'forcamp/src/authorization/tests'" />
-        <item index="2" class="java.lang.String" itemvalue="Go Test.TestTokenVerification in main_test.go" />
-        <item index="3" class="java.lang.String" itemvalue="Go Test.TestLoginAndPasswordHandler in main_test.go" />
-        <item index="4" class="java.lang.String" itemvalue="Go Application.Build forcamp/wwwroot and run" />
+        <item index="1" class="java.lang.String" itemvalue="Go Test.All in 'forcamp/src/users/tests'" />
+        <item index="2" class="java.lang.String" itemvalue="Go Test.TestGetUserData in users_main_test.go" />
+        <item index="3" class="java.lang.String" itemvalue="Go Test.TestGetUserLogin in users_main_test.go" />
+        <item index="4" class="java.lang.String" itemvalue="Go Test.All in 'forcamp/src/authorization/tests'" />
       </list>
     </recent_temporary>
   </component>
@@ -1124,91 +1003,104 @@
       <workItem from="1488809850530" duration="25462000" />
       <workItem from="1488911689893" duration="36338000" />
       <workItem from="1489137497434" duration="19037000" />
+      <workItem from="1489590377773" duration="23775000" />
+      <workItem from="1489855626633" duration="12304000" />
+      <workItem from="1489956207893" duration="87141000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_'forcamp_src_authorization_tests' - 2017.03.13 at 21h 58m 27s.xml">
-      <configuration name="All in 'forcamp/src/authorization/tests'" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 25m 55s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="All_in_'forcamp_src_authorization_tests' - 2017.03.13 at 21h 59m 21s.xml">
-      <configuration name="All in 'forcamp/src/authorization/tests'" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 26m 14s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="All_in_'forcamp_src_authorization_tests' - 2017.03.13 at 22h 23m 42s.xml">
-      <configuration name="All in 'forcamp/src/authorization/tests'" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 26m 36s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestLoginAndPasswordHandler_in_main_test_go - 2017.03.11 at 21h 25m 38s.xml">
-      <configuration name="TestLoginAndPasswordHandler in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 26m 43s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestLoginAndPasswordHandler_in_main_test_go - 2017.03.13 at 21h 45m 06s.xml">
-      <configuration name="TestLoginAndPasswordHandler in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 27m 43s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestLoginAndPasswordHandler_in_main_test_go - 2017.03.13 at 21h 46m 03s.xml">
-      <configuration name="TestLoginAndPasswordHandler in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 28m 01s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestLoginAndPasswordHandler_in_main_test_go - 2017.03.13 at 21h 46m 53s.xml">
-      <configuration name="TestLoginAndPasswordHandler in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 00h 28m 58s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestLoginAndPasswordHandler_in_main_test_go - 2017.03.13 at 21h 49m 02s.xml">
-      <configuration name="TestLoginAndPasswordHandler in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'forcamp_src_users_tests' - 2017.03.23 at 14h 32m 48s.xml">
+      <configuration name="All in 'forcamp/src/users/tests'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestLoginAndPasswordHandler_in_main_test_go - 2017.03.13 at 21h 49m 28s.xml">
-      <configuration name="TestLoginAndPasswordHandler in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestGetUserData_in_users_main_test_go - 2017.03.23 at 14h 32m 31s.xml">
+      <configuration name="TestGetUserData in users_main_test.go" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestTokenVerification_in_main_test_go - 2017.03.13 at 21h 58m 38s.xml">
-      <configuration name="TestTokenVerification in main_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="TestGetUserLogin_in_users_main_test_go - 2017.03.23 at 14h 12m 31s.xml">
+      <configuration name="TestGetUserLogin in users_main_test.go" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80837000" />
+    <option name="totallyTimeSpent" value="204057000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1366" height="741" extended-state="6" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286026" sideWeight="0.50714284" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3280255" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32751092" sideWeight="0.49285713" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32969433" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24940476" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32969433" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
     <option name="exactExcludedFiles">
       <list>
-        <option value="$PROJECT_DIR$/wwwroot/app/app.component.js" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.component.js.map" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.module.js.map" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.module.js" />
         <option value="$PROJECT_DIR$/wwwroot/app/main.js.map" />
         <option value="$PROJECT_DIR$/wwwroot/app/main.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/structures.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/structures.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/app.module.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/app.module.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.module.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.module.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.js" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/user.service.js.map" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/user.service.js" />
       </list>
     </option>
   </component>
@@ -1217,7 +1109,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="27" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1226,263 +1118,406 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/conf/tls/forcamp.pem">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/tls/wwwforcamp.pem">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/tls.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/settings.go">
+    <entry file="file://$PROJECT_DIR$/src/handlers/mainSiteHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="27" lean-forward="true" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+        <state relative-caret-position="306">
+          <caret line="22" column="55" lean-forward="false" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/templates/indexHandler.go" />
-    <entry file="file://$PROJECT_DIR$/forcamp.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/handlers/tlsHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-58">
-          <caret line="5" column="32" lean-forward="true" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
+        <state relative-caret-position="323">
+          <caret line="24" column="32" lean-forward="true" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/httpHandler.go" />
-    <entry file="file://$PROJECT_DIR$/src/handlers/folders/cssHandler.go" />
-    <entry file="file://$PROJECT_DIR$/src/handlers/folders/scriptsHandler.go" />
-    <entry file="file://$PROJECT_DIR$/src/handlers/defaultHandler.go" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/src/index.html" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/src/main.ts" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/app/app.component.spec.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/polyfills.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/app/app.component.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/app/app.module.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/environments/environment.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/environments/environment.prod.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/out-tsc/main.js" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/src/index.html" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/dist/index.html" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/angular-cli.json" />
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="41" lean-forward="false" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
-          <folding />
-        </state>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/folders/fontsHandler.go" />
-    <entry file="file://$PROJECT_DIR$/src/handlers/folders/appHandler.go" />
-    <entry file="file://$PROJECT_DIR$/src/handlers/folders/nodeModulesHandler.go" />
-    <entry file="file://$PROJECT_DIR$/conf/paths/templates.go" />
-    <entry file="file://$PROJECT_DIR$/conf/folders.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/systemjs.config.js">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="10" lean-forward="false" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+        <state relative-caret-position="102">
+          <caret line="6" column="2" lean-forward="false" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/node_modules/notie/dist/notie.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/tsconfig.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
+        <state relative-caret-position="51">
           <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/main.ts">
+    <entry file="file://$PROJECT_DIR$/wwwroot/node_modules/notie/src/notie.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="36" lean-forward="false" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/scss/_main.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="64" lean-forward="false" selection-start-line="0" selection-start-column="64" selection-end-line="0" selection-end-column="64" />
+        <state relative-caret-position="153">
+          <caret line="9" column="2" lean-forward="false" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/scss/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="28" lean-forward="false" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
-          <folding />
+    <entry file="file://$PROJECT_DIR$/wwwroot/node_modules/notie/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-459">
+            <caret line="18" column="33" lean-forward="false" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+            <folding>
+              <marker date="1490031945801" expanded="true" signature="847:1058" ph="..." />
+              <marker date="1490031945801" expanded="true" signature="955:1050" ph="..." />
+              <marker date="1490031945801" expanded="true" signature="1009:1040" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="1065:1155" ph="..." />
+              <marker date="1490031945801" expanded="true" signature="1474:1788" ph="{&quot;text&quot;: String...}" />
+              <marker date="1490031945801" expanded="true" signature="1803:2100" ph="{&quot;text&quot;: String...}" />
+              <marker date="1490031945801" expanded="true" signature="2137:2414" ph="{&quot;text&quot;: String...}" />
+              <marker date="1490031945801" expanded="true" signature="2481:3439" ph="{&quot;text&quot;: String...}" />
+              <marker date="1490031945801" expanded="true" signature="3517:3840" ph="{&quot;text&quot;: String...}" />
+              <marker date="1490031945801" expanded="true" signature="3677:3798" ph="[...]" />
+              <marker date="1490031945801" expanded="true" signature="3683:3786" ph="{&quot;text&quot;: String...}" />
+              <marker date="1490031945801" expanded="true" signature="3880:4167" ph="{&quot;value&quot;: Date...}" />
+              <marker date="1490031945801" expanded="true" signature="4871:5050" ph="{&quot;text&quot;: 'You cannot do that, sending you back.'...}" />
+              <marker date="1490031945801" expanded="true" signature="4977:5048" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5067:5347" ph="{&quot;text&quot;: 'Are you sure you want to do that?&lt;br&gt;&lt;b&gt;That\'s a bold move...&lt;/b&gt;'...}" />
+              <marker date="1490031945801" expanded="true" signature="5177:5245" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5277:5345" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5401:5617" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5471:5614" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5557:5609" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5632:6017" ph="{&quot;text&quot;: 'Please enter your email:'...}" />
+              <marker date="1490031945801" expanded="true" signature="5753:5836" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="5873:5938" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6032:6135" ph="{&quot;text&quot;: 'Please enter your name:'...}" />
+              <marker date="1490031945801" expanded="true" signature="6153:6214" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6232:6311" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6326:6661" ph="{&quot;text&quot;: 'Please enter the price:'...}" />
+              <marker date="1490031945801" expanded="true" signature="6398:6481" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6518:6583" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6677:7375" ph="{&quot;text&quot;: 'Demo item ##1, owner is Jane Smith'...}" />
+              <marker date="1490031945801" expanded="true" signature="6777:6828" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6841:7373" ph="[...]" />
+              <marker date="1490031945801" expanded="true" signature="6847:6966" ph="{&quot;text&quot;: 'Share'...}" />
+              <marker date="1490031945801" expanded="true" signature="6897:6960" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="6972:7089" ph="{&quot;text&quot;: 'Open'...}" />
+              <marker date="1490031945801" expanded="true" signature="7021:7083" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="7095:7227" ph="{&quot;text&quot;: 'Edit'...}" />
+              <marker date="1490031945801" expanded="true" signature="7159:7221" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="7233:7369" ph="{&quot;text&quot;: 'Delete'...}" />
+              <marker date="1490031945801" expanded="true" signature="7299:7363" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="7394:7693" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="7409:7690" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="7481:7565" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="7603:7686" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="8275:8298" ph="{...}" />
+              <marker date="1490031945801" expanded="true" signature="8404:9674" ph="{&quot;transitionCurve&quot;: 'ease'...}" />
+              <marker date="1490031945801" expanded="true" signature="8705:9497" ph="{&quot;container&quot;: 'notie-container'...}" />
+              <marker date="1490031945801" expanded="true" signature="9506:9540" ph="{&quot;overlay&quot;: 'notie-overlay'...}" />
+              <marker date="1490031945801" expanded="true" signature="9555:9672" ph="{&quot;alert&quot;: 'top'...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/database.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/node_modules/notie/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/crypt/main.go" />
-    <entry file="file://$PROJECT_DIR$/conf/errors.go" />
-    <entry file="file://$PROJECT_DIR$/src/authorization/requests.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="1258">
+          <caret line="74" column="57" lean-forward="false" selection-start-line="74" selection-start-column="57" selection-end-line="74" selection-end-column="57" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="32" lean-forward="false" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
+        <state relative-caret-position="340">
+          <caret line="22" column="22" lean-forward="false" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/database.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/systemjs.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="10" column="45" lean-forward="false" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
-          <folding>
-            <element signature="e#13#98#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="374">
+          <caret line="22" column="56" lean-forward="false" selection-start-line="22" selection-start-column="56" selection-end-line="22" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/checkData.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/scss/_main.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="92" column="1" lean-forward="false" selection-start-line="92" selection-start-column="1" selection-end-line="92" selection-end-column="1" />
           <folding>
-            <element signature="n#!!block;n#checkUserLogin#0" expanded="false" />
-            <element signature="n#!!block;n#checkUserPassword#0" expanded="false" />
+            <element signature="e#423#636#0" expanded="false" />
+            <element signature="e#655#703#0" expanded="false" />
+            <element signature="e#730#768#0" expanded="false" />
+            <element signature="e#816#911#0" expanded="false" />
+            <element signature="e#940#992#0" expanded="false" />
+            <element signature="e#1048#1066#0" expanded="false" />
+            <element signature="e#1101#1121#0" expanded="false" />
+            <element signature="e#1175#1527#0" expanded="false" />
+            <element signature="e#1587#1632#0" expanded="false" />
+            <element signature="e#1658#1679#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/tools.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/scss/index.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="45" column="59" lean-forward="true" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
+        <state relative-caret-position="1122">
+          <caret line="66" column="3" lean-forward="false" selection-start-line="66" selection-start-column="3" selection-end-line="66" selection-end-column="3" />
           <folding>
-            <element signature="e#23#169#0" expanded="true" />
-            <element signature="n#!!block;n#generateTokenHash#0" expanded="false" />
-            <element signature="n#!!block;n#getCountVal#0" expanded="false" />
+            <element signature="e#1160#1307#0" expanded="false" />
+            <element signature="e#1309#1394#0" expanded="false" />
+            <element signature="e#1396#1480#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/codes.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/scss/mainpage.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="39" column="27" lean-forward="false" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
-          <folding>
-            <element signature="e#14#60#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/tests/main_test.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.routing.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#TestLoginAndPasswordHandler#0" expanded="false" />
-            <element signature="n#!!block;n#TestTokenVerification#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/authorizationHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="19" column="72" lean-forward="false" selection-start-line="19" selection-start-column="72" selection-end-line="19" selection-end-column="72" />
-          <folding>
-            <element signature="e#18#111#0" expanded="true" />
-            <element signature="n#!!block;n#getAuthorizationData#0" expanded="false" />
-            <element signature="n#!!block;n#LoginAndPasswordAuthHandler#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/mainSiteHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="22" column="55" lean-forward="false" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
+        <state relative-caret-position="153">
+          <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+        <state relative-caret-position="-107">
+          <caret line="3" column="19" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/src/structures.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#46#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="31" lean-forward="false" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+          <folding>
+            <element signature="e#203#314#0" expanded="false" />
+            <element signature="e#330#352#0" expanded="false" />
+            <element signature="e#375#596#0" expanded="false" />
+            <element signature="e#605#716#0" expanded="false" />
+            <element signature="e#731#753#0" expanded="false" />
+            <element signature="e#775#998#0" expanded="false" />
+            <element signature="e#1019#1131#0" expanded="false" />
+            <element signature="e#1154#1171#0" expanded="false" />
+            <element signature="e#1189#1336#0" expanded="false" />
+            <element signature="e#1338#1423#0" expanded="false" />
+            <element signature="e#1425#1512#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="33" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="28" lean-forward="true" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+          <folding>
+            <element signature="n#!!block;n#SubmitSignInForm#0;n#AuthorizationComponent#0" expanded="false" />
+            <element signature="n#!!block;n#HandleResponse#0;n#AuthorizationComponent#0" expanded="false" />
+            <element signature="n#!!block;n#GoToMainSite#0;n#AuthorizationComponent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/users_main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_checkData.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="20" column="34" lean-forward="false" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+          <folding>
+            <element signature="n#!!block;n#checkUserLogin#0" expanded="false" />
+            <element signature="n#!!block;n#checkUserPassword#0" expanded="false" />
+            <element signature="n#!!block;n#checkAuthorizationData_Request#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/main.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#75#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/scss/mainpage.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="9" lean-forward="false" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="34" column="40" lean-forward="false" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/codes.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/authorizationHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="26" column="16" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#getAuthorizationData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/authorization/tests/authorization_main_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="29" column="42" lean-forward="true" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/getUserLoginHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="16" lean-forward="true" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+          <folding>
+            <element signature="e#18#118#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        <state relative-caret-position="68">
+          <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_tools.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="45" column="6" lean-forward="false" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="6" />
           <folding>
-            <element signature="n#!!block;n#getToken#0" expanded="false" />
-            <element signature="n#!!block;n#HandleTokenVerification#0" expanded="false" />
+            <element signature="n#!!block;n#generateTokenHash#0" expanded="false" />
+            <element signature="n#!!block;n#printToken#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/main.go">
+    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="59" column="71" lean-forward="false" selection-start-line="59" selection-start-column="71" selection-end-line="59" selection-end-column="71" />
+        <state relative-caret-position="133">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
-            <element signature="e#23#76#0" expanded="true" />
             <element signature="n#!!block;n#Authorize#0" expanded="false" />
             <element signature="n#!!block;n#setUserToken#0" expanded="false" />
             <element signature="n#!!block;n#getToken#0" expanded="false" />
-            <element signature="n#!!block;n#CheckToken#0" expanded="false" />
             <element signature="n#!!block;n#VerifyToken#0" expanded="false" />
             <element signature="n#!!block;n#checkCurrentSessionsVal#0" expanded="false" />
             <element signature="n#!!block;n#deleteOldestSession#0" expanded="false" />
@@ -1490,12 +1525,148 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/net/http/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="1720" column="0" lean-forward="false" selection-start-line="1720" selection-start-column="0" selection-end-line="1720" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/database/sql/sql.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="2132" column="0" lean-forward="false" selection-start-line="2132" selection-start-column="0" selection-end-line="2132" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="63" lean-forward="true" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
+        <state relative-caret-position="204">
+          <caret line="17" column="42" lean-forward="false" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/tests/users_main_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="33" column="34" lean-forward="false" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
           <folding>
-            <element signature="e#14#102#0" expanded="true" />
+            <element signature="e#15#131#0" expanded="true" />
+            <element signature="n#!!block;n#TestGetUserLogin#0" expanded="false" />
+            <element signature="n#!!block;n#TestGetUserData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/getUserDataHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="e#18#118#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/users_getUserData.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="64" column="1" lean-forward="false" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
+          <folding>
+            <element signature="e#15#137#0" expanded="true" />
+            <element signature="n#!!block;n#GetUserData#0" expanded="false" />
+            <element signature="n#!!block;n#getUserOrganizationByToken#0" expanded="false" />
+            <element signature="n#!!block;n#getUserOrganizationFromQuery#0" expanded="false" />
+            <element signature="n#!!block;n#getUserData_Request#0" expanded="false" />
+            <element signature="n#!!block;n#getUserDataFromQuery#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/users_getUserLogin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="13" lean-forward="true" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="n#!!block;n#GetUserLogin#0" expanded="false" />
+            <element signature="n#!!block;n#getUserLoginFromQuery#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/users_main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="34" column="55" lean-forward="true" selection-start-line="34" selection-start-column="55" selection-end-line="34" selection-end-column="55" />
+          <folding>
+            <element signature="e#15#84#0" expanded="true" />
+            <element signature="e#112#206#0" expanded="false" />
+            <element signature="e#233#331#0" expanded="false" />
+            <element signature="e#347#564#0" expanded="false" />
+            <element signature="n#!!block;n#checkData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/src/checkToken.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="39" lean-forward="true" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="65" lean-forward="false" selection-start-line="16" selection-start-column="65" selection-end-line="16" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/src/user.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="45" lean-forward="false" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgpanel/orgpanel.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="25" column="23" lean-forward="true" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+            <element signature="n#!!block;n#UserData#0" expanded="false" />
+            <element signature="n#!!block;n#getUserLoginFromResponse#0;n#OrgPanelComponent#0" expanded="false" />
+            <element signature="n#!!block;n#getUserDataFromResponse#0;n#OrgPanelComponent#0" expanded="false" />
+            <element signature="n#!!block;n#getUserData#0;n#OrgPanelComponent#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1541,7 +1712,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>Go 1.7.4</last-edited>
+          <last-edited>Go 1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1559,6 +1730,18 @@
               <list>
                 <option value="0.2" />
                 <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>Go 1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
               </list>
             </option>
           </splitter-proportions>

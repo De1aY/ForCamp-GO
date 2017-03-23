@@ -1,0 +1,35 @@
+<header class="row mt-5 navbar navbar-light bg-transparent">
+    <a class="navbar-brand col" href="https://forcamp.ga/index.html">
+        <img src="media/svg/logo.svg" height="60" class="d-inline-block align-top">
+        ForCamp
+    </a>
+    <div class=" navbar-text col-3 ml-auto">
+        <span id="sign_in" (click)="FormActive = true" *ngIf="Token == undefined">войти</span>
+        <span id="portal" (click)="GoToMainSite()" *ngIf="Token !== undefined">портал</span>
+    </div>
+</header>
+<div class="row justify-content-center align-items-center" id="pop-up__sign_in" *ngIf="FormActive">
+    <div class="pop-up__background" (click)="FormActive = false"></div>
+    <div id="pop-up__sign_in-form" class="col-3 fc-card">
+        <div class="fc-card__title fc-card--border">
+            <div class="fc-card__title-text">авторизация</div>
+        </div>
+        <form (ngSubmit)="SubmitSignInForm(); sign_in_form.reset()" #sign_in_form>
+            <div class="fc-card__content">
+                <md-input-container class="fc-card__content--width100">
+                    <input mdInput type="text" name="login" [(ngModel)]="Login" id="login"
+                           placeholder="Логин" required/>
+                </md-input-container>
+            </div>
+            <div class="fc-card__content fc-card--border">
+                <md-input-container class="fc-card__content--width100">
+                    <input mdInput type="password" name="password" [(ngModel)]="Password" id="password"
+                           placeholder="Пароль" required/>
+                </md-input-container>
+            </div>
+            <div class="fc-card__content fc-card--nopad">
+                <button md-button type="submit" value="войти" id="submit" class="fc-card__content--button">войти</button>
+            </div>
+        </form>
+    </div>
+</div>
