@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"github.com/gorilla/mux"
 	"net/http"
+	"time"
 )
 
 // Read TLS certificates to TlsConfig
@@ -23,6 +24,8 @@ func HandleTLS(router *mux.Router) {
 	Server := http.Server{
 		TLSConfig: TlsConfig,
 		Handler: router,
+		ReadTimeout: 5 * time.Second,
+		WriteTimeout: 10 * time.Second,
 	}
 	TLSListener, _ := tls.Listen("tcp", conf.TLS_PORT, TlsConfig)
 	Server.Serve(TLSListener)
