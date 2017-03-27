@@ -11,12 +11,18 @@ import (
 )
 
 func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string){
-	if checkData(Token, login, ResponseWriter) && authorization.CheckToken(Token, ResponseWriter){
-		NewConnection = src.Connect_Custom(getUserOrganizationByToken(Token, ResponseWriter))
-		userData := getUserData_Request(login, ResponseWriter)
-		Resp := Success_GetUserData{200, "success", userData}
-		Response, _ := json.Marshal(Resp)
-		fmt.Fprintf(ResponseWriter, string(Response))
+	if checkData(Token, login, ResponseWriter) {
+		if authorization.CheckToken(Token, ResponseWriter){
+			Organization := getUserOrganizationByToken(Token, ResponseWriter)
+			NewConnection = src.Connect_Custom(Organization)
+			userData := getUserData_Request(login, ResponseWriter)
+			userData.Organization = Organization
+			Resp := Success_GetUserData{200, "success", userData}
+			Response, _ := json.Marshal(Resp)
+			fmt.Fprintf(ResponseWriter, string(Response))
+		} else {
+			conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+		}
 	}
 }
 

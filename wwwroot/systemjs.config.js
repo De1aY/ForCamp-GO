@@ -14,13 +14,13 @@
             '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
             '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+            '@angular/material':         'npm:@angular/material/bundles/material.umd.js',
             // остальные пакеты
             'rxjs':                      'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'angular2-cookie':           'npm:angular2-cookie',
             'notie':                     'npm:notie/dist/notie.js',
-            '@angular/material':         'npm:@angular/material/bundles/material.umd.js',
-            'hammerjs':                  'npm:hammerjs',
+            'hammerjs':                  'npm:hammerjs/hammer.js',
         },
         packages: {
             app: {
@@ -40,7 +40,7 @@
             'angular2-cookie': {
                 main: './core.js',
                 defaultExtension: 'js'
-            }
+            },
         }
     });
 })(this);

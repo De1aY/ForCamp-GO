@@ -27,6 +27,7 @@ type UserData struct {
 	Access int `json:"access"`
 	Avatar string `json:"avatar"`
 	Sex int `json:"sex"`
+	Organization string `json:"organization"`
 }
 
 var Connection = src.Connect()

@@ -1,0 +1,27 @@
+<div class="on_edit mdl-grid" *ngIf="orgSetService.ParticipantValueEdit_Active">
+    <div class="on_edit-click" (click)="orgSetService.ParticipantValueEdit_Active = false"></div>
+    <div class="mdl-grid mdl-cell mdl-cell-middle mdl-cell--12-col">
+        <div class="mdl-cell mdl-cell--middle mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop mdl-cell--4-offset-desktop">
+            <div class="mdl-card mdl-shadow--6dp on_edit-card">
+                <div class="mdl-card__title mdl-card--border">
+                    <div class="mdl-card__title-text" style="text-transform: none">Название участника</div>
+                </div>
+                <div class="mdl-card__title">
+                    <div class="card_field">
+                        <md-input-container class="width100">
+                            <input mdInput type="text" name="participant_value" [(ngModel)]="Participant_Value" placeholder="Например: участник, ученик..."/>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <button class="mdl-button mdl-button--colored mdl-button--primary mdl-js-button mdl-js-ripple-effect on_edit-card-confirm" (click)="ChangeParticipantValue()">
+                        сохранить
+                    </button>
+                    <button class="mdl-button mdl-button--colored mdl-button--accent mdl-js-button mdl-js-ripple-effect on_edit-card-cancel" (click)="orgSetService.ParticipantValueEdit_Active = false; Participant_Value = ''">
+                        отмена
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

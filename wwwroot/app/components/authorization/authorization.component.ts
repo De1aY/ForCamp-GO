@@ -25,6 +25,8 @@ export class AuthorizationComponent implements OnInit{
 
     SubmitSignInForm() {
         this.http.get("https://api.forcamp.ga/token.get?login=" + this.Login + "&password=" + this.Password).subscribe((data: Response) => this.HandleResponse(data.json()));
+        this.Login = '';
+        this.Password = '';
         this.FormActive = false;
     }
 
@@ -44,7 +46,4 @@ export class AuthorizationComponent implements OnInit{
         }
     }
 
-    GoToMainSite(){
-        window.location.href = "https://forcamp.ga/main.html";
-    }
 }

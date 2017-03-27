@@ -16,6 +16,8 @@ func main() {
 	handlers.HandleTokenVerification(APISite)
 	handlers.HandleGetUserLoginByToken(APISite)
 	handlers.HandleGetUserData(APISite)
+	handlers.HandleSetOrgSettingValue(APISite)
+	handlers.HandleGetOrgSettings(APISite)
 	handlers.HandleFolder_MainSite(WWWSite)
 	handlers.HandleFolder_MainSite(MainSite)
 	go http.ListenAndServe(conf.SERVER_PORT, Router)

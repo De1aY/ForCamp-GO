@@ -7,53 +7,71 @@ $TextColor_Main: #000;
 $TextColor_Accent: #FFFFFF;
 $TextColor_Main_Hover: #014c8c;
 
-#sign_in{
+#toolbar_active{
+  margin-left: auto;
+}
+
+#logo{
+  text-decoration: none;
+}
+
+#logo_svg{
+  margin-top: -10px;
+}
+
+#sign_in {
   text-transform: uppercase;
   color: $TextColor_Accent;
   text-shadow: #000000 0 0 2px;
   font-size: 24px;
 }
 
-#sign_in:hover{
+#sign_in:hover {
   cursor: pointer;
 }
 
-#sign_in:hover::after{
+#sign_in:hover::after {
   content: " ";
   margin-left: -81px;
   position: absolute;
   width: 0;
   animation: underline_sign_in 0.2s 1;
   height: 2px;
-  margin-top: 32px;
+  margin-top: 23px;
   background-color: $TextColor_Accent;
   animation-fill-mode: forwards;
 }
 
-#portal{
+md-toolbar{
+  padding: 50px;
+  background: transparent;
+}
+
+#portal {
   text-transform: uppercase;
   color: $TextColor_Accent;
   text-shadow: #000000 0 0 2px;
   font-size: 24px;
+  text-decoration: none;
 }
 
-#portal:hover{
+#portal:hover {
   cursor: pointer;
 }
 
-#portal:hover::after{
+#portal:hover::after {
   content: " ";
   margin-left: -94.22px;
   position: absolute;
   width: 0;
   animation: underline_portal 0.2s 1;
   height: 2px;
-  margin-top: 32px;
+  margin-top: 23px;
   background-color: $TextColor_Accent;
   animation-fill-mode: forwards;
 }
 
-.pop-up__background{
+.pop-up__background {
   z-index: 100;
   position: fixed;
   left: 0;
@@ -63,35 +81,119 @@ $TextColor_Main_Hover: #014c8c;
   overflow: hidden;
 }
 
-#pop-up__sign_in-form{
+#pop-up__sign_in-form {
   padding: 0;
 }
 
-#pop-up__sign_in{
-  background-color: rgba(0,0,0,0.6);
+.card_field{
+  font-size: 20px;
+}
+
+.nopad{
+  padding: 0 16px;
+}
+
+#pop-up__sign_in {
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 100;
   position: fixed;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   width: 101vw;
   height: 100vh;
   overflow: hidden;
 }
 
 @keyframes underline_sign_in {
-  from{
+  from {
     width: 0;
   }
-  to{
+  to {
     width: 83px;
   }
 }
 
 @keyframes underline_portal {
-  from{
+  from {
     width: 0;
   }
-  to{
+  to {
     width: 94.22px;
+  }
+}
+
+.container {
+  z-index: 10;
+  height: 100%;
+  overflow: hidden;
+}
+
+.navbar-brand {
+  color: $TextColor_Accent;
+  text-shadow: #000000 0 0 2px;
+  font-size: 48px;
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  color: $TextColor_Accent;
+}
+
+.navbar-text {
+  text-align: right;
+  margin-top: 11px;
+}
+
+#content__top-text {
+  font-size: 36px;
+  text-align: center;
+}
+
+#content__top-down {
+  text-align: center;
+  font-size: 17px;
+  animation: bounce 4s infinite;
+  margin-top: 15px;
+}
+
+#content__top-down-arrows:hover {
+  cursor: pointer;
+}
+
+#content__top {
+  color: $TextColor_Accent;
+  text-shadow: #000000 0 0 2px;
+  position: absolute;
+  width: 100%;
+  bottom: 80px;
+}
+
+.content__top {
+  top: 0;
+  position: absolute;
+  background: url("../../../media/images/ForCamp_MainPage-Background.png") center;
+  height: 100vh;
+  width: 100vw;
+  max-height: 1200px;
+}
+
+#content__center {
+  margin-top: 100vh;
+  z-index: 30;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: $AccentColor;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+  to {
+    transform: translateY(0);
   }
 }

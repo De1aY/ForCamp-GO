@@ -24,5 +24,5 @@ func GetUserDataHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleGetUserData(router *mux.Router)  {
-	router.HandleFunc("/user.data", GetUserDataHandler)
+	router.HandleFunc("/user.data.get", GetUserDataHandler)
 }

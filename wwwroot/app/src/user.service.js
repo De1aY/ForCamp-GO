@@ -14,17 +14,84 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const http_1 = require("@angular/http");
+const notie_1 = require("notie");
 let UserService = class UserService {
     constructor(http) {
         this.http = http;
-        this.GetUserLoginLink = "https://api.forcamp.ga/user.login";
-        this.GetUserDataLink = "https://api.forcamp.ga/user.data";
+        this.GetUserLoginLink = "https://api.forcamp.ga/user.login.get";
+        this.GetUserDataLink = "https://api.forcamp.ga/user.data.get";
+        this.SelfData = {
+            Name: "загрузка...",
+            Surname: "загрузка...",
+            Middlename: "загрузка...",
+            Team: "загрузка...",
+            Avatar: "загрузка...",
+            Sex: 0,
+            Access: 0,
+            Organization: "загрузка..."
+        };
+        this.UserData = {
+            Name: "загрузка...",
+            Surname: "загрузка...",
+            Middlename: "загрузка...",
+            Team: "загрузка...",
+            Avatar: "загрузка...",
+            Sex: 0,
+            Access: 0,
+            Organization: "загрузка..."
+        };
     }
-    GetUserLogin(token) {
-        return this.http.get(this.GetUserLoginLink + "?token=" + token);
+    GetSelfUserData() {
+        this.http.get(this.GetUserLoginLink + "?token=" + this.Token).subscribe((data) => this.getSelfUserLoginFromResponse(data.json()));
     }
-    GetUserData(token, login) {
-        return this.http.get(this.GetUserDataLink + "?token=" + token + "&login=" + login);
+    GetUserData(login) {
+        this.http.get(this.GetUserDataLink + "?token=" + this.Token + "&login=" + login).subscribe((data) => this.getUserDataFromResponse(data.json()));
+    }
+    getUserDataFromResponse(data) {
+        if (data.code == 200) {
+            this.UserData = {
+                Name: data.data.name,
+                Surname: data.data.surname,
+                Middlename: data.data.middlename,
+                Sex: data.data.sex,
+                Access: data.data.access,
+                Avatar: data.data.avatar,
+                Team: data.data.team,
+                Organization: data.data.organization
+            };
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+    }
+    getSelfUserLoginFromResponse(data) {
+        if (data.code == 200) {
+            this.SelfLogin = data.login;
+            this.getSelfUserData(this.Token, this.SelfLogin);
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+    }
+    getSelfUserData(token, login) {
+        this.http.get(this.GetUserDataLink + "?token=" + token + "&login=" + login).subscribe((data) => this.getSelfUserDataFromResponse(data.json()));
+    }
+    getSelfUserDataFromResponse(data) {
+        if (data.code == 200) {
+            this.SelfData = {
+                Name: data.data.name,
+                Surname: data.data.surname,
+                Middlename: data.data.middlename,
+                Sex: data.data.sex,
+                Access: data.data.access,
+                Avatar: data.data.avatar,
+                Team: data.data.team,
+                Organization: data.data.organization
+            };
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
     }
 };
 UserService = __decorate([

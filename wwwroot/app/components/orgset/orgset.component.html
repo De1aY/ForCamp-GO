@@ -1,0 +1,169 @@
+<div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">{{orgSetService.OrgSettings.organization}}</span></div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            <a href="#orgset_main" class="mdl-layout__tab is-active">Основные настройки</a>
+            <a href="#orgset_participants" class="mdl-layout__tab">Участники</a>
+            <a href="#orgset_employees" class="mdl-layout__tab">Сотрудники</a>
+            <a href="#orgset_achievements" class="mdl-layout__tab">Достижения</a>
+            <a href="#orgset_actions" class="mdl-layout__tab">События</a>
+            <a href="#orgset_help" class="mdl-layout__tab">Помощь</a>
+        </div>
+        <div [attr.aria-busy]="orgSetService.Preloader" role="progressbar"></div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Управление</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" routerLink="/main">главная</a>
+            <a class="mdl-navigation__link" routerLink="/profile">профиль</a>
+            <a *ngIf="userService.SelfData.Access > 0" class="mdl-navigation__link" routerLink="/marks">баллы</a>
+            <a class="mdl-navigation__link" routerlink="/general">общая статистика</a>
+            <a class="mdl-navigation__link" routerLink="/team">{{orgSetService.OrgSettings.team}}</a>
+            <a class="mdl-navigation__link" routerLink="/achievements">достижения</a>
+            <a class="mdl-navigation__link" href="exit">выйти</a>
+        </nav>
+    </div>
+    <participant_value_edit></participant_value_edit>
+    <period_value_edit></period_value_edit>
+    <team_value_edit></team_value_edit>
+    <organization_value_edit></organization_value_edit>
+    <main class="mdl-layout__content">
+        <!-- Main settings -->
+        <section class="mdl-layout__tab-panel is-active" id="orgset_main">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop mdl-cell--2-offset-desktop">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Название участника</div>
+                        </div>
+                        <div class="mdl-card__title">
+                            <div class="card_field">
+                                <i class="fa fa-user-circle-o"></i>
+                                <div class="card_field_text" id="participant_field">
+                                    {{orgSetService.OrgSettings.participant}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect on_edit-activation" (click)="orgSetService.ParticipantValueEdit_Active = true">
+                                <i class="material-icons">create</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Название команд</div>
+                        </div>
+                        <div class="mdl-card__title">
+                            <div class="card_field">
+                                <i class="fa fa-users"></i>
+                                <div class="card_field_text" id="team_field">
+                                    {{orgSetService.OrgSettings.team}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.TeamValueEdit_Active = true">
+                                <i class="material-icons">create</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <!-- Next level -->
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop mdl-cell--2-offset-desktop">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Организация</div>
+                        </div>
+                        <div class="mdl-card__title">
+                            <div class="card_field">
+                                <i class="fa fa-university"></i>
+                                <div class="card_field_text" id="organization_field">
+                                    {{orgSetService.OrgSettings.organization}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.OrganizationValueEdit_Active = true">
+                                <i class="material-icons">create</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Название периода</div>
+                        </div>
+                        <div class="mdl-card__title">
+                            <div class="card_field">
+                                <i class="fa fa-calendar-o"></i>
+                                <div class="card_field_text" id="period_field">
+                                    {{orgSetService.OrgSettings.period}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.PeriodValueEdit_Active = true">
+                                <i class="material-icons">create</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <!-- Next level -->
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop mdl-cell--2-offset-desktop">
+                    <div class="mdl-card mdl-shadow--6dp" id="additional_settings">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Доп. настройки</div>
+                        </div>
+                        <!-- Могут ли сотрудники выставлять баллы своей команде -->
+                        <div class="mdl-card__title mdl-card--border">
+                            <md-slide-toggle ngDefaultControl (change)="ChangeSelfMarksValue($event)" [(ngModel)]="orgSetService.OrgSettings.self_marks"
+                                             color="primary">Оценки своей команде
+                            </md-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Функции</div>
+                        </div>
+                        <div class="mdl-card__title">
+                            <div class="card_field">
+                                <i class="fa fa-clock-o"></i>
+                                <div class="card_field_text">
+                                    В разработке
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            </div>
+        </section>
+        <!-- Participants -->
+        <section class="mdl-layout__tab-panel" id="orgset_participants">
+        </section>
+        <!-- Employees -->
+        <section class="mdl-layout__tab-panel" id="orgset_employees">
+        </section>
+        <!-- Achievements -->
+        <section class="mdl-layout__tab-panel" id="orgset_achievements">
+        </section>
+        <!-- Actions -->
+        <section class="mdl-layout__tab-panel" id="orgset_actions">
+        </section>
+        <!-- Help -->
+        <section class="mdl-layout__tab-panel" id="orgset_help">
+        </section>
+    </main>
+</div>

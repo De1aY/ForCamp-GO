@@ -26,28 +26,28 @@ $TextColor_Main_Hover: #014c8c;
   border-bottom: 1px solid rgba(0, 0, 0, .1)
 }
 
-.fc-card .fc-card__title {
+.fc-card__title {
   width: 100%;
   min-height: 50px;
 }
 
-.fc-card .fc-card__title .fc-card__title-text {
+.fc-card__title-text {
   padding: 10px;
   font-size: 27px;
   color: $TextColor_Main;
   text-transform: capitalize;
 }
 
-.fc-card .fc-card__content {
+.fc-card__content {
   padding: 10px 10px 0 10px;
   min-height: 50px;
 }
 
-.fc-card .fc-card__content .fc-card__content--width100{
+.fc-card__content--width100, .width100{
   width: 100%;
 }
 
-.fc-card .fc-card__content:focus {
+.fc-card__content:focus {
   outline: none;
 }
 

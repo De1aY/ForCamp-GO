@@ -20,5 +20,5 @@ func GetUserLoginHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleGetUserLoginByToken(router *mux.Router)  {
-	router.HandleFunc("/user.login", GetUserLoginHandler)
+	router.HandleFunc("/user.login.get", GetUserLoginHandler)
 }

@@ -60,3 +60,11 @@ func printToken(token string, w http.ResponseWriter) bool {
 	fmt.Fprintf(w, string(Response))
 	return true
 }
+
+func CheckTokenForEmpty(token string, w http.ResponseWriter) bool{
+	if len(token) > 0{
+		return true
+	} else {
+		return conf.PrintError(conf.ErrUserTokenEmpty, w)
+	}
+}

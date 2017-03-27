@@ -1,35 +1,60 @@
-<header class="row mt-5 navbar navbar-light bg-transparent">
-    <a class="navbar-brand col" href="https://forcamp.ga/index.html">
-        <img src="media/svg/logo.svg" height="60" class="d-inline-block align-top">
-        ForCamp
-    </a>
-    <div class=" navbar-text col-3 ml-auto">
-        <span id="sign_in" (click)="FormActive = true" *ngIf="Token == undefined">войти</span>
-        <span id="portal" (click)="GoToMainSite()" *ngIf="Token !== undefined">портал</span>
-    </div>
-</header>
-<div class="row justify-content-center align-items-center" id="pop-up__sign_in" *ngIf="FormActive">
-    <div class="pop-up__background" (click)="FormActive = false"></div>
-    <div id="pop-up__sign_in-form" class="col-3 fc-card">
-        <div class="fc-card__title fc-card--border">
-            <div class="fc-card__title-text">авторизация</div>
+<div class="content__top">
+    <div class="container">
+        <md-toolbar>
+            <a class="navbar-brand col" href="https://forcamp.ga/index.html">
+                <img src="media/svg/logo.svg" height="60" class="d-inline-block align-top" id="logo_svg">
+                ForCamp
+            </a>
+            <div id="toolbar_active">
+                <span id="sign_in" (click)="FormActive = true" *ngIf="Token == undefined">войти</span>
+                <a id="portal" routerLink="main" *ngIf="Token !== undefined">портал</a>
+            </div>
+        </md-toolbar>
+        <div class="on_edit mdl-grid" *ngIf="FormActive">
+            <div class="on_edit-click" (click)="FormActive = false"></div>
+            <div class="mdl-grid mdl-cell mdl-cell-middle mdl-cell--12-col">
+                <div class="mdl-cell mdl-cell--middle mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop mdl-cell--4-offset-desktop">
+                    <div class="mdl-card mdl-shadow--6dp on_edit-card">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">Авторизация</div>
+                        </div>
+                        <div class="mdl-card__title nopad">
+                            <div class="card_field">
+                                <md-input-container class="width100">
+                                    <input mdInput type="text" name="login" [(ngModel)]="Login" id="login"
+                                           placeholder="Логин" required/>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="mdl-card__title nopad">
+                            <div class="card_field">
+                                <md-input-container class="width100">
+                                    <input mdInput type="password" name="password" [(ngModel)]="Password" id="password"
+                                           placeholder="Пароль" required/>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button class="mdl-button mdl-button--colored mdl-button--primary mdl-js-button mdl-js-ripple-effect on_edit-card-confirm"
+                                    (click)="SubmitSignInForm()">
+                                войти
+                            </button>
+                            <button class="mdl-button mdl-button--colored mdl-button--accent mdl-js-button mdl-js-ripple-effect on_edit-card-cancel"
+                                    (click)="FormActive = false; Login = ''; Password = ''">
+                                отмена
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <form (ngSubmit)="SubmitSignInForm(); sign_in_form.reset()" #sign_in_form>
-            <div class="fc-card__content">
-                <md-input-container class="fc-card__content--width100">
-                    <input mdInput type="text" name="login" [(ngModel)]="Login" id="login"
-                           placeholder="Логин" required/>
-                </md-input-container>
-            </div>
-            <div class="fc-card__content fc-card--border">
-                <md-input-container class="fc-card__content--width100">
-                    <input mdInput type="password" name="password" [(ngModel)]="Password" id="password"
-                           placeholder="Пароль" required/>
-                </md-input-container>
-            </div>
-            <div class="fc-card__content fc-card--nopad">
-                <button md-button type="submit" value="войти" id="submit" class="fc-card__content--button">войти</button>
-            </div>
-        </form>
+    </div>
+    <div class="row align-items-end" id="content__top">
+        <div class="col-12" id="content__top-text">
+            Система геймификации образовательного процесса
+        </div>
+        <div id="content__top-down" class="col mt-4">
+            <span class="fa fa-angle-double-down fa-3x" id="content__top-down-arrows"></span>
+        </div>
     </div>
 </div>

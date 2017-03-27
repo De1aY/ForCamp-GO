@@ -24,6 +24,8 @@ let AuthorizationComponent = class AuthorizationComponent {
     }
     SubmitSignInForm() {
         this.http.get("https://api.forcamp.ga/token.get?login=" + this.Login + "&password=" + this.Password).subscribe((data) => this.HandleResponse(data.json()));
+        this.Login = '';
+        this.Password = '';
         this.FormActive = false;
     }
     HandleResponse(data) {
@@ -41,9 +43,6 @@ let AuthorizationComponent = class AuthorizationComponent {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка " + data.code, time: 3 });
         }
-    }
-    GoToMainSite() {
-        window.location.href = "https://forcamp.ga/main.html";
     }
 };
 AuthorizationComponent = __decorate([
