@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,WAAW;EACT,SAAS,EAAE,IAAI;;AAGjB,MAAM;EACJ,OAAO,EAAE,MAAM",
+"sources": ["addTeam.component.scss"],
+"names": [],
+"file": "addTeam.component.css"
+}

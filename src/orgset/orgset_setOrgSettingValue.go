@@ -3,6 +3,7 @@ package orgset
 import (
 	"net/http"
 	"forcamp/conf"
+	"log"
 )
 
 func SetOrgSettingValue(token string, name string, value string, ResponseWriter http.ResponseWriter){
@@ -12,8 +13,6 @@ func SetOrgSettingValue(token string, name string, value string, ResponseWriter 
 				conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
 			}
 		}
-	} else {
-		conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 	}
 }
 
@@ -33,11 +32,13 @@ func checkSetOrgSettingValueData(token string, name string, value string, w http
 func setOrgSettingValue_Request(name string, value string, w http.ResponseWriter) bool{
 	Query, err := NewConnection.Prepare("UPDATE settings SET value=? WHERE name=?")
 	if err != nil{
+		log.Print(err)
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(value, name)
 	if err != nil {
+		log.Print(err)
 		return conf.PrintError(conf.ErrOrgSettingNameIncorrect, w)
 	}
 	return true

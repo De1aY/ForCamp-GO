@@ -10,62 +10,82 @@ import (
 	"database/sql"
 )
 
-func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string){
+func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string) bool{
 	if checkData(Token, login, ResponseWriter) {
 		if authorization.CheckToken(Token, ResponseWriter){
-			Organization := getUserOrganizationByToken(Token, ResponseWriter)
+			Organization, err := getUserOrganizationByToken(Token)
+			if err != nil {
+				return conf.PrintError(err, ResponseWriter)
+			}
 			NewConnection = src.Connect_Custom(Organization)
-			userData := getUserData_Request(login, ResponseWriter)
+			userData, err := getUserData_Request(login)
+			if err != nil {
+				return conf.PrintError(err, ResponseWriter)
+			}
 			userData.Organization = Organization
 			Resp := Success_GetUserData{200, "success", userData}
 			Response, _ := json.Marshal(Resp)
 			fmt.Fprintf(ResponseWriter, string(Response))
 		} else {
-			conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
 	}
+	return true
 }
 
-func getUserOrganizationByToken(Token string, ResponseWriter http.ResponseWriter) string{
+func getUserOrganizationByToken(Token string) (string, *conf.ApiError){
 	Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 	if err!= nil{
-		conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		return "", conf.ErrDatabaseQueryFailed
 	}
-	Login := getUserLoginFromQuery(Query, ResponseWriter)
+	Login, APIerr := getUserLoginFromQuery(Query)
+	if APIerr != nil {
+		return "", APIerr
+	}
 	Query, err = Connection.Query("SELECT organization FROM users WHERE login=?", Login)
 	if err != nil {
-		conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		return "", conf.ErrDatabaseQueryFailed
 	}
-	return getUserOrganizationFromQuery(Query, ResponseWriter)
+	Organization, APIerr := getUserOrganizationFromQuery(Query)
+	if APIerr != nil {
+		return "", APIerr
+	}
+	return Organization, nil
 }
 
-func getUserOrganizationFromQuery(rows *sql.Rows, ResponseWriter http.ResponseWriter) (organization string){
+func getUserOrganizationFromQuery(rows *sql.Rows) (string, *conf.ApiError){
+	var organization string
+	defer rows.Close()
 	for rows.Next(){
-		defer rows.Close()
 		err := rows.Scan(&organization)
 		if err != nil {
-			conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+			return "", conf.ErrDatabaseQueryFailed
 		}
 	}
-	return organization
+	return organization, nil
 }
 
-func getUserData_Request(login string, ResponseWriter http.ResponseWriter) (userData UserData){
+func getUserData_Request(login string) (UserData, *conf.ApiError){
 	Query, err := NewConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
 	if err != nil {
-		conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		return UserData{}, conf.ErrDatabaseQueryFailed
 	}
-	userData = getUserDataFromQuery(Query, ResponseWriter)
-	return userData
+	var userData UserData
+	userData, APIerr := getUserDataFromQuery(Query)
+	if APIerr != nil {
+		return UserData{}, APIerr
+	}
+	return userData, nil
 }
 
-func getUserDataFromQuery(rows *sql.Rows, ResponseWriter http.ResponseWriter) (userData UserData){
+func getUserDataFromQuery(rows *sql.Rows) (UserData, *conf.ApiError){
 	defer rows.Close()
+	var userData UserData
 	for rows.Next(){
 		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &userData.Team)
 		if err != nil {
-			conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+			return UserData{}, conf.ErrDatabaseQueryFailed
 		}
 	}
-	return userData
+	return userData, nil
 }

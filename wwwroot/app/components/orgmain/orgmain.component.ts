@@ -35,6 +35,8 @@ export class OrgMainComponent implements OnInit {
         if(this.orgSetService.Token == undefined){
             this.orgSetService.Token = this.Token;
             this.orgSetService.GetOrgSettings();
+            this.orgSetService.GetCategories();
+            this.orgSetService.GetTeams();
         }
     }
 

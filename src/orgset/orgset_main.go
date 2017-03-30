@@ -29,11 +29,14 @@ var NewConnection *sql.DB
 func checkUserAccess(token string, ResponseWriter http.ResponseWriter) bool{
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
 		if (authorization.CheckToken(token, ResponseWriter)) {
-			Organization, Login := getUserOrganizationAndLoginByToken(token, ResponseWriter)
+			Organization, Login, APIerr := getUserOrganizationAndLoginByToken(token)
+			if APIerr != nil{
+				return conf.PrintError(APIerr, ResponseWriter)
+			}
 			NewConnection = src.Connect_Custom(Organization)
 			Query, err := NewConnection.Query("SELECT access FROM users WHERE login=?", Login)
 			if err != nil {
-				log.Fatal(err)
+				log.Print(err)
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 			}
 			return checkAccessFromQuery(Query, ResponseWriter)
@@ -61,37 +64,50 @@ func checkAccessFromQuery(rows *sql.Rows, w http.ResponseWriter) bool{
 	return true
 }
 
-func getUserOrganizationAndLoginByToken(Token string, ResponseWriter http.ResponseWriter) (string, string){
+func getUserOrganizationAndLoginByToken(Token string) (string, string, *conf.ApiError){
 	Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 	if err!= nil{
-		conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		log.Print(err)
+		return "", "", conf.ErrDatabaseQueryFailed
 	}
-	Login := getUserLoginFromQuery(Query, ResponseWriter)
+	Login, APIerr := getUserLoginFromQuery(Query)
+	if APIerr != nil {
+		return "", "", APIerr
+	}
 	Query, err = Connection.Query("SELECT organization FROM users WHERE login=?", Login)
 	if err != nil {
-		conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		log.Print(err)
+		return "", "", conf.ErrDatabaseQueryFailed
 	}
-	return getUserOrganizationFromQuery(Query, ResponseWriter), Login
+	Organization, APIerr := getUserOrganizationFromQuery(Query)
+	if APIerr != nil {
+		return "", "", APIerr
+	}
+	return Organization, Login, nil
 }
 
-func getUserOrganizationFromQuery(rows *sql.Rows, ResponseWriter http.ResponseWriter) (organization string){
+func getUserOrganizationFromQuery(rows *sql.Rows) (string, *conf.ApiError){
+	defer rows.Close()
+	var organization string
 	for rows.Next(){
-		defer rows.Close()
 		err := rows.Scan(&organization)
 		if err != nil {
-			conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+			log.Print(err)
+			return "", conf.ErrDatabaseQueryFailed
 		}
 	}
-	return organization
+	return organization, nil
 }
 
-func getUserLoginFromQuery(rows *sql.Rows, ResponseWriter http.ResponseWriter) (login string){
+func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiError){
+	var login string
+	defer rows.Close()
 	for rows.Next(){
-		defer rows.Close()
 		err := rows.Scan(&login)
 		if err != nil {
-			conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+			log.Print(err)
+			return "", conf.ErrDatabaseQueryFailed
 		}
 	}
-	return login
+	return login, nil
 }

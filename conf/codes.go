@@ -59,3 +59,7 @@ var ErrUserTokenIncorrect = &ApiError{605, "ERROR", "Token is invalid"}
 var ErrOrgSettingNameEmpty = &ApiError{606, "ERROR", "Setting name is empty"}
 var ErrOrgSettingValueEmpty = &ApiError{606, "ERROR", "Setting value is empty"}
 var ErrOrgSettingNameIncorrect = &ApiError{607, "ERROR", "Setting name is incorrect"}
+var ErrCategoryNameEmpty = &ApiError{608, "ERROR", "Category name is empty"}
+var ErrCategoryNegativeMarksEmpty = &ApiError{609, "ERROR", "Category 'Negative marks' is empty"}
+var ErrCategoryNegativeMarksIncorrect = &ApiError{610, "ERROR", "Category 'Negative marks' is incorrect"}
+var ErrIDisNotINT = &ApiError{611, "ERROR", "ID must be a number"}

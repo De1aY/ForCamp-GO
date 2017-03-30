@@ -4,6 +4,7 @@ import {FormsModule}   from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {MaterialModule} from '@angular/material';
 import {RouterModule, Routes} from "@angular/router";
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import 'hammerjs'
 
 import {CheckTokenService} from './src/checkToken.service';
@@ -20,6 +21,8 @@ import {ParticipantValueEditComponent} from "./components/orgset/participantValu
 import {PeriodValueEditComponent} from "./components/orgset/periodValueEdit/periodValueEdit.component";
 import {TeamValueEditComponent} from "./components/orgset/teamValueEdit/teamValueEdit.component";
 import {OrganizationValueEditComponent} from "./components/orgset/organizationValueEdit/organizationValueEdit.component";
+import {AddCategoryComponent} from "./components/orgset/addCategory/addCategory.component";
+import {AddTeamComponent} from "./components/orgset/addTeam/addTeam.component";
 
 const appRoutes: Routes = [
     {path: 'orgset', component: OrgSetComponent},
@@ -27,7 +30,7 @@ const appRoutes: Routes = [
     {path: '', component: AuthorizationComponent},
 ];
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, MaterialModule, RouterModule.forRoot(appRoutes)],
+    imports: [BrowserModule, FormsModule, HttpModule, MaterialModule, RouterModule.forRoot(appRoutes), NgxDatatableModule ],
     declarations: [OrgMainComponent,
         AuthorizationComponent,
         AppComponent,
@@ -36,7 +39,9 @@ const appRoutes: Routes = [
         ParticipantValueEditComponent,
         PeriodValueEditComponent,
         TeamValueEditComponent,
-        OrganizationValueEditComponent],
+        OrganizationValueEditComponent,
+        AddCategoryComponent,
+        AddTeamComponent,],
     bootstrap: [AppComponent],
     providers: [CookieService, CheckTokenService, UserService, OrgSetService],
 })

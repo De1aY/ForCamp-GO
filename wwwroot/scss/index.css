@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,900&subset=cyrillic-ext");
 @import url(../node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css);
+@import url(../node_modules/@swimlane/ngx-datatable/release/index.css);
+@import url(../node_modules/@swimlane/ngx-datatable/release/themes/material.css);
+@import url(../node_modules/@swimlane/ngx-datatable/release/assets/icons.css);
 * {
   font-family: 'Roboto', sans-serif; }
 
@@ -90,6 +93,26 @@
   font-size: 24px; }
 #additional_settings md-slide-toggle {
   margin: 4px 0; }
+
+#orgset_categories md-slide-toggle, #orgset_teams md-slide-toggle, #orgset_participants md-slide-toggle, #orgset_employees md-slide-toggle {
+  margin: 0; }
+#orgset_categories .datatable-body-cell-label, #orgset_teams .datatable-body-cell-label, #orgset_participants .datatable-body-cell-label, #orgset_employees .datatable-body-cell-label {
+  text-transform: capitalize; }
+#orgset_categories input[type=text], #orgset_teams input[type=text], #orgset_participants input[type=text], #orgset_employees input[type=text] {
+  font-size: 18px;
+  display: block;
+  background: transparent;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #5264AE;
+  outline: none; }
+
+#add_category .mat-slide-toggle-container {
+  margin-top: 1px; }
+#add_category .mat-slide-toggle-content {
+  font-size: 20px; }
+#add_category .mat-slide-toggle {
+  margin: 10px 0; }
 
 .mdl-layout-title, .mdl-layout-title, .mdl-navigation__link, .mdl-card__title-text {
   text-transform: capitalize; }

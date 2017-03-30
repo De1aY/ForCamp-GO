@@ -5,6 +5,12 @@ import {UserService} from '../../src/user.service';
 import {OrgSetService} from "../../src/orgset.service";
 import {alert} from "notie";
 
+interface Category {
+    id: number
+    name: string
+    negative_marks: boolean
+}
+
 @Component({
     selector: "org_set",
     templateUrl: "app/components/orgset/orgset.component.html",
@@ -12,6 +18,10 @@ import {alert} from "notie";
 })
 export class OrgSetComponent implements OnInit {
     private Token: string;
+    private CategoryEdit: object = {};
+    private TeamEdit: object = {};
+    private ParticipantEdit: object = {};
+    private EmployeeEdit: object = {};
 
     constructor(private cookieService: CookieService,
                 private checkTokenService: CheckTokenService,
@@ -33,6 +43,8 @@ export class OrgSetComponent implements OnInit {
         if(this.orgSetService.Token == undefined){
             this.orgSetService.Token = this.Token;
             this.orgSetService.GetOrgSettings();
+            this.orgSetService.GetCategories();
+            this.orgSetService.GetTeams();
         }
     }
 

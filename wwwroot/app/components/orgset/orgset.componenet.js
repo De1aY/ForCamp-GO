@@ -20,6 +20,10 @@ let OrgSetComponent = class OrgSetComponent {
         this.checkTokenService = checkTokenService;
         this.userService = userService;
         this.orgSetService = orgSetService;
+        this.CategoryEdit = {};
+        this.TeamEdit = {};
+        this.ParticipantEdit = {};
+        this.EmployeeEdit = {};
     }
     ngOnInit() {
         this.TokenInit();
@@ -33,6 +37,8 @@ let OrgSetComponent = class OrgSetComponent {
         if (this.orgSetService.Token == undefined) {
             this.orgSetService.Token = this.Token;
             this.orgSetService.GetOrgSettings();
+            this.orgSetService.GetCategories();
+            this.orgSetService.GetTeams();
         }
     }
     UserServiceInit() {

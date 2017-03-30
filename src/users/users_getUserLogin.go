@@ -16,7 +16,10 @@ func GetUserLogin(Token string, ResponseWriter http.ResponseWriter) bool{
 			if err != nil {
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 			}
-			Login := getUserLoginFromQuery(Query, ResponseWriter)
+			Login, APIerr := getUserLoginFromQuery(Query)
+			if APIerr != nil {
+				return conf.PrintError(APIerr, ResponseWriter)
+			}
 			Resp := Success_GetUserLogin{200, "success", Login}
 			Response, _ := json.Marshal(Resp)
 			fmt.Fprintf(ResponseWriter, string(Response))
@@ -28,13 +31,14 @@ func GetUserLogin(Token string, ResponseWriter http.ResponseWriter) bool{
 	return false
 }
 
-func getUserLoginFromQuery(rows *sql.Rows, ResponseWriter http.ResponseWriter) (login string){
+func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiError){
+	var login string
+	defer rows.Close()
 	for rows.Next(){
-		defer rows.Close()
 		err := rows.Scan(&login)
 		if err != nil {
-			conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+			return "", conf.ErrDatabaseQueryFailed
 		}
 	}
-	return login
+	return login, nil
 }

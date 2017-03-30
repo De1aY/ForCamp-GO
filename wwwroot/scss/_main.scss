@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,900&subset=cyrillic-ext");
 @import '../node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css';
+@import '../node_modules/@swimlane/ngx-datatable/release/index.css';
+@import '../node_modules/@swimlane/ngx-datatable/release/themes/material.css';
+@import '../node_modules/@swimlane/ngx-datatable/release/assets/icons.css';
 
 $MainColor: #3F51B5;
 $AccentColor: #FF4081;

@@ -4,6 +4,8 @@
             <span class="mdl-layout-title">{{orgSetService.OrgSettings.organization}}</span></div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
             <a href="#orgset_main" class="mdl-layout__tab is-active">Основные настройки</a>
+            <a href="#orgset_categories" class="mdl-layout__tab">Категории</a>
+            <a href="#orgset_teams" class="mdl-layout__tab">Команды</a>
             <a href="#orgset_participants" class="mdl-layout__tab">Участники</a>
             <a href="#orgset_employees" class="mdl-layout__tab">Сотрудники</a>
             <a href="#orgset_achievements" class="mdl-layout__tab">Достижения</a>
@@ -24,6 +26,8 @@
             <a class="mdl-navigation__link" href="exit">выйти</a>
         </nav>
     </div>
+    <add_team></add_team>
+    <add_category></add_category>
     <participant_value_edit></participant_value_edit>
     <period_value_edit></period_value_edit>
     <team_value_edit></team_value_edit>
@@ -46,7 +50,8 @@
                             </div>
                         </div>
                         <div class="mdl-card__menu">
-                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect on_edit-activation" (click)="orgSetService.ParticipantValueEdit_Active = true">
+                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.ParticipantValueEdit_Active = true">
                                 <i class="material-icons">create</i>
                             </button>
                         </div>
@@ -126,7 +131,8 @@
                         </div>
                         <!-- Могут ли сотрудники выставлять баллы своей команде -->
                         <div class="mdl-card__title mdl-card--border">
-                            <md-slide-toggle ngDefaultControl (change)="ChangeSelfMarksValue($event)" [(ngModel)]="orgSetService.OrgSettings.self_marks"
+                            <md-slide-toggle ngDefaultControl (change)="ChangeSelfMarksValue($event)"
+                                             [(ngModel)]="orgSetService.OrgSettings.self_marks"
                                              color="primary">Оценки своей команде
                             </md-slide-toggle>
                         </div>
@@ -148,6 +154,131 @@
                     </div>
                 </div>
                 <div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            </div>
+        </section>
+        <!-- Categories -->
+        <section class="mdl-layout__tab-panel" id="orgset_categories">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">
+                                Категории
+                            </div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable
+                                    class="material width100"
+                                    [rows]="orgSetService.Categories"
+                                    [loadingIndicator]="loadingIndicator"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [scrollbarH]="true"
+                                    [messages]="{emptyMessage: 'Категорий нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Название">
+                                    <ng-template ngx-datatable-header-template>
+                                        Название
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="CategoryEdit[row.$$index + '-name'] = true" *ngIf="!CategoryEdit[row.$$index + '-name']">{{row.name}}</span>
+                                        <input autofocus *ngIf="CategoryEdit[row.$$index + '-name']" (blur)="orgSetService.EditCategory(row); CategoryEdit[row.$$index + '-name'] = false" type="text" [(ngModel)]="row.name"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Отрицательные оценки">
+                                    <ng-template ngx-datatable-header-template>
+                                        Отрицательные оценки
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <md-slide-toggle ngDefaultControl (click)="orgSetService.EditCategory(row)" [(ngModel)]="row.negative_marks"
+                                                         color="primary">
+                                        </md-slide-toggle>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template></ng-template>
+                                    <ng-template ngx-datatable-cell-template let-row="row">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent' (click)="orgSetService.DeleteCategory(row.id)">
+                                            <i class="material-icons">delete_forever</i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation" (click)="orgSetService.AddCategory_Active = true">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Teams -->
+        <section class="mdl-layout__tab-panel" id="orgset_teams">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">
+                                Команды
+                            </div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable
+                                    class="material width100"
+                                    [rows]="orgSetService.Teams"
+                                    [loadingIndicator]="loadingIndicator"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [scrollbarH]="true"
+                                    [messages]="{emptyMessage: 'Команд нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Название">
+                                    <ng-template ngx-datatable-header-template>
+                                        Название
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="TeamEdit[row.$$index + '-name'] = true" *ngIf="!TeamEdit[row.$$index + '-name']">{{row.name}}</span>
+                                        <input autofocus *ngIf="TeamEdit[row.$$index + '-name']" (blur)="orgSetService.EditTeam(row.id, row.name); TeamEdit[row.$$index + '-name'] = false" type="text" [(ngModel)]="row.name"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Руководитель">
+                                    <ng-template ngx-datatable-header-template>
+                                        Руководитель
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <a [routerLink]="['/profile', row.leader.login]" *ngIf="row.leader.name.length > 0">{{row.leader.surname}} {{row.leader.name}} {{row.leader.middlename}}</a>
+                                        <span *ngIf="row.leader.name.length == 0">Не указан</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Количество участников">
+                                    <ng-template ngx-datatable-header-template>
+                                        Кол-во участников
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.count}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template></ng-template>
+                                    <ng-template ngx-datatable-cell-template let-row="row">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent' (click)="orgSetService.DeleteTeam(row.id)">
+                                            <i class="material-icons">delete_forever</i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation" (click)="orgSetService.AddTeam_Active = true">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <!-- Participants -->

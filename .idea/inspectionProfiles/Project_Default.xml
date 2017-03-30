@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="11">
+          <list size="15">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -16,6 +16,10 @@
             <item index="8" class="java.lang.String" itemvalue="participant_value_edit" />
             <item index="9" class="java.lang.String" itemvalue="organization_value_edit" />
             <item index="10" class="java.lang.String" itemvalue="team_value_edit" />
+            <item index="11" class="java.lang.String" itemvalue="add_category" />
+            <item index="12" class="java.lang.String" itemvalue="ng-template" />
+            <item index="13" class="java.lang.String" itemvalue="edit_category" />
+            <item index="14" class="java.lang.String" itemvalue="add_team" />
           </list>
         </value>
       </option>

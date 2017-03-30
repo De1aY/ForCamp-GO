@@ -54,6 +54,42 @@ $animation-duration: 3.5s;
 
 }
 
+#orgset_categories, #orgset_teams, #orgset_participants, #orgset_employees{
+  md-slide-toggle{
+    margin: 0;
+  }
+
+  .datatable-body-cell-label{
+    text-transform: capitalize;
+  }
+
+  input[type=text]{
+    font-size: 18px;
+    display: block;
+    background: transparent;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #5264AE;
+    outline: none;
+  }
+}
+
+#add_category{
+
+  .mat-slide-toggle-container{
+    margin-top: 1px;
+  }
+
+  .mat-slide-toggle-content{
+    font-size: 20px;
+  }
+
+  .mat-slide-toggle{
+    margin: 10px 0;
+  }
+
+}
+
 .mdl-layout-title, .mdl-layout-title, .mdl-navigation__link, .mdl-card__title-text {
   text-transform: capitalize;
 }

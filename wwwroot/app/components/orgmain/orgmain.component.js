@@ -33,6 +33,8 @@ let OrgMainComponent = class OrgMainComponent {
         if (this.orgSetService.Token == undefined) {
             this.orgSetService.Token = this.Token;
             this.orgSetService.GetOrgSettings();
+            this.orgSetService.GetCategories();
+            this.orgSetService.GetTeams();
         }
     }
     UserServiceInit() {
