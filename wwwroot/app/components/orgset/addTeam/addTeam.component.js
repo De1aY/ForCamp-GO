@@ -9,19 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const orgset_service_1 = require("../../../src/orgset.service");
-let AddTeamComponent = class AddTeamComponent {
-    constructor(orgSetService) {
+var core_1 = require("@angular/core");
+var orgset_service_1 = require("../../../src/orgset.service");
+var AddTeamComponent = (function () {
+    function AddTeamComponent(orgSetService) {
         this.orgSetService = orgSetService;
         this.TeamName = '';
     }
-    AddTeamSubmit() {
+    AddTeamComponent.prototype.AddTeamSubmit = function () {
         this.orgSetService.AddTeam_Active = false;
         this.orgSetService.AddTeam(this.TeamName);
         this.TeamName = '';
-    }
-};
+    };
+    return AddTeamComponent;
+}());
 AddTeamComponent = __decorate([
     core_1.Component({
         selector: "add_team",

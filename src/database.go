@@ -7,6 +7,11 @@ import (
 	"log"
 )
 
+var (
+	Connection *sql.DB = Connect()
+	NewConnection *sql.DB
+)
+
 func getMysqlSource() string{
 	MysqlSource := conf.MYSQL_LOGIN + ":"
 	MysqlSource += conf.MYSQL_PASSWORD + "@tcp("
@@ -27,7 +32,7 @@ func Connect() *sql.DB{
 	Source := getMysqlSource()
 	Connection, err := sql.Open("mysql", Source)
 	if err != nil{
-		log.Fatal(err)
+		log.Print(err)
 	}
 	return Connection
 }
@@ -35,7 +40,7 @@ func Connect() *sql.DB{
 func Connect_Custom(name string) *sql.DB{
 	newConn, err := sql.Open("mysql", getMysqlSource_Custom(name))
 	if err != nil{
-		log.Fatal(err)
+		log.Print(err)
 	}
 	return newConn
 }

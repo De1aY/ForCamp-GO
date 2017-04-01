@@ -38,6 +38,7 @@ func GeneratePasswordHash(password string) string {
 func generateTokenHash(login string) string {
 	Hash := sha512.New()
 	Time := strconv.FormatInt(time.Now().Unix(), 10)
+	rand.Seed(time.Now().UnixNano())
 	Bytes := []byte(login + Time + strconv.FormatInt(rand.Int63(), 10))
 	Result := Hash.Sum(Bytes)
 	return base64.URLEncoding.EncodeToString(Result)

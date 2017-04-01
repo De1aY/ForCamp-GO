@@ -9,26 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const http_1 = require("@angular/http");
-const notie_1 = require("notie");
-const core_2 = require("angular2-cookie/core");
-let AuthorizationComponent = class AuthorizationComponent {
-    constructor(http, cookieService) {
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var notie_1 = require("notie");
+var core_2 = require("angular2-cookie/core");
+var AuthorizationComponent = (function () {
+    function AuthorizationComponent(http, cookieService) {
         this.http = http;
         this.cookieService = cookieService;
         this.FormActive = false;
     }
-    ngOnInit() {
+    AuthorizationComponent.prototype.ngOnInit = function () {
         this.Token = this.cookieService.get("token");
-    }
-    SubmitSignInForm() {
-        this.http.get("https://api.forcamp.ga/token.get?login=" + this.Login + "&password=" + this.Password).subscribe((data) => this.HandleResponse(data.json()));
+    };
+    AuthorizationComponent.prototype.SubmitSignInForm = function () {
+        var _this = this;
+        this.http.get("https://api.forcamp.ga/token.get?login=" + this.Login + "&password=" + this.Password).subscribe(function (data) { return _this.HandleResponse(data.json()); });
         this.Login = '';
         this.Password = '';
         this.FormActive = false;
-    }
-    HandleResponse(data) {
+    };
+    AuthorizationComponent.prototype.HandleResponse = function (data) {
         if (data.code === 200) {
             this.Time = new Date();
             this.Time.setDate(this.Time.getDate() + 365);
@@ -43,8 +44,9 @@ let AuthorizationComponent = class AuthorizationComponent {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка " + data.code, time: 3 });
         }
-    }
-};
+    };
+    return AuthorizationComponent;
+}());
 AuthorizationComponent = __decorate([
     core_1.Component({
         selector: "sign_in",

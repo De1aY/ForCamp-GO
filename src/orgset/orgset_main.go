@@ -7,34 +7,19 @@ import (
 	"forcamp/src/authorization"
 	"forcamp/conf"
 	"log"
+	"strconv"
+	"math/rand"
 )
 
-type OrgSettings struct {
-	Participant string `json:"participant"`
-	Team string `json:"team"`
-	Organization string `json:"organization"`
-	Period string `json:"period"`
-	SelfMarks string `json:"self_marks"`
-}
-
-type GetOrgSettings_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
-	Settings OrgSettings `json:"settings"`
-}
-
-var Connection = src.Connect()
-var NewConnection *sql.DB
-
-func checkUserAccess(token string, ResponseWriter http.ResponseWriter) bool{
+func CheckUserAccess(token string, ResponseWriter http.ResponseWriter) bool{
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
 		if (authorization.CheckToken(token, ResponseWriter)) {
-			Organization, Login, APIerr := getUserOrganizationAndLoginByToken(token)
+			Organization, Login, APIerr := GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil{
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection = src.Connect_Custom(Organization)
-			Query, err := NewConnection.Query("SELECT access FROM users WHERE login=?", Login)
+			src.NewConnection = src.Connect_Custom(Organization)
+			Query, err := src.NewConnection.Query("SELECT access FROM users WHERE login=?", Login)
 			if err != nil {
 				log.Print(err)
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
@@ -64,8 +49,8 @@ func checkAccessFromQuery(rows *sql.Rows, w http.ResponseWriter) bool{
 	return true
 }
 
-func getUserOrganizationAndLoginByToken(Token string) (string, string, *conf.ApiError){
-	Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
+func GetUserOrganizationAndLoginByToken(Token string) (string, string, *conf.ApiError){
+	Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 	if err!= nil{
 		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
@@ -74,7 +59,7 @@ func getUserOrganizationAndLoginByToken(Token string) (string, string, *conf.Api
 	if APIerr != nil {
 		return "", "", APIerr
 	}
-	Query, err = Connection.Query("SELECT organization FROM users WHERE login=?", Login)
+	Query, err = src.Connection.Query("SELECT organization FROM users WHERE login=?", Login)
 	if err != nil {
 		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
@@ -110,4 +95,67 @@ func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiError){
 		}
 	}
 	return login, nil
+}
+
+func GeneratePassword() (string, string){
+	password := ""
+	for len(password) < 7{
+		password = strconv.FormatInt(rand.Int63n(1000000000)+rand.Int63n(1000000000)+rand.Int63n(1000000000)+rand.Int63n(100000), 10)
+	}
+	password = password[0:6]
+	return password, authorization.GeneratePasswordHash(password)
+}
+
+func getTeamsIDs() (map[int64]bool, *conf.ApiError){
+	Query, err := src.NewConnection.Query("SELECT id FROM teams")
+	if err != nil {
+		log.Print(err)
+		return make(map[int64]bool), conf.ErrDatabaseQueryFailed
+	}
+	defer Query.Close()
+	IDs := make(map[int64]bool)
+	var id int64
+	for Query.Next(){
+		err = Query.Scan(&id)
+		if err != nil {
+			log.Print(err)
+			return make(map[int64]bool), conf.ErrDatabaseQueryFailed
+		}
+		IDs[id] = true
+	}
+	return IDs, nil
+}
+
+func CheckTeamID(id int64, w http.ResponseWriter) bool{
+	TeamsIDs, APIerr := getTeamsIDs()
+	if id != 0 {
+		if APIerr != nil {
+			return conf.PrintError(APIerr, w)
+		}
+		if TeamsIDs[id] {
+			return true
+		} else {
+			return conf.PrintError(conf.ErrParticipantTeamIncorrect, w)
+		}
+	} else {
+		return true
+	}
+}
+
+func GetUserOrganizationByLogin(login string) (string, *conf.ApiError){
+	Query, err := src.Connection.Query("SELECT organization FROM users WHERE login=?", login)
+	if err != nil {
+		log.Print(err)
+		return "", conf.ErrDatabaseQueryFailed
+	}
+	defer Query.Close()
+	var organization string
+	for Query.Next(){
+		err := Query.Scan(&organization)
+		if err != nil {
+			log.Print(err)
+			return "", conf.ErrDatabaseQueryFailed
+		}
+	}
+	return organization, nil
 }

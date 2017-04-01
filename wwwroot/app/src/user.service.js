@@ -12,11 +12,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const http_1 = require("@angular/http");
-const notie_1 = require("notie");
-let UserService = class UserService {
-    constructor(http) {
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var notie_1 = require("notie");
+var UserService = (function () {
+    function UserService(http) {
         this.http = http;
         this.GetUserLoginLink = "https://api.forcamp.ga/user.login.get";
         this.GetUserDataLink = "https://api.forcamp.ga/user.data.get";
@@ -41,13 +41,15 @@ let UserService = class UserService {
             Organization: "загрузка..."
         };
     }
-    GetSelfUserData() {
-        this.http.get(this.GetUserLoginLink + "?token=" + this.Token).subscribe((data) => this.getSelfUserLoginFromResponse(data.json()));
-    }
-    GetUserData(login) {
-        this.http.get(this.GetUserDataLink + "?token=" + this.Token + "&login=" + login).subscribe((data) => this.getUserDataFromResponse(data.json()));
-    }
-    getUserDataFromResponse(data) {
+    UserService.prototype.GetSelfUserData = function () {
+        var _this = this;
+        this.http.get(this.GetUserLoginLink + "?token=" + this.Token).subscribe(function (data) { return _this.getSelfUserLoginFromResponse(data.json()); });
+    };
+    UserService.prototype.GetUserData = function (login) {
+        var _this = this;
+        this.http.get(this.GetUserDataLink + "?token=" + this.Token + "&login=" + login).subscribe(function (data) { return _this.getUserDataFromResponse(data.json()); });
+    };
+    UserService.prototype.getUserDataFromResponse = function (data) {
         if (data.code == 200) {
             this.UserData = {
                 Name: data.data.name,
@@ -63,8 +65,8 @@ let UserService = class UserService {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
         }
-    }
-    getSelfUserLoginFromResponse(data) {
+    };
+    UserService.prototype.getSelfUserLoginFromResponse = function (data) {
         if (data.code == 200) {
             this.SelfLogin = data.login;
             this.getSelfUserData(this.Token, this.SelfLogin);
@@ -72,11 +74,12 @@ let UserService = class UserService {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
         }
-    }
-    getSelfUserData(token, login) {
-        this.http.get(this.GetUserDataLink + "?token=" + token + "&login=" + login).subscribe((data) => this.getSelfUserDataFromResponse(data.json()));
-    }
-    getSelfUserDataFromResponse(data) {
+    };
+    UserService.prototype.getSelfUserData = function (token, login) {
+        var _this = this;
+        this.http.get(this.GetUserDataLink + "?token=" + token + "&login=" + login).subscribe(function (data) { return _this.getSelfUserDataFromResponse(data.json()); });
+    };
+    UserService.prototype.getSelfUserDataFromResponse = function (data) {
         if (data.code == 200) {
             this.SelfData = {
                 Name: data.data.name,
@@ -92,8 +95,9 @@ let UserService = class UserService {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
         }
-    }
-};
+    };
+    return UserService;
+}());
 UserService = __decorate([
     core_1.Injectable(),
     __param(0, core_1.Inject(http_1.Http)),

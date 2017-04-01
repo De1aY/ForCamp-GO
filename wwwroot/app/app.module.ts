@@ -5,6 +5,7 @@ import {HttpModule} from '@angular/http';
 import {MaterialModule} from '@angular/material';
 import {RouterModule, Routes} from "@angular/router";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import 'hammerjs'
 
 import {CheckTokenService} from './src/checkToken.service';
@@ -23,6 +24,8 @@ import {TeamValueEditComponent} from "./components/orgset/teamValueEdit/teamValu
 import {OrganizationValueEditComponent} from "./components/orgset/organizationValueEdit/organizationValueEdit.component";
 import {AddCategoryComponent} from "./components/orgset/addCategory/addCategory.component";
 import {AddTeamComponent} from "./components/orgset/addTeam/addTeam.component";
+import {AddParticipantComponent} from "./components/orgset/addParticipant/addParticipant.component";
+import {AddEmployeeComponent} from "./components/orgset/addEmployee/addEmployee.component";
 
 const appRoutes: Routes = [
     {path: 'orgset', component: OrgSetComponent},
@@ -30,7 +33,7 @@ const appRoutes: Routes = [
     {path: '', component: AuthorizationComponent},
 ];
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, MaterialModule, RouterModule.forRoot(appRoutes), NgxDatatableModule ],
+    imports: [BrowserModule, FormsModule, HttpModule, MaterialModule, RouterModule.forRoot(appRoutes), NgxDatatableModule, BrowserAnimationsModule ],
     declarations: [OrgMainComponent,
         AuthorizationComponent,
         AppComponent,
@@ -41,7 +44,9 @@ const appRoutes: Routes = [
         TeamValueEditComponent,
         OrganizationValueEditComponent,
         AddCategoryComponent,
-        AddTeamComponent,],
+        AddTeamComponent,
+        AddParticipantComponent,
+        AddEmployeeComponent],
     bootstrap: [AppComponent],
     providers: [CookieService, CheckTokenService, UserService, OrgSetService],
 })

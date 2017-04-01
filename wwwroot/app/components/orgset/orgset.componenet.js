@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const core_2 = require("angular2-cookie/core");
-const checkToken_service_1 = require("../../src/checkToken.service");
-const user_service_1 = require("../../src/user.service");
-const orgset_service_1 = require("../../src/orgset.service");
-let OrgSetComponent = class OrgSetComponent {
-    constructor(cookieService, checkTokenService, userService, orgSetService) {
+var core_1 = require("@angular/core");
+var core_2 = require("angular2-cookie/core");
+var checkToken_service_1 = require("../../src/checkToken.service");
+var user_service_1 = require("../../src/user.service");
+var orgset_service_1 = require("../../src/orgset.service");
+var OrgSetComponent = (function () {
+    function OrgSetComponent(cookieService, checkTokenService, userService, orgSetService) {
         this.cookieService = cookieService;
         this.checkTokenService = checkTokenService;
         this.userService = userService;
@@ -25,39 +25,42 @@ let OrgSetComponent = class OrgSetComponent {
         this.ParticipantEdit = {};
         this.EmployeeEdit = {};
     }
-    ngOnInit() {
+    OrgSetComponent.prototype.ngOnInit = function () {
         this.TokenInit();
         this.ServiceInit();
-    }
-    ServiceInit() {
+    };
+    OrgSetComponent.prototype.ServiceInit = function () {
         this.UserServiceInit();
         this.OrgSetServiceInit();
-    }
-    OrgSetServiceInit() {
+    };
+    OrgSetComponent.prototype.OrgSetServiceInit = function () {
         if (this.orgSetService.Token == undefined) {
             this.orgSetService.Token = this.Token;
-            this.orgSetService.GetOrgSettings();
-            this.orgSetService.GetCategories();
-            this.orgSetService.GetTeams();
         }
-    }
-    UserServiceInit() {
+        this.orgSetService.GetOrgSettings();
+        this.orgSetService.GetCategories();
+        this.orgSetService.GetTeams();
+        this.orgSetService.GetParticipants();
+        this.orgSetService.GetEmployees();
+    };
+    OrgSetComponent.prototype.UserServiceInit = function () {
         if (this.userService.Token == undefined) {
             this.userService.Token = this.Token;
-            this.userService.GetSelfUserData();
         }
-    }
-    TokenInit() {
+        this.userService.GetSelfUserData();
+    };
+    OrgSetComponent.prototype.TokenInit = function () {
         this.Token = this.cookieService.get("token");
         if (this.Token == undefined) {
             window.location.href = "https://forcamp.ga/exit";
         }
         this.checkTokenService.CheckToken(this.Token);
-    }
-    ChangeSelfMarksValue(self_marks) {
+    };
+    OrgSetComponent.prototype.ChangeSelfMarksValue = function (self_marks) {
         this.orgSetService.SetOrgSettingValue("self_marks", self_marks.checked);
-    }
-};
+    };
+    return OrgSetComponent;
+}());
 OrgSetComponent = __decorate([
     core_1.Component({
         selector: "org_set",

@@ -6,14 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-let MDL = class MDL {
-    ngAfterViewChecked() {
+var core_1 = require("@angular/core");
+var MDL = (function () {
+    function MDL() {
+    }
+    MDL.prototype.ngAfterViewChecked = function () {
         if (componentHandler) {
             componentHandler.upgradeAllRegistered();
         }
-    }
-};
+    };
+    return MDL;
+}());
 MDL = __decorate([
     core_1.Directive({
         selector: '[mdl]'

@@ -1,10 +1,8 @@
 package users
 
 import (
-	"forcamp/src"
 	"net/http"
 	"forcamp/conf"
-	"database/sql"
 )
 
 type Success_GetUserLogin struct {
@@ -29,9 +27,6 @@ type UserData struct {
 	Sex int `json:"sex"`
 	Organization string `json:"organization"`
 }
-
-var Connection = src.Connect()
-var NewConnection *sql.DB
 
 func checkData(token string, login string, w http.ResponseWriter) bool{
 	if len(token) > 0{

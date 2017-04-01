@@ -9,19 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const orgset_service_1 = require("../../../src/orgset.service");
-let PeriodValueEditComponent = class PeriodValueEditComponent {
-    constructor(orgSetService) {
+var core_1 = require("@angular/core");
+var orgset_service_1 = require("../../../src/orgset.service");
+var PeriodValueEditComponent = (function () {
+    function PeriodValueEditComponent(orgSetService) {
         this.orgSetService = orgSetService;
         this.Period_Value = '';
     }
-    ChangePeriodValue() {
+    PeriodValueEditComponent.prototype.ChangePeriodValue = function () {
         this.orgSetService.PeriodValueEdit_Active = false;
         this.orgSetService.SetOrgSettingValue("period", this.Period_Value);
         this.Period_Value = '';
-    }
-};
+    };
+    return PeriodValueEditComponent;
+}());
 PeriodValueEditComponent = __decorate([
     core_1.Component({
         selector: "period_value_edit",

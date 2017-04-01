@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"html"
+	"forcamp/src"
 )
 
 func checkAuthorizationData(inf AuthInf, ResponseWriter http.ResponseWriter) bool {
@@ -38,7 +39,7 @@ func checkUserPassword(password string, ResponseWriter http.ResponseWriter) bool
 func checkAuthorizationData_Request(authInf AuthInf, ResponseWriter http.ResponseWriter) bool {
 	authInf.Login = html.EscapeString(authInf.Login)
 	authInf.Password = GeneratePasswordHash(authInf.Password)
-	Query, err := Connection.Query("SELECT COUNT(id) as count FROM users WHERE login=? AND password=?", authInf.Login, authInf.Password)
+	Query, err := src.Connection.Query("SELECT COUNT(id) as count FROM users WHERE login=? AND password=?", authInf.Login, authInf.Password)
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}

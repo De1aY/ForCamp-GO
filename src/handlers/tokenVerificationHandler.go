@@ -9,7 +9,7 @@ import (
 )
 
 // Parse 'Token' from 'GET' data
-func getToken(r *http.Request) string{
+func GetToken(r *http.Request) string{
 	Token := r.FormValue("token")
 	return Token
 }
@@ -18,7 +18,7 @@ func TokenVerificationHandler(w http.ResponseWriter, r *http.Request){
 	src.SetHeaders_API(w)
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusOK)
-		authorization.VerifyToken(getToken(r), w)
+		authorization.VerifyToken(GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		conf.PrintError(conf.ErrMethodNotAllowed,  w)

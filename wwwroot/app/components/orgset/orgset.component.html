@@ -26,6 +26,8 @@
             <a class="mdl-navigation__link" href="exit">выйти</a>
         </nav>
     </div>
+    <add_employee></add_employee>
+    <add_participant></add_participant>
     <add_team></add_team>
     <add_category></add_category>
     <participant_value_edit></participant_value_edit>
@@ -182,8 +184,11 @@
                                         Название
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <span (dblclick)="CategoryEdit[row.$$index + '-name'] = true" *ngIf="!CategoryEdit[row.$$index + '-name']">{{row.name}}</span>
-                                        <input autofocus *ngIf="CategoryEdit[row.$$index + '-name']" (blur)="orgSetService.EditCategory(row); CategoryEdit[row.$$index + '-name'] = false" type="text" [(ngModel)]="row.name"/>
+                                        <span (dblclick)="CategoryEdit[row.$$index + '-name'] = true"
+                                              *ngIf="!CategoryEdit[row.$$index + '-name']">{{row.name}}</span>
+                                        <input autofocus *ngIf="CategoryEdit[row.$$index + '-name']"
+                                               (blur)="orgSetService.EditCategory(row); CategoryEdit[row.$$index + '-name'] = false"
+                                               type="text" [(ngModel)]="row.name"/>
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="Отрицательные оценки">
@@ -191,7 +196,8 @@
                                         Отрицательные оценки
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <md-slide-toggle ngDefaultControl (click)="orgSetService.EditCategory(row)" [(ngModel)]="row.negative_marks"
+                                        <md-slide-toggle ngDefaultControl (click)="orgSetService.EditCategory(row)"
+                                                         [(ngModel)]="row.negative_marks"
                                                          color="primary">
                                         </md-slide-toggle>
                                     </ng-template>
@@ -199,7 +205,8 @@
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template></ng-template>
                                     <ng-template ngx-datatable-cell-template let-row="row">
-                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent' (click)="orgSetService.DeleteCategory(row.id)">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent'
+                                                (click)="orgSetService.DeleteCategory(row.id)">
                                             <i class="material-icons">delete_forever</i>
                                         </button>
                                     </ng-template>
@@ -207,7 +214,8 @@
                             </ngx-datatable>
                         </div>
                         <div class="mdl-card__menu">
-                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation" (click)="orgSetService.AddCategory_Active = true">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.AddCategory_Active = true">
                                 <i class="material-icons">add</i>
                             </button>
                         </div>
@@ -241,8 +249,11 @@
                                         Название
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <span (dblclick)="TeamEdit[row.$$index + '-name'] = true" *ngIf="!TeamEdit[row.$$index + '-name']">{{row.name}}</span>
-                                        <input autofocus *ngIf="TeamEdit[row.$$index + '-name']" (blur)="orgSetService.EditTeam(row.id, row.name); TeamEdit[row.$$index + '-name'] = false" type="text" [(ngModel)]="row.name"/>
+                                        <span (dblclick)="TeamEdit[row.$$index + '-name'] = true"
+                                              *ngIf="!TeamEdit[row.$$index + '-name']">{{row.name}}</span>
+                                        <input autofocus *ngIf="TeamEdit[row.$$index + '-name']"
+                                               (blur)="orgSetService.EditTeam(row.id, row.name); TeamEdit[row.$$index + '-name'] = false"
+                                               type="text" [(ngModel)]="row.name"/>
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="Руководитель">
@@ -250,7 +261,9 @@
                                         Руководитель
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <a [routerLink]="['/profile', row.leader.login]" *ngIf="row.leader.name.length > 0">{{row.leader.surname}} {{row.leader.name}} {{row.leader.middlename}}</a>
+                                        <a [routerLink]="['/profile', row.leader.login]"
+                                           *ngIf="row.leader.name.length > 0">{{row.leader.surname}} {{row.leader.name}}
+                                            {{row.leader.middlename}}</a>
                                         <span *ngIf="row.leader.name.length == 0">Не указан</span>
                                     </ng-template>
                                 </ngx-datatable-column>
@@ -265,7 +278,8 @@
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template></ng-template>
                                     <ng-template ngx-datatable-cell-template let-row="row">
-                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent' (click)="orgSetService.DeleteTeam(row.id)">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent'
+                                                (click)="orgSetService.DeleteTeam(row.id)">
                                             <i class="material-icons">delete_forever</i>
                                         </button>
                                     </ng-template>
@@ -273,7 +287,8 @@
                             </ngx-datatable>
                         </div>
                         <div class="mdl-card__menu">
-                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation" (click)="orgSetService.AddTeam_Active = true">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.AddTeam_Active = true">
                                 <i class="material-icons">add</i>
                             </button>
                         </div>
@@ -283,9 +298,266 @@
         </section>
         <!-- Participants -->
         <section class="mdl-layout__tab-panel" id="orgset_participants">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">
+                                Участники
+                            </div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable
+                                    class="material width100"
+                                    [rows]="orgSetService.Participants"
+                                    [loadingIndicator]="loadingIndicator"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [scrollbarH]="true"
+                                    [messages]="{emptyMessage: 'Участников нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Фамилия">
+                                    <ng-template ngx-datatable-header-template>
+                                        Фамилия
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ParticipantEdit[row.$$index + '-surname'] = true"
+                                              *ngIf="!ParticipantEdit[row.$$index + '-surname']">{{row.surname}}</span>
+                                        <input autofocus *ngIf="ParticipantEdit[row.$$index + '-surname']"
+                                               (blur)="orgSetService.EditParticipant(row); ParticipantEdit[row.$$index + '-surname'] = false"
+                                               type="text" [(ngModel)]="row.surname"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Имя">
+                                    <ng-template ngx-datatable-header-template>
+                                        Имя
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ParticipantEdit[row.$$index + '-name'] = true"
+                                              *ngIf="!ParticipantEdit[row.$$index + '-name']">{{row.name}}</span>
+                                        <input autofocus *ngIf="ParticipantEdit[row.$$index + '-name']"
+                                               (blur)="orgSetService.EditParticipant(row); ParticipantEdit[row.$$index + '-name'] = false"
+                                               type="text" [(ngModel)]="row.name"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Отчество">
+                                    <ng-template ngx-datatable-header-template>
+                                        Отчество
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ParticipantEdit[row.$$index + '-middlename'] = true"
+                                              *ngIf="!ParticipantEdit[row.$$index + '-middlename']">{{row.middlename}}</span>
+                                        <input autofocus *ngIf="ParticipantEdit[row.$$index + '-middlename']"
+                                               (blur)="orgSetService.EditParticipant(row); ParticipantEdit[row.$$index + '-middlename'] = false"
+                                               type="text" [(ngModel)]="row.middlename"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="orgSetService.OrgSettings.team">
+                                    <ng-template ngx-datatable-header-template style="text-transform: capitalize">
+                                        <span style="text-transform: capitalize">{{orgSetService.OrgSettings.team}}</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ParticipantEdit[row.$$index + '-team'] = true"
+                                              *ngIf="!ParticipantEdit[row.$$index + '-team']">{{orgSetService.IdToTeamName(row.team)}}</span>
+                                        <md-select *ngIf="ParticipantEdit[row.$$index + '-team']"
+                                                   (change)="orgSetService.EditParticipant(row); ParticipantEdit[row.$$index + '-team'] = false"
+                                                   [(ngModel)]="row.team"
+                                                   style="position: absolute; margin-top: -2px">
+                                            <md-option [value]="0">отсутствует</md-option>
+                                            <md-option *ngFor="let team of orgSetService.Teams" [value]="team.id">
+                                                {{team.name}}
+                                            </md-option>
+                                        </md-select>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Пол">
+                                    <ng-template ngx-datatable-header-template>
+                                        Пол
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ParticipantEdit[row.$$index + '-sex'] = true"
+                                              *ngIf="!ParticipantEdit[row.$$index + '-sex']">{{orgSetService.IntToSex(row.sex)}}</span>
+                                        <md-select *ngIf="ParticipantEdit[row.$$index + '-sex']"
+                                                   (change)="orgSetService.EditParticipant(row); ParticipantEdit[row.$$index + '-sex'] = false"
+                                                   [(ngModel)]="row.sex"
+                                                   style="position: absolute; margin-top: -2px">
+                                            <md-option [value]="0">Мужской</md-option>
+                                            <md-option [value]="1">Женский</md-option>
+                                        </md-select>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template></ng-template>
+                                    <ng-template ngx-datatable-cell-template let-row="row">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--primary'
+                                                [routerLink]="['/profile', row.login]">
+                                            <i class="material-icons">person</i>
+                                        </button>
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--primary'
+                                                (click)="orgSetService.ResetParticipantPassword(row.login)">
+                                            <i class="material-icons">refresh</i>
+                                        </button>
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent'
+                                                (click)="orgSetService.DeleteParticipant(row.login)">
+                                            <i class="material-icons">delete_forever</i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.GetParticipantsExcel()">
+                                <i class="material-icons">cloud_download</i>
+                            </button>
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.AddParticipant_Active = true">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- Employees -->
         <section class="mdl-layout__tab-panel" id="orgset_employees">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">
+                                Сотрудники
+                            </div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable
+                                    class="material width100"
+                                    [rows]="orgSetService.Employees"
+                                    [loadingIndicator]="loadingIndicator"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [scrollbarH]="true"
+                                    [messages]="{emptyMessage: 'Сотрудников нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Фамилия">
+                                    <ng-template ngx-datatable-header-template>
+                                        Фамилия
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="EmployeeEdit[row.$$index + '-surname'] = true"
+                                              *ngIf="!EmployeeEdit[row.$$index + '-surname']">{{row.surname}}</span>
+                                        <input autofocus *ngIf="EmployeeEdit[row.$$index + '-surname']"
+                                               (blur)="orgSetService.EditEmployee(row); EmployeeEdit[row.$$index + '-surname'] = false"
+                                               type="text" [(ngModel)]="row.surname"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Имя">
+                                    <ng-template ngx-datatable-header-template>
+                                        Имя
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="EmployeeEdit[row.$$index + '-name'] = true"
+                                              *ngIf="!EmployeeEdit[row.$$index + '-name']">{{row.name}}</span>
+                                        <input autofocus *ngIf="EmployeeEdit[row.$$index + '-name']"
+                                               (blur)="orgSetService.EditEmployee(row); EmployeeEdit[row.$$index + '-name'] = false"
+                                               type="text" [(ngModel)]="row.name"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Отчество">
+                                    <ng-template ngx-datatable-header-template>
+                                        Отчество
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="EmployeeEdit[row.$$index + '-middlename'] = true"
+                                              *ngIf="!EmployeeEdit[row.$$index + '-middlename']">{{row.middlename}}</span>
+                                        <input autofocus *ngIf="EmployeeEdit[row.$$index + '-middlename']"
+                                               (blur)="orgSetService.EditEmployee(row); EmployeeEdit[row.$$index + '-middlename'] = false"
+                                               type="text" [(ngModel)]="row.middlename"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [name]="orgSetService.OrgSettings.team">
+                                    <ng-template ngx-datatable-header-template style="text-transform: capitalize">
+                                        <span style="text-transform: capitalize">{{orgSetService.OrgSettings.team}}</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="EmployeeEdit[row.$$index + '-team'] = true"
+                                              *ngIf="!EmployeeEdit[row.$$index + '-team']">{{orgSetService.IdToTeamName(row.team)}}</span>
+                                        <md-select *ngIf="EmployeeEdit[row.$$index + '-team']"
+                                                   (change)="orgSetService.EditEmployee(row); EmployeeEdit[row.$$index + '-team'] = false"
+                                                   [(ngModel)]="row.team"
+                                                   style="position: absolute; margin-top: -2px">
+                                            <md-option [value]="0">отсутствует</md-option>
+                                            <md-option *ngFor="let team of orgSetService.Teams" [value]="team.id">
+                                                {{team.name}}
+                                            </md-option>
+                                        </md-select>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Пол">
+                                    <ng-template ngx-datatable-header-template>
+                                        Пол
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="EmployeeEdit[row.$$index + '-sex'] = true"
+                                              *ngIf="!EmployeeEdit[row.$$index + '-sex']">{{orgSetService.IntToSex(row.sex)}}</span>
+                                        <md-select *ngIf="EmployeeEdit[row.$$index + '-sex']"
+                                                   (change)="orgSetService.EditEmployee(row); EmployeeEdit[row.$$index + '-sex'] = false"
+                                                   [(ngModel)]="row.sex"
+                                                   style="position: absolute; margin-top: -2px">
+                                            <md-option [value]="0">Мужской</md-option>
+                                            <md-option [value]="1">Женский</md-option>
+                                        </md-select>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column *ngFor="let category of orgSetService.Categories"
+                                                      [name]="category.name">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span style="text-transform: capitalize">{{category.name}}</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div *ngFor="let permission of row.marks">
+                                            <md-slide-toggle *ngIf="permission.id == category.id" ngDefaultControl
+                                                             (click)="orgSetService.EditEmployeePermission(row, category.id)"
+                                                             [(ngModel)]="permission.value"
+                                                             color="primary">
+                                            </md-slide-toggle>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template></ng-template>
+                                    <ng-template ngx-datatable-cell-template let-row="row">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--primary'
+                                                [routerLink]="['/profile', row.login]">
+                                            <i class="material-icons">person</i>
+                                        </button>
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--primary'
+                                                (click)="orgSetService.ResetEmployeePassword(row.login)">
+                                            <i class="material-icons">refresh</i>
+                                        </button>
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent'
+                                                (click)="orgSetService.DeleteEmployee(row.login)">
+                                            <i class="material-icons">delete_forever</i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.GetEmployeesExcel()">
+                                <i class="material-icons">cloud_download</i>
+                            </button>
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.AddEmployee_Active = true">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- Achievements -->
         <section class="mdl-layout__tab-panel" id="orgset_achievements">

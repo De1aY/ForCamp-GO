@@ -17,7 +17,7 @@ func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string)
 			if err != nil {
 				return conf.PrintError(err, ResponseWriter)
 			}
-			NewConnection = src.Connect_Custom(Organization)
+			src.NewConnection = src.Connect_Custom(Organization)
 			userData, err := getUserData_Request(login)
 			if err != nil {
 				return conf.PrintError(err, ResponseWriter)
@@ -34,7 +34,7 @@ func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string)
 }
 
 func getUserOrganizationByToken(Token string) (string, *conf.ApiError){
-	Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
+	Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 	if err!= nil{
 		return "", conf.ErrDatabaseQueryFailed
 	}
@@ -42,7 +42,7 @@ func getUserOrganizationByToken(Token string) (string, *conf.ApiError){
 	if APIerr != nil {
 		return "", APIerr
 	}
-	Query, err = Connection.Query("SELECT organization FROM users WHERE login=?", Login)
+	Query, err = src.Connection.Query("SELECT organization FROM users WHERE login=?", Login)
 	if err != nil {
 		return "", conf.ErrDatabaseQueryFailed
 	}
@@ -66,7 +66,7 @@ func getUserOrganizationFromQuery(rows *sql.Rows) (string, *conf.ApiError){
 }
 
 func getUserData_Request(login string) (UserData, *conf.ApiError){
-	Query, err := NewConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
+	Query, err := src.NewConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
 	if err != nil {
 		return UserData{}, conf.ErrDatabaseQueryFailed
 	}

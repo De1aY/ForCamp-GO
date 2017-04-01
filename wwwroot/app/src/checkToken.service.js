@@ -12,22 +12,24 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const http_1 = require("@angular/http");
-let CheckTokenService = class CheckTokenService {
-    constructor(http) {
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var CheckTokenService = (function () {
+    function CheckTokenService(http) {
         this.http = http;
         this.Link = "https://api.forcamp.ga/token.verify";
     }
-    CheckToken(Token) {
-        this.http.get(this.Link + "?token=" + Token).subscribe((data) => this.checkToken(data.json()));
-    }
-    checkToken(data) {
+    CheckTokenService.prototype.CheckToken = function (Token) {
+        var _this = this;
+        this.http.get(this.Link + "?token=" + Token).subscribe(function (data) { return _this.checkToken(data.json()); });
+    };
+    CheckTokenService.prototype.checkToken = function (data) {
         if (data.code != 200) {
             window.location.href = "https://forcamp.ga/exit";
         }
-    }
-};
+    };
+    return CheckTokenService;
+}());
 CheckTokenService = __decorate([
     core_1.Injectable(),
     __param(0, core_1.Inject(http_1.Http)),

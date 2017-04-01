@@ -6,8 +6,6 @@ import (
 	"net/http"
 )
 
-// Connection to Database
-var Connection = src.Connect()
 
 func Authorize(inf AuthInf, ResponseWriter http.ResponseWriter) {
 	if checkAuthorizationData(inf, ResponseWriter) {
@@ -18,7 +16,7 @@ func Authorize(inf AuthInf, ResponseWriter http.ResponseWriter) {
 }
 
 func setUserToken(login string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := Connection.Prepare("INSERT INTO sessions (login, token) VALUES (?,?)")
+	Query, err := src.Connection.Prepare("INSERT INTO sessions (login, token) VALUES (?,?)")
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}
@@ -45,7 +43,7 @@ func getToken(login string, ResponseWriter http.ResponseWriter) string {
 
 // True - Token is exist, False - NO
 func CheckToken(token string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := Connection.Query("SELECT COUNT(login) as count FROM sessions WHERE token=?", token)
+	Query, err := src.Connection.Query("SELECT COUNT(login) as count FROM sessions WHERE token=?", token)
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}
@@ -70,7 +68,7 @@ func VerifyToken(token string, ResponseWriter http.ResponseWriter) bool{
 }
 
 func checkCurrentSessionsVal(login string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := Connection.Query("SELECT COUNT(token) as count FROM sessions WHERE login=?", login)
+	Query, err := src.Connection.Query("SELECT COUNT(token) as count FROM sessions WHERE login=?", login)
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}
@@ -82,7 +80,7 @@ func checkCurrentSessionsVal(login string, ResponseWriter http.ResponseWriter) b
 }
 
 func deleteOldestSession(login string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := Connection.Prepare("DELETE FROM sessions WHERE login=? LIMIT 1")
+	Query, err := src.Connection.Prepare("DELETE FROM sessions WHERE login=? LIMIT 1")
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}

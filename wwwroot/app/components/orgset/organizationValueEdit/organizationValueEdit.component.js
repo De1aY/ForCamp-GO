@@ -9,19 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const orgset_service_1 = require("../../../src/orgset.service");
-let OrganizationValueEditComponent = class OrganizationValueEditComponent {
-    constructor(orgSetService) {
+var core_1 = require("@angular/core");
+var orgset_service_1 = require("../../../src/orgset.service");
+var OrganizationValueEditComponent = (function () {
+    function OrganizationValueEditComponent(orgSetService) {
         this.orgSetService = orgSetService;
         this.Organization_Value = '';
     }
-    ChangeOrganizationValue() {
+    OrganizationValueEditComponent.prototype.ChangeOrganizationValue = function () {
         this.orgSetService.OrganizationValueEdit_Active = false;
         this.orgSetService.SetOrgSettingValue("organization", this.Organization_Value);
         this.Organization_Value = '';
-    }
-};
+    };
+    return OrganizationValueEditComponent;
+}());
 OrganizationValueEditComponent = __decorate([
     core_1.Component({
         selector: "organization_value_edit",

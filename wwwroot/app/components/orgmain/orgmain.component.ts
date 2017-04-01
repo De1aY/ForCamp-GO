@@ -34,17 +34,19 @@ export class OrgMainComponent implements OnInit {
     private OrgSetServiceInit(){
         if(this.orgSetService.Token == undefined){
             this.orgSetService.Token = this.Token;
-            this.orgSetService.GetOrgSettings();
-            this.orgSetService.GetCategories();
-            this.orgSetService.GetTeams();
         }
+        this.orgSetService.GetOrgSettings();
+        this.orgSetService.GetCategories();
+        this.orgSetService.GetTeams();
+        this.orgSetService.GetParticipants();
+        this.orgSetService.GetEmployees();
     }
 
     private UserServiceInit(){
         if(this.userService.Token == undefined) {
             this.userService.Token = this.Token;
-            this.userService.GetSelfUserData();
         }
+        this.userService.GetSelfUserData();
     }
 
     private TokenInit(){

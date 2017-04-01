@@ -7,12 +7,13 @@ import (
 	"fmt"
 	"database/sql"
 	"forcamp/src/authorization"
+	"forcamp/src"
 )
 
 func GetUserLogin(Token string, ResponseWriter http.ResponseWriter) bool{
 	if authorization.CheckTokenForEmpty(Token, ResponseWriter) {
 		if authorization.CheckToken(Token, ResponseWriter) {
-			Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
+			Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 			if err != nil {
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 			}

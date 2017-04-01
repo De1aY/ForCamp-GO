@@ -9,19 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const orgset_service_1 = require("../../../src/orgset.service");
-let TeamValueEditComponent = class TeamValueEditComponent {
-    constructor(orgSetService) {
+var core_1 = require("@angular/core");
+var orgset_service_1 = require("../../../src/orgset.service");
+var TeamValueEditComponent = (function () {
+    function TeamValueEditComponent(orgSetService) {
         this.orgSetService = orgSetService;
         this.Team_Value = '';
     }
-    ChangeTeamValue() {
+    TeamValueEditComponent.prototype.ChangeTeamValue = function () {
         this.orgSetService.TeamValueEdit_Active = false;
         this.orgSetService.SetOrgSettingValue("team", this.Team_Value);
         this.Team_Value = '';
-    }
-};
+    };
+    return TeamValueEditComponent;
+}());
 TeamValueEditComponent = __decorate([
     core_1.Component({
         selector: "team_value_edit",
