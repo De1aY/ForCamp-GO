@@ -51,8 +51,8 @@ var ErrInsufficientRights = &ApiError{401, "ERROR", "Insufficient rights"}
 // 500
 var ErrDatabaseQueryFailed = &ApiError{501, "ERROR", "Query failed"}
 var ErrConvertStringToInt = &ApiError{502, "ERROR", "Cannot convert string to int"}
-var ErrOpenExcelFile = &ApiError{503, "ERROR", "Cannot open participants file"}
-var ErrSaveExcelFile = &ApiError{504, "ERROR", "Cannot save participants file"}
+var ErrOpenExcelFile = &ApiError{503, "ERROR", "Cannot open excel file"}
+var ErrSaveExcelFile = &ApiError{504, "ERROR", "Cannot save excel file"}
 // 600
 var ErrUserPasswordEmpty = &ApiError{601, "ERROR", "Password is empty"}
 var ErrUserLoginEmpty = &ApiError{602, "ERROR", "Login is empty"}
@@ -82,3 +82,6 @@ var ErrEmployeeTeamNotINT = &ApiError{624, "ERROR", "Team must be a number"}
 var ErrEmployeeSexIncorrect = &ApiError{625, "ERROR", "Sex is incorrect"}
 var ErrEmployeeTeamIncorrect = &ApiError{626, "ERROR", "Team is incorrect"}
 var ErrEmployeePostEmpty = &ApiError{627, "ERROR", "Post is empty"}
+var ErrCategoryIdIncorrect = &ApiError{628, "ERROR", "Category ID is incorrect"}
+var ErrPermissionValueIncorrect = &ApiError{629, "ERROR", "Permission must be a boolean"}
+var ErrCategoryIdNotINT = &ApiError{630, "ERROR", "Category id must be a number"}

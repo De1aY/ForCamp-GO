@@ -6,16 +6,20 @@ import (
 	"forcamp/src"
 	"log"
 	"forcamp/src/orgset"
+	"database/sql"
 )
 
 func EditTeam(token string, name string, id int64, ResponseWriter http.ResponseWriter) bool{
-	if checkTeamData(name, ResponseWriter) && orgset.CheckUserAccess(token, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	Connection := src.Connect()
+	defer Connection.Close()
+	if checkTeamData(name, ResponseWriter) && orgset.CheckUserAccess(token, Connection, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		src.NewConnection = src.Connect_Custom(Organization)
-		APIerr = editTeam_Request(name, id)
+		NewConnection := src.Connect_Custom(Organization)
+		defer NewConnection.Close()
+		APIerr = editTeam_Request(name, id, NewConnection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -24,8 +28,8 @@ func EditTeam(token string, name string, id int64, ResponseWriter http.ResponseW
 	return true
 }
 
-func editTeam_Request(name string, id int64) *conf.ApiError{
-	Query, err := src.NewConnection.Prepare("UPDATE teams SET name=? WHERE id=?")
+func editTeam_Request(name string, id int64, Connection *sql.DB) *conf.ApiError{
+	Query, err := Connection.Prepare("UPDATE teams SET name=? WHERE id=?")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

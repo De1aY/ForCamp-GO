@@ -27,7 +27,7 @@ interface Team{
     id: number
     name: string
     leader: TeamLeader
-    count: number
+    participants: string[]
 }
 
 interface Mark{
@@ -88,6 +88,7 @@ export class OrgSetService {
     private DeleteEmployeeLink = "https://api.forcamp.ga/orgset.employee.delete";
     private ResetEmployeePasswordLink = "https://api.forcamp.ga/orgset.employee.password.reset";
     private AddEmployeeLink = "https://api.forcamp.ga/orgset.employee.add";
+    private EditEmployeePermissionLink = "https://api.forcamp.ga/orgset.employee.permission.edit";
     //Var's
     private PostHeaders: Headers = new Headers();
     public Token: string;
@@ -263,7 +264,7 @@ export class OrgSetService {
 
     private checkAddTeamResponse(data: any, name: string){
         if(data.code == 200){
-            this.Teams.push({id: data.id, name: name, count: 0, leader: {name: "", surname: "", middlename: "", login: ""}});
+            this.Teams.push({id: data.id, name: name, participants: [], leader: {name: "", surname: "", middlename: "", login: ""}});
             alert({type: 1, text: "Операция успешно завершена!", time: 2});
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
@@ -314,7 +315,7 @@ export class OrgSetService {
             "&middlename="+participant.middlename+
             "&sex="+participant.sex+
             "&team="+participant.team,
-            { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditParticipantResponse(data.json()));
+            { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditParticipantResponse(data.json(), participant));
     }
 
     public DeleteParticipant(login: string){
@@ -355,7 +356,7 @@ export class OrgSetService {
                     if(this.Participants[i].team != 0){
                         for(let i = 0; i < this.Teams.length; i++){
                             if(this.Teams[i].id == this.Participants[i].team){
-                                this.Teams[i].count -= 1;
+                                this.Teams[i].participants.splice(this.Teams[i].participants.indexOf(login), 1);
                                 break
                             }
                         }
@@ -371,8 +372,16 @@ export class OrgSetService {
         this.PreloaderOff();
     }
 
-    private checkEditParticipantResponse(data: any){
+    private checkEditParticipantResponse(data: any, participant: Participant){
         if(data.code == 200){
+            for(let i = 0; i < this.Teams.length; i++){
+                if(this.Teams[i].participants.indexOf(participant.login) != -1){
+                    this.Teams[i].participants.splice(this.Teams[i].participants.indexOf(participant.login), 1);
+                }
+                if(this.Teams[i].id == participant.team){
+                    this.Teams[i].participants.push(participant.login)
+                }
+            }
             alert({type: 1, text: "Операция успешно завершена!", time: 2});
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
@@ -391,7 +400,7 @@ export class OrgSetService {
             if(participant.team != 0){
                 for(let i = 0; i < this.Teams.length; i++){
                     if(this.Teams[i].id == participant.team){
-                        this.Teams[i].count += 1;
+                        this.Teams[i].participants.push(participant.login);
                         break
                     }
                 }
@@ -425,8 +434,9 @@ export class OrgSetService {
             "&surname="+employee.surname+
             "&middlename="+employee.middlename+
             "&sex="+employee.sex+
-            "&team="+employee.team,
-            { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditEmployeeResponse(data.json()));
+            "&team="+employee.team+
+            "&post="+employee.post,
+            { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditEmployeeResponse(data.json(), employee));
     }
 
     public DeleteEmployee(login: string){
@@ -450,6 +460,20 @@ export class OrgSetService {
             "&team="+employee.team+
             "&post="+employee.post,
             { headers: this.PostHeaders }).subscribe((data: Response) => this.checkAddEmployeeResponse(data.json(), employee));
+    }
+
+    public EditEmployeePermission(login: string, value: string, id: number){
+        this.PreloaderOn();
+        this.http.post(this.EditEmployeePermissionLink, "token="+this.Token+"&id="+id+"&value="+value+"&login="+login, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditEmployeePermissionResponse(data.json()));
+    }
+
+    private checkEditEmployeePermissionResponse(data: any){
+        if(data.code == 200){
+            alert({type: 1, text: "Операция успешно завершена!", time: 2});
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+        this.PreloaderOff();
     }
 
     private checkResetEmployeePasswordResponse(data: any){
@@ -484,8 +508,16 @@ export class OrgSetService {
         this.PreloaderOff();
     }
 
-    private checkEditEmployeeResponse(data: any){
+    private checkEditEmployeeResponse(data: any, employee: Employee){
         if(data.code == 200){
+            for(let i = 0; i < this.Teams.length; i++){
+                if(this.Teams[i].leader.login == employee.login){
+                    this.Teams[i].leader = {name: '', surname: '', middlename: '', login: ''};
+                }
+                if(this.Teams[i].id == employee.team){
+                    this.Teams[i].leader = {name: employee.name, surname: employee.surname, middlename: employee.middlename, login: employee.login};
+                }
+            }
             alert({type: 1, text: "Операция успешно завершена!", time: 2});
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});

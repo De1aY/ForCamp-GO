@@ -7,10 +7,6 @@ import (
 	"log"
 )
 
-var (
-	Connection *sql.DB = Connect()
-	NewConnection *sql.DB
-)
 
 func getMysqlSource() string{
 	MysqlSource := conf.MYSQL_LOGIN + ":"

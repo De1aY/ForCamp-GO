@@ -23,7 +23,7 @@ type Participant struct {
 	Name       string `json:"name"`
 	Surname    string `json:"surname"`
 	Middlename string `json:"middlename"`
-	Sex        int64 `json:"sex"`
+	Sex        int `json:"sex"`
 	Team       int64 `json:"team"`
 	Marks      []Mark `json:"marks"`
 }
@@ -35,14 +35,17 @@ type GetParticipants_Success struct {
 }
 
 func GetParticipants(token string, ResponseWriter http.ResponseWriter) bool {
+	Connection := src.Connect()
+	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter){
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+		if authorization.CheckToken(token, Connection, ResponseWriter){
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			src.NewConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getParticipants_Request()
+			NewConnection := src.Connect_Custom(Organization)
+			defer NewConnection.Close()
+			Resp, APIerr := getParticipants_Request(NewConnection)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -55,18 +58,18 @@ func GetParticipants(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getParticipants_Request() (GetParticipants_Success, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='0'")
+func getParticipants_Request(Connection *sql.DB) (GetParticipants_Success, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='0'")
 	if err != nil {
 		log.Print(err)
 		return GetParticipants_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return getParticipantsFromResponse(Query)
+	return getParticipantsFromResponse(Query, Connection)
 }
 
-func getParticipantsFromResponse(rows *sql.Rows) (GetParticipants_Success, *conf.ApiError) {
+func getParticipantsFromResponse(rows *sql.Rows, Connection *sql.DB) (GetParticipants_Success, *conf.ApiError) {
 	defer rows.Close()
-	marks, APIerr := getMarks()
+	marks, APIerr := getMarks(Connection)
 	if APIerr != nil {
 		return GetParticipants_Success{}, APIerr
 	}
@@ -86,8 +89,8 @@ func getParticipantsFromResponse(rows *sql.Rows) (GetParticipants_Success, *conf
 	return GetParticipants_Success{200, "success", participants}, nil
 }
 
-func getMarks() (map[string][]Mark, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT * FROM participants")
+func getMarks(Connection *sql.DB) (map[string][]Mark, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT * FROM participants")
 	if err != nil {
 		log.Print(err)
 		return make(map[string][]Mark), conf.ErrDatabaseQueryFailed

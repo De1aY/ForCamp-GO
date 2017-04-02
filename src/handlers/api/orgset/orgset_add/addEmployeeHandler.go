@@ -6,37 +6,38 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/participants"
 	"strconv"
 	"log"
+	"forcamp/src/orgset/employees"
 )
 
-func getAddParticipantPostValues(r *http.Request) (participants.Participant, string, *conf.ApiError){
+func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiError){
 	Token := r.PostFormValue("token")
 	Name := strings.ToLower(r.PostFormValue("name"))
 	Surname := strings.ToLower(r.PostFormValue("surname"))
 	Middlename := strings.ToLower(r.PostFormValue("middlename"))
+	Post := strings.ToLower(r.PostFormValue("post"))
 	Sex, err := strconv.ParseInt(r.PostFormValue("sex"), 10, 64)
 	if err != nil {
 		log.Print(err)
-		return participants.Participant{}, "", conf.ErrParticipantSexNotINT
+		return employees.Employee{}, "", conf.ErrEmployeeSexNotINT
 	}
 	Team, err := strconv.ParseInt(r.PostFormValue("team"), 10, 64)
 	if err != nil {
 		log.Print(err)
-		return participants.Participant{}, "", conf.ErrParticipantTeamNotINT
+		return employees.Employee{}, "", conf.ErrEmployeeTeamNotINT
 	}
-	return participants.Participant{"", Name, Surname, Middlename, int(Sex), Team, nil}, Token, nil
+	return employees.Employee{"", Name, Surname, Middlename, int(Sex), Team, Post, nil}, Token, nil
 }
 
-func AddParticipantHandler(w http.ResponseWriter, r *http.Request){
+func AddEmployeeHandler(w http.ResponseWriter, r *http.Request){
 	src.SetHeaders_API(w)
 	if r.Method == http.MethodPost {
-		participant, token, APIerr := getAddParticipantPostValues(r)
+		employee, token, APIerr := getAddEmployeePostValues(r)
 		if APIerr != nil {
 			conf.PrintError(APIerr, w)
 		} else {
-			participants.AddParticipant(token, participant, w)
+			employees.AddEmployee(token, employee, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -44,6 +45,6 @@ func AddParticipantHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-func HandleAddParticipant(router *mux.Router)  {
-	router.HandleFunc("/orgset.participant.add", AddParticipantHandler)
+func HandleAddEmployee(router *mux.Router)  {
+	router.HandleFunc("/orgset.employee.add", AddEmployeeHandler)
 }

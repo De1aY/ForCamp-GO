@@ -38,6 +38,7 @@ var OrgSetService = (function () {
         this.DeleteEmployeeLink = "https://api.forcamp.ga/orgset.employee.delete";
         this.ResetEmployeePasswordLink = "https://api.forcamp.ga/orgset.employee.password.reset";
         this.AddEmployeeLink = "https://api.forcamp.ga/orgset.employee.add";
+        this.EditEmployeePermissionLink = "https://api.forcamp.ga/orgset.employee.permission.edit";
         this.PostHeaders = new http_1.Headers();
         this.OrgSettings = {
             organization: "загрузка...",
@@ -205,7 +206,7 @@ var OrgSetService = (function () {
     };
     OrgSetService.prototype.checkAddTeamResponse = function (data, name) {
         if (data.code == 200) {
-            this.Teams.push({ id: data.id, name: name, count: 0, leader: { name: "", surname: "", middlename: "", login: "" } });
+            this.Teams.push({ id: data.id, name: name, participants: [], leader: { name: "", surname: "", middlename: "", login: "" } });
             notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
         }
         else {
@@ -253,7 +254,7 @@ var OrgSetService = (function () {
             "&surname=" + participant.surname +
             "&middlename=" + participant.middlename +
             "&sex=" + participant.sex +
-            "&team=" + participant.team, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditParticipantResponse(data.json()); });
+            "&team=" + participant.team, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditParticipantResponse(data.json(), participant); });
     };
     OrgSetService.prototype.DeleteParticipant = function (login) {
         var _this = this;
@@ -291,7 +292,7 @@ var OrgSetService = (function () {
                     if (this.Participants[i].team != 0) {
                         for (var i_1 = 0; i_1 < this.Teams.length; i_1++) {
                             if (this.Teams[i_1].id == this.Participants[i_1].team) {
-                                this.Teams[i_1].count -= 1;
+                                this.Teams[i_1].participants.splice(this.Teams[i_1].participants.indexOf(login), 1);
                                 break;
                             }
                         }
@@ -307,8 +308,16 @@ var OrgSetService = (function () {
         }
         this.PreloaderOff();
     };
-    OrgSetService.prototype.checkEditParticipantResponse = function (data) {
+    OrgSetService.prototype.checkEditParticipantResponse = function (data, participant) {
         if (data.code == 200) {
+            for (var i = 0; i < this.Teams.length; i++) {
+                if (this.Teams[i].participants.indexOf(participant.login) != -1) {
+                    this.Teams[i].participants.splice(this.Teams[i].participants.indexOf(participant.login), 1);
+                }
+                if (this.Teams[i].id == participant.team) {
+                    this.Teams[i].participants.push(participant.login);
+                }
+            }
             notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
         }
         else {
@@ -327,7 +336,7 @@ var OrgSetService = (function () {
             if (participant.team != 0) {
                 for (var i = 0; i < this.Teams.length; i++) {
                     if (this.Teams[i].id == participant.team) {
-                        this.Teams[i].count += 1;
+                        this.Teams[i].participants.push(participant.login);
                         break;
                     }
                 }
@@ -360,7 +369,8 @@ var OrgSetService = (function () {
             "&surname=" + employee.surname +
             "&middlename=" + employee.middlename +
             "&sex=" + employee.sex +
-            "&team=" + employee.team, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditEmployeeResponse(data.json()); });
+            "&team=" + employee.team +
+            "&post=" + employee.post, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditEmployeeResponse(data.json(), employee); });
     };
     OrgSetService.prototype.DeleteEmployee = function (login) {
         var _this = this;
@@ -382,6 +392,20 @@ var OrgSetService = (function () {
             "&sex=" + employee.sex +
             "&team=" + employee.team +
             "&post=" + employee.post, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkAddEmployeeResponse(data.json(), employee); });
+    };
+    OrgSetService.prototype.EditEmployeePermission = function (login, value, id) {
+        var _this = this;
+        this.PreloaderOn();
+        this.http.post(this.EditEmployeePermissionLink, "token=" + this.Token + "&id=" + id + "&value=" + value + "&login=" + login, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditEmployeePermissionResponse(data.json()); });
+    };
+    OrgSetService.prototype.checkEditEmployeePermissionResponse = function (data) {
+        if (data.code == 200) {
+            notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+        this.PreloaderOff();
     };
     OrgSetService.prototype.checkResetEmployeePasswordResponse = function (data) {
         if (data.code == 200) {
@@ -415,8 +439,16 @@ var OrgSetService = (function () {
         }
         this.PreloaderOff();
     };
-    OrgSetService.prototype.checkEditEmployeeResponse = function (data) {
+    OrgSetService.prototype.checkEditEmployeeResponse = function (data, employee) {
         if (data.code == 200) {
+            for (var i = 0; i < this.Teams.length; i++) {
+                if (this.Teams[i].leader.login == employee.login) {
+                    this.Teams[i].leader = { name: '', surname: '', middlename: '', login: '' };
+                }
+                if (this.Teams[i].id == employee.team) {
+                    this.Teams[i].leader = { name: employee.name, surname: employee.surname, middlename: employee.middlename, login: employee.login };
+                }
+            }
             notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
         }
         else {

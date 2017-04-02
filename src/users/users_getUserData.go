@@ -8,17 +8,21 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"database/sql"
+	"forcamp/src/orgset"
 )
 
 func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string) bool{
 	if checkData(Token, login, ResponseWriter) {
-		if authorization.CheckToken(Token, ResponseWriter){
-			Organization, err := getUserOrganizationByToken(Token)
-			if err != nil {
-				return conf.PrintError(err, ResponseWriter)
+		Connection := src.Connect()
+		defer Connection.Close()
+		if authorization.CheckToken(Token,Connection, ResponseWriter){
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token, Connection)
+			if APIerr != nil{
+				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			src.NewConnection = src.Connect_Custom(Organization)
-			userData, err := getUserData_Request(login)
+			NewConnection := src.Connect_Custom(Organization)
+			defer NewConnection.Close()
+			userData, err := getUserData_Request(login, NewConnection)
 			if err != nil {
 				return conf.PrintError(err, ResponseWriter)
 			}
@@ -33,40 +37,8 @@ func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string)
 	return true
 }
 
-func getUserOrganizationByToken(Token string) (string, *conf.ApiError){
-	Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
-	if err!= nil{
-		return "", conf.ErrDatabaseQueryFailed
-	}
-	Login, APIerr := getUserLoginFromQuery(Query)
-	if APIerr != nil {
-		return "", APIerr
-	}
-	Query, err = src.Connection.Query("SELECT organization FROM users WHERE login=?", Login)
-	if err != nil {
-		return "", conf.ErrDatabaseQueryFailed
-	}
-	Organization, APIerr := getUserOrganizationFromQuery(Query)
-	if APIerr != nil {
-		return "", APIerr
-	}
-	return Organization, nil
-}
-
-func getUserOrganizationFromQuery(rows *sql.Rows) (string, *conf.ApiError){
-	var organization string
-	defer rows.Close()
-	for rows.Next(){
-		err := rows.Scan(&organization)
-		if err != nil {
-			return "", conf.ErrDatabaseQueryFailed
-		}
-	}
-	return organization, nil
-}
-
-func getUserData_Request(login string) (UserData, *conf.ApiError){
-	Query, err := src.NewConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
+func getUserData_Request(login string, Connection *sql.DB) (UserData, *conf.ApiError){
+	Query, err := Connection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
 	if err != nil {
 		return UserData{}, conf.ErrDatabaseQueryFailed
 	}

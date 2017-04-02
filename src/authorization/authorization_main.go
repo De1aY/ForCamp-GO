@@ -4,24 +4,28 @@ import (
 	"forcamp/src"
 	"forcamp/conf"
 	"net/http"
+	"database/sql"
+	"log"
 )
 
 
 func Authorize(inf AuthInf, ResponseWriter http.ResponseWriter) {
-	if checkAuthorizationData(inf, ResponseWriter) {
-		if checkCurrentSessionsVal(inf.Login, ResponseWriter) {
-			setUserToken(inf.Login, ResponseWriter)
+	Connection := src.Connect()
+	defer Connection.Close()
+	if checkAuthorizationData(inf, Connection, ResponseWriter) {
+		if checkCurrentSessionsVal(inf.Login, Connection, ResponseWriter) {
+			setUserToken(inf.Login, Connection, ResponseWriter)
 		}
 	}
 }
 
-func setUserToken(login string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := src.Connection.Prepare("INSERT INTO sessions (login, token) VALUES (?,?)")
+func setUserToken(login string, Connection *sql.DB, ResponseWriter http.ResponseWriter) bool {
+	Query, err := Connection.Prepare("INSERT INTO sessions (login, token) VALUES (?,?)")
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}
 	defer Query.Close()
-	Token := getToken(login, ResponseWriter)
+	Token := getToken(login, Connection, ResponseWriter)
 	_, err = Query.Exec(login, Token)
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
@@ -29,10 +33,10 @@ func setUserToken(login string, ResponseWriter http.ResponseWriter) bool {
 	return printToken(Token, ResponseWriter)
 }
 
-func getToken(login string, ResponseWriter http.ResponseWriter) string {
+func getToken(login string, Connection *sql.DB, ResponseWriter http.ResponseWriter) string {
 	for true {
 		Token := generateTokenHash(login)
-		if CheckToken(Token, ResponseWriter){
+		if CheckToken(Token, Connection, ResponseWriter){
 			continue
 		} else {
 			return Token
@@ -42,10 +46,11 @@ func getToken(login string, ResponseWriter http.ResponseWriter) string {
 }
 
 // True - Token is exist, False - NO
-func CheckToken(token string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := src.Connection.Query("SELECT COUNT(login) as count FROM sessions WHERE token=?", token)
+func CheckToken(token string, Connection *sql.DB, ResponseWriter http.ResponseWriter) bool {
+	Query, err := Connection.Query("SELECT COUNT(login) as count FROM sessions WHERE token=?", token)
 	if err != nil {
-		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		log.Print(err)
+		return false
 	}
 	Count := getCountVal(Query, ResponseWriter)
 	if Count != 0 {
@@ -55,9 +60,9 @@ func CheckToken(token string, ResponseWriter http.ResponseWriter) bool {
 	}
 }
 
-func VerifyToken(token string, ResponseWriter http.ResponseWriter) bool{
+func VerifyToken(token string, Connection *sql.DB, ResponseWriter http.ResponseWriter) bool{
 	if len(token) > 0 {
-		if CheckToken(token, ResponseWriter) {
+		if CheckToken(token, Connection, ResponseWriter) {
 			return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
@@ -67,20 +72,20 @@ func VerifyToken(token string, ResponseWriter http.ResponseWriter) bool{
 	}
 }
 
-func checkCurrentSessionsVal(login string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := src.Connection.Query("SELECT COUNT(token) as count FROM sessions WHERE login=?", login)
+func checkCurrentSessionsVal(login string, Connection *sql.DB, ResponseWriter http.ResponseWriter) bool {
+	Query, err := Connection.Query("SELECT COUNT(token) as count FROM sessions WHERE login=?", login)
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}
 	if getCountVal(Query, ResponseWriter) > 4 {
-		return deleteOldestSession(login, ResponseWriter)
+		return deleteOldestSession(login, Connection, ResponseWriter)
 	} else {
 		return true
 	}
 }
 
-func deleteOldestSession(login string, ResponseWriter http.ResponseWriter) bool {
-	Query, err := src.Connection.Prepare("DELETE FROM sessions WHERE login=? LIMIT 1")
+func deleteOldestSession(login string, Connection *sql.DB, ResponseWriter http.ResponseWriter) bool {
+	Query, err := Connection.Prepare("DELETE FROM sessions WHERE login=? LIMIT 1")
 	if err != nil {
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 	}

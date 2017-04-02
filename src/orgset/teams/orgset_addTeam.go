@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"forcamp/src/orgset"
+	"database/sql"
 )
 
 type AddTeam_Success struct {
@@ -17,13 +18,16 @@ type AddTeam_Success struct {
 }
 
 func AddTeam(token string, name string, ResponseWriter http.ResponseWriter) bool{
-	if checkTeamData(name, ResponseWriter) && orgset.CheckUserAccess(token, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
+	Connection := src.Connect()
+	defer Connection.Close()
+	if checkTeamData(name, ResponseWriter) && orgset.CheckUserAccess(token, Connection, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		src.NewConnection = src.Connect_Custom(Organization)
-		TeamID, APIerr := addTeam_Request(name)
+		NewConnection := src.Connect_Custom(Organization)
+		defer NewConnection.Close()
+		TeamID, APIerr := addTeam_Request(name, NewConnection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -34,8 +38,8 @@ func AddTeam(token string, name string, ResponseWriter http.ResponseWriter) bool
 	return true
 }
 
-func addTeam_Request(name string) (int64, *conf.ApiError){
-	Query, err := src.NewConnection.Prepare("INSERT INTO teams(name) VALUES(?)")
+func addTeam_Request(name string, Connection *sql.DB) (int64, *conf.ApiError){
+	Query, err := Connection.Prepare("INSERT INTO teams(name) VALUES(?)")
 	if err != nil{
 		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed

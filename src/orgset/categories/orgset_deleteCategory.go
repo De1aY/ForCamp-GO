@@ -7,16 +7,20 @@ import (
 	"log"
 	"strconv"
 	"forcamp/src/orgset"
+	"database/sql"
 )
 
 func DeleteCategory(token string, id int64, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	Connection := src.Connect()
+	defer Connection.Close()
+	if orgset.CheckUserAccess(token, Connection ,ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		src.NewConnection = src.Connect_Custom(Organization)
-		APIerr = deleteCategory_Request(id)
+		NewConnection := src.Connect_Custom(Organization)
+		defer NewConnection.Close()
+		APIerr = deleteCategory_Request(id, NewConnection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -25,8 +29,8 @@ func DeleteCategory(token string, id int64, ResponseWriter http.ResponseWriter) 
 	return true
 }
 
-func deleteCategory_Request(id int64) *conf.ApiError{
-	Query, err := src.NewConnection.Prepare("DELETE FROM categories WHERE id=?")
+func deleteCategory_Request(id int64, Connection *sql.DB) *conf.ApiError{
+	Query, err := Connection.Prepare("DELETE FROM categories WHERE id=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -37,19 +41,19 @@ func deleteCategory_Request(id int64) *conf.ApiError{
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	APIerr := deleteCategory_Participants(id)
+	APIerr := deleteCategory_Participants(id, Connection)
 	if APIerr != nil{
 		return APIerr
 	}
-	APIerr = deleteCategory_Employees(id)
+	APIerr = deleteCategory_Employees(id, Connection)
 	if APIerr != nil{
 		return APIerr
 	}
 	return nil
 }
 
-func deleteCategory_Participants(id int64) *conf.ApiError{
-	_, err := src.NewConnection.Query("ALTER TABLE participants DROP COLUMN `"+strconv.FormatInt(id, 10)+"`")
+func deleteCategory_Participants(id int64, Connection *sql.DB) *conf.ApiError{
+	_, err := Connection.Query("ALTER TABLE participants DROP COLUMN `"+strconv.FormatInt(id, 10)+"`")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -57,8 +61,8 @@ func deleteCategory_Participants(id int64) *conf.ApiError{
 	return nil
 }
 
-func deleteCategory_Employees(id int64) *conf.ApiError{
-	_, err := src.NewConnection.Query("ALTER TABLE employees DROP COLUMN `"+strconv.FormatInt(id, 10)+"`")
+func deleteCategory_Employees(id int64, Connection *sql.DB) *conf.ApiError{
+	_, err := Connection.Query("ALTER TABLE employees DROP COLUMN `"+strconv.FormatInt(id, 10)+"`")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

@@ -1,4 +1,4 @@
-package participants
+package employees
 
 import (
 	"net/http"
@@ -9,7 +9,7 @@ import (
 	"database/sql"
 )
 
-func DeleteParticipant(token string, login string, ResponseWriter http.ResponseWriter) bool{
+func DeleteEmployee(token string, login string, ResponseWriter http.ResponseWriter) bool{
 	Connection := src.Connect()
 	defer Connection.Close()
 	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
@@ -19,7 +19,7 @@ func DeleteParticipant(token string, login string, ResponseWriter http.ResponseW
 		}
 		NewConnection := src.Connect_Custom(Organization)
 		defer NewConnection.Close()
-		APIerr = deleteParticipant_Request(login, Connection, NewConnection)
+		APIerr = deleteEmployee_Request(login, Connection, NewConnection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -28,19 +28,19 @@ func DeleteParticipant(token string, login string, ResponseWriter http.ResponseW
 	return true
 }
 
-func deleteParticipant_Request(login string, Connection *sql.DB, NewConnection *sql.DB) *conf.ApiError{
-	APIerr := deleteParticipant_Organization(login, NewConnection)
+func deleteEmployee_Request(login string, Connection *sql.DB, NewConnection *sql.DB) *conf.ApiError{
+	APIerr := deleteEmployee_Organization(login, NewConnection)
 	if APIerr != nil{
 		return APIerr
 	}
-	APIerr = deleteParticipant_Main(login, Connection)
+	APIerr = deleteEmployee_Main(login, Connection)
 	if APIerr != nil{
 		return APIerr
 	}
 	return nil
 }
 
-func deleteParticipant_Main(login string, Connection *sql.DB) *conf.ApiError{
+func deleteEmployee_Main(login string, Connection *sql.DB) *conf.ApiError{
 	Query, err := Connection.Prepare("DELETE FROM users WHERE login=?")
 	if err != nil{
 		log.Print(err)
@@ -64,8 +64,8 @@ func deleteParticipant_Main(login string, Connection *sql.DB) *conf.ApiError{
 	return nil
 }
 
-func deleteParticipant_Organization(login string, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("DELETE FROM users WHERE login=? AND access='0'")
+func deleteEmployee_Organization(login string, Connection *sql.DB) *conf.ApiError{
+	Query, err := Connection.Prepare("DELETE FROM users WHERE login=? AND access='1'")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -84,7 +84,7 @@ func deleteParticipant_Organization(login string, Connection *sql.DB) *conf.ApiE
 	if rowsAffected == 0{
 		return conf.ErrUserNotFound
 	}
-	Query, err = Connection.Prepare("DELETE FROM participants WHERE login=?")
+	Query, err = Connection.Prepare("DELETE FROM employees WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

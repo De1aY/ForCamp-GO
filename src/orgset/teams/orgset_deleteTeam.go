@@ -6,16 +6,20 @@ import (
 	"forcamp/src"
 	"log"
 	"forcamp/src/orgset"
+	"database/sql"
 )
 
 func DeleteTeam(token string, id int64, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	Connection := src.Connect()
+	defer Connection.Close()
+	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		src.NewConnection = src.Connect_Custom(Organization)
-		APIerr = deleteTeam_Request(id)
+		NewConnection := src.Connect_Custom(Organization)
+		defer NewConnection.Close()
+		APIerr = deleteTeam_Request(id, NewConnection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -24,8 +28,8 @@ func DeleteTeam(token string, id int64, ResponseWriter http.ResponseWriter) bool
 	return true
 }
 
-func deleteTeam_Request(id int64) *conf.ApiError{
-	Query, err := src.NewConnection.Prepare("DELETE FROM teams WHERE id=?")
+func deleteTeam_Request(id int64, Connection *sql.DB) *conf.ApiError{
+	Query, err := Connection.Prepare("DELETE FROM teams WHERE id=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -36,15 +40,15 @@ func deleteTeam_Request(id int64) *conf.ApiError{
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	APIerr := deleteTeam_Users(id)
+	APIerr := deleteTeam_Users(id, Connection)
 	if APIerr != nil {
 		return APIerr
 	}
 	return nil
 }
 
-func deleteTeam_Users(id int64) *conf.ApiError{
-	Query, err := src.NewConnection.Prepare("UPDATE users SET team='0' WHERE team=?")
+func deleteTeam_Users(id int64, Connection *sql.DB) *conf.ApiError{
+	Query, err := Connection.Prepare("UPDATE users SET team='0' WHERE team=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

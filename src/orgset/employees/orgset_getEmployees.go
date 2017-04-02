@@ -24,7 +24,8 @@ type Employee struct {
 	Surname     string `json:"surname"`
 	Middlename  string `json:"middlename"`
 	Sex         int `json:"sex"`
-	Team        int `json:"team"`
+	Team        int64 `json:"team"`
+	Post        string `json:"post"`
 	Permissions []Permission `json:"permissions"`
 }
 
@@ -35,14 +36,17 @@ type GetEmployees_Success struct {
 }
 
 func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
+	Connection := src.Connect()
+	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+		if authorization.CheckToken(token, Connection, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			src.NewConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getEmployees_Request()
+			NewConnection := src.Connect_Custom(Organization)
+			defer NewConnection.Close()
+			Resp, APIerr := getEmployees_Request(NewConnection)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -55,18 +59,18 @@ func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getEmployees_Request() (GetEmployees_Success, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
+func getEmployees_Request(Connection *sql.DB) (GetEmployees_Success, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
 	if err != nil {
 		log.Print(err)
 		return GetEmployees_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return getEmployeesFromResponse(Query)
+	return getEmployeesFromResponse(Query, Connection)
 }
 
-func getEmployeesFromResponse(rows *sql.Rows) (GetEmployees_Success, *conf.ApiError) {
+func getEmployeesFromResponse(rows *sql.Rows, Connection *sql.DB) (GetEmployees_Success, *conf.ApiError) {
 	defer rows.Close()
-	Permissions, APIerr := getPermissions()
+	Permissions, Posts, APIerr := getPermissionsAndPosts(Connection)
 	if APIerr != nil {
 		return GetEmployees_Success{}, APIerr
 	}
@@ -81,21 +85,22 @@ func getEmployeesFromResponse(rows *sql.Rows) (GetEmployees_Success, *conf.ApiEr
 			return GetEmployees_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		employee.Permissions = Permissions[employee.Login]
-		employees = append(employees, Employee{employee.Login, employee.Name, employee.Surname, employee.Middlename, employee.Sex, employee.Team, employee.Permissions})
+		employee.Post = Posts[employee.Login]
+		employees = append(employees, Employee{employee.Login, employee.Name, employee.Surname, employee.Middlename, employee.Sex, employee.Team, employee.Post, employee.Permissions})
 	}
 	return GetEmployees_Success{200, "success", employees}, nil
 }
 
-func getPermissions() (map[string][]Permission, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT * FROM employees")
+func getPermissionsAndPosts(Connection *sql.DB) (map[string][]Permission, map[string]string, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT * FROM employees")
 	if err != nil {
 		log.Print(err)
-		return make(map[string][]Permission), conf.ErrDatabaseQueryFailed
+		return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 	}
 	CategoriesIDs, err := Query.Columns()
 	if err != nil {
 		log.Print(err)
-		return make(map[string][]Permission), conf.ErrDatabaseQueryFailed
+		return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 	}
 	if len(CategoriesIDs) == 1 {
 		return getPermissionsIfNoCategories(Query)
@@ -103,30 +108,34 @@ func getPermissions() (map[string][]Permission, *conf.ApiError) {
 	return getPermissionsIfCategories(Query, CategoriesIDs)
 }
 
-func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, *conf.ApiError) {
+func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, map[string]string, *conf.ApiError) {
 	defer rows.Close()
 	var (
 		login string
+		post string
 		Permissions = make(map[string][]Permission)
+		Posts = make(map[string]string)
 	)
 	for rows.Next() {
-		err := rows.Scan(&login)
+		err := rows.Scan(&login, &post)
 		if err != nil {
 			log.Print(err)
-			return make(map[string][]Permission), conf.ErrDatabaseQueryFailed
+			return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 		}
 		Permissions[login] = make([]Permission, 0)
+		Posts[login] = post
 	}
-	return Permissions, nil
+	return Permissions, Posts, nil
 }
 
-func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Permission, *conf.ApiError) {
-	CategoriesIDs = CategoriesIDs[1:]
+func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Permission, map[string]string,*conf.ApiError) {
+	CategoriesIDs = CategoriesIDs[2:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 1)
-		Result = make([]interface{}, len(CategoriesIDs) + 1)
+		rawResult = make([][]byte, len(CategoriesIDs) + 2)
+		Result = make([]interface{}, len(CategoriesIDs) + 2)
 		Permissions = make(map[string][]Permission)
-		Values = make([]string, len(CategoriesIDs) + 1)
+		Values = make([]string, len(CategoriesIDs) + 2)
+		Posts = make(map[string]string)
 	)
 	for i, _ := range Result {
 		Result[i] = &rawResult[i]
@@ -135,7 +144,7 @@ func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[str
 	for rows.Next() {
 		err := rows.Scan(Result...)
 		if err != nil {
-			return make(map[string][]Permission), conf.ErrDatabaseQueryFailed
+			return make(map[string][]Permission), make(map[string]string),conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
 			if raw == nil {
@@ -145,15 +154,18 @@ func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[str
 			}
 		}
 		Login := Values[0]
-		Values = Values[1:]
+		Post := Values[1]
+		Posts[Login] = Post
+		Values = Values[2:]
 		for i := 0; i < len(Values); i++ {
 			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
-				return make(map[string][]Permission), conf.ErrConvertStringToInt
+				return make(map[string][]Permission), make(map[string]string),conf.ErrConvertStringToInt
 			}
 			Permissions[Login] = append(Permissions[Login], Permission{id, Values[i]})
 		}
+		Values = make([]string, len(CategoriesIDs) + 2)
 	}
-	return Permissions, nil
+	return Permissions, Posts, nil
 }

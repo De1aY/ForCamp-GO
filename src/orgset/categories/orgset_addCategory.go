@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"forcamp/src/orgset"
+	"database/sql"
 )
 
 type AddCategory_Success struct {
@@ -18,13 +19,16 @@ type AddCategory_Success struct {
 }
 
 func AddCategory(token string, category Category, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter) && checkCategoryData(category, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	Connection := src.Connect()
+	defer Connection.Close()
+	if orgset.CheckUserAccess(token, Connection, ResponseWriter) && checkCategoryData(category, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		src.NewConnection = src.Connect_Custom(Organization)
-		CatID, APIerr := addCategory_Request(category)
+		NewConnection := src.Connect_Custom(Organization)
+		defer NewConnection.Close()
+		CatID, APIerr := addCategory_Request(category, NewConnection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -35,8 +39,8 @@ func AddCategory(token string, category Category, ResponseWriter http.ResponseWr
 	return true
 }
 
-func addCategory_Request(category Category) (int64, *conf.ApiError){
-	Query, err := src.NewConnection.Prepare("INSERT INTO categories(name, negative_marks) VALUES(?, ?)")
+func addCategory_Request(category Category, Connection *sql.DB) (int64, *conf.ApiError){
+	Query, err := Connection.Prepare("INSERT INTO categories(name, negative_marks) VALUES(?, ?)")
 	if err != nil{
 		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
@@ -52,19 +56,19 @@ func addCategory_Request(category Category) (int64, *conf.ApiError){
 		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
-	APIerr := addCategory_Participants(CatID)
+	APIerr := addCategory_Participants(CatID, Connection)
 	if APIerr != nil {
 		return 0, APIerr
 	}
-	APIerr = addCategory_Employees(CatID)
+	APIerr = addCategory_Employees(CatID, Connection)
 	if APIerr != nil {
 		return 0, APIerr
 	}
 	return CatID, nil
 }
 
-func addCategory_Participants(CatID int64) *conf.ApiError{
-	_, err := src.NewConnection.Query("ALTER TABLE participants ADD `"+strconv.FormatInt(CatID, 10)+"` INT NOT NULL DEFAULT '0'")
+func addCategory_Participants(CatID int64, Connection *sql.DB) *conf.ApiError{
+	_, err := Connection.Query("ALTER TABLE participants ADD `"+strconv.FormatInt(CatID, 10)+"` INT NOT NULL DEFAULT '0'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -72,8 +76,8 @@ func addCategory_Participants(CatID int64) *conf.ApiError{
 	return nil
 }
 
-func addCategory_Employees(CatID int64) *conf.ApiError{
-	_, err := src.NewConnection.Query("ALTER TABLE employees ADD `"+strconv.FormatInt(CatID, 10)+"` ENUM('true','false') NOT NULL DEFAULT 'true'")
+func addCategory_Employees(CatID int64, Connection *sql.DB) *conf.ApiError{
+	_, err := Connection.Query("ALTER TABLE employees ADD `"+strconv.FormatInt(CatID, 10)+"` ENUM('true','false') NOT NULL DEFAULT 'true'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

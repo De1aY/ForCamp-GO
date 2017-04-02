@@ -16,8 +16,10 @@ import (
 func GetParticipantsExcelHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodGet {
 		Token := handlers.GetToken(r)
-		if orgset.CheckUserAccess(Token, w){
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token);
+		Connection := src.Connect()
+		defer Connection.Close()
+		if orgset.CheckUserAccess(Token, Connection, w){
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token, Connection);
 			if APIerr != nil {
 				src.SetHeaders_API(w)
 				conf.PrintError(APIerr, w)

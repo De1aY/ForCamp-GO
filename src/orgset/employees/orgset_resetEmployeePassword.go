@@ -1,4 +1,4 @@
-package participants
+package employees
 
 import (
 	"net/http"
@@ -11,13 +11,13 @@ import (
 	"database/sql"
 )
 
-type ResetParticipantPassword_Success struct {
+type ResetEmployeePassword_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Password string `json:"password"`
 }
 
-func ResetParticipantPassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
+func ResetEmployeePassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
 	Connection := src.Connect()
 	defer Connection.Close()
 	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
@@ -25,14 +25,14 @@ func ResetParticipantPassword(token string, login string, ResponseWriter http.Re
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(login, Connection)
+		EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(login, Connection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		if ParticipantOrganization != Organization{
+		if EmployeeOrganization != Organization{
 			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
 		}
-		Resp, APIerr := resetParticipantPassword_Request(login, Connection)
+		Resp, APIerr := resetEmployeePassword_Request(login, Connection)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -42,28 +42,28 @@ func ResetParticipantPassword(token string, login string, ResponseWriter http.Re
 	return true
 }
 
-func resetParticipantPassword_Request(login string, Connection *sql.DB) (ResetParticipantPassword_Success, *conf.ApiError){
+func resetEmployeePassword_Request(login string, Connection *sql.DB) (ResetEmployeePassword_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
 	Query, err := Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
 		log.Print(err)
-		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
+		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(Hash, login)
 	if err != nil {
 		log.Print(err)
-		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
+		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
 		log.Print(err)
-		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
+		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
 		log.Print(err)
-		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
+		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return ResetParticipantPassword_Success{200, "success", Password}, nil
+	return ResetEmployeePassword_Success{200, "success", Password}, nil
 }

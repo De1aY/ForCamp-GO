@@ -12,8 +12,10 @@ import (
 
 func GetUserLogin(Token string, ResponseWriter http.ResponseWriter) bool{
 	if authorization.CheckTokenForEmpty(Token, ResponseWriter) {
-		if authorization.CheckToken(Token, ResponseWriter) {
-			Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
+		Connection := src.Connect()
+		defer Connection.Close()
+		if authorization.CheckToken(Token, Connection,ResponseWriter) {
+			Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 			if err != nil {
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
 			}

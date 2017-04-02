@@ -23,7 +23,7 @@ type Team struct {
 	Id     int64 `json:"id"`
 	Name   string `json:"name"`
 	Leader TeamLeader `json:"leader"`
-	Count  int `json:"count"`
+	Participants  []string `json:"participants"`
 }
 
 type GetTeams_Success struct {
@@ -33,15 +33,17 @@ type GetTeams_Success struct {
 }
 
 func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
+	Connection := src.Connect()
+	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
-			Organization, _, err := orgset.GetUserOrganizationAndLoginByToken(token)
-			if err != nil {
-				log.Print(err)
-				return conf.PrintError(err, ResponseWriter)
+		if authorization.CheckToken(token, Connection, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+			if APIerr != nil{
+				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			src.NewConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getTeams_Request()
+			NewConnection := src.Connect_Custom(Organization)
+			defer NewConnection.Close()
+			Resp, APIerr := getTeams_Request(NewConnection)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -54,20 +56,20 @@ func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getTeams_Request() (GetTeams_Success, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT * FROM teams")
+func getTeams_Request(Connection *sql.DB) (GetTeams_Success, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT * FROM teams")
 	if err != nil {
 		log.Print(err)
 		return GetTeams_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	Teams, APIerr := getTeamsFromQuery(Query)
+	Teams, APIerr := getTeamsFromQuery(Query, Connection)
 	if APIerr != nil {
 		return GetTeams_Success{}, APIerr
 	}
 	return GetTeams_Success{200, "success", Teams}, nil
 }
 
-func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiError) {
+func getTeamsFromQuery(rows *sql.Rows, Connection *sql.DB) ([]Team, *conf.ApiError) {
 	defer rows.Close()
 	var Teams []Team
 	var team Team
@@ -77,23 +79,27 @@ func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiError) {
 			log.Print(err)
 			return []Team{}, conf.ErrDatabaseQueryFailed
 		}
-		Leader, APIerr := getTeamLeader(team.Id)
+		Leader, APIerr := getTeamLeader(team.Id, Connection)
 		if APIerr != nil {
 			return []Team{}, APIerr
 		}
 		team.Leader = Leader
-		Count, APIerr := getTeamCount(team.Id)
+		participants, APIerr := getTeamParticipants(team.Id, Connection)
 		if APIerr != nil {
 			return []Team{}, APIerr
 		}
-		team.Count = Count
+		if participants == nil {
+			team.Participants = make([]string, 0)
+		} else {
+			team.Participants = participants
+		}
 		Teams = append(Teams, team)
 	}
 	return Teams, nil
 }
 
-func getTeamLeader(id int64) (TeamLeader, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='2' LIMIT 1", id)
+func getTeamLeader(id int64, Connection *sql.DB) (TeamLeader, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='1' LIMIT 1", id)
 	if err != nil {
 		log.Print(err)
 		return TeamLeader{}, conf.ErrDatabaseQueryFailed
@@ -110,22 +116,24 @@ func getTeamLeader(id int64) (TeamLeader, *conf.ApiError) {
 	return Leader, nil
 }
 
-func getTeamCount(id int64) (int, *conf.ApiError) {
-	Query, err := src.NewConnection.Query("SELECT COUNT(login) as count FROM users WHERE team=? AND access='0'", id)
+func getTeamParticipants(id int64, Connection *sql.DB) ([]string, *conf.ApiError) {
+	Query, err := Connection.Query("SELECT login FROM users WHERE team=? AND access='0'", id)
 	if err != nil {
 		log.Print(err)
-		return 0, conf.ErrDatabaseQueryFailed
+		return nil, conf.ErrDatabaseQueryFailed
 	}
 	defer Query.Close()
-	var count int
+	var login string
+	var logins []string
 	for Query.Next() {
-		err = Query.Scan(&count)
+		err = Query.Scan(&login)
 		if err != nil {
 			log.Print(err)
-			return 0, conf.ErrDatabaseQueryFailed
+			return nil, conf.ErrDatabaseQueryFailed
 		}
+		logins = append(logins, login)
 	}
-	return count, nil
+	return logins, nil
 }
 
 

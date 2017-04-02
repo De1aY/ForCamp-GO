@@ -28,7 +28,7 @@
   animation-fill-mode: forwards; }
 
 md-toolbar {
-  padding: 50px;
+  padding: 50px 50px;
   background: transparent; }
 
 #portal {
@@ -110,7 +110,8 @@ md-toolbar {
 
 #content__top-text {
   font-size: 36px;
-  text-align: center; }
+  text-align: center;
+  line-height: 40px; }
 
 #content__top-down {
   text-align: center;
@@ -126,7 +127,7 @@ md-toolbar {
   text-shadow: #000000 0 0 2px;
   position: absolute;
   width: 100%;
-  bottom: 80px; }
+  bottom: 30px; }
 
 .content__top {
   top: 0;
@@ -151,5 +152,9 @@ md-toolbar {
     transform: translateY(15px); }
   to {
     transform: translateY(0); } }
+@media screen and (max-width: 522px) {
+  md-toolbar {
+    padding: 50px 5px;
+    background: transparent; } }
 
 /*# sourceMappingURL=authorization.component.css.map */

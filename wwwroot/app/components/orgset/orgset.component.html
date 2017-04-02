@@ -272,7 +272,7 @@
                                         Кол-во участников
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{row.count}}
+                                        {{row.participants.length}}
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column>
@@ -477,6 +477,18 @@
                                                type="text" [(ngModel)]="row.middlename"/>
                                     </ng-template>
                                 </ngx-datatable-column>
+                                <ngx-datatable-column name="Должность">
+                                    <ng-template ngx-datatable-header-template>
+                                        Должность
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="EmployeeEdit[row.$$index + '-post'] = true"
+                                              *ngIf="!EmployeeEdit[row.$$index + '-post']">{{row.post}}</span>
+                                        <input autofocus *ngIf="EmployeeEdit[row.$$index + '-post']"
+                                               (blur)="orgSetService.EditEmployee(row); EmployeeEdit[row.$$index + '-post'] = false"
+                                               type="text" [(ngModel)]="row.post"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
                                 <ngx-datatable-column [name]="orgSetService.OrgSettings.team">
                                     <ng-template ngx-datatable-header-template style="text-transform: capitalize">
                                         <span style="text-transform: capitalize">{{orgSetService.OrgSettings.team}}</span>
@@ -517,9 +529,9 @@
                                         <span style="text-transform: capitalize">{{category.name}}</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <div *ngFor="let permission of row.marks">
+                                        <div *ngFor="let permission of row.permissions">
                                             <md-slide-toggle *ngIf="permission.id == category.id" ngDefaultControl
-                                                             (click)="orgSetService.EditEmployeePermission(row, category.id)"
+                                                             (click)="orgSetService.EditEmployeePermission(row.login, !permission.value, category.id)"
                                                              [(ngModel)]="permission.value"
                                                              color="primary">
                                             </md-slide-toggle>

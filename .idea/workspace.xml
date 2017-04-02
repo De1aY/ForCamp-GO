@@ -2,88 +2,45 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1eae2d23-cc1e-45b5-ba3b-bc4d0fb8de99" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteParticipantHandler.go" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/add/addCategoryHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/add/addTeamHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/delete/deleteCategoryHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/delete/deleteTeamHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/edit/editCategoryHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/edit/editOrgSettingValueHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/edit/editTeamHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/get/getCategoriesHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/get/getOrgSettingsHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/get/getTeamsHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/users/get/getUserDataHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/handlers/api/users/get/getUserLoginHandler.go" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/users/users_getParticipants.go" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_addCategory.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_addTeam.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_addTeam.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_deleteCategory.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_deleteTeam.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_deleteTeam.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_editCategory.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_editCategory.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_editTeam.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_editTeam.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_getCategories.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_getCategories.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_getOrgSettings.go" afterPath="$PROJECT_DIR$/src/orgset/settings/orgset_getOrgSettings.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_getTeams.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/orgset/orgset_setOrgSettingValue.go" afterPath="$PROJECT_DIR$/src/orgset/settings/orgset_setOrgSettingValue.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetParticipantPassword.go" afterPath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetParticipantPasswordHandler.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/data/employees/test.xlsx" afterPath="$PROJECT_DIR$/wwwroot/data/employees/test.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/codes.go" afterPath="$PROJECT_DIR$/conf/codes.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/database.go" afterPath="$PROJECT_DIR$/conf/database.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/paths.go" afterPath="$PROJECT_DIR$/conf/paths.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/authorization/authorization_checkData.go" afterPath="$PROJECT_DIR$/src/authorization/authorization_checkData.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/authorization/authorization_main.go" afterPath="$PROJECT_DIR$/src/authorization/authorization_main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/authorization/authorization_tools.go" afterPath="$PROJECT_DIR$/src/authorization/authorization_tools.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database.go" afterPath="$PROJECT_DIR$/src/database.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addParticipantHandler.go" afterPath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addParticipantHandler.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editParticipantHandler.go" afterPath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editParticipantHandler.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getParticipantsExcelHandler.go" afterPath="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getParticipantsExcelHandler.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" afterPath="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/headers.go" afterPath="$PROJECT_DIR$/src/headers.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/categories/orgset_editCategory.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_editCategory.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/categories/orgset_getCategories.go" afterPath="$PROJECT_DIR$/src/orgset/categories/orgset_getCategories.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/employees/orgset_getEmployees.go" afterPath="$PROJECT_DIR$/src/orgset/employees/orgset_getEmployees.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/orgset_main.go" afterPath="$PROJECT_DIR$/src/orgset/orgset_main.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/participants/orgset_addParticipant.go" afterPath="$PROJECT_DIR$/src/orgset/participants/orgset_addParticipant.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/participants/orgset_deleteParticipant.go" afterPath="$PROJECT_DIR$/src/orgset/participants/orgset_deleteParticipant.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/participants/orgset_editParticipant.go" afterPath="$PROJECT_DIR$/src/orgset/participants/orgset_editParticipant.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/participants/orgset_getParticipants.go" afterPath="$PROJECT_DIR$/src/orgset/participants/orgset_getParticipants.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/participants/orgset_resetParticipantPassword.go" afterPath="$PROJECT_DIR$/src/orgset/participants/orgset_resetParticipantPassword.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/settings/orgset_getOrgSettings.go" afterPath="$PROJECT_DIR$/src/orgset/settings/orgset_getOrgSettings.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/settings/orgset_setOrgSettingValue.go" afterPath="$PROJECT_DIR$/src/orgset/settings/orgset_setOrgSettingValue.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/teams/orgset_addTeam.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_addTeam.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/teams/orgset_deleteTeam.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_deleteTeam.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/teams/orgset_editTeam.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_editTeam.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go" afterPath="$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/users/users_getUserData.go" afterPath="$PROJECT_DIR$/src/users/users_getUserData.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/users/users_getUserLogin.go" afterPath="$PROJECT_DIR$/src/users/users_getUserLogin.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/users/users_main.go" afterPath="$PROJECT_DIR$/src/users/users_main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/MDLInit.js" afterPath="$PROJECT_DIR$/wwwroot/app/MDLInit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/MDLInit.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/MDLInit.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/app.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/app.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.module.js" afterPath="$PROJECT_DIR$/wwwroot/app/app.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.module.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/app.module.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/app.module.ts" afterPath="$PROJECT_DIR$/wwwroot/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.ts" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/addCategory/addCategory.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/addCategory/addCategory.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/addCategory/addCategory.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/addCategory/addCategory.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/addTeam/addTeam.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/addTeam/addTeam.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/addTeam/addTeam.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/addTeam/addTeam.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/organizationValueEdit/organizationValueEdit.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/organizationValueEdit/organizationValueEdit.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/organizationValueEdit/organizationValueEdit.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/organizationValueEdit/organizationValueEdit.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.ts" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.css" afterPath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.css.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.scss" afterPath="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/participantValueEdit/participantValueEdit.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/participantValueEdit/participantValueEdit.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/participantValueEdit/participantValueEdit.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/participantValueEdit/participantValueEdit.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/periodValueEdit/periodValueEdit.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/periodValueEdit/periodValueEdit.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/periodValueEdit/periodValueEdit.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/periodValueEdit/periodValueEdit.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/teamValueEdit/teamValueEdit.component.js" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/teamValueEdit/teamValueEdit.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/components/orgset/teamValueEdit/teamValueEdit.component.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/components/orgset/teamValueEdit/teamValueEdit.component.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/main.js" afterPath="$PROJECT_DIR$/wwwroot/app/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/main.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/main.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/checkToken.service.js" afterPath="$PROJECT_DIR$/wwwroot/app/src/checkToken.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/checkToken.service.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/src/checkToken.service.js.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/orgset.service.js" afterPath="$PROJECT_DIR$/wwwroot/app/src/orgset.service.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/orgset.service.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/src/orgset.service.js.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts" afterPath="$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/user.service.js" afterPath="$PROJECT_DIR$/wwwroot/app/src/user.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/app/src/user.service.js.map" afterPath="$PROJECT_DIR$/wwwroot/app/src/user.service.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/index.css" afterPath="$PROJECT_DIR$/wwwroot/scss/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/index.css.map" afterPath="$PROJECT_DIR$/wwwroot/scss/index.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/scss/index.scss" afterPath="$PROJECT_DIR$/wwwroot/scss/index.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/systemjs.config.js" afterPath="$PROJECT_DIR$/wwwroot/systemjs.config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wwwroot/tsconfig.json" afterPath="$PROJECT_DIR$/wwwroot/tsconfig.json" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -114,13 +71,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orgset.service.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="orgset.service.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1629">
-              <caret line="535" column="16" lean-forward="false" selection-start-line="535" selection-start-column="16" selection-end-line="535" selection-end-column="16" />
+            <state relative-caret-position="380">
+              <caret line="377" column="78" lean-forward="false" selection-start-line="377" selection-start-column="78" selection-end-line="377" selection-end-column="78" />
               <folding>
-                <element signature="e#2904#3070#0" expanded="false" />
+                <element signature="e#3012#3178#0" expanded="false" />
                 <element signature="n#!!block;n#constructor#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#GetOrgSettings#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#SetOrgSettingValue#0;n#OrgSetService#0" expanded="false" />
@@ -139,7 +96,6 @@
                 <element signature="n#!!block;n#EditTeam#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#DeleteTeam#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#getTeamsFromResponse#0;n#OrgSetService#0" expanded="false" />
-                <element signature="n#!!block;n#checkAddTeamResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkEditTeamResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkDeleteTeamResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#GetParticipantsExcel#0;n#OrgSetService#0" expanded="false" />
@@ -150,8 +106,6 @@
                 <element signature="n#!!block;n#AddParticipant#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkResetParticipantPasswordResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkDeleteParticipantResponse#0;n#OrgSetService#0" expanded="false" />
-                <element signature="e#13901#14223#0" expanded="false" />
-                <element signature="n#!!block;n#checkEditParticipantResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkAddParticipantResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#getParticipantsFromResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#GetEmployees#0;n#OrgSetService#0" expanded="false" />
@@ -159,11 +113,12 @@
                 <element signature="n#!!block;n#DeleteEmployee#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#ResetEmployeePassword#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#AddEmployee#0;n#OrgSetService#0" expanded="false" />
+                <element signature="n#!!block;n#EditEmployeePermission#0;n#OrgSetService#0" expanded="false" />
+                <element signature="n#!!block;n#checkEditEmployeePermissionResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkResetEmployeePasswordResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkDeleteEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkEditEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#checkAddEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
-                <element signature="e#19773#20130#0" expanded="false" />
                 <element signature="n#!!block;n#getEmployeesFromResponse#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#PreloaderOn#0;n#OrgSetService#0" expanded="false" />
                 <element signature="n#!!block;n#PreloaderOff#0;n#OrgSetService#0" expanded="false" />
@@ -176,37 +131,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addEmployee.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addEmployee/addEmployee.component.html">
+      <file leaf-file-name="orgset.component.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="986">
-              <caret line="58" column="33" lean-forward="false" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+            <state relative-caret-position="214">
+              <caret line="270" column="60" lean-forward="false" selection-start-line="270" selection-start-column="60" selection-end-line="270" selection-end-column="60" />
               <folding>
-                <marker date="1491063946643" expanded="true" signature="372:4068" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="454:4053" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="517:651" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="703:1086" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="748:1063" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="810:1036" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="921:990" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1138:1511" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1183:1488" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1245:1461" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1350:1415" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1563:1953" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1608:1930" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1670:1903" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="1753:1857" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="2005:2384" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="2050:2361" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="2112:2334" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="2189:2288" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="2430:3266" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="2840:3243" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="3331:4034" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="3475:3597" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="3739:4011" ph="..." />
-                <marker date="1491063946643" expanded="true" signature="3830:3949" ph="{&quot;name&quot;: ''...}" />
+                <element signature="n#div#0;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#div#4;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#7;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#section#1;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#1;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#2;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#section#3;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#ngx-datatable-column#0;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#ngx-datatable-column#1;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#ngx-datatable-column#2;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#ng-template#0;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#ngx-datatable-column#5;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#5;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#6;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#ngx-datatable-column#7;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -222,85 +180,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orgset.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="512" column="55" lean-forward="false" selection-start-line="512" selection-start-column="55" selection-end-line="512" selection-end-column="55" />
+            <state relative-caret-position="150">
+              <caret line="41" column="43" lean-forward="true" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orgset_getTeams.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="456">
+              <caret line="91" column="60" lean-forward="false" selection-start-line="91" selection-start-column="60" selection-end-line="91" selection-end-column="60" />
               <folding>
-                <element signature="n#div#0;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#div#3;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#div#4;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#div#7;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#section#1;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#1;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#section#2;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#2;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#section#3;n#main#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#5;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-                <marker date="1491066643827" expanded="true" signature="28913:29114" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="29005:29083" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="29888:30815" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="30159:30759" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="30265:30381" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="30881:31786" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="31148:31730" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="31251:31361" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="31463:31679" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="31857:32803" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="32129:32747" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="32238:32360" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="32898:34410" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="33279:34354" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="33382:33520" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="33616:34303" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="34476:35713" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="34743:35657" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="34845:34977" ph="..." />
-                <marker date="1491066643827" expanded="true" signature="35072:35606" ph="..." />
+                <element signature="n#!!block;n#GetTeams#0" expanded="false" />
+                <element signature="n#!!block;n#getTeams_Request#0" expanded="false" />
+                <element signature="n#!!block;n#getTeamLeader#0" expanded="false" />
+                <element signature="n#!!block;n#getTeamParticipants#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="codes.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/conf/codes.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="79" column="68" lean-forward="false" selection-start-line="79" selection-start-column="68" selection-end-line="79" selection-end-column="68" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="database.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/database.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="21" column="27" lean-forward="false" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="orgset_addCategory.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -312,9 +212,9 @@
       <list>
         <option value="package_json" />
         <option value="JavaScript File" />
-        <option value="Go File" />
         <option value="HTML File" />
         <option value="TypeScript File" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -335,9 +235,10 @@
       <find>Morphy</find>
       <find>ng-</find>
       <find>temp</find>
-      <find>Participant</find>
       <find>Mark</find>
       <find>GetParticipantsExcel</find>
+      <find>Participant</find>
+      <find>participant</find>
     </findStrings>
     <replaceStrings>
       <replace>CSS</replace>
@@ -347,8 +248,8 @@
       <replace>MainSite</replace>
       <replace>ResponseWriter</replace>
       <replace>employee</replace>
-      <replace>Employee</replace>
       <replace>Permission</replace>
+      <replace>Employee</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -362,46 +263,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/addParticipant/addParticipant.component.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/tsconfig.json" />
-        <option value="$PROJECT_DIR$/wwwroot/systemjs.config.js" />
-        <option value="$PROJECT_DIR$/src/headers.go" />
-        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getParticipantsExcelHandler.go" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.ts" />
-        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_ResetParticipantPassword.go" />
-        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_deleteParticipant.go" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/addParticipant/addParticipant.component.html" />
-        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_addParticipant.go" />
-        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetParticipantPasswordHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetParticipantPassword.go" />
-        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editParticipantHandler.go" />
-        <option value="$PROJECT_DIR$/src/orgset/categories/orgset_getCategories.go" />
-        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_getEmployees.go" />
-        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_getParticipants.go" />
-        <option value="$PROJECT_DIR$/src/orgset/settings/orgset_getOrgSettings.go" />
-        <option value="$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go" />
-        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_editParticipant.go" />
-        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_resetParticipantPassword.go" />
-        <option value="$PROJECT_DIR$/src/orgset/orgset_main.go" />
-        <option value="$PROJECT_DIR$/src/authorization/authorization_tools.go" />
-        <option value="$PROJECT_DIR$/main.go" />
-        <option value="$PROJECT_DIR$/wwwroot/scss/index.scss" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/addEmployee/addEmployee.component.scss" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/addEmployee/addEmployee.component.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/addEmployee/addEmployee.component.html" />
-        <option value="$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html" />
-        <option value="$PROJECT_DIR$/conf/paths.go" />
-        <option value="$PROJECT_DIR$/conf/codes.go" />
-        <option value="$PROJECT_DIR$/conf/database.go" />
-        <option value="$PROJECT_DIR$/src/users/users_getUserData.go" />
-        <option value="$PROJECT_DIR$/src/users/users_getUserLogin.go" />
-        <option value="$PROJECT_DIR$/src/authorization/authorization_main.go" />
-        <option value="$PROJECT_DIR$/src/authorization/authorization_checkData.go" />
         <option value="$PROJECT_DIR$/src/users/users_main.go" />
-        <option value="$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go" />
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getOrgSettingsHandler.go" />
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getEmployeesHandler.go" />
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getCategoriesHandler.go" />
@@ -409,10 +271,49 @@
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteParticipantHandler.go" />
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteTeamHandler.go" />
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addCategoryHandler.go" />
-        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addParticipantHandler.go" />
         <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addTeamHandler.go" />
         <option value="$PROJECT_DIR$/src/database.go" />
         <option value="$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go" />
+        <option value="$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go" />
+        <option value="$PROJECT_DIR$/src/authorization/authorization_checkData.go" />
+        <option value="$PROJECT_DIR$/src/orgset/categories/orgset_editCategory.go" />
+        <option value="$PROJECT_DIR$/src/orgset/categories/orgset_getCategories.go" />
+        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_deleteParticipant.go" />
+        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_resetParticipantPassword.go" />
+        <option value="$PROJECT_DIR$/src/orgset/settings/orgset_getOrgSettings.go" />
+        <option value="$PROJECT_DIR$/src/orgset/teams/orgset_addTeam.go" />
+        <option value="$PROJECT_DIR$/src/orgset/teams/orgset_deleteTeam.go" />
+        <option value="$PROJECT_DIR$/src/orgset/teams/orgset_editTeam.go" />
+        <option value="$PROJECT_DIR$/src/users/users_getUserData.go" />
+        <option value="$PROJECT_DIR$/src/users/users_getUserLogin.go" />
+        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_addParticipant.go" />
+        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_editParticipant.go" />
+        <option value="$PROJECT_DIR$/src/orgset/settings/orgset_setOrgSettingValue.go" />
+        <option value="$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getParticipantsExcelHandler.go" />
+        <option value="$PROJECT_DIR$/src/authorization/authorization_main.go" />
+        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_deleteEmployee.go" />
+        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_resetEmployeePassword.go" />
+        <option value="$PROJECT_DIR$/conf/codes.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addEmployeeHandler.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editEmployeeHandler.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editEmployeePermission.go" />
+        <option value="$PROJECT_DIR$/src/orgset/participants/orgset_getParticipants.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addParticipantHandler.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editParticipantHandler.go" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteEmployeeHandler.go" />
+        <option value="$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetEmployeePasswordHandler.go" />
+        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_addEmployee.go" />
+        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_editEmployee.go" />
+        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_getEmployees.go" />
+        <option value="$PROJECT_DIR$/src/orgset/orgset_main.go" />
+        <option value="$PROJECT_DIR$/src/orgset/employees/orgset_editEmployeePermission.go" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.scss" />
+        <option value="$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go" />
+        <option value="$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html" />
+        <option value="$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts" />
       </list>
     </option>
   </component>
@@ -515,6 +416,32 @@
               <option name="myItemId" value="components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="orgset" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forcamp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forcamp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wwwroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -584,7 +511,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="categories" />
+              <option name="myItemId" value="employees" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -625,50 +552,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forcamp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forcamp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="handlers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="orgset" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forcamp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forcamp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="authorization" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -709,6 +592,7 @@
     <property name="configurable.Module.libraries.is.expanded" value="true" />
     <property name="eu.ydp.idea.ts.spec.generator.settings.spec.template" value="import {$ClassName$} from '$TestsRelativePath$../src/$classRelativePath$/$ClassName$';&#10;&#10;describe('$ClassName$', () =&gt; {&#10;  let $ObjName$:$ClassName$;&#10;&#10;  beforeEach(() =&gt; {&#10;    $ObjName$ = new $ClassName$();&#10;  });&#10;&#10;  describe('', () =&gt; {&#10;    it('', () =&gt; {&#10;      // given&#10;&#10;      // when&#10;&#10;      // then&#10;    });&#10;  });&#10;});&#10;" />
     <property name="nodejs.mocha.mocha_node_package_dir" value="C:\GoPath\src\forcamp\wwwroot\node_modules\mocha" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/GoPath/src/forcamp/wwwroot/app/components/orgset/orgset.component.html" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -1310,7 +1194,7 @@
       <workItem from="1490552897594" duration="6869000" />
       <workItem from="1490611621984" duration="22438000" />
       <workItem from="1490696274595" duration="63562000" />
-      <workItem from="1490951503756" duration="61140000" />
+      <workItem from="1490951503756" duration="75567000" />
     </task>
     <servers />
   </component>
@@ -1347,7 +1231,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="433081000" />
+    <option name="totallyTimeSpent" value="447508000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1440,7 +1324,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="129" />
+      <option name="time" value="135" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1449,199 +1333,441 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgmain/orgmain.component.ts">
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addCategoryHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="48" column="43" lean-forward="false" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
+        <state relative-caret-position="204">
+          <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addTeamHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="18" column="29" lean-forward="false" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="62" column="56" lean-forward="false" selection-start-line="62" selection-start-column="56" selection-end-line="62" selection-end-column="56" />
           <folding>
-            <element signature="e#0#48#0" expanded="false" />
+            <element signature="n#!!block;n#checkCategoryData#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetParticipantPassword.go">
+    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_tools.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="41" lean-forward="false" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+        <state relative-caret-position="25">
+          <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_checkData.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="12" column="84" lean-forward="false" selection-start-line="12" selection-start-column="84" selection-end-line="12" selection-end-column="84" />
           <folding>
-            <element signature="n#!!block;n#getResetParticipantPasswordPostValues#0" expanded="false" />
+            <element signature="n#!!block;n#DeleteCategory#0" expanded="false" />
+            <element signature="e#443#498#0" expanded="false" />
+            <element signature="e#652#707#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCategory_Request#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCategory_Participants#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCategory_Employees#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_editCategory.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_getCategories.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="43" column="24" lean-forward="false" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="90" />
+        <state relative-caret-position="272">
+          <caret line="26" column="74" lean-forward="false" selection-start-line="26" selection-start-column="74" selection-end-line="26" selection-end-column="74" />
           <folding>
-            <element signature="e#717#790#0" expanded="false" />
-            <element signature="e#904#977#0" expanded="false" />
+            <element signature="n#!!block;n#GetCategories#0" expanded="false" />
+            <element signature="e#796#869#0" expanded="false" />
+            <element signature="e#1024#1097#0" expanded="false" />
             <element signature="n#!!block;n#getCategories_Request#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_getEmployees.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="38" column="68" lean-forward="true" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#199#263#0" expanded="false" />
-            <element signature="e#279#543#0" expanded="false" />
-            <element signature="e#571#685#0" expanded="false" />
-            <element signature="n#!!block;n#getEmployees_Request#0" expanded="false" />
-            <element signature="n#!!block;n#getEmployeesFromResponse#0" expanded="false" />
-            <element signature="e#1894#1938#0" expanded="false" />
-            <element signature="e#1940#1991#1" expanded="false" />
-            <element signature="e#2009#2455#0" expanded="false" />
-            <element signature="n#!!block;n#getPermissions#0" expanded="false" />
-            <element signature="n#!!block;n#getPermissionsIfNoCategories#0" expanded="false" />
-            <element signature="n#!!block;n#getPermissionsIfCategories#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_getParticipants.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="51" column="90" lean-forward="false" selection-start-line="51" selection-start-column="90" selection-end-line="51" selection-end-column="90" />
-          <folding>
-            <element signature="e#196#259#0" expanded="false" />
-            <element signature="e#558#687#0" expanded="false" />
-            <element signature="e#1161#1218#0" expanded="false" />
-            <element signature="n#!!block;n#getParticipants_Request#0" expanded="false" />
-            <element signature="e#1615#1700#0" expanded="false" />
-            <element signature="e#1907#1954#0" expanded="false" />
-            <element signature="e#1956#2019#1" expanded="false" />
-            <element signature="e#2197#2285#0" expanded="false" />
-            <element signature="n#!!block;n#getMarks#0" expanded="false" />
-            <element signature="e#2731#2814#0" expanded="false" />
-            <element signature="e#2869#2952#0" expanded="false" />
-            <element signature="n#!!block;n#getMarksIfNoCategories#0" expanded="false" />
-            <element signature="e#3302#3388#0" expanded="false" />
-            <element signature="e#3933#4001#0" expanded="false" />
-            <element signature="e#4301#4389#0" expanded="false" />
-            <element signature="e#4470#4558#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_deleteParticipant.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#deleteParticipant_Request#0" expanded="false" />
-            <element signature="e#785#805#0" expanded="false" />
-            <element signature="e#863#883#0" expanded="false" />
-            <element signature="n#!!block;n#deleteParticipant_Main#0" expanded="false" />
-            <element signature="e#1044#1102#0" expanded="false" />
-            <element signature="e#1145#1203#0" expanded="false" />
-            <element signature="e#1293#1351#0" expanded="false" />
-            <element signature="e#1394#1452#0" expanded="false" />
-            <element signature="n#!!block;n#deleteParticipant_Organization#0" expanded="false" />
-            <element signature="e#1640#1698#0" expanded="false" />
-            <element signature="e#1746#1804#0" expanded="false" />
-            <element signature="e#1877#1935#0" expanded="false" />
-            <element signature="e#2089#2147#0" expanded="false" />
-            <element signature="e#2191#2249#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_addParticipant.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="168" column="0" lean-forward="true" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
-          <folding>
-            <element signature="e#195#288#0" expanded="false" />
-            <element signature="n#!!block;n#AddParticipant#0" expanded="false" />
-            <element signature="e#597#652#0" expanded="false" />
-            <element signature="e#794#849#0" expanded="false" />
-            <element signature="n#!!block;n#addParticipantRequest#0" expanded="false" />
-            <element signature="e#1189#1235#0" expanded="false" />
-            <element signature="e#1332#1378#0" expanded="false" />
-            <element signature="e#1465#1511#0" expanded="false" />
-            <element signature="n#!!block;n#addParticipant_Main#0" expanded="false" />
-            <element signature="e#1768#1830#0" expanded="false" />
-            <element signature="e#1891#1953#0" expanded="false" />
-            <element signature="e#2001#2063#0" expanded="false" />
-            <element signature="e#2170#2232#0" expanded="false" />
-            <element signature="e#2331#2393#0" expanded="false" />
-            <element signature="n#!!block;n#addParticipant_Organization#0" expanded="false" />
-            <element signature="e#2606#2664#0" expanded="false" />
-            <element signature="e#2836#2894#0" expanded="false" />
-            <element signature="e#3010#3068#0" expanded="false" />
-            <element signature="e#3124#3182#0" expanded="false" />
-            <element signature="n#!!block;n#addParticipant_Excel#0" expanded="false" />
-            <element signature="e#3391#3411#0" expanded="false" />
-            <element signature="e#3540#3592#0" expanded="false" />
-            <element signature="e#4005#4057#0" expanded="false" />
-            <element signature="n#!!block;n#getTeamNameById#0" expanded="false" />
-            <element signature="e#4276#4341#0" expanded="false" />
-            <element signature="n#!!block;n#checkAddParticipantData#0" expanded="false" />
+            <element signature="n#!!block;n#getCategoriesFromQuery#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/orgset/settings/orgset_getOrgSettings.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="50" column="90" lean-forward="false" selection-start-line="50" selection-start-column="90" selection-end-line="50" selection-end-column="90" />
+        <state relative-caret-position="340">
+          <caret line="30" column="32" lean-forward="true" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+          <folding>
+            <element signature="e#1108#1205#0" expanded="false" />
+            <element signature="e#1275#1332#0" expanded="false" />
+            <element signature="n#!!block;n#getOrgSettingFromQuery#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/teams/orgset_addTeam.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#AddTeam#0" expanded="false" />
+            <element signature="n#!!block;n#addTeam_Request#0" expanded="false" />
+            <element signature="n#!!block;n#checkTeamData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/teams/orgset_deleteTeam.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#DeleteTeam#0" expanded="false" />
+            <element signature="n#!!block;n#deleteTeam_Request#0" expanded="false" />
+            <element signature="n#!!block;n#deleteTeam_Users#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/teams/orgset_editTeam.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="43" column="1" lean-forward="true" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#EditTeam#0" expanded="false" />
+            <element signature="n#!!block;n#editTeam_Request#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/users_getUserData.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#GetUserData#0" expanded="false" />
+            <element signature="n#!!block;n#getUserData_Request#0" expanded="false" />
+            <element signature="n#!!block;n#getUserDataFromQuery#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/users_getUserLogin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="27" column="56" lean-forward="true" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go">
+    <entry file="file://$PROJECT_DIR$/src/users/users_main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="38" column="39" lean-forward="true" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+        <state relative-caret-position="34">
+          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/users/users_getParticipants.go">
+    <entry file="file://$PROJECT_DIR$/src/orgset/settings/orgset_setOrgSettingValue.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="68">
+          <caret line="11" column="105" lean-forward="false" selection-start-line="11" selection-start-column="105" selection-end-line="11" selection-end-column="105" />
+          <folding>
+            <element signature="n#!!block;n#SetOrgSettingValue#0" expanded="false" />
+            <element signature="n#!!block;n#checkSetOrgSettingValueData#0" expanded="false" />
+            <element signature="n#!!block;n#setOrgSettingValue_Request#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/tokenVerificationHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="40" lean-forward="true" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getParticipantsExcelHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="21" column="110" lean-forward="false" selection-start-line="21" selection-start-column="110" selection-end-line="21" selection-end-column="110" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_addParticipant.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="e#211#304#0" expanded="false" />
+            <element signature="n#!!block;n#AddParticipant#0" expanded="false" />
+            <element signature="e#635#690#0" expanded="false" />
+            <element signature="e#963#1020#0" expanded="false" />
+            <element signature="n#!!block;n#addParticipantRequest#0" expanded="false" />
+            <element signature="e#1421#1467#0" expanded="false" />
+            <element signature="e#1579#1625#0" expanded="false" />
+            <element signature="e#1727#1773#0" expanded="false" />
+            <element signature="n#!!block;n#addParticipant_Main#0" expanded="false" />
+            <element signature="e#2046#2108#0" expanded="false" />
+            <element signature="e#2169#2231#0" expanded="false" />
+            <element signature="e#2279#2341#0" expanded="false" />
+            <element signature="e#2444#2506#0" expanded="false" />
+            <element signature="e#2605#2667#0" expanded="false" />
+            <element signature="n#!!block;n#addParticipant_Organization#0" expanded="false" />
+            <element signature="e#2893#2951#0" expanded="false" />
+            <element signature="e#3123#3181#0" expanded="false" />
+            <element signature="e#3290#3348#0" expanded="false" />
+            <element signature="e#3404#3462#0" expanded="false" />
+            <element signature="n#!!block;n#addParticipant_Excel#0" expanded="false" />
+            <element signature="e#3703#3723#0" expanded="false" />
+            <element signature="e#3852#3904#0" expanded="false" />
+            <element signature="e#4317#4369#0" expanded="false" />
+            <element signature="n#!!block;n#getTeamNameById#0" expanded="false" />
+            <element signature="e#4601#4666#0" expanded="false" />
+            <element signature="n#!!block;n#checkAddParticipantData#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="27" column="34" lean-forward="true" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_editParticipant.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="30" column="68" lean-forward="false" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+        <state relative-caret-position="201">
+          <caret line="60" column="68" lean-forward="true" selection-start-line="60" selection-start-column="68" selection-end-line="60" selection-end-column="68" />
           <folding>
-            <element signature="e#414#469#0" expanded="false" />
-            <element signature="e#634#689#0" expanded="false" />
+            <element signature="n#!!block;n#EditParticipant#0" expanded="false" />
+            <element signature="e#452#507#0" expanded="false" />
+            <element signature="e#789#846#0" expanded="false" />
             <element signature="n#!!block;n#editParticipant_Request#0" expanded="false" />
-            <element signature="e#1157#1215#0" expanded="false" />
-            <element signature="e#1369#1427#0" expanded="false" />
-            <element signature="n#!!block;n#checkEditParticipantData#0" expanded="false" />
+            <element signature="e#1352#1410#0" expanded="false" />
+            <element signature="e#1564#1622#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#Authorize#0" expanded="false" />
+            <element signature="n#!!block;n#setUserToken#0" expanded="false" />
+            <element signature="n#!!block;n#getToken#0" expanded="false" />
+            <element signature="n#!!block;n#CheckToken#0" expanded="false" />
+            <element signature="n#!!block;n#VerifyToken#0" expanded="false" />
+            <element signature="n#!!block;n#checkCurrentSessionsVal#0" expanded="false" />
+            <element signature="n#!!block;n#deleteOldestSession#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_resetParticipantPassword.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="43" column="51" lean-forward="true" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
+        <state relative-caret-position="85">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
-            <element signature="e#22#128#0" expanded="false" />
-            <element signature="e#168#268#0" expanded="false" />
+            <element signature="e#184#284#0" expanded="false" />
             <element signature="n#!!block;n#ResetParticipantPassword#0" expanded="false" />
-            <element signature="e#724#779#0" expanded="false" />
-            <element signature="e#824#893#0" expanded="false" />
-            <element signature="e#1376#1470#0" expanded="false" />
-            <element signature="e#1520#1614#0" expanded="false" />
-            <element signature="e#1720#1814#0" expanded="false" />
-            <element signature="e#1858#1952#0" expanded="false" />
+            <element signature="e#776#831#0" expanded="false" />
+            <element signature="e#876#945#0" expanded="false" />
+            <element signature="n#!!block;n#resetParticipantPassword_Request#0" expanded="false" />
+            <element signature="e#1456#1550#0" expanded="false" />
+            <element signature="e#1600#1694#0" expanded="false" />
+            <element signature="e#1796#1890#0" expanded="false" />
+            <element signature="e#1934#2028#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/authorizationHandler.go">
+    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_deleteEmployee.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="66" column="81" lean-forward="false" selection-start-line="66" selection-start-column="81" selection-end-line="66" selection-end-column="81" />
+          <folding>
+            <element signature="n#!!block;n#DeleteEmployee#0" expanded="false" />
+            <element signature="n#!!block;n#deleteEmployee_Request#0" expanded="false" />
+            <element signature="e#977#997#0" expanded="false" />
+            <element signature="e#1064#1084#0" expanded="false" />
+            <element signature="n#!!block;n#deleteEmployee_Main#0" expanded="false" />
+            <element signature="e#1258#1316#0" expanded="false" />
+            <element signature="e#1359#1417#0" expanded="false" />
+            <element signature="e#1503#1561#0" expanded="false" />
+            <element signature="e#1604#1662#0" expanded="false" />
+            <element signature="n#!!block;n#deleteEmployee_Organization#0" expanded="false" />
+            <element signature="e#1860#1918#0" expanded="false" />
+            <element signature="e#1966#2024#0" expanded="false" />
+            <element signature="e#2097#2155#0" expanded="false" />
+            <element signature="e#2299#2357#0" expanded="false" />
+            <element signature="e#2401#2459#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_deleteParticipant.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#DeleteParticipant#0" expanded="false" />
+            <element signature="n#!!block;n#deleteParticipant_Request#0" expanded="false" />
+            <element signature="e#992#1012#0" expanded="false" />
+            <element signature="e#1082#1102#0" expanded="false" />
+            <element signature="n#!!block;n#deleteParticipant_Main#0" expanded="false" />
+            <element signature="e#1279#1337#0" expanded="false" />
+            <element signature="e#1380#1438#0" expanded="false" />
+            <element signature="e#1524#1582#0" expanded="false" />
+            <element signature="e#1625#1683#0" expanded="false" />
+            <element signature="n#!!block;n#deleteParticipant_Organization#0" expanded="false" />
+            <element signature="e#1884#1942#0" expanded="false" />
+            <element signature="e#1990#2048#0" expanded="false" />
+            <element signature="e#2121#2179#0" expanded="false" />
+            <element signature="e#2326#2384#0" expanded="false" />
+            <element signature="e#2428#2486#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_resetEmployeePassword.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
+          <folding>
+            <element signature="e#178#278#0" expanded="false" />
+            <element signature="e#861#930#0" expanded="false" />
+            <marker date="1491084733116" expanded="false" signature="1291:2063" ph="{...}" />
+            <marker date="1491084733116" expanded="false" signature="1432:1523" ph="{...}" />
+            <marker date="1491084733116" expanded="false" signature="1573:1664" ph="{...}" />
+            <marker date="1491084733116" expanded="false" signature="1766:1857" ph="{...}" />
+            <marker date="1491084733116" expanded="false" signature="1901:1992" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/codes.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="75" column="63" lean-forward="true" selection-start-line="75" selection-start-column="63" selection-end-line="75" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editEmployeeHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="30" column="76" lean-forward="false" selection-start-line="30" selection-start-column="76" selection-end-line="30" selection-end-column="76" />
+          <folding>
+            <element signature="e#21#161#0" expanded="false" />
+            <element signature="n#!!block;n#EditEmployeeHandler#0" expanded="false" />
+            <element signature="n#!!block;n#HandleEditEmployee#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addEmployeeHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="29" column="73" lean-forward="false" selection-start-line="29" selection-start-column="73" selection-end-line="29" selection-end-column="73" />
+          <folding>
+            <element signature="e#20#160#0" expanded="false" />
+            <element signature="n#!!block;n#AddEmployeeHandler#0" expanded="false" />
+            <element signature="n#!!block;n#HandleAddEmployee#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addParticipantHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="28" column="79" lean-forward="false" selection-start-line="28" selection-start-column="79" selection-end-line="28" selection-end-column="79" />
+          <folding>
+            <element signature="e#547#638#0" expanded="false" />
+            <element signature="e#718#810#0" expanded="false" />
+            <element signature="n#!!block;n#HandleAddParticipant#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editParticipantHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="29" column="82" lean-forward="false" selection-start-line="29" selection-start-column="82" selection-end-line="29" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/participants/orgset_getParticipants.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+          <folding>
+            <element signature="e#196#259#0" expanded="false" />
+            <element signature="e#556#685#0" expanded="false" />
+            <element signature="n#!!block;n#GetParticipants#0" expanded="false" />
+            <element signature="e#1279#1336#0" expanded="false" />
+            <element signature="n#!!block;n#getParticipants_Request#0" expanded="false" />
+            <element signature="e#1744#1829#0" expanded="false" />
+            <element signature="n#!!block;n#getParticipantsFromResponse#0" expanded="false" />
+            <element signature="e#2078#2125#0" expanded="false" />
+            <element signature="e#2127#2190#1" expanded="false" />
+            <element signature="e#2368#2456#0" expanded="false" />
+            <element signature="n#!!block;n#getMarks#0" expanded="false" />
+            <element signature="e#2913#2996#0" expanded="false" />
+            <element signature="e#3051#3134#0" expanded="false" />
+            <element signature="n#!!block;n#getMarksIfNoCategories#0" expanded="false" />
+            <element signature="e#3484#3570#0" expanded="false" />
+            <element signature="n#!!block;n#getMarksIfCategories#0" expanded="false" />
+            <element signature="e#4115#4183#0" expanded="false" />
+            <element signature="e#4483#4571#0" expanded="false" />
+            <element signature="e#4652#4740#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteParticipantHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="20" column="65" lean-forward="true" selection-start-line="20" selection-start-column="65" selection-end-line="20" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetParticipantPasswordHandler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="77" lean-forward="true" selection-start-line="11" selection-start-column="77" selection-end-line="11" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getEmployeesHandler.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1649,187 +1775,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editParticipantHandler.go">
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteEmployeeHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="50" column="0" lean-forward="true" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#getEditParticipantPostValues#0" expanded="false" />
-            <element signature="e#601#692#0" expanded="false" />
-            <element signature="e#772#864#0" expanded="false" />
-            <element signature="n#!!block;n#EditParticipantHandler#0" expanded="false" />
-            <element signature="n#!!block;n#HandleEditParticipant#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-          <folding>
-            <element signature="e#14#334#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.componenet.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="69" column="5" lean-forward="false" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!block;n#ngOnInit#0;n#OrgSetComponent#0" expanded="false" />
-            <element signature="n#!!block;n#ServiceInit#0;n#OrgSetComponent#0" expanded="false" />
-            <element signature="n#!!block;n#OrgSetServiceInit#0;n#OrgSetComponent#0" expanded="false" />
-            <element signature="n#!!block;n#UserServiceInit#0;n#OrgSetComponent#0" expanded="false" />
-            <element signature="n#!!block;n#TokenInit#0;n#OrgSetComponent#0" expanded="false" />
-            <element signature="e#1868#1941#0" expanded="false" />
-            <element signature="n#!!block;n#ChangeSelfMarksValue#0;n#OrgSetComponent#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addCategory/addCategory.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="92" lean-forward="true" selection-start-line="6" selection-start-column="92" selection-end-line="6" selection-end-column="92" />
+        <state relative-caret-position="119">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addParticipant/addParticipant.component.html">
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/resetEmployeePasswordHandler.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="36" column="70" lean-forward="true" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
-          <folding>
-            <marker date="1491049826147" expanded="true" signature="3437:3468" ph="{...}" />
-            <marker date="1491049826147" expanded="true" signature="3437:3525" ph="{&quot;name&quot;: ''...}" />
-            <marker date="1491049826147" expanded="true" signature="3437:3540" ph="{&quot;name&quot;: ''...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/scss/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        <state relative-caret-position="119">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addParticipant/addParticipant.component.scss">
+    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_addEmployee.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addEmployee/addEmployee.component.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addParticipant/addParticipant.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="94" column="95" lean-forward="false" selection-start-line="94" selection-start-column="95" selection-end-line="94" selection-end-column="95" />
           <folding>
-            <element signature="n#!!block;n#Mark#0" expanded="false" />
-            <element signature="n#!!block;n#Participant#0" expanded="false" />
-            <element signature="e#635#775#0" expanded="false" />
-            <element signature="e#1024#1196#0" expanded="false" />
+            <element signature="e#205#298#0" expanded="false" />
+            <element signature="e#620#675#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/systemjs.config.js">
+    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_getEmployees.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="87" lean-forward="false" selection-start-line="14" selection-start-column="87" selection-end-line="14" selection-end-column="87" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1629">
-          <caret line="535" column="16" lean-forward="false" selection-start-line="535" selection-start-column="16" selection-end-line="535" selection-end-column="16" />
+        <state relative-caret-position="452">
+          <caret line="167" column="63" lean-forward="false" selection-start-line="167" selection-start-column="63" selection-end-line="167" selection-end-column="63" />
           <folding>
-            <element signature="e#2904#3070#0" expanded="false" />
-            <element signature="n#!!block;n#constructor#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#GetOrgSettings#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#SetOrgSettingValue#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#getOrgSettingsFromResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkSetOrgSettingValueResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#GetCategories#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#AddCategory#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#DeleteCategory#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#EditCategory#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkAddCategoryResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#getCategoriesFromResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkDeleteCategoryResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkEditCategoryResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#GetTeams#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#AddTeam#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#EditTeam#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#DeleteTeam#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#getTeamsFromResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkAddTeamResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkEditTeamResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkDeleteTeamResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#GetParticipantsExcel#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#GetParticipants#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#EditParticipant#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#DeleteParticipant#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#ResetParticipantPassword#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#AddParticipant#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkResetParticipantPasswordResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkDeleteParticipantResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="e#13901#14223#0" expanded="false" />
-            <element signature="n#!!block;n#checkEditParticipantResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkAddParticipantResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#getParticipantsFromResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#GetEmployees#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#EditEmployee#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#DeleteEmployee#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#ResetEmployeePassword#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#AddEmployee#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkResetEmployeePasswordResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkDeleteEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkEditEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#checkAddEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="e#19773#20130#0" expanded="false" />
-            <element signature="n#!!block;n#getEmployeesFromResponse#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#PreloaderOn#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#PreloaderOff#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#IntToSex#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#IdToTeamName#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#CategoryIdToName#0;n#OrgSetService#0" expanded="false" />
-            <element signature="n#!!block;n#StringToBoolean#0;n#OrgSetService#0" expanded="false" />
+            <element signature="e#199#263#0" expanded="false" />
+            <element signature="e#607#721#0" expanded="false" />
+            <element signature="n#!!block;n#GetEmployees#0" expanded="false" />
+            <element signature="n#!!block;n#getEmployees_Request#0" expanded="false" />
+            <element signature="n#!!block;n#getEmployeesFromResponse#0" expanded="false" />
+            <element signature="e#2118#2162#0" expanded="false" />
+            <element signature="e#2164#2215#1" expanded="false" />
+            <element signature="n#!!block;n#getPermissionsAndPosts#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/addEmployee/addEmployee.component.ts">
+    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editEmployeePermission.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+        <state relative-caret-position="136">
+          <caret line="17" column="69" lean-forward="true" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
           <folding>
-            <element signature="e#1050#1250#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wwwroot/app/app.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="41" column="38" lean-forward="false" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#44#0" expanded="true" />
+            <element signature="n#!!block;n#EditEmployeePermissionHandler#0" expanded="false" />
+            <element signature="n#!!block;n#HandleEditEmployeePermission#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1868,18 +1864,106 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/paths.go">
+    <entry file="file://$PROJECT_DIR$/src/orgset/orgset_main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="165" column="78" lean-forward="false" selection-start-line="165" selection-start-column="78" selection-end-line="165" selection-end-column="78" />
+          <folding>
+            <element signature="n#!!block;n#CheckUserAccess#0" expanded="false" />
+            <element signature="n#!!block;n#checkAccessFromQuery#0" expanded="false" />
+            <element signature="n#!!block;n#GetUserOrganizationAndLoginByToken#0" expanded="false" />
+            <element signature="e#1553#1619#0" expanded="false" />
+            <element signature="e#1685#1713#0" expanded="false" />
+            <element signature="e#1815#1881#0" expanded="false" />
+            <element signature="e#1961#1989#0" expanded="false" />
+            <element signature="n#!!block;n#getUserOrganizationFromQuery#0" expanded="false" />
+            <element signature="n#!!block;n#getUserLoginFromQuery#0" expanded="false" />
+            <element signature="n#!!block;n#GeneratePassword#0" expanded="false" />
+            <element signature="n#!!block;n#getTeamsIDs#0" expanded="false" />
+            <element signature="n#!!block;n#CheckTeamID#0" expanded="false" />
+            <element signature="n#!!block;n#GetUserOrganizationByLogin#0" expanded="false" />
+            <element signature="e#3916#3978#0" expanded="false" />
+            <element signature="e#4095#4160#0" expanded="false" />
+            <element signature="n#!!block;n#CheckCategoryId#0" expanded="false" />
+            <element signature="e#4348#4426#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_editEmployee.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="45" column="50" lean-forward="false" selection-start-line="45" selection-start-column="50" selection-end-line="45" selection-end-column="50" />
+          <folding>
+            <element signature="e#440#495#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/database.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="35" lean-forward="true" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="63" lean-forward="false" selection-start-line="32" selection-start-column="63" selection-end-line="32" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/components/authorization/authorization.component.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="201" column="33" lean-forward="false" selection-start-line="201" selection-start-column="33" selection-end-line="201" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/employees/orgset_editEmployeePermission.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="38" lean-forward="true" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+          <caret line="57" column="1" lean-forward="true" selection-start-line="57" selection-start-column="1" selection-end-line="57" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#EditEmployeePermission#0" expanded="false" />
+            <element signature="e#483#538#0" expanded="false" />
+            <element signature="e#727#782#0" expanded="false" />
+            <element signature="e#825#894#0" expanded="false" />
+            <element signature="n#!!block;n#editEmployeePermission_Request#0" expanded="false" />
+            <element signature="n#!!block;n#checkPermissionValue#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/orgset/teams/orgset_getTeams.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="91" column="60" lean-forward="false" selection-start-line="91" selection-start-column="60" selection-end-line="91" selection-end-column="60" />
+          <folding>
+            <element signature="n#!!block;n#GetTeams#0" expanded="false" />
+            <element signature="n#!!block;n#getTeams_Request#0" expanded="false" />
+            <element signature="n#!!block;n#getTeamLeader#0" expanded="false" />
+            <element signature="n#!!block;n#getTeamParticipants#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="41" column="43" lean-forward="true" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wwwroot/app/components/orgset/orgset.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="512" column="55" lean-forward="false" selection-start-line="512" selection-start-column="55" selection-end-line="512" selection-end-column="55" />
+        <state relative-caret-position="214">
+          <caret line="270" column="60" lean-forward="false" selection-start-line="270" selection-start-column="60" selection-end-line="270" selection-end-column="60" />
           <folding>
             <element signature="n#div#0;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
@@ -1889,7 +1973,6 @@
             <element signature="n#div#7;n#div#0;n#section#0;n#main#0;n#div#0;n#!!top" expanded="false" />
             <element signature="n#section#1;n#main#0;n#div#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#1;n#main#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#section#2;n#main#0;n#div#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#2;n#main#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#section#3;n#main#0;n#div#0;n#!!top" expanded="false" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
@@ -1898,230 +1981,77 @@
             <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#3;n#main#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#ngx-datatable-column#0;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#ngx-datatable-column#1;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#ngx-datatable-column#2;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#ngx-datatable-column#3;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#ng-template#0;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#4;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#5;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
-            <marker date="1491066643827" expanded="true" signature="28913:29114" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="29005:29083" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="29888:30815" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="30159:30759" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="30265:30381" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="30881:31786" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="31148:31730" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="31251:31361" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="31463:31679" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="31857:32803" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="32129:32747" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="32238:32360" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="32898:34410" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="33279:34354" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="33382:33520" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="33616:34303" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="34476:35713" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="34743:35657" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="34845:34977" ph="..." />
-            <marker date="1491066643827" expanded="true" signature="35072:35606" ph="..." />
+            <element signature="n#ngx-datatable-column#5;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#md-select#0;n#ng-template#1;n#ngx-datatable-column#5;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#ng-template#0;n#ngx-datatable-column#6;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#ngx-datatable-column#7;n#ngx-datatable#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#4;n#main#0;n#div#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/database.go">
+    <entry file="file://$PROJECT_DIR$/wwwroot/app/src/orgset.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="48" lean-forward="false" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/codes.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="79" column="68" lean-forward="false" selection-start-line="79" selection-start-column="68" selection-end-line="79" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/users/users_getUserData.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="60" column="31" lean-forward="true" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
+        <state relative-caret-position="380">
+          <caret line="377" column="78" lean-forward="false" selection-start-line="377" selection-start-column="78" selection-end-line="377" selection-end-column="78" />
           <folding>
-            <element signature="e#1090#1135#0" expanded="false" />
+            <element signature="e#3012#3178#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#GetOrgSettings#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#SetOrgSettingValue#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#getOrgSettingsFromResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkSetOrgSettingValueResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#GetCategories#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#AddCategory#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#DeleteCategory#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#EditCategory#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkAddCategoryResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#getCategoriesFromResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkDeleteCategoryResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkEditCategoryResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#GetTeams#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#AddTeam#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#EditTeam#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#DeleteTeam#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#getTeamsFromResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkEditTeamResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkDeleteTeamResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#GetParticipantsExcel#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#GetParticipants#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#EditParticipant#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#DeleteParticipant#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#ResetParticipantPassword#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#AddParticipant#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkResetParticipantPasswordResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkDeleteParticipantResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkAddParticipantResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#getParticipantsFromResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#GetEmployees#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#EditEmployee#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#DeleteEmployee#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#ResetEmployeePassword#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#AddEmployee#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#EditEmployeePermission#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkEditEmployeePermissionResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkResetEmployeePasswordResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkDeleteEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkEditEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#checkAddEmployeeResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#getEmployeesFromResponse#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#PreloaderOn#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#PreloaderOff#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#IntToSex#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#IdToTeamName#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#CategoryIdToName#0;n#OrgSetService#0" expanded="false" />
+            <element signature="n#!!block;n#StringToBoolean#0;n#OrgSetService#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/users/users_getUserLogin.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="13" column="39" lean-forward="false" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/orgset_main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="108" column="1" lean-forward="true" selection-start-line="108" selection-start-column="1" selection-end-line="108" selection-end-column="1" />
-          <folding>
-            <element signature="n#!!block;n#CheckUserAccess#0" expanded="false" />
-            <element signature="n#!!block;n#checkAccessFromQuery#0" expanded="false" />
-            <element signature="n#!!block;n#GetUserOrganizationAndLoginByToken#0" expanded="false" />
-            <element signature="e#1469#1535#0" expanded="false" />
-            <element signature="e#1601#1629#0" expanded="false" />
-            <element signature="e#1735#1801#0" expanded="false" />
-            <element signature="e#1881#1909#0" expanded="false" />
-            <element signature="n#!!block;n#getUserOrganizationFromQuery#0" expanded="false" />
-            <element signature="n#!!block;n#getUserLoginFromQuery#0" expanded="false" />
-            <element signature="n#!!block;n#GeneratePassword#0" expanded="false" />
-            <element signature="n#!!block;n#getTeamsIDs#0" expanded="false" />
-            <element signature="n#!!block;n#CheckTeamID#0" expanded="false" />
-            <element signature="n#!!block;n#GetUserOrganizationByLogin#0" expanded="false" />
-            <element signature="e#3779#3841#0" expanded="false" />
-            <element signature="e#3958#4023#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_tools.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="76" column="16" lean-forward="true" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/authorization/authorization_checkData.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="33" column="43" lean-forward="true" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/users/users_main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_deleteCategory.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="12" column="57" lean-forward="false" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getEmployeesHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="13" column="29" lean-forward="false" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getOrgSettingsHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="13" column="29" lean-forward="false" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_get/getCategoriesHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_edit/editCategoryHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteParticipantHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="18" column="29" lean-forward="false" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteTeamHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="23" column="29" lean-forward="false" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_delete/deleteCategoryHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="23" column="29" lean-forward="false" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addCategoryHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addParticipantHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="32" column="29" lean-forward="false" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
-          <folding>
-            <element signature="e#547#638#0" expanded="false" />
-            <element signature="e#718#810#0" expanded="false" />
-            <element signature="n#!!block;n#HandleAddParticipant#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handlers/api/orgset/orgset_add/addTeamHandler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="18" column="29" lean-forward="false" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/database.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="21" column="27" lean-forward="false" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/orgset/categories/orgset_addCategory.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="19" column="19" lean-forward="true" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>

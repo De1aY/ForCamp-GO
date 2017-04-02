@@ -35,16 +35,21 @@ func main() {
 	orgset_add.HandleAddTeam(APISite)
 	orgset_add.HandleAddCategory(APISite)
 	orgset_add.HandleAddParticipant(APISite)
+	orgset_add.HandleAddEmployee(APISite)
 	// OrgSet: EDIT
 	orgset_edit.HandleSetOrgSettingValue(APISite)
 	orgset_edit.HandleEditCategory(APISite)
 	orgset_edit.HandleEditTeam(APISite)
 	orgset_edit.HandleResetParticipantPassword(APISite)
 	orgset_edit.HandleEditParticipant(APISite)
+	orgset_edit.HandleResetEmployeePassword(APISite)
+	orgset_edit.HandleEditEmployee(APISite)
+	orgset_edit.HandleEditEmployeePermission(APISite)
 	// OrgSet: DELETE
 	orgset_delete.HandleDeleteCategory(APISite)
 	orgset_delete.HandleDeleteTeam(APISite)
 	orgset_delete.HandleDeleteParticipant(APISite)
+	orgset_delete.HandleDeleteEmployee(APISite)
 
 	//Main site
 	handlers.HandleFolder_MainSite(WWWSite)
