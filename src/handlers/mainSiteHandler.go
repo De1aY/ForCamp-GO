@@ -82,6 +82,11 @@ func HandleFolder_MainSite(router *mux.Router) {
 	router.HandleFunc("/", indexHandler)
 	router.HandleFunc("/main", indexHandler)
 	router.HandleFunc("/orgset", indexHandler)
+	router.HandleFunc("/marks", indexHandler)
+	router.HandleFunc("/general", indexHandler)
+	router.HandleFunc("/profile", indexHandler)
+	router.HandleFunc("/team", indexHandler)
+	router.HandleFunc("/achievements", indexHandler)
 	//SystemConfig
 	router.HandleFunc("/systemjs.config.js", systemConfigHandler)
 }

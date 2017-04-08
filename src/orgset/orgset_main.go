@@ -138,7 +138,7 @@ func CheckTeamID(id int64, w http.ResponseWriter, Connection *sql.DB) bool{
 		if TeamsIDs[id] {
 			return true
 		} else {
-			return conf.PrintError(conf.ErrParticipantTeamIncorrect, w)
+			return conf.PrintError(conf.ErrTeamIncorrect, w)
 		}
 	} else {
 		return true

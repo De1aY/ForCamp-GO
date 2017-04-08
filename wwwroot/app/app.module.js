@@ -32,9 +32,13 @@ var addCategory_component_1 = require("./components/orgset/addCategory/addCatego
 var addTeam_component_1 = require("./components/orgset/addTeam/addTeam.component");
 var addParticipant_component_1 = require("./components/orgset/addParticipant/addParticipant.component");
 var addEmployee_component_1 = require("./components/orgset/addEmployee/addEmployee.component");
+var marks_component_1 = require("./components/marks/marks.component");
+var marks_service_1 = require("./src/marks.service");
+var marksEdit_component_1 = require("./components/marks/marksEdit/marksEdit.component");
 var appRoutes = [
     { path: 'orgset', component: orgset_componenet_1.OrgSetComponent },
     { path: 'main', component: orgmain_component_1.OrgMainComponent },
+    { path: 'marks', component: marks_component_1.MarksComponent },
     { path: '', component: authorization_component_1.AuthorizationComponent },
 ];
 var AppModule = (function () {
@@ -49,6 +53,8 @@ AppModule = __decorate([
             authorization_component_1.AuthorizationComponent,
             app_component_1.AppComponent,
             orgset_componenet_1.OrgSetComponent,
+            marks_component_1.MarksComponent,
+            marksEdit_component_1.EditMarkComponent,
             MDLInit_1.MDL,
             participantValueEdit_component_1.ParticipantValueEditComponent,
             periodValueEdit_component_1.PeriodValueEditComponent,
@@ -57,9 +63,9 @@ AppModule = __decorate([
             addCategory_component_1.AddCategoryComponent,
             addTeam_component_1.AddTeamComponent,
             addParticipant_component_1.AddParticipantComponent,
-            addEmployee_component_1.AddEmployeeComponent],
+            addEmployee_component_1.AddEmployeeComponent,],
         bootstrap: [app_component_1.AppComponent],
-        providers: [cookies_service_1.CookieService, checkToken_service_1.CheckTokenService, user_service_1.UserService, orgset_service_1.OrgSetService],
+        providers: [cookies_service_1.CookieService, checkToken_service_1.CheckTokenService, user_service_1.UserService, orgset_service_1.OrgSetService, marks_service_1.MarksService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

@@ -24,21 +24,27 @@ var UserService = (function () {
             Name: "загрузка...",
             Surname: "загрузка...",
             Middlename: "загрузка...",
-            Team: "загрузка...",
+            Team: 0,
             Avatar: "загрузка...",
             Sex: 0,
             Access: 0,
-            Organization: "загрузка..."
+            Organization: "загрузка...",
+            Marks: [],
+            Permissions: [],
+            Post: "загрузка..."
         };
         this.UserData = {
             Name: "загрузка...",
             Surname: "загрузка...",
             Middlename: "загрузка...",
-            Team: "загрузка...",
+            Team: 0,
             Avatar: "загрузка...",
             Sex: 0,
             Access: 0,
-            Organization: "загрузка..."
+            Organization: "загрузка...",
+            Marks: [],
+            Permissions: [],
+            Post: "загрузка..."
         };
     }
     UserService.prototype.GetSelfUserData = function () {
@@ -51,16 +57,36 @@ var UserService = (function () {
     };
     UserService.prototype.getUserDataFromResponse = function (data) {
         if (data.code == 200) {
-            this.UserData = {
-                Name: data.data.name,
-                Surname: data.data.surname,
-                Middlename: data.data.middlename,
-                Sex: data.data.sex,
-                Access: data.data.access,
-                Avatar: data.data.avatar,
-                Team: data.data.team,
-                Organization: data.data.organization
-            };
+            if (data.data.access > 0) {
+                this.UserData = {
+                    Name: data.data.name,
+                    Surname: data.data.surname,
+                    Middlename: data.data.middlename,
+                    Sex: data.data.sex,
+                    Access: data.data.access,
+                    Avatar: data.data.avatar,
+                    Team: data.data.team,
+                    Organization: data.data.organization,
+                    Marks: [],
+                    Permissions: data.data.permissions,
+                    Post: data.data.post
+                };
+            }
+            else {
+                this.UserData = {
+                    Name: data.data.name,
+                    Surname: data.data.surname,
+                    Middlename: data.data.middlename,
+                    Sex: data.data.sex,
+                    Access: data.data.access,
+                    Avatar: data.data.avatar,
+                    Team: data.data.team,
+                    Organization: data.data.organization,
+                    Marks: data.data.marks,
+                    Permissions: [],
+                    Post: ""
+                };
+            }
         }
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
@@ -81,16 +107,36 @@ var UserService = (function () {
     };
     UserService.prototype.getSelfUserDataFromResponse = function (data) {
         if (data.code == 200) {
-            this.SelfData = {
-                Name: data.data.name,
-                Surname: data.data.surname,
-                Middlename: data.data.middlename,
-                Sex: data.data.sex,
-                Access: data.data.access,
-                Avatar: data.data.avatar,
-                Team: data.data.team,
-                Organization: data.data.organization
-            };
+            if (data.data.access > 0) {
+                this.SelfData = {
+                    Name: data.data.name,
+                    Surname: data.data.surname,
+                    Middlename: data.data.middlename,
+                    Sex: data.data.sex,
+                    Access: data.data.access,
+                    Avatar: data.data.avatar,
+                    Team: data.data.team,
+                    Organization: data.data.organization,
+                    Marks: [],
+                    Permissions: data.data.permissions,
+                    Post: data.data.post
+                };
+            }
+            else {
+                this.SelfData = {
+                    Name: data.data.name,
+                    Surname: data.data.surname,
+                    Middlename: data.data.middlename,
+                    Sex: data.data.sex,
+                    Access: data.data.access,
+                    Avatar: data.data.avatar,
+                    Team: data.data.team,
+                    Organization: data.data.organization,
+                    Marks: data.data.marks,
+                    Permissions: [],
+                    Post: ""
+                };
+            }
         }
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });

@@ -97,11 +97,11 @@
 #additional_settings md-slide-toggle {
   margin: 4px 0; }
 
-#orgset_categories md-slide-toggle, #orgset_teams md-slide-toggle, #orgset_participants md-slide-toggle, #orgset_employees md-slide-toggle {
+#orgset_categories md-slide-toggle, #orgset_teams md-slide-toggle, #orgset_participants md-slide-toggle, #orgset_employees md-slide-toggle, #marks md-slide-toggle {
   margin: 0; }
-#orgset_categories .datatable-body-cell-label, #orgset_teams .datatable-body-cell-label, #orgset_participants .datatable-body-cell-label, #orgset_employees .datatable-body-cell-label {
+#orgset_categories .datatable-body-cell-label, #orgset_teams .datatable-body-cell-label, #orgset_participants .datatable-body-cell-label, #orgset_employees .datatable-body-cell-label, #marks .datatable-body-cell-label {
   text-transform: capitalize; }
-#orgset_categories input[type=text], #orgset_teams input[type=text], #orgset_participants input[type=text], #orgset_employees input[type=text] {
+#orgset_categories input[type=text], #orgset_teams input[type=text], #orgset_participants input[type=text], #orgset_employees input[type=text], #marks input[type=text] {
   font-size: 18px;
   display: block;
   background: transparent;

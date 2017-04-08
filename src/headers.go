@@ -17,6 +17,7 @@ func SetHeaders_API(w http.ResponseWriter){
 }
 
 func SetHeaders_Main(w http.ResponseWriter){
+	w.Header().Set("Access-Control-Allow-Method", "GET")
 	w.Header().Set("Content-Security-Policy", "default-src 'self' https://api.forcamp.ga; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com/; img-src 'self' data:; script-src 'unsafe-eval' 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com")
 	w.Header().Set("X-XSS-Protection", "1; mode=block")
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")

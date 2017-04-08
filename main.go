@@ -54,6 +54,8 @@ func main() {
 	//Main site
 	handlers.HandleFolder_MainSite(WWWSite)
 	handlers.HandleFolder_MainSite(MainSite)
+	handlers.HandleExit(WWWSite)
+	handlers.HandleExit(MainSite)
 
 	//Server
 	go http.ListenAndServe(conf.SERVER_PORT, Router)

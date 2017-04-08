@@ -27,10 +27,6 @@ func (err *ApiError) Error() string{
 	return err.Message
 }
 
-func NewApiError(err error) *ApiError{
-	return &ApiError{0, "ERROR", err.Error()}
-}
-
 func PrintError(err *ApiError, w http.ResponseWriter) bool{
 	Response, _ := json.Marshal(err)
 	fmt.Fprintf(w, string(Response))
@@ -49,7 +45,7 @@ var RequestSuccess = &Success{200, "success"}
 var ErrMethodNotAllowed = &ApiError{400, "ERROR", "Method not allowed"}
 var ErrInsufficientRights = &ApiError{401, "ERROR", "Insufficient rights"}
 // 500
-var ErrDatabaseQueryFailed = &ApiError{501, "ERROR", "Query failed"}
+var ErrDatabaseQueryFailed = &ApiError{501, "ERROR", "Database connection failed"}
 var ErrConvertStringToInt = &ApiError{502, "ERROR", "Cannot convert string to int"}
 var ErrOpenExcelFile = &ApiError{503, "ERROR", "Cannot open excel file"}
 var ErrSaveExcelFile = &ApiError{504, "ERROR", "Cannot save excel file"}
@@ -72,16 +68,15 @@ var ErrParticipantMiddlenameEmpty = &ApiError{614, "ERROR", "Middlename is empty
 var ErrParticipantSexNotINT = &ApiError{615, "ERROR", "Sex must be a number"}
 var ErrParticipantTeamNotINT = &ApiError{616, "ERROR", "Team must be a number"}
 var ErrParticipantSexIncorrect = &ApiError{617, "ERROR", "Sex is incorrect"}
-var ErrParticipantTeamIncorrect = &ApiError{618, "ERROR", "Team is incorrect"}
-var ErrUserNotFound = &ApiError{619, "ERROR", "User not found"}
-var ErrEmployeeNameEmpty = &ApiError{620, "ERROR", "Name is empty"}
-var ErrEmployeeSurnameEmpty = &ApiError{621, "ERROR", "Surname is empty"}
-var ErrEmployeeMiddlenameEmpty = &ApiError{622, "ERROR", "Middlename is empty"}
-var ErrEmployeeSexNotINT = &ApiError{623, "ERROR", "Sex must be a number"}
-var ErrEmployeeTeamNotINT = &ApiError{624, "ERROR", "Team must be a number"}
-var ErrEmployeeSexIncorrect = &ApiError{625, "ERROR", "Sex is incorrect"}
-var ErrEmployeeTeamIncorrect = &ApiError{626, "ERROR", "Team is incorrect"}
-var ErrEmployeePostEmpty = &ApiError{627, "ERROR", "Post is empty"}
-var ErrCategoryIdIncorrect = &ApiError{628, "ERROR", "Category ID is incorrect"}
-var ErrPermissionValueIncorrect = &ApiError{629, "ERROR", "Permission must be a boolean"}
-var ErrCategoryIdNotINT = &ApiError{630, "ERROR", "Category id must be a number"}
+var ErrUserNotFound = &ApiError{618, "ERROR", "User not found"}
+var ErrEmployeeNameEmpty = &ApiError{619, "ERROR", "Name is empty"}
+var ErrEmployeeSurnameEmpty = &ApiError{620, "ERROR", "Surname is empty"}
+var ErrEmployeeMiddlenameEmpty = &ApiError{621, "ERROR", "Middlename is empty"}
+var ErrEmployeeSexNotINT = &ApiError{622, "ERROR", "Sex must be a number"}
+var ErrEmployeeTeamNotINT = &ApiError{623, "ERROR", "Team must be a number"}
+var ErrEmployeeSexIncorrect = &ApiError{624, "ERROR", "Sex is incorrect"}
+var ErrTeamIncorrect = &ApiError{625, "ERROR", "Team is incorrect"}
+var ErrEmployeePostEmpty = &ApiError{626, "ERROR", "Post is empty"}
+var ErrCategoryIdIncorrect = &ApiError{627, "ERROR", "Category ID is incorrect"}
+var ErrPermissionValueIncorrect = &ApiError{628, "ERROR", "Permission must be a boolean"}
+var ErrCategoryIdNotINT = &ApiError{629, "ERROR", "Category id must be a number"}

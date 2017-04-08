@@ -26,10 +26,14 @@ import {AddCategoryComponent} from "./components/orgset/addCategory/addCategory.
 import {AddTeamComponent} from "./components/orgset/addTeam/addTeam.component";
 import {AddParticipantComponent} from "./components/orgset/addParticipant/addParticipant.component";
 import {AddEmployeeComponent} from "./components/orgset/addEmployee/addEmployee.component";
+import {MarksComponent} from "./components/marks/marks.component";
+import {MarksService} from "./src/marks.service";
+import {EditMarkComponent} from "./components/marks/marksEdit/marksEdit.component";
 
 const appRoutes: Routes = [
     {path: 'orgset', component: OrgSetComponent},
     {path: 'main', component: OrgMainComponent},
+    {path: 'marks', component: MarksComponent},
     {path: '', component: AuthorizationComponent},
 ];
 @NgModule({
@@ -38,6 +42,8 @@ const appRoutes: Routes = [
         AuthorizationComponent,
         AppComponent,
         OrgSetComponent,
+        MarksComponent,
+        EditMarkComponent,
         MDL,
         ParticipantValueEditComponent,
         PeriodValueEditComponent,
@@ -46,9 +52,9 @@ const appRoutes: Routes = [
         AddCategoryComponent,
         AddTeamComponent,
         AddParticipantComponent,
-        AddEmployeeComponent],
+        AddEmployeeComponent,],
     bootstrap: [AppComponent],
-    providers: [CookieService, CheckTokenService, UserService, OrgSetService],
+    providers: [CookieService, CheckTokenService, UserService, OrgSetService, MarksService],
 })
 export class AppModule {
 }
