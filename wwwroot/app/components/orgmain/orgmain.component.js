@@ -38,6 +38,7 @@ var OrgMainComponent = (function () {
         this.orgSetService.GetTeams();
         this.orgSetService.GetParticipants();
         this.orgSetService.GetEmployees();
+        this.orgSetService.GetReasons();
     };
     OrgMainComponent.prototype.UserServiceInit = function () {
         if (this.userService.Token == undefined) {

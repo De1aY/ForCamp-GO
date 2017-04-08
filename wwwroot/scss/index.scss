@@ -3,14 +3,21 @@
 $preloader-height: 5px;
 
 $colours: (
-        green:  #159756,
-        red:    #da4733,
-        blue:   #3b78e7,
+        green: #159756,
+        red: #da4733,
+        blue: #3b78e7,
         yellow: #fdba2c
 );
 
-#participants_add__select--team, #employees_add__select--team{
-  .mat-select-placeholder{
+#add_reason--category{
+  div.mat-select-trigger{
+    font-size: 20px;
+    height: 35px;
+  }
+}
+
+#participants_add__select--team, #employees_add__select--team {
+  .mat-select-placeholder {
     text-transform: capitalize;
   }
 }
@@ -18,157 +25,155 @@ $colours: (
 $animation-duration: 3.5s;
 
 .mdl-card {
-width: 100%;
-min-height: 125px;
+  width: 100%;
+  min-height: 125px;
 }
 
 .mdl-card__title-text {
-font-size: 27px;
+  font-size: 27px;
 }
 
 .mdl-card__title {
 
-.card_field {
-  font-size: 24px;
+  .card_field {
+    font-size: 24px;
 
-  i {
-    float: left;
-    margin-top: 3px;
+    i {
+      float: left;
+      margin-top: 3px;
+    }
+
+    .card_field_text {
+      float: right;
+      margin: 0 0 0 10px;
+      text-transform: capitalize;
+    }
+  }
+}
+
+#additional_settings {
+
+  .mat-slide-toggle-container {
+    margin-top: 1px;
   }
 
-  .card_field_text {
-    float: right;
-    margin: 0 0 0 10px;
+  .mat-slide-toggle-content {
+    font-size: 24px;
+  }
+
+  md-slide-toggle {
+    margin: 4px 0;
+  }
+
+}
+
+#orgset_categories, #orgset_teams, #orgset_participants, #orgset_employees, #orgset_reasons, #marks {
+  md-slide-toggle {
+    margin: 0;
+  }
+
+  .datatable-body-cell-label {
     text-transform: capitalize;
   }
-}
+
+  input[type=text] {
+    font-size: 18px;
+    display: block;
+    background: transparent;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #5264AE;
+    outline: none;
+  }
 }
 
-#additional_settings{
+#add_category {
 
-.mat-slide-toggle-container{
-  margin-top: 1px;
-}
+  .mat-slide-toggle-container {
+    margin-top: 1px;
+  }
 
-.mat-slide-toggle-content{
-  font-size: 24px;
-}
+  .mat-slide-toggle-content {
+    font-size: 20px;
+  }
 
-md-slide-toggle{
-  margin: 4px 0;
-}
-
-}
-
-#orgset_categories, #orgset_teams, #orgset_participants, #orgset_employees, #marks{
-md-slide-toggle{
-  margin: 0;
-}
-
-.datatable-body-cell-label{
-  text-transform: capitalize;
-}
-
-input[type=text]{
-  font-size: 18px;
-  display: block;
-  background: transparent;
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #5264AE;
-  outline: none;
-}
-}
-
-#add_category{
-
-.mat-slide-toggle-container{
-  margin-top: 1px;
-}
-
-.mat-slide-toggle-content{
-  font-size: 20px;
-}
-
-.mat-slide-toggle{
-  margin: 10px 0;
-}
+  .mat-slide-toggle {
+    margin: 10px 0;
+  }
 
 }
 
 .mdl-layout-title, .mdl-layout-title, .mdl-navigation__link, .mdl-card__title-text {
-text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 .card_field_text {
-margin-left: 10px;
+  margin-left: 10px;
 }
 
 .mdl-tooltip {
-text-transform: none;
+  text-transform: none;
 }
 
 body {
 
-.notie-alert{
-  z-index: 1000;
-}
+  .notie-alert {
+    z-index: 1000;
+  }
 
-.tabletolist{
-  width: 100%;
-}
+  .tabletolist {
+    width: 100%;
+  }
 
-table{
+  table {
 
-  tr{
+    tr {
 
-    td.mdl-data-table__cell--non-numeric{
-      text-transform: capitalize;
+      td.mdl-data-table__cell--non-numeric {
+        text-transform: capitalize;
+      }
+
     }
 
   }
 
-}
-
-.mdl-switch{
-  width: 0;
-}
-
-.on_edit {
-  padding: 0;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-
-  .on_edit-click {
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 2;
+  .mdl-switch {
+    width: 0;
   }
 
-  .on_edit-card {
+  .on_edit {
+    padding: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 999;
 
-    .card_field {
-      width: 100%;
+    .on_edit-click {
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
 
+    .on_edit-card {
+      z-index: 999;
 
+      .card_field {
+        width: 100%;
+
+      }
 
     }
 
   }
-
-}
 
 }
 
 @function colour($value) {
-@return map-get($colours, $value);
+  @return map-get($colours, $value);
 }
 
 header [role="progressbar"][aria-busy="true"] {
@@ -255,7 +260,6 @@ header [role="progressbar"][aria-busy="true"] {
     width: 0%;
     background-color: colour(green);
   }
-
 
   100% {
     width: 50%;

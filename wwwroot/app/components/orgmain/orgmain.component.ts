@@ -40,6 +40,7 @@ export class OrgMainComponent implements OnInit {
         this.orgSetService.GetTeams();
         this.orgSetService.GetParticipants();
         this.orgSetService.GetEmployees();
+        this.orgSetService.GetReasons();
     }
 
     private UserServiceInit(){

@@ -18,7 +18,7 @@ export class MarksService {
 
     public EditParticipantMark(login: string, id: number, value: number, reason: string){
         this.PreloaderOn();
-        this.http.post(this.EditUserMarkLink, "token="+this.Token+"&login="+login+"&id="+id+"&value"+value+"&reason="+reason, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditParticipantMark(data.json()));
+        this.http.post(this.EditUserMarkLink, "token="+this.Token+"&login="+login+"&id="+id+"&value="+value+"&reason="+reason, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditParticipantMark(data.json()));
     }
 
     private checkEditParticipantMark(data: any){

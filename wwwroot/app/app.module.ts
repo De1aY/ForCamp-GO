@@ -29,6 +29,7 @@ import {AddEmployeeComponent} from "./components/orgset/addEmployee/addEmployee.
 import {MarksComponent} from "./components/marks/marks.component";
 import {MarksService} from "./src/marks.service";
 import {EditMarkComponent} from "./components/marks/marksEdit/marksEdit.component";
+import {AddReasonComponent} from "./components/orgset/addReason/addReason.component";
 
 const appRoutes: Routes = [
     {path: 'orgset', component: OrgSetComponent},
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
         AddCategoryComponent,
         AddTeamComponent,
         AddParticipantComponent,
-        AddEmployeeComponent,],
+        AddEmployeeComponent,
+        AddReasonComponent,],
     bootstrap: [AppComponent],
     providers: [CookieService, CheckTokenService, UserService, OrgSetService, MarksService],
 })

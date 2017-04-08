@@ -9,16 +9,16 @@ import (
 
 
 func getMysqlSource() string{
-	MysqlSource := conf.MYSQL_LOGIN + ":"
-	MysqlSource += conf.MYSQL_PASSWORD + "@tcp("
+	MysqlSource := conf.MYSQL_LOCAL_LOGIN + ":"
+	MysqlSource += conf.MYSQL_LOCAL_PASSWORD + "@tcp("
 	MysqlSource += conf.MYSQL_SERVER_ADDR + conf.MYSQL_SERVER_PORT + ")/"
 	MysqlSource += conf.MYSQL_DB_MAIN
 	return MysqlSource
 }
 
 func getMysqlSource_Custom(name string) string{
-	MysqlSource := conf.MYSQL_LOGIN + ":"
-	MysqlSource += conf.MYSQL_PASSWORD + "@tcp("
+	MysqlSource := conf.MYSQL_LOCAL_LOGIN + ":"
+	MysqlSource += conf.MYSQL_LOCAL_PASSWORD + "@tcp("
 	MysqlSource += conf.MYSQL_SERVER_ADDR + conf.MYSQL_SERVER_PORT + ")/"
 	MysqlSource += name
 	return MysqlSource

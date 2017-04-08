@@ -22,6 +22,7 @@ export class OrgSetComponent implements OnInit {
     private TeamEdit: object = {};
     private ParticipantEdit: object = {};
     private EmployeeEdit: object = {};
+    private ReasonEdit: object = {};
 
     constructor(private cookieService: CookieService,
                 private checkTokenService: CheckTokenService,
@@ -48,6 +49,7 @@ export class OrgSetComponent implements OnInit {
         this.orgSetService.GetTeams();
         this.orgSetService.GetParticipants();
         this.orgSetService.GetEmployees();
+        this.orgSetService.GetReasons();
     }
 
     private UserServiceInit(){

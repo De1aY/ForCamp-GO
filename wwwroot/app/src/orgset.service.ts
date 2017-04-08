@@ -61,6 +61,13 @@ interface Employee{
     permissions: MarkPermission[]
 }
 
+interface Reason{
+    id: number
+    cat_id: number
+    text: string
+    change: number
+}
+
 @Injectable()
 export class OrgSetService {
     //Links: OrgSettings
@@ -89,6 +96,11 @@ export class OrgSetService {
     private ResetEmployeePasswordLink = "https://api.forcamp.ga/orgset.employee.password.reset";
     private AddEmployeeLink = "https://api.forcamp.ga/orgset.employee.add";
     private EditEmployeePermissionLink = "https://api.forcamp.ga/orgset.employee.permission.edit";
+    //Links: Reasons
+    private GetReasonsLink = "https://api.forcamp.ga/orgset.reasons.get";
+    private AddReasonLink = "https://api.forcamp.ga/orgset.reason.add";
+    private EditReasonLink = "https://api.forcamp.ga/orgset.reason.edit";
+    private DeleteReasonLink = "https://api.forcamp.ga/orgset.reason.delete";
     //Var's
     private PostHeaders: Headers = new Headers();
     public Token: string;
@@ -103,6 +115,7 @@ export class OrgSetService {
     public Categories: Category[] = [];
     public Participants: Participant[] = [];
     public Employees: Employee[] = [];
+    public Reasons: Reason[] = [];
     public Preloader: boolean = false;
     public ParticipantValueEdit_Active: boolean = false;
     public PeriodValueEdit_Active: boolean = false;
@@ -112,6 +125,7 @@ export class OrgSetService {
     public AddTeam_Active: boolean = false;
     public AddParticipant_Active: boolean = false;
     public AddEmployee_Active: boolean = false;
+    public AddReason_Active: boolean = false;
 
     constructor(@Inject(Http) private http: Http,) {
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -518,6 +532,11 @@ export class OrgSetService {
                     this.Teams[i].leader = {name: employee.name, surname: employee.surname, middlename: employee.middlename, login: employee.login};
                 }
             }
+            for(let i = 0; i < this.Employees.length; i++){
+                if(this.Employees[i].team == employee.team && this.Employees[i].login != employee.login){
+                    this.Employees[i].team = 0;
+                }
+            }
             alert({type: 1, text: "Операция успешно завершена!", time: 2});
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
@@ -563,6 +582,70 @@ export class OrgSetService {
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
         }
+    }
+
+    //Reasons
+    public GetReasons(){
+        this.PreloaderOn();
+        this.http.get(this.GetReasonsLink+"?token="+this.Token).subscribe((data: Response) => this.getReasonsFromResponse(data.json()));
+    }
+
+    public AddReason(catID: number, text: string, change: number){
+        this.PreloaderOn();
+        this.http.post(this.AddReasonLink, "token="+this.Token+"&cat_id="+catID+"&text="+text+"&change="+change, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkAddReasonResponse(data.json(), catID, text, change));
+    }
+
+    public EditReason(reason: Reason){
+        this.PreloaderOn();
+        this.http.post(this.EditReasonLink, "token="+this.Token+"&id="+reason.id+"&text="+reason.text+"&change="+reason.change+"&cat_id="+reason.cat_id, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditReasonResponse(data.json()));
+    }
+
+    public DeleteReason(id: number){
+        this.PreloaderOn();
+        this.http.post(this.DeleteReasonLink, "token="+this.Token+"&id="+id, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkDeleteReasonResponse(data.json(), id));
+    }
+
+    private getReasonsFromResponse(data: any){
+        if(data.code == 200){
+            this.Reasons = data.reasons;
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+        this.PreloaderOff();
+    }
+
+    private checkAddReasonResponse(data: any, catID: number, text: string, change: number){
+        if(data.code == 200){
+            this.Reasons.push({id: data.id, cat_id: catID, text: text, change: change});
+            alert({type: 1, text: "Операция успешно завершена!", time: 2});
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+        this.PreloaderOff();
+    }
+
+    private checkEditReasonResponse(data: any){
+        if(data.code == 200){
+            alert({type: 1, text: "Операция успешно завершена!", time: 2});
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+        this.PreloaderOff();
+    }
+
+    private checkDeleteReasonResponse(data: any, id: number){
+        if(data.code == 200){
+            for (let i = 0; i < this.Reasons.length; i++){
+                if(this.Reasons[i].id == id){
+                    this.Reasons.splice(i, 1);
+                    break
+                }
+            }
+            alert({type: 1, text: "Операция успешно завершена!", time: 2});
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+        this.PreloaderOff();
     }
 
     // Preloader

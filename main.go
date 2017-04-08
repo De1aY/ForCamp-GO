@@ -31,11 +31,13 @@ func main() {
 	orgset_get.HandleGetParticipants(APISite)
 	orgset_get.HandleGetEmployees(APISite)
 	orgset_get.HandleGetParticipantsExcel(APISite)
+	orgset_get.HandleGetReasons(APISite)
 	// OrgSet: ADD
 	orgset_add.HandleAddTeam(APISite)
 	orgset_add.HandleAddCategory(APISite)
 	orgset_add.HandleAddParticipant(APISite)
 	orgset_add.HandleAddEmployee(APISite)
+	orgset_add.HandleAddReason(APISite)
 	// OrgSet: EDIT
 	orgset_edit.HandleSetOrgSettingValue(APISite)
 	orgset_edit.HandleEditCategory(APISite)
@@ -45,11 +47,13 @@ func main() {
 	orgset_edit.HandleResetEmployeePassword(APISite)
 	orgset_edit.HandleEditEmployee(APISite)
 	orgset_edit.HandleEditEmployeePermission(APISite)
+	orgset_edit.HandleEditReason(APISite)
 	// OrgSet: DELETE
 	orgset_delete.HandleDeleteCategory(APISite)
 	orgset_delete.HandleDeleteTeam(APISite)
 	orgset_delete.HandleDeleteParticipant(APISite)
 	orgset_delete.HandleDeleteEmployee(APISite)
+	orgset_delete.HandleDeleteReason(APISite)
 
 	//Main site
 	handlers.HandleFolder_MainSite(WWWSite)

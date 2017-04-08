@@ -35,6 +35,7 @@ var addEmployee_component_1 = require("./components/orgset/addEmployee/addEmploy
 var marks_component_1 = require("./components/marks/marks.component");
 var marks_service_1 = require("./src/marks.service");
 var marksEdit_component_1 = require("./components/marks/marksEdit/marksEdit.component");
+var addReason_component_1 = require("./components/orgset/addReason/addReason.component");
 var appRoutes = [
     { path: 'orgset', component: orgset_componenet_1.OrgSetComponent },
     { path: 'main', component: orgmain_component_1.OrgMainComponent },
@@ -63,7 +64,8 @@ AppModule = __decorate([
             addCategory_component_1.AddCategoryComponent,
             addTeam_component_1.AddTeamComponent,
             addParticipant_component_1.AddParticipantComponent,
-            addEmployee_component_1.AddEmployeeComponent,],
+            addEmployee_component_1.AddEmployeeComponent,
+            addReason_component_1.AddReasonComponent,],
         bootstrap: [app_component_1.AppComponent],
         providers: [cookies_service_1.CookieService, checkToken_service_1.CheckTokenService, user_service_1.UserService, orgset_service_1.OrgSetService, marks_service_1.MarksService],
     })

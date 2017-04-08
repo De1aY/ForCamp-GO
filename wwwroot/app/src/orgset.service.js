@@ -39,6 +39,10 @@ var OrgSetService = (function () {
         this.ResetEmployeePasswordLink = "https://api.forcamp.ga/orgset.employee.password.reset";
         this.AddEmployeeLink = "https://api.forcamp.ga/orgset.employee.add";
         this.EditEmployeePermissionLink = "https://api.forcamp.ga/orgset.employee.permission.edit";
+        this.GetReasonsLink = "https://api.forcamp.ga/orgset.reasons.get";
+        this.AddReasonLink = "https://api.forcamp.ga/orgset.reason.add";
+        this.EditReasonLink = "https://api.forcamp.ga/orgset.reason.edit";
+        this.DeleteReasonLink = "https://api.forcamp.ga/orgset.reason.delete";
         this.PostHeaders = new http_1.Headers();
         this.OrgSettings = {
             organization: "загрузка...",
@@ -51,6 +55,7 @@ var OrgSetService = (function () {
         this.Categories = [];
         this.Participants = [];
         this.Employees = [];
+        this.Reasons = [];
         this.Preloader = false;
         this.ParticipantValueEdit_Active = false;
         this.PeriodValueEdit_Active = false;
@@ -60,6 +65,7 @@ var OrgSetService = (function () {
         this.AddTeam_Active = false;
         this.AddParticipant_Active = false;
         this.AddEmployee_Active = false;
+        this.AddReason_Active = false;
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     }
     OrgSetService.prototype.GetOrgSettings = function () {
@@ -449,6 +455,11 @@ var OrgSetService = (function () {
                     this.Teams[i].leader = { name: employee.name, surname: employee.surname, middlename: employee.middlename, login: employee.login };
                 }
             }
+            for (var i = 0; i < this.Employees.length; i++) {
+                if (this.Employees[i].team == employee.team && this.Employees[i].login != employee.login) {
+                    this.Employees[i].team = 0;
+                }
+            }
             notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
         }
         else {
@@ -495,6 +506,69 @@ var OrgSetService = (function () {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
         }
+    };
+    OrgSetService.prototype.GetReasons = function () {
+        var _this = this;
+        this.PreloaderOn();
+        this.http.get(this.GetReasonsLink + "?token=" + this.Token).subscribe(function (data) { return _this.getReasonsFromResponse(data.json()); });
+    };
+    OrgSetService.prototype.AddReason = function (catID, text, change) {
+        var _this = this;
+        this.PreloaderOn();
+        this.http.post(this.AddReasonLink, "token=" + this.Token + "&cat_id=" + catID + "&text=" + text + "&change=" + change, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkAddReasonResponse(data.json(), catID, text, change); });
+    };
+    OrgSetService.prototype.EditReason = function (reason) {
+        var _this = this;
+        this.PreloaderOn();
+        this.http.post(this.EditReasonLink, "token=" + this.Token + "&id=" + reason.id + "&text=" + reason.text + "&change=" + reason.change + "&cat_id=" + reason.cat_id, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditReasonResponse(data.json()); });
+    };
+    OrgSetService.prototype.DeleteReason = function (id) {
+        var _this = this;
+        this.PreloaderOn();
+        this.http.post(this.DeleteReasonLink, "token=" + this.Token + "&id=" + id, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkDeleteReasonResponse(data.json(), id); });
+    };
+    OrgSetService.prototype.getReasonsFromResponse = function (data) {
+        if (data.code == 200) {
+            this.Reasons = data.reasons;
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+        this.PreloaderOff();
+    };
+    OrgSetService.prototype.checkAddReasonResponse = function (data, catID, text, change) {
+        if (data.code == 200) {
+            this.Reasons.push({ id: data.id, cat_id: catID, text: text, change: change });
+            notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+        this.PreloaderOff();
+    };
+    OrgSetService.prototype.checkEditReasonResponse = function (data) {
+        if (data.code == 200) {
+            notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+        this.PreloaderOff();
+    };
+    OrgSetService.prototype.checkDeleteReasonResponse = function (data, id) {
+        if (data.code == 200) {
+            for (var i = 0; i < this.Reasons.length; i++) {
+                if (this.Reasons[i].id == id) {
+                    this.Reasons.splice(i, 1);
+                    break;
+                }
+            }
+            notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+        this.PreloaderOff();
     };
     OrgSetService.prototype.PreloaderOn = function () {
         this.Preloader = true;

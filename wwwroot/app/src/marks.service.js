@@ -27,7 +27,7 @@ var MarksService = (function () {
     MarksService.prototype.EditParticipantMark = function (login, id, value, reason) {
         var _this = this;
         this.PreloaderOn();
-        this.http.post(this.EditUserMarkLink, "token=" + this.Token + "&login=" + login + "&id=" + id + "&value" + value + "&reason=" + reason, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditParticipantMark(data.json()); });
+        this.http.post(this.EditUserMarkLink, "token=" + this.Token + "&login=" + login + "&id=" + id + "&value=" + value + "&reason=" + reason, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditParticipantMark(data.json()); });
     };
     MarksService.prototype.checkEditParticipantMark = function (data) {
         if (data.code == 200) {

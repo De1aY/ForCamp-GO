@@ -3,11 +3,12 @@
         <div class="mdl-layout__header-row">
             <span class="mdl-layout-title">{{orgSetService.OrgSettings.organization}}</span></div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-            <a href="#orgset_main" class="mdl-layout__tab is-active">Основные настройки</a>
+            <a href="#orgset_main" class="mdl-layout__tab is-active">Настройки</a>
             <a href="#orgset_categories" class="mdl-layout__tab">Категории</a>
             <a href="#orgset_teams" class="mdl-layout__tab">Команды</a>
             <a href="#orgset_participants" class="mdl-layout__tab">Участники</a>
             <a href="#orgset_employees" class="mdl-layout__tab">Сотрудники</a>
+            <a href="#orgset_reasons" class="mdl-layout__tab">Причины</a>
             <a href="#orgset_achievements" class="mdl-layout__tab">Достижения</a>
             <a href="#orgset_actions" class="mdl-layout__tab">События</a>
             <a href="#orgset_help" class="mdl-layout__tab">Помощь</a>
@@ -17,7 +18,6 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Управление</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" routerLink="/main">главная</a>
             <a class="mdl-navigation__link" routerLink="/profile">профиль</a>
             <a *ngIf="userService.SelfData.Access > 0" class="mdl-navigation__link" routerLink="/marks">баллы</a>
             <a class="mdl-navigation__link" routerlink="/general">общая статистика</a>
@@ -26,6 +26,7 @@
             <a class="mdl-navigation__link" href="exit">выйти</a>
         </nav>
     </div>
+    <add_reason></add_reason>
     <add_employee></add_employee>
     <add_participant></add_participant>
     <add_team></add_team>
@@ -564,6 +565,93 @@
                             </button>
                             <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
                                     (click)="orgSetService.AddEmployee_Active = true">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Reasons -->
+        <section class="mdl-layout__tab-panel" id="orgset_reasons">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">
+                                Причины изменения баллов
+                            </div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable
+                                    class="material width100"
+                                    [rows]="orgSetService.Reasons"
+                                    [loadingIndicator]="loadingIndicator"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [scrollbarH]="true"
+                                    [messages]="{emptyMessage: 'Причин нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Категория">
+                                    <ng-template ngx-datatable-header-template>
+                                        Категория
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ReasonEdit[row.$$index + '-category'] = true"
+                                              *ngIf="!ReasonEdit[row.$$index + '-category']">
+                                            <span *ngFor="let category of orgSetService.Categories">
+                                                <span *ngIf="category.id == row.cat_id">{{category.name}}</span>
+                                            </span>
+                                        </span>
+                                        <md-select *ngIf="ReasonEdit[row.$$index + '-category']"
+                                                   (change)="orgSetService.EditReason(row); ReasonEdit[row.$$index + '-category'] = false"
+                                                   [(ngModel)]="row.cat_id"
+                                                   style="position: absolute; margin-top: -2px">
+                                            <md-option *ngFor="let category of orgSetService.Categories" [value]="category.id">
+                                                {{category.name}}
+                                            </md-option>
+                                        </md-select>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Текст">
+                                    <ng-template ngx-datatable-header-template>
+                                        Текст
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ReasonEdit[row.$$index + '-text'] = true"
+                                              *ngIf="!ReasonEdit[row.$$index + '-text']">{{row.text}}</span>
+                                        <input autofocus *ngIf="ReasonEdit[row.$$index + '-text']"
+                                               (blur)="orgSetService.EditReason(row); ReasonEdit[row.$$index + '-text'] = false"
+                                               type="text" [(ngModel)]="row.text"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Изменение балла">
+                                    <ng-template ngx-datatable-header-template>
+                                        Изменение балла
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span (dblclick)="ReasonEdit[row.$$index + '-change'] = true"
+                                              *ngIf="!ReasonEdit[row.$$index + '-change']">{{row.change}}</span>
+                                        <input autofocus *ngIf="ReasonEdit[row.$$index + '-change']"
+                                               (blur)="orgSetService.EditReason(row); ReasonEdit[row.$$index + '-change'] = false"
+                                               type="number" [(ngModel)]="row.change"/>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template></ng-template>
+                                    <ng-template ngx-datatable-cell-template let-row="row">
+                                        <button class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored mdl-button--accent'
+                                                (click)="orgSetService.DeleteReason(row.id)">
+                                            <i class="material-icons">delete_forever</i>
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--primary mdl-button--icon mdl-js-ripple-effect on_edit-activation"
+                                    (click)="orgSetService.AddReason_Active = true">
                                 <i class="material-icons">add</i>
                             </button>
                         </div>

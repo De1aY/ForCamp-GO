@@ -24,6 +24,7 @@ var OrgSetComponent = (function () {
         this.TeamEdit = {};
         this.ParticipantEdit = {};
         this.EmployeeEdit = {};
+        this.ReasonEdit = {};
     }
     OrgSetComponent.prototype.ngOnInit = function () {
         this.TokenInit();
@@ -42,6 +43,7 @@ var OrgSetComponent = (function () {
         this.orgSetService.GetTeams();
         this.orgSetService.GetParticipants();
         this.orgSetService.GetEmployees();
+        this.orgSetService.GetReasons();
     };
     OrgSetComponent.prototype.UserServiceInit = function () {
         if (this.userService.Token == undefined) {
