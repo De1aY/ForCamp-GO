@@ -21,13 +21,12 @@ var MarksService = (function () {
         this.EditUserMarkLink = "https://api.forcamp.ga/mark.edit";
         this.PostHeaders = new http_1.Headers();
         this.Preloader = false;
-        this.MarkEdit_Active = false;
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     }
-    MarksService.prototype.EditParticipantMark = function (login, id, value, reason) {
+    MarksService.prototype.EditParticipantMark = function (login, id, reason) {
         var _this = this;
         this.PreloaderOn();
-        this.http.post(this.EditUserMarkLink, "token=" + this.Token + "&login=" + login + "&id=" + id + "&value=" + value + "&reason=" + reason, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditParticipantMark(data.json()); });
+        this.http.post(this.EditUserMarkLink, "token=" + this.Token + "&login=" + login + "&id=" + id + "&reason=" + reason, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditParticipantMark(data.json()); });
     };
     MarksService.prototype.checkEditParticipantMark = function (data) {
         if (data.code == 200) {

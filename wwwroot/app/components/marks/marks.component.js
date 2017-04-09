@@ -23,19 +23,17 @@ var MarksComponent = (function () {
         this.userService = userService;
         this.orgSetService = orgSetService;
         this.marksService = marksService;
-        this.Login_Edit = "";
-        this.CategoryID_Edit = 0;
+        this.reasonID = 0;
+        this.MarkEdit = {};
     }
     MarksComponent.prototype.ngOnInit = function () {
         this.TokenInit();
         this.ServiceInit();
     };
-    MarksComponent.prototype.EditMark = function (login, categoryID) {
+    MarksComponent.prototype.EditMark = function (login, categoryID, index) {
         if (this.CheckPermissions(categoryID)) {
             if (this.CheckSelfTeamMarks(login)) {
-                this.Login_Edit = login;
-                this.CategoryID_Edit = categoryID;
-                this.marksService.MarkEdit_Active = true;
+                this.MarkEdit[index + "-mark-" + categoryID] = true;
             }
             else {
                 notie_1.alert({ type: 3, text: "Вы не можете изменять баллы своей команде", time: 2 });
@@ -48,6 +46,7 @@ var MarksComponent = (function () {
     MarksComponent.prototype.ServiceInit = function () {
         this.UserServiceInit();
         this.OrgSetServiceInit();
+        this.MarksServiceInit();
     };
     MarksComponent.prototype.OrgSetServiceInit = function () {
         if (this.orgSetService.Token == undefined) {
@@ -58,6 +57,10 @@ var MarksComponent = (function () {
         this.orgSetService.GetTeams();
         this.orgSetService.GetParticipants();
         this.orgSetService.GetEmployees();
+        this.orgSetService.GetReasons();
+    };
+    MarksComponent.prototype.MarksServiceInit = function () {
+        this.marksService.Token = this.Token;
     };
     MarksComponent.prototype.UserServiceInit = function () {
         if (this.userService.Token == undefined) {

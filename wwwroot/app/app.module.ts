@@ -28,7 +28,6 @@ import {AddParticipantComponent} from "./components/orgset/addParticipant/addPar
 import {AddEmployeeComponent} from "./components/orgset/addEmployee/addEmployee.component";
 import {MarksComponent} from "./components/marks/marks.component";
 import {MarksService} from "./src/marks.service";
-import {EditMarkComponent} from "./components/marks/marksEdit/marksEdit.component";
 import {AddReasonComponent} from "./components/orgset/addReason/addReason.component";
 
 const appRoutes: Routes = [
@@ -44,7 +43,6 @@ const appRoutes: Routes = [
         AppComponent,
         OrgSetComponent,
         MarksComponent,
-        EditMarkComponent,
         MDL,
         ParticipantValueEditComponent,
         PeriodValueEditComponent,

@@ -7,7 +7,6 @@ export class MarksService {
     private EditUserMarkLink:string = "https://api.forcamp.ga/mark.edit";
     private PostHeaders: Headers = new Headers();
     public Preloader: boolean = false;
-    public MarkEdit_Active: boolean = false;
     public Token: string;
 
     constructor(
@@ -16,9 +15,9 @@ export class MarksService {
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     }
 
-    public EditParticipantMark(login: string, id: number, value: number, reason: string){
+    public EditParticipantMark(login: string, id: number, reason: number){
         this.PreloaderOn();
-        this.http.post(this.EditUserMarkLink, "token="+this.Token+"&login="+login+"&id="+id+"&value="+value+"&reason="+reason, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditParticipantMark(data.json()));
+        this.http.post(this.EditUserMarkLink, "token="+this.Token+"&login="+login+"&id="+id+"&reason="+reason, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditParticipantMark(data.json()));
     }
 
     private checkEditParticipantMark(data: any){

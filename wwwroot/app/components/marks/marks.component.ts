@@ -27,9 +27,9 @@ interface Participant{
     styleUrls: ["app/components/marks/marks.component.css"]
 })
 export class MarksComponent implements OnInit {
-    public Login_Edit: string = "";
-    public CategoryID_Edit: number = 0;
     private Token: string;
+    private reasonID: number = 0;
+    private MarkEdit: object  = {};
 
     constructor(private cookieService: CookieService,
                 private checkTokenService: CheckTokenService,
@@ -43,12 +43,10 @@ export class MarksComponent implements OnInit {
         this.ServiceInit();
     }
 
-    public EditMark(login: string, categoryID: number){
+    public EditMark(login: string, categoryID: number, index: number){
         if(this.CheckPermissions(categoryID)){
             if (this.CheckSelfTeamMarks(login)) {
-                this.Login_Edit = login;
-                this.CategoryID_Edit = categoryID;
-                this.marksService.MarkEdit_Active = true;
+                this.MarkEdit[index+"-mark-"+categoryID] = true;
             } else {
                 alert({type: 3, text: "Вы не можете изменять баллы своей команде", time: 2});
             }
@@ -60,6 +58,7 @@ export class MarksComponent implements OnInit {
     private ServiceInit(){
         this.UserServiceInit();
         this.OrgSetServiceInit();
+        this.MarksServiceInit();
     }
 
     private OrgSetServiceInit(){
@@ -71,6 +70,11 @@ export class MarksComponent implements OnInit {
         this.orgSetService.GetTeams();
         this.orgSetService.GetParticipants();
         this.orgSetService.GetEmployees();
+        this.orgSetService.GetReasons();
+    }
+
+    private MarksServiceInit(){
+        this.marksService.Token = this.Token;
     }
 
     private UserServiceInit(){

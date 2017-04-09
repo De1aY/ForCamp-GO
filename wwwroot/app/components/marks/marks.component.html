@@ -7,7 +7,6 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Баллы</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" routerLink="/main">главная</a>
             <a class="mdl-navigation__link" routerLink="/profile">профиль</a>
             <a *ngIf="userService.SelfData.Access == 2" class="mdl-navigation__link"
                routerLink="/orgset">управление</a>
@@ -17,7 +16,6 @@
             <a class="mdl-navigation__link" href="exit">выйти</a>
         </nav>
     </div>
-    <edit_mark [login]="Login_Edit" [categoryID]="CategoryID_Edit"></edit_mark>
     <main class="mdl-layout__content">
         <div class="page-content mdl-grid" id="marks">
             <div class="mdl-cell mdl-cell--12-col">
@@ -61,7 +59,16 @@
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <div *ngFor="let mark of row.marks">
-                                        <span *ngIf="mark.id == category.id" ngDefaultControl (click)="EditMark(row.login, category.id)">{{mark.value}}</span>
+                                        <span *ngIf="mark.id == category.id && !MarkEdit[row.$$index + '-mark-' + category.id]" (click)="EditMark(row.login, category.id, row.$$index)">{{mark.value}}</span>
+                                        <md-select *ngIf="mark.id == category.id && MarkEdit[row.$$index + '-mark-' + category.id]"
+                                                   (change)="marksService.EditParticipantMark(row.login, category.id, reasonID); MarkEdit[row.$$index + '-mark-' + category.id] = false"
+                                                   [(ngModel)]="reasonID"
+                                                   style="position: absolute; margin-top: -2px"
+                                                   placeholder="Выберите причину">
+                                            <md-option *ngFor="let reason of orgSetService.Reasons" [value]="reason.id">
+                                                {{reason.text}}
+                                            </md-option>
+                                        </md-select>
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
