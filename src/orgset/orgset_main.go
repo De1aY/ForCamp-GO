@@ -1,3 +1,8 @@
+/*
+	Copyright: "Null team", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
+*/
 package orgset
 
 import (
@@ -12,16 +17,15 @@ import (
 	"time"
 )
 
-func CheckUserAccess(token string, Connection *sql.DB, ResponseWriter http.ResponseWriter) bool{
+func CheckUserAccess(token string, ResponseWriter http.ResponseWriter) bool{
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if (authorization.CheckToken(token, Connection, ResponseWriter)) {
-			Organization, Login, APIerr := GetUserOrganizationAndLoginByToken(token, Connection)
+		if (authorization.CheckToken(token, ResponseWriter)) {
+			Organization, Login, APIerr := GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil{
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection := src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			Query, err := NewConnection.Query("SELECT access FROM users WHERE login=?", Login)
+			src.CustomConnection = src.Connect_Custom(Organization)
+			Query, err := src.CustomConnection.Query("SELECT access FROM users WHERE login=?", Login)
 			if err != nil {
 				log.Print(err)
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
@@ -51,8 +55,8 @@ func checkAccessFromQuery(rows *sql.Rows, w http.ResponseWriter) bool{
 	return true
 }
 
-func GetUserOrganizationAndLoginByToken(Token string, Connection *sql.DB) (string, string, *conf.ApiError){
-	Query, err := Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
+func GetUserOrganizationAndLoginByToken(Token string) (string, string, *conf.ApiError){
+	Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 	if err!= nil{
 		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
@@ -61,7 +65,7 @@ func GetUserOrganizationAndLoginByToken(Token string, Connection *sql.DB) (strin
 	if APIerr != nil {
 		return "", "", APIerr
 	}
-	Query, err = Connection.Query("SELECT organization FROM users WHERE login=?", Login)
+	Query, err = src.Connection.Query("SELECT organization FROM users WHERE login=?", Login)
 	if err != nil {
 		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
@@ -109,33 +113,15 @@ func GeneratePassword() (string, string){
 	return password, authorization.GeneratePasswordHash(password)
 }
 
-func getTeamsIDs(Connection *sql.DB) (map[int64]bool, *conf.ApiError){
-	Query, err := Connection.Query("SELECT id FROM teams")
-	if err != nil {
-		log.Print(err)
-		return make(map[int64]bool), conf.ErrDatabaseQueryFailed
-	}
-	defer Query.Close()
-	IDs := make(map[int64]bool)
-	var id int64
-	for Query.Next(){
-		err = Query.Scan(&id)
+func CheckTeamID(id int64, w http.ResponseWriter) bool{
+	if id != 0 {
+		var count int
+		err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM teams WHERE id=?", id).Scan(&count)
 		if err != nil {
 			log.Print(err)
-			return make(map[int64]bool), conf.ErrDatabaseQueryFailed
+			return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
 		}
-		IDs[id] = true
-	}
-	return IDs, nil
-}
-
-func CheckTeamID(id int64, w http.ResponseWriter, Connection *sql.DB) bool{
-	TeamsIDs, APIerr := getTeamsIDs(Connection)
-	if id != 0 {
-		if APIerr != nil {
-			return conf.PrintError(APIerr, w)
-		}
-		if TeamsIDs[id] {
+		if count > 0 {
 			return true
 		} else {
 			return conf.PrintError(conf.ErrTeamIncorrect, w)
@@ -145,8 +131,22 @@ func CheckTeamID(id int64, w http.ResponseWriter, Connection *sql.DB) bool{
 	}
 }
 
-func GetUserOrganizationByLogin(login string, Connection *sql.DB) (string, *conf.ApiError){
-	Query, err := Connection.Query("SELECT organization FROM users WHERE login=?", login)
+func CheckReasonID(id int64, category_id int64, w http.ResponseWriter) bool {
+	var count int
+	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM reasons WHERE id=? AND cat_id=?", id, category_id).Scan(&count)
+	if err != nil {
+		log.Print(err)
+		return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
+	}
+	if count > 0 {
+		return true
+	} else {
+		return conf.PrintError(conf.ErrReasonIncorrect, w)
+	}
+}
+
+func GetUserOrganizationByLogin(login string) (string, *conf.ApiError){
+	Query, err := src.Connection.Query("SELECT organization FROM users WHERE login=?", login)
 	if err != nil {
 		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
@@ -163,24 +163,14 @@ func GetUserOrganizationByLogin(login string, Connection *sql.DB) (string, *conf
 	return organization, nil
 }
 
-func CheckCategoryId(id int64, w http.ResponseWriter, connection *sql.DB) bool{
-	Query, err := connection.Query("SELECT id FROM categories")
-	if err != nil{
+func CheckCategoryId(id int64, w http.ResponseWriter) bool{
+	var count int
+	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM categories WHERE id=?", id).Scan(&count)
+	if err != nil {
 		log.Print(err)
 		return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
 	}
-	defer Query.Close()
-	CatIDs := make(map[int64]bool)
-	var catId int64
-	for Query.Next(){
-		err = Query.Scan(&catId)
-		if err != nil {
-			log.Print(err)
-			return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
-		}
-		CatIDs[catId] = true
-	}
-	if CatIDs[id]{
+	if count > 0 {
 		return true
 	} else {
 		return conf.PrintError(conf.ErrCategoryIdIncorrect, w)

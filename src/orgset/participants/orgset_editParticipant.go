@@ -6,36 +6,32 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"log"
-	"database/sql"
 )
 
 func EditParticipant(token string, participant Participant, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter) {
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter) {
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		if checkEditParticipantData(participant, ResponseWriter, NewConnection) {
-			ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(participant.Login, Connection)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		if checkEditParticipantData(participant, ResponseWriter) {
+			ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(participant.Login)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			if ParticipantOrganization != Organization {
 				return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
 			}
-			APIerr = editParticipant_Request(participant, NewConnection)
+			APIerr = editParticipant_Request(participant)
 			return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
 		}
 	}
 	return true
 }
 
-func editParticipant_Request(participant Participant, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, team=?, sex=? WHERE login=? AND access='0'")
+func editParticipant_Request(participant Participant) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, team=?, sex=? WHERE login=? AND access='0'")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -49,13 +45,13 @@ func editParticipant_Request(participant Participant, Connection *sql.DB) *conf.
 	return nil
 }
 
-func checkEditParticipantData(participant Participant, w http.ResponseWriter, Connection *sql.DB) bool {
+func checkEditParticipantData(participant Participant, w http.ResponseWriter) bool {
 	if len(participant.Login) > 0 {
 		if len(participant.Name) > 0 {
 			if len(participant.Surname) > 0 {
 				if len(participant.Middlename) > 0 {
 					if participant.Sex == 0 || participant.Sex == 1 {
-						if orgset.CheckTeamID(participant.Team, w, Connection) {
+						if orgset.CheckTeamID(participant.Team, w) {
 							return true
 						} else {
 							return false

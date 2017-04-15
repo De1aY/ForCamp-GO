@@ -1,3 +1,8 @@
+/*
+	Copyright: "Null team", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
+*/
 package main
 
 import (
@@ -10,15 +15,19 @@ import (
 	"forcamp/src/handlers/api/orgset/orgset_add"
 	"forcamp/src/handlers/api/orgset/orgset_edit"
 	"forcamp/src/handlers/api/orgset/orgset_delete"
+	"forcamp/src"
+	"forcamp/src/handlers/api/marks"
 )
 
 func main() {
+	// Domains routing
 	Router := mux.NewRouter()
 	WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
 	MainSite := Router.Host(conf.MAIN_SITE_DOMAIN).Subrouter()
 	APISite := Router.Host(conf.API_SITE_DOMAIN).Subrouter()
 
-	//API site
+	// Handlers: API site
+	// Authorization
 	handlers.HandleAuthorizationByLoginAndPassword(APISite)
 	handlers.HandleTokenVerification(APISite)
 	// Users: GET
@@ -32,6 +41,7 @@ func main() {
 	orgset_get.HandleGetEmployees(APISite)
 	orgset_get.HandleGetParticipantsExcel(APISite)
 	orgset_get.HandleGetReasons(APISite)
+	orgset_get.HandleGetEmployeesExcel(APISite)
 	// OrgSet: ADD
 	orgset_add.HandleAddTeam(APISite)
 	orgset_add.HandleAddCategory(APISite)
@@ -54,14 +64,19 @@ func main() {
 	orgset_delete.HandleDeleteParticipant(APISite)
 	orgset_delete.HandleDeleteEmployee(APISite)
 	orgset_delete.HandleDeleteReason(APISite)
+	// Marks
+	marks.HandleEditMark(APISite)
 
-	//Main site
+	// Handlers: Main site
 	handlers.HandleFolder_MainSite(WWWSite)
 	handlers.HandleFolder_MainSite(MainSite)
 	handlers.HandleExit(WWWSite)
 	handlers.HandleExit(MainSite)
 
-	//Server
+	// Database: "forcamp"
+	src.Connection = src.Connect()
+
+	// Server
 	go http.ListenAndServe(conf.SERVER_PORT, Router)
 	handlers.HandleTLS(Router)
 }

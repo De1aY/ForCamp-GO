@@ -608,6 +608,15 @@ var OrgSetService = (function () {
             return true;
         }
     };
+    OrgSetService.prototype.GetReasonsByCatID = function (id) {
+        return this.Reasons.filter(function (reason) { return reason.cat_id == id; });
+    };
+    OrgSetService.prototype.GetMarkByCategoryID = function (id, marks) {
+        return marks.filter(function (mark) { return mark.id == id; });
+    };
+    OrgSetService.prototype.GetPermissionByCategoryID = function (id, permissions) {
+        return permissions.filter(function (permission) { return permission.id == id; });
+    };
     return OrgSetService;
 }());
 OrgSetService = __decorate([

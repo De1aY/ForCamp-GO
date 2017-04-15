@@ -6,20 +6,16 @@ import (
 	"forcamp/src"
 	"log"
 	"forcamp/src/orgset"
-	"database/sql"
 )
 
 func DeleteParticipant(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		APIerr = deleteParticipant_Request(login, Connection, NewConnection)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		APIerr = deleteParticipant_Request(login)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -28,20 +24,20 @@ func DeleteParticipant(token string, login string, ResponseWriter http.ResponseW
 	return true
 }
 
-func deleteParticipant_Request(login string, Connection *sql.DB, NewConnection *sql.DB) *conf.ApiError{
-	APIerr := deleteParticipant_Organization(login, NewConnection)
+func deleteParticipant_Request(login string) *conf.ApiError{
+	APIerr := deleteParticipant_Organization(login)
 	if APIerr != nil{
 		return APIerr
 	}
-	APIerr = deleteParticipant_Main(login, Connection)
+	APIerr = deleteParticipant_Main(login)
 	if APIerr != nil{
 		return APIerr
 	}
 	return nil
 }
 
-func deleteParticipant_Main(login string, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("DELETE FROM users WHERE login=?")
+func deleteParticipant_Main(login string) *conf.ApiError{
+	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -51,7 +47,7 @@ func deleteParticipant_Main(login string, Connection *sql.DB) *conf.ApiError{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query, err = Connection.Prepare("DELETE FROM sessions WHERE login=?")
+	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -64,8 +60,8 @@ func deleteParticipant_Main(login string, Connection *sql.DB) *conf.ApiError{
 	return nil
 }
 
-func deleteParticipant_Organization(login string, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("DELETE FROM users WHERE login=? AND access='0'")
+func deleteParticipant_Organization(login string) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='0'")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -84,7 +80,7 @@ func deleteParticipant_Organization(login string, Connection *sql.DB) *conf.ApiE
 	if rowsAffected == 0{
 		return conf.ErrUserNotFound
 	}
-	Query, err = Connection.Prepare("DELETE FROM participants WHERE login=?")
+	Query, err = src.CustomConnection.Prepare("DELETE FROM participants WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

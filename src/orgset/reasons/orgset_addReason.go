@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"database/sql"
 	"log"
 	"encoding/json"
 	"fmt"
@@ -18,17 +17,14 @@ type AddReason_Success struct {
 }
 
 func AddReason(token string, reason Reason, ResponseWriter http.ResponseWriter) bool{
-	connection := src.Connect()
-	defer connection.Close()
-	if orgset.CheckUserAccess(token, connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		if orgset.CheckCategoryId(reason.Cat_id, ResponseWriter, NewConnection){
-			Resp, APIerr := addReason_Request(NewConnection, reason)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		if orgset.CheckCategoryId(reason.Cat_id, ResponseWriter){
+			Resp, APIerr := addReason_Request(reason)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -39,8 +35,8 @@ func AddReason(token string, reason Reason, ResponseWriter http.ResponseWriter) 
 	return true
 }
 
-func addReason_Request(connection *sql.DB, reason Reason) (AddReason_Success, *conf.ApiError){
-	Query, err := connection.Prepare("INSERT INTO reasons(cat_id,text,modification) VALUES(?,?,?)")
+func addReason_Request(reason Reason) (AddReason_Success, *conf.ApiError){
+	Query, err := src.CustomConnection.Prepare("INSERT INTO reasons(cat_id,text,modification) VALUES(?,?,?)")
 	if err != nil {
 		log.Print(err)
 		return AddReason_Success{}, conf.ErrDatabaseQueryFailed

@@ -69,7 +69,7 @@ func systemConfigHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleFolder_MainSite(router *mux.Router) {
-	//Folders
+	// Folders
 	AppHandler := folderHandler_App()
 	ScssHandler := folderHandler_Scss()
 	MediaHandler := folderHandler_Media()
@@ -78,7 +78,7 @@ func HandleFolder_MainSite(router *mux.Router) {
 	router.PathPrefix("/scss").Handler(ScssHandler)
 	router.PathPrefix("/node_modules").Handler(NodeModulesHandler)
 	router.PathPrefix("/media").Handler(MediaHandler)
-	//Pages
+	// Pages
 	router.HandleFunc("/", indexHandler)
 	router.HandleFunc("/main", indexHandler)
 	router.HandleFunc("/orgset", indexHandler)
@@ -87,6 +87,6 @@ func HandleFolder_MainSite(router *mux.Router) {
 	router.HandleFunc("/profile", indexHandler)
 	router.HandleFunc("/team", indexHandler)
 	router.HandleFunc("/achievements", indexHandler)
-	//SystemConfig
+	// SystemJS
 	router.HandleFunc("/systemjs.config.js", systemConfigHandler)
 }

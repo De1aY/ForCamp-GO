@@ -1,3 +1,8 @@
+/*
+	Copyright: "Null team", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
+*/
 package employees
 
 import (
@@ -6,21 +11,17 @@ import (
 	"forcamp/src"
 	"log"
 	"forcamp/src/orgset"
-	"database/sql"
 )
 
-func DeleteEmployee(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
-		if APIerr != nil{
+func DeleteEmployee(token string, login string, ResponseWriter http.ResponseWriter) bool {
+	if orgset.CheckUserAccess(token, ResponseWriter) {
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		APIerr = deleteEmployee_Request(login, Connection, NewConnection)
-		if APIerr != nil{
+		src.CustomConnection = src.Connect_Custom(Organization)
+		APIerr = deleteEmployee_Request(login)
+		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
 		return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
@@ -28,44 +29,44 @@ func DeleteEmployee(token string, login string, ResponseWriter http.ResponseWrit
 	return true
 }
 
-func deleteEmployee_Request(login string, Connection *sql.DB, NewConnection *sql.DB) *conf.ApiError{
-	APIerr := deleteEmployee_Organization(login, NewConnection)
-	if APIerr != nil{
+func deleteEmployee_Request(login string) *conf.ApiError {
+	APIerr := deleteEmployee_Organization(login)
+	if APIerr != nil {
 		return APIerr
 	}
-	APIerr = deleteEmployee_Main(login, Connection)
-	if APIerr != nil{
+	APIerr = deleteEmployee_Main(login)
+	if APIerr != nil {
 		return APIerr
 	}
 	return nil
 }
 
-func deleteEmployee_Main(login string, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("DELETE FROM users WHERE login=?")
-	if err != nil{
+func deleteEmployee_Main(login string) *conf.ApiError {
+	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
+	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
-	if err != nil{
+	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query, err = Connection.Prepare("DELETE FROM sessions WHERE login=?")
-	if err != nil{
+	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
+	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
-	if err != nil{
+	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
 }
 
-func deleteEmployee_Organization(login string, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("DELETE FROM users WHERE login=? AND access='1'")
+func deleteEmployee_Organization(login string) *conf.ApiError {
+	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='1'")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -81,10 +82,10 @@ func deleteEmployee_Organization(login string, Connection *sql.DB) *conf.ApiErro
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
-	if rowsAffected == 0{
+	if rowsAffected == 0 {
 		return conf.ErrUserNotFound
 	}
-	Query, err = Connection.Prepare("DELETE FROM employees WHERE login=?")
+	Query, err = src.CustomConnection.Prepare("DELETE FROM employees WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

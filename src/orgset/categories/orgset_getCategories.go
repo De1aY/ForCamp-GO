@@ -25,18 +25,15 @@ type GetCategories_Success struct {
 }
 
 func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
-	Connection := src.Connect()
-	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, Connection, ResponseWriter) {
-			Organization, _, err := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+		if authorization.CheckToken(token, ResponseWriter) {
+			Organization, _, err := orgset.GetUserOrganizationAndLoginByToken(token)
 			if err != nil {
 				log.Print(err)
 				return conf.PrintError(err, ResponseWriter)
 			}
-			NewConnection := src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			Resp, err := getCategories_Request(NewConnection)
+			src.CustomConnection = src.Connect_Custom(Organization)
+			Resp, err := getCategories_Request()
 			if err != nil {
 				log.Print(err)
 				return conf.PrintError(err, ResponseWriter)
@@ -50,8 +47,8 @@ func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getCategories_Request(Connection *sql.DB) (GetCategories_Success, *conf.ApiError){
-	Query, err := Connection.Query("SELECT * FROM categories")
+func getCategories_Request() (GetCategories_Success, *conf.ApiError){
+	Query, err := src.CustomConnection.Query("SELECT * FROM categories")
 	if err != nil {
 		log.Print(err)
 		return GetCategories_Success{}, conf.ErrDatabaseQueryFailed
@@ -70,6 +67,9 @@ func getCategoriesFromQuery(rows *sql.Rows) (GetCategories_Success, *conf.ApiErr
 			return GetCategories_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		categories = append(categories, Category{category.ID, category.Name, category.NegativeMarks})
+	}
+	if categories == nil {
+		return GetCategories_Success{200, "success", make([]Category, 0)}, nil
 	}
 	return GetCategories_Success{200, "success", categories}, nil
 }

@@ -87,6 +87,9 @@ var UserService = (function () {
                     Post: ""
                 };
             }
+            for (var i = 0; i < this.UserData.Permissions.length; i++) {
+                this.UserData.Permissions[i].value = this.StringToBoolean(this.UserData.Permissions[i].value);
+            }
         }
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
@@ -137,9 +140,20 @@ var UserService = (function () {
                     Post: ""
                 };
             }
+            for (var i = 0; i < this.SelfData.Permissions.length; i++) {
+                this.SelfData.Permissions[i].value = this.StringToBoolean(this.SelfData.Permissions[i].value);
+            }
         }
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+    };
+    UserService.prototype.StringToBoolean = function (data) {
+        if (data == "false") {
+            return false;
+        }
+        else {
+            return true;
         }
     };
     return UserService;

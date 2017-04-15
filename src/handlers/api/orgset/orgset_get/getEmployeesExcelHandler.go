@@ -13,7 +13,7 @@ import (
 )
 
 
-func GetParticipantsExcelHandler(w http.ResponseWriter, r *http.Request){
+func GetEmployeesExcelHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodGet {
 		Token := handlers.GetToken(r)
 		if orgset.CheckUserAccess(Token, w){
@@ -22,13 +22,13 @@ func GetParticipantsExcelHandler(w http.ResponseWriter, r *http.Request){
 				src.SetHeaders_API(w)
 				conf.PrintError(APIerr, w)
 			} else {
-				file, err := ioutil.ReadFile(conf.FOLDER_PARTICIPANTS+"/"+Organization+".xlsx")
+				file, err := ioutil.ReadFile(conf.FOLDER_EMPLOYEES+"/"+Organization+".xlsx")
 				if err != nil {
 					src.SetHeaders_API(w)
 					conf.PrintError(conf.ErrOpenExcelFile, w)
 				} else {
-					src.SetHeaders_API_Download(w, "участники.xlsx", r)
-					http.ServeContent(w, r, "участники.xlsx", time.Now(), bytes.NewReader(file))
+					src.SetHeaders_API_Download(w, "сотрудники.xlsx", r)
+					http.ServeContent(w, r, "сотрудники.xlsx", time.Now(), bytes.NewReader(file))
 				}
 			}
 		}
@@ -38,6 +38,6 @@ func GetParticipantsExcelHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-func HandleGetParticipantsExcel(router *mux.Router)  {
-	router.HandleFunc("/orgset.participants.password.get", GetParticipantsExcelHandler)
+func HandleGetEmployeesExcel(router *mux.Router)  {
+	router.HandleFunc("/orgset.employees.password.get", GetEmployeesExcelHandler)
 }

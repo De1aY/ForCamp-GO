@@ -33,17 +33,14 @@ type GetTeams_Success struct {
 }
 
 func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
-	Connection := src.Connect()
-	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, Connection, ResponseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+		if authorization.CheckToken(token, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil{
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection := src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			Resp, APIerr := getTeams_Request(NewConnection)
+			src.CustomConnection = src.Connect_Custom(Organization)
+			Resp, APIerr := getTeams_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -56,20 +53,20 @@ func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getTeams_Request(Connection *sql.DB) (GetTeams_Success, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT * FROM teams")
+func getTeams_Request() (GetTeams_Success, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT * FROM teams")
 	if err != nil {
 		log.Print(err)
 		return GetTeams_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	Teams, APIerr := getTeamsFromQuery(Query, Connection)
+	Teams, APIerr := getTeamsFromQuery(Query)
 	if APIerr != nil {
 		return GetTeams_Success{}, APIerr
 	}
 	return GetTeams_Success{200, "success", Teams}, nil
 }
 
-func getTeamsFromQuery(rows *sql.Rows, Connection *sql.DB) ([]Team, *conf.ApiError) {
+func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiError) {
 	defer rows.Close()
 	var Teams []Team
 	var team Team
@@ -79,12 +76,12 @@ func getTeamsFromQuery(rows *sql.Rows, Connection *sql.DB) ([]Team, *conf.ApiErr
 			log.Print(err)
 			return []Team{}, conf.ErrDatabaseQueryFailed
 		}
-		Leader, APIerr := getTeamLeader(team.Id, Connection)
+		Leader, APIerr := getTeamLeader(team.Id)
 		if APIerr != nil {
 			return []Team{}, APIerr
 		}
 		team.Leader = Leader
-		participants, APIerr := getTeamParticipants(team.Id, Connection)
+		participants, APIerr := getTeamParticipants(team.Id)
 		if APIerr != nil {
 			return []Team{}, APIerr
 		}
@@ -95,11 +92,14 @@ func getTeamsFromQuery(rows *sql.Rows, Connection *sql.DB) ([]Team, *conf.ApiErr
 		}
 		Teams = append(Teams, team)
 	}
+	if Teams == nil {
+		return make([]Team, 0), nil
+	}
 	return Teams, nil
 }
 
-func getTeamLeader(id int64, Connection *sql.DB) (TeamLeader, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='1' LIMIT 1", id)
+func getTeamLeader(id int64) (TeamLeader, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='1' LIMIT 1", id)
 	if err != nil {
 		log.Print(err)
 		return TeamLeader{}, conf.ErrDatabaseQueryFailed
@@ -116,8 +116,8 @@ func getTeamLeader(id int64, Connection *sql.DB) (TeamLeader, *conf.ApiError) {
 	return Leader, nil
 }
 
-func getTeamParticipants(id int64, Connection *sql.DB) ([]string, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT login FROM users WHERE team=? AND access='0'", id)
+func getTeamParticipants(id int64) ([]string, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT login FROM users WHERE team=? AND access='0'", id)
 	if err != nil {
 		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed

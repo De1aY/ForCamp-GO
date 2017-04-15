@@ -26,17 +26,14 @@ type GetReasons_Success struct {
 }
 
 func GetReasons(token string, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, Connection, ResponseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+		if authorization.CheckToken(token, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection:= src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			Resp, APIerr := getReasons_Request(NewConnection)
+			src.CustomConnection = src.Connect_Custom(Organization)
+			Resp, APIerr := getReasons_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -49,8 +46,8 @@ func GetReasons(token string, ResponseWriter http.ResponseWriter) bool{
 	return true
 }
 
-func getReasons_Request(connection *sql.DB) (GetReasons_Success, *conf.ApiError){
-	Query, err := connection.Query("SELECT id,cat_id,text,modification FROM reasons")
+func getReasons_Request() (GetReasons_Success, *conf.ApiError){
+	Query, err := src.CustomConnection.Query("SELECT id,cat_id,text,modification FROM reasons")
 	if err != nil {
 		log.Print(err)
 		return GetReasons_Success{}, conf.ErrDatabaseQueryFailed
@@ -75,6 +72,9 @@ func getReasonsFromQuery(rows *sql.Rows) ([]Reason, *conf.ApiError){
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		reasons = append(reasons, reason)
+	}
+	if reasons == nil {
+		return make([]Reason, 0), nil
 	}
 	return reasons, nil
 }

@@ -1,3 +1,8 @@
+/*
+	Copyright: "Null team", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
+*/
 package employees
 
 import (
@@ -8,7 +13,6 @@ import (
 	"log"
 	"encoding/json"
 	"fmt"
-	"database/sql"
 )
 
 type ResetEmployeePassword_Success struct {
@@ -18,21 +22,19 @@ type ResetEmployeePassword_Success struct {
 }
 
 func ResetEmployeePassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(login, Connection)
+		EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
 		if EmployeeOrganization != Organization{
 			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
 		}
-		Resp, APIerr := resetEmployeePassword_Request(login, Connection)
+		Resp, APIerr := resetEmployeePassword_Request(login)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -42,9 +44,9 @@ func ResetEmployeePassword(token string, login string, ResponseWriter http.Respo
 	return true
 }
 
-func resetEmployeePassword_Request(login string, Connection *sql.DB) (ResetEmployeePassword_Success, *conf.ApiError){
+func resetEmployeePassword_Request(login string) (ResetEmployeePassword_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
-	Query, err := Connection.Prepare("UPDATE users SET password=? WHERE login=?")
+	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
@@ -55,7 +57,7 @@ func resetEmployeePassword_Request(login string, Connection *sql.DB) (ResetEmplo
 		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	Query, err = Connection.Prepare("DELETE FROM sessions WHERE login=?")
+	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed

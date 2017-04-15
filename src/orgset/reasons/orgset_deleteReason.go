@@ -5,21 +5,17 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"database/sql"
 	"log"
 )
 
 func DeleteReason(token string, id int64, ResponseWriter http.ResponseWriter) bool{
-	connection := src.Connect()
-	defer connection.Close()
-	if orgset.CheckUserAccess(token, connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		APIerr = deleteReason_Request(NewConnection, id)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		APIerr = deleteReason_Request(id)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -28,8 +24,8 @@ func DeleteReason(token string, id int64, ResponseWriter http.ResponseWriter) bo
 	return true
 }
 
-func deleteReason_Request(connection *sql.DB, id int64) *conf.ApiError{
-	Query, err := connection.Prepare("DELETE FROM reasons WHERE id=?")
+func deleteReason_Request(id int64) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("DELETE FROM reasons WHERE id=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

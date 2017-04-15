@@ -8,7 +8,6 @@ import (
 	"log"
 	"encoding/json"
 	"fmt"
-	"database/sql"
 )
 
 type ResetParticipantPassword_Success struct {
@@ -18,21 +17,19 @@ type ResetParticipantPassword_Success struct {
 }
 
 func ResetParticipantPassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(login, Connection)
+		ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
 		if ParticipantOrganization != Organization{
 			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
 		}
-		Resp, APIerr := resetParticipantPassword_Request(login, Connection)
+		Resp, APIerr := resetParticipantPassword_Request(login)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -42,9 +39,9 @@ func ResetParticipantPassword(token string, login string, ResponseWriter http.Re
 	return true
 }
 
-func resetParticipantPassword_Request(login string, Connection *sql.DB) (ResetParticipantPassword_Success, *conf.ApiError){
+func resetParticipantPassword_Request(login string) (ResetParticipantPassword_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
-	Query, err := Connection.Prepare("UPDATE users SET password=? WHERE login=?")
+	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
@@ -55,7 +52,7 @@ func resetParticipantPassword_Request(login string, Connection *sql.DB) (ResetPa
 		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	Query, err = Connection.Prepare("DELETE FROM sessions WHERE login=?")
+	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
 		log.Print(err)
 		return ResetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed

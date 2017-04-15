@@ -80,3 +80,5 @@ var ErrEmployeePostEmpty = &ApiError{626, "ERROR", "Post is empty"}
 var ErrCategoryIdIncorrect = &ApiError{627, "ERROR", "Category ID is incorrect"}
 var ErrPermissionValueIncorrect = &ApiError{628, "ERROR", "Permission must be a boolean"}
 var ErrCategoryIdNotINT = &ApiError{629, "ERROR", "Category id must be a number"}
+var ErrReasonIncorrect = &ApiError{630, "ERROR", "Reason is incorrect"}
+var ErrParticipantLoginIncorrect = &ApiError{631, "ERROR", "Partcipant login incorrect"}

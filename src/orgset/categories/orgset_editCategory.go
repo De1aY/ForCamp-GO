@@ -7,20 +7,16 @@ import (
 	"strconv"
 	"log"
 	"forcamp/src/orgset"
-	"database/sql"
 )
 
 func EditCategory(token string, category Category, ResponseWriter http.ResponseWriter) bool{
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter) && checkCategoryData(category, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter) && checkCategoryData(category, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		APIerr = editCategory_Request(category, NewConnection)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		APIerr = editCategory_Request(category)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
@@ -29,8 +25,8 @@ func EditCategory(token string, category Category, ResponseWriter http.ResponseW
 	return true
 }
 
-func editCategory_Request(category Category, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("UPDATE categories SET name=?, negative_marks=? WHERE id=?")
+func editCategory_Request(category Category) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("UPDATE categories SET name=?, negative_marks=? WHERE id=?")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

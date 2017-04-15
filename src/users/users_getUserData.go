@@ -17,25 +17,22 @@ import (
 
 func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string) bool {
 	if checkData(Token, login, ResponseWriter) {
-		Connection := src.Connect()
-		defer Connection.Close()
-		if authorization.CheckToken(Token, Connection, ResponseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token, Connection)
+		if authorization.CheckToken(Token, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection := src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			UserOrganization, APIerr := orgset.GetUserOrganizationByLogin(login, Connection)
+			src.CustomConnection = src.Connect_Custom(Organization)
+			UserOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			if UserOrganization != Organization {
 				return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
 			}
-			ParticipantData, EmployeeData, err := getUserData_Request(login, NewConnection)
-			if err != nil {
-				return conf.PrintError(err, ResponseWriter)
+			ParticipantData, EmployeeData, APIerr := getUserData_Request(login)
+			if APIerr != nil {
+				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			if len(ParticipantData.Name) > 0 {
 				ParticipantData.Organization = Organization
@@ -56,29 +53,31 @@ func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string)
 	return true
 }
 
-func getUserData_Request(login string, Connection *sql.DB) (ParticipantData, EmployeeData, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
+func getUserData_Request(login string) (ParticipantData, EmployeeData, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
 	if err != nil {
+		log.Print(err)
 		return ParticipantData{}, EmployeeData{}, conf.ErrDatabaseQueryFailed
 	}
-	UserParticipantData, UserEmployeeData, APIerr := getUserDataFromQuery(Query, login, Connection)
+	UserParticipantData, UserEmployeeData, APIerr := getUserDataFromQuery(Query, login)
 	if APIerr != nil {
 		return ParticipantData{}, EmployeeData{}, APIerr
 	}
 	return UserParticipantData, UserEmployeeData, nil
 }
 
-func getUserDataFromQuery(rows *sql.Rows, login string, connection *sql.DB) (ParticipantData, EmployeeData, *conf.ApiError) {
+func getUserDataFromQuery(rows *sql.Rows, login string) (ParticipantData, EmployeeData, *conf.ApiError) {
 	defer rows.Close()
 	var userData UserData
 	for rows.Next() {
 		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &userData.Team)
 		if err != nil {
+			log.Print(err)
 			return ParticipantData{}, EmployeeData{}, conf.ErrDatabaseQueryFailed
 		}
 	}
 	if userData.Access == 0 {
-		marks, APIerr := getMarks(login, connection)
+		marks, APIerr := getMarks(login)
 		if APIerr != nil {
 			return ParticipantData{}, EmployeeData{}, APIerr
 		}
@@ -91,7 +90,7 @@ func getUserDataFromQuery(rows *sql.Rows, login string, connection *sql.DB) (Par
 			Avatar: userData.Avatar,
 			Marks: marks}, EmployeeData{}, nil
 	} else {
-		permissions, post, APIerr := getPermissionsAndPost(login, connection)
+		permissions, post, APIerr := getPermissionsAndPost(login)
 		if APIerr != nil {
 			return ParticipantData{}, EmployeeData{}, APIerr
 		}
@@ -107,8 +106,8 @@ func getUserDataFromQuery(rows *sql.Rows, login string, connection *sql.DB) (Par
 	}
 }
 
-func getMarks(login string, Connection *sql.DB) ([]participants.Mark, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT * FROM participants WHERE login=?", login)
+func getMarks(login string) ([]participants.Mark, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT * FROM participants WHERE login=?", login)
 	if err != nil {
 		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
@@ -157,6 +156,7 @@ func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]participant
 
 		err := rows.Scan(Result...)
 		if err != nil {
+			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
@@ -184,8 +184,8 @@ func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]participant
 	return Marks, nil
 }
 
-func getPermissionsAndPost(login string, Connection *sql.DB) ([]employees.Permission, string, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT * FROM employees WHERE login=?", login)
+func getPermissionsAndPost(login string) ([]employees.Permission, string, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT * FROM employees WHERE login=?", login)
 	if err != nil {
 		log.Print(err)
 		return nil, "", conf.ErrDatabaseQueryFailed
@@ -235,6 +235,7 @@ func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]emplo
 	for rows.Next() {
 		err := rows.Scan(Result...)
 		if err != nil {
+			log.Print(err)
 			return nil, "", conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {

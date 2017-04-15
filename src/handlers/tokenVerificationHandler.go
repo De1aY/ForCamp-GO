@@ -18,9 +18,7 @@ func TokenVerificationHandler(w http.ResponseWriter, r *http.Request){
 	src.SetHeaders_API(w)
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusOK)
-		Connection := src.Connect()
-		defer Connection.Close()
-		authorization.VerifyToken(GetToken(r), Connection, w)
+		authorization.VerifyToken(GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		conf.PrintError(conf.ErrMethodNotAllowed,  w)

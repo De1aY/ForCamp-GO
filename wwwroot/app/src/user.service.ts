@@ -102,6 +102,9 @@ export class UserService {
                     Post: ""
                 };
             }
+            for (let i = 0; i < this.UserData.Permissions.length; i++){
+                this.UserData.Permissions[i].value = this.StringToBoolean(this.UserData.Permissions[i].value);
+            }
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
         }
@@ -151,8 +154,19 @@ export class UserService {
                     Post: ""
                 };
             }
+            for (let i = 0; i < this.SelfData.Permissions.length; i++){
+                this.SelfData.Permissions[i].value = this.StringToBoolean(this.SelfData.Permissions[i].value);
+            }
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+    }
+
+    private StringToBoolean(data: any): boolean {
+        if (data == "false") {
+            return false;
+        } else {
+            return true;
         }
     }
 

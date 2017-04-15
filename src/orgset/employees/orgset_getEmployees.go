@@ -1,3 +1,8 @@
+/*
+	Copyright: "Null team", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
+*/
 package employees
 
 import (
@@ -36,17 +41,14 @@ type GetEmployees_Success struct {
 }
 
 func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
-	Connection := src.Connect()
-	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, Connection, ResponseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+		if authorization.CheckToken(token, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection := src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			Resp, APIerr := getEmployees_Request(NewConnection)
+			src.CustomConnection = src.Connect_Custom(Organization)
+			Resp, APIerr := getEmployees_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -59,18 +61,18 @@ func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getEmployees_Request(Connection *sql.DB) (GetEmployees_Success, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
+func getEmployees_Request() (GetEmployees_Success, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
 	if err != nil {
 		log.Print(err)
 		return GetEmployees_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return getEmployeesFromResponse(Query, Connection)
+	return getEmployeesFromResponse(Query)
 }
 
-func getEmployeesFromResponse(rows *sql.Rows, Connection *sql.DB) (GetEmployees_Success, *conf.ApiError) {
+func getEmployeesFromResponse(rows *sql.Rows) (GetEmployees_Success, *conf.ApiError) {
 	defer rows.Close()
-	Permissions, Posts, APIerr := getPermissionsAndPosts(Connection)
+	Permissions, Posts, APIerr := getPermissionsAndPosts()
 	if APIerr != nil {
 		return GetEmployees_Success{}, APIerr
 	}
@@ -88,11 +90,14 @@ func getEmployeesFromResponse(rows *sql.Rows, Connection *sql.DB) (GetEmployees_
 		employee.Post = Posts[employee.Login]
 		employees = append(employees, Employee{employee.Login, employee.Name, employee.Surname, employee.Middlename, employee.Sex, employee.Team, employee.Post, employee.Permissions})
 	}
+	if employees == nil {
+		return GetEmployees_Success{200, "success", make([]Employee, 0)}, nil
+	}
 	return GetEmployees_Success{200, "success", employees}, nil
 }
 
-func getPermissionsAndPosts(Connection *sql.DB) (map[string][]Permission, map[string]string, *conf.ApiError) {
-	Query, err := Connection.Query("SELECT * FROM employees")
+func getPermissionsAndPosts() (map[string][]Permission, map[string]string, *conf.ApiError) {
+	Query, err := src.CustomConnection.Query("SELECT * FROM employees")
 	if err != nil {
 		log.Print(err)
 		return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed

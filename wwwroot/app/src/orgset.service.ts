@@ -692,4 +692,16 @@ export class OrgSetService {
         }
     }
 
+    public GetReasonsByCatID(id: number){
+        return this.Reasons.filter(reason => reason.cat_id == id);
+    }
+
+    public GetMarkByCategoryID(id: number, marks: any){
+        return marks.filter(mark => mark.id == id);
+    }
+
+    public GetPermissionByCategoryID(id: number, permissions: any){
+        return permissions.filter(permission => permission.id == id);
+    }
+
 }

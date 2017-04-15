@@ -5,22 +5,18 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"database/sql"
 	"log"
 )
 
 func EditReason(token string, reason Reason, ResponseWriter http.ResponseWriter) bool{
-	connection := src.Connect()
-	defer connection.Close()
-	if orgset.CheckUserAccess(token, connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		if orgset.CheckCategoryId(reason.Cat_id, ResponseWriter, NewConnection){
-			APIerr = editReason_Request(NewConnection, reason)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		if orgset.CheckCategoryId(reason.Cat_id, ResponseWriter){
+			APIerr = editReason_Request(reason)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -30,8 +26,8 @@ func EditReason(token string, reason Reason, ResponseWriter http.ResponseWriter)
 	return true
 }
 
-func editReason_Request(connection *sql.DB, reason Reason) *conf.ApiError{
-	Query, err := connection.Prepare("UPDATE reasons SET text=?, modification=?, cat_id=? WHERE id=?")
+func editReason_Request(reason Reason) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("UPDATE reasons SET text=?, modification=?, cat_id=? WHERE id=?")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed

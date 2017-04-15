@@ -58,14 +58,14 @@
                                     <span style="text-transform: capitalize">{{category.name}}</span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <div *ngFor="let mark of row.marks">
-                                        <span *ngIf="mark.id == category.id && !MarkEdit[row.$$index + '-mark-' + category.id]" (click)="EditMark(row.login, category.id, row.$$index)">{{mark.value}}</span>
-                                        <md-select *ngIf="mark.id == category.id && MarkEdit[row.$$index + '-mark-' + category.id]"
-                                                   (change)="marksService.EditParticipantMark(row.login, category.id, reasonID); MarkEdit[row.$$index + '-mark-' + category.id] = false"
+                                    <div *ngFor="let mark of orgSetService.GetMarkByCategoryID(category.id, row.marks)">
+                                        <span *ngIf="!MarkEdit[row.$$index + '-mark-' + category.id]" (click)="EditMark(row.login, category.id, row.$$index); reasonID = 0">{{mark.value}}</span>
+                                        <md-select *ngIf="MarkEdit[row.$$index + '-mark-' + category.id]"
+                                                   (change)="marksService.EditParticipantMark(row, category.id, reasonID); MarkEdit[row.$$index + '-mark-' + category.id] = false"
                                                    [(ngModel)]="reasonID"
                                                    style="position: absolute; margin-top: -2px"
                                                    placeholder="Выберите причину">
-                                            <md-option *ngFor="let reason of orgSetService.Reasons" [value]="reason.id">
+                                            <md-option *ngFor="let reason of orgSetService.GetReasonsByCatID(mark.id)" [value]="reason.id">
                                                 {{reason.text}}
                                             </md-option>
                                         </md-select>

@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"strconv"
 	"github.com/tealeg/xlsx"
-	"database/sql"
 )
 
 type AddParticipant_Success struct{
@@ -20,17 +19,14 @@ type AddParticipant_Success struct{
 }
 
 func AddParticipant(token string, participant Participant, ResponseWriter http.ResponseWriter) bool {
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		if checkAddParticipantData(participant, ResponseWriter, NewConnection) {
-			Resp, APIerr := addParticipantRequest(participant, Organization, Connection, NewConnection)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		if checkAddParticipantData(participant, ResponseWriter) {
+			Resp, APIerr := addParticipantRequest(participant, Organization)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -41,26 +37,26 @@ func AddParticipant(token string, participant Participant, ResponseWriter http.R
 	return true
 }
 
-func addParticipantRequest(participant Participant, organization string, Connection *sql.DB, NewConnection *sql.DB) (AddParticipant_Success, *conf.ApiError){
+func addParticipantRequest(participant Participant, organization string) (AddParticipant_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
-	login, APIerr := addParticipant_Main(organization, Connection, Hash)
+	login, APIerr := addParticipant_Main(organization, Hash)
 	if APIerr != nil {
 		return AddParticipant_Success{}, APIerr
 	}
 	participant.Login = login
-	APIerr = addParticipant_Organization(participant, NewConnection)
+	APIerr = addParticipant_Organization(participant)
 	if APIerr != nil {
 		return AddParticipant_Success{}, APIerr
 	}
-	APIerr = addParticipant_Excel(participant, organization, Password, NewConnection)
+	APIerr = addParticipant_Excel(participant, organization, Password)
 	if APIerr != nil {
 		return AddParticipant_Success{}, APIerr
 	}
 	return AddParticipant_Success{200, "success", login}, nil
 }
 
-func addParticipant_Main(organization string, Connection *sql.DB, hash string) (string, *conf.ApiError){
-	Query, err := Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
+func addParticipant_Main(organization string, hash string) (string, *conf.ApiError){
+	Query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
 		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
@@ -76,7 +72,7 @@ func addParticipant_Main(organization string, Connection *sql.DB, hash string) (
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	Query, err = Connection.Prepare("UPDATE users SET login=? WHERE id=?")
+	Query, err = src.Connection.Prepare("UPDATE users SET login=? WHERE id=?")
 	if err != nil {
 		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
@@ -91,8 +87,8 @@ func addParticipant_Main(organization string, Connection *sql.DB, hash string) (
 	return login, nil
 }
 
-func addParticipant_Organization(participant Participant, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)")
+func addParticipant_Organization(participant Participant) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("INSERT INTO users(login,name,surname,middlename,team,access,sex,avatar) VALUES(?,?,?,?,?,?,?,?)")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -103,7 +99,7 @@ func addParticipant_Organization(participant Participant, Connection *sql.DB) *c
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	Query, err = Connection.Prepare("INSERT INTO participants(login) VALUES(?)")
+	Query, err = src.CustomConnection.Prepare("INSERT INTO participants(login) VALUES(?)")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -117,8 +113,8 @@ func addParticipant_Organization(participant Participant, Connection *sql.DB) *c
 	return nil
 }
 
-func addParticipant_Excel(participant Participant, organization string, password string, Connection *sql.DB) *conf.ApiError{
-	teamName, APIerr := getTeamNameById(participant.Team, Connection)
+func addParticipant_Excel(participant Participant, organization string, password string) *conf.ApiError{
+	teamName, APIerr := getTeamNameById(participant.Team)
 	if APIerr != nil {
 		return APIerr
 	}
@@ -150,11 +146,11 @@ func addParticipant_Excel(participant Participant, organization string, password
 	return nil
 }
 
-func getTeamNameById(id int64, Connection *sql.DB) (string, *conf.ApiError){
+func getTeamNameById(id int64) (string, *conf.ApiError){
 	if id == 0{
 		return "отуствует", nil
 	} else {
-		Query, err := Connection.Query("SELECT name FROM teams WHERE id=?", id)
+		Query, err := src.CustomConnection.Query("SELECT name FROM teams WHERE id=?", id)
 		if err != nil {
 			log.Print(err)
 			return "", conf.ErrDatabaseQueryFailed
@@ -173,12 +169,12 @@ func getTeamNameById(id int64, Connection *sql.DB) (string, *conf.ApiError){
 
 }
 
-func checkAddParticipantData(participant Participant, w http.ResponseWriter, Connection *sql.DB) bool {
+func checkAddParticipantData(participant Participant, w http.ResponseWriter) bool {
 	if len(participant.Name) > 0 {
 		if len(participant.Surname) > 0 {
 			if len(participant.Middlename) > 0 {
 				if participant.Sex == 0 || participant.Sex == 1 {
-					if orgset.CheckTeamID(participant.Team, w, Connection) {
+					if orgset.CheckTeamID(participant.Team, w) {
 						return true
 					} else {
 						return false

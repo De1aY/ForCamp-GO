@@ -27,17 +27,14 @@ type GetOrgSettings_Success struct {
 }
 
 func GetOrgSettings(token string, ResponseWriter http.ResponseWriter) bool {
-	Connection := src.Connect()
-	defer Connection.Close()
 	if authorization.CheckTokenForEmpty(token, ResponseWriter){
-		if authorization.CheckToken(token, Connection, ResponseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+		if authorization.CheckToken(token, ResponseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			NewConnection := src.Connect_Custom(Organization)
-			defer NewConnection.Close()
-			Query, err := NewConnection.Query("SELECT * FROM settings")
+			src.CustomConnection = src.Connect_Custom(Organization)
+			Query, err := src.CustomConnection.Query("SELECT * FROM settings")
 			if err != nil {
 				log.Print(err)
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)

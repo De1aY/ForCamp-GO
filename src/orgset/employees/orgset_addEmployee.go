@@ -1,3 +1,8 @@
+/*
+	Copyright: "Null team", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
+*/
 package employees
 
 import (
@@ -10,7 +15,6 @@ import (
 	"fmt"
 	"strconv"
 	"github.com/tealeg/xlsx"
-	"database/sql"
 )
 
 type AddEmployee_Success struct{
@@ -20,17 +24,14 @@ type AddEmployee_Success struct{
 }
 
 func AddEmployee(token string, employee Employee, ResponseWriter http.ResponseWriter) bool {
-	Connection := src.Connect()
-	defer Connection.Close()
-	if orgset.CheckUserAccess(token, Connection, ResponseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token, Connection)
+	if orgset.CheckUserAccess(token, ResponseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		NewConnection := src.Connect_Custom(Organization)
-		defer NewConnection.Close()
-		if checkAddEmployeeData(employee, ResponseWriter, NewConnection) {
-			Resp, APIerr := addEmployeeRequest(employee, Organization, Connection, NewConnection)
+		src.CustomConnection = src.Connect_Custom(Organization)
+		if checkAddEmployeeData(employee, ResponseWriter) {
+			Resp, APIerr := addEmployeeRequest(employee, Organization)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
@@ -41,26 +42,26 @@ func AddEmployee(token string, employee Employee, ResponseWriter http.ResponseWr
 	return true
 }
 
-func addEmployeeRequest(employee Employee, organization string, Connection *sql.DB, NewConnection *sql.DB) (AddEmployee_Success, *conf.ApiError){
+func addEmployeeRequest(employee Employee, organization string) (AddEmployee_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
-	login, APIerr := addEmployee_Main(organization, Connection, Hash)
+	login, APIerr := addEmployee_Main(organization, Hash)
 	if APIerr != nil {
 		return AddEmployee_Success{}, APIerr
 	}
 	employee.Login = login
-	APIerr = addEmployee_Organization(employee, NewConnection)
+	APIerr = addEmployee_Organization(employee)
 	if APIerr != nil {
 		return AddEmployee_Success{}, APIerr
 	}
-	APIerr = addEmployee_Excel(employee, organization, Password, NewConnection)
+	APIerr = addEmployee_Excel(employee, organization, Password)
 	if APIerr != nil {
 		return AddEmployee_Success{}, APIerr
 	}
 	return AddEmployee_Success{200, "success", login}, nil
 }
 
-func addEmployee_Main(organization string, Connection *sql.DB, hash string) (string, *conf.ApiError){
-	Query, err := Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
+func addEmployee_Main(organization string, hash string) (string, *conf.ApiError){
+	Query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
 		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
@@ -76,7 +77,7 @@ func addEmployee_Main(organization string, Connection *sql.DB, hash string) (str
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	Query, err = Connection.Prepare("UPDATE users SET login=? WHERE id=?")
+	Query, err = src.Connection.Prepare("UPDATE users SET login=? WHERE id=?")
 	if err != nil {
 		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
@@ -91,8 +92,8 @@ func addEmployee_Main(organization string, Connection *sql.DB, hash string) (str
 	return login, nil
 }
 
-func addEmployee_Organization(employee Employee, Connection *sql.DB) *conf.ApiError{
-	Query, err := Connection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
+func addEmployee_Organization(employee Employee) *conf.ApiError{
+	Query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -102,7 +103,7 @@ func addEmployee_Organization(employee Employee, Connection *sql.DB) *conf.ApiEr
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query, err = Connection.Prepare("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)")
+	Query, err = src.CustomConnection.Prepare("INSERT INTO users(login,name,surname,middlename,team,access,sex,avatar) VALUES(?,?,?,?,?,?,?,?)")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -113,7 +114,7 @@ func addEmployee_Organization(employee Employee, Connection *sql.DB) *conf.ApiEr
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
-	Query, err = Connection.Prepare("INSERT INTO employees(login, post) VALUES(?, ?)")
+	Query, err = src.CustomConnection.Prepare("INSERT INTO employees(login, post) VALUES(?, ?)")
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -127,8 +128,8 @@ func addEmployee_Organization(employee Employee, Connection *sql.DB) *conf.ApiEr
 	return nil
 }
 
-func addEmployee_Excel(employee Employee, organization string, password string, Connection *sql.DB) *conf.ApiError{
-	teamName, APIerr := getTeamNameById(employee.Team, Connection)
+func addEmployee_Excel(employee Employee, organization string, password string) *conf.ApiError{
+	teamName, APIerr := getTeamNameById(employee.Team)
 	if APIerr != nil {
 		return APIerr
 	}
@@ -160,11 +161,11 @@ func addEmployee_Excel(employee Employee, organization string, password string, 
 	return nil
 }
 
-func getTeamNameById(id int64, Connection *sql.DB) (string, *conf.ApiError){
+func getTeamNameById(id int64) (string, *conf.ApiError){
 	if id == 0{
 		return "отуствует", nil
 	} else {
-		Query, err := Connection.Query("SELECT name FROM teams WHERE id=?", id)
+		Query, err := src.CustomConnection.Query("SELECT name FROM teams WHERE id=?", id)
 		if err != nil {
 			log.Print(err)
 			return "", conf.ErrDatabaseQueryFailed
@@ -183,13 +184,13 @@ func getTeamNameById(id int64, Connection *sql.DB) (string, *conf.ApiError){
 
 }
 
-func checkAddEmployeeData(employee Employee, w http.ResponseWriter, Connection *sql.DB) bool {
+func checkAddEmployeeData(employee Employee, w http.ResponseWriter) bool {
 	if len(employee.Name) > 0 {
 		if len(employee.Surname) > 0 {
 			if len(employee.Middlename) > 0 {
 				if len(employee.Post) > 0 {
 					if employee.Sex == 0 || employee.Sex == 1 {
-						if orgset.CheckTeamID(employee.Team, w, Connection) {
+						if orgset.CheckTeamID(employee.Team, w) {
 							return true
 						} else {
 							return false
