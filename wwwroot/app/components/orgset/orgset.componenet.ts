@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CookieService} from 'angular2-cookie/core';
 import {CheckTokenService} from '../../src/checkToken.service';
 import {UserService} from '../../src/user.service';
 import {OrgSetService} from "../../src/orgset.service";
 import {alert} from "notie";
+import {DatatableComponent} from "@swimlane/ngx-datatable";
 
 interface Category {
     id: number
@@ -23,6 +24,7 @@ export class OrgSetComponent implements OnInit {
     private ParticipantEdit: object = {};
     private EmployeeEdit: object = {};
     private ReasonEdit: object = {};
+    private ParticipantsTable_FilterTeam:number = -1;
 
     constructor(private cookieService: CookieService,
                 private checkTokenService: CheckTokenService,
@@ -44,19 +46,14 @@ export class OrgSetComponent implements OnInit {
         if(this.orgSetService.Token == undefined){
             this.orgSetService.Token = this.Token;
         }
-        this.orgSetService.GetOrgSettings();
-        this.orgSetService.GetCategories();
-        this.orgSetService.GetTeams();
-        this.orgSetService.GetParticipants();
-        this.orgSetService.GetEmployees();
-        this.orgSetService.GetReasons();
+        this.orgSetService.GetData();
     }
 
     private UserServiceInit(){
         if(this.userService.Token == undefined) {
             this.userService.Token = this.Token;
         }
-        this.userService.GetSelfUserData();
+        this.userService.GetData();
     }
 
     private TokenInit(){

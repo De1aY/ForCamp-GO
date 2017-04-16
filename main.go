@@ -8,6 +8,7 @@ package main
 import (
 	"github.com/gorilla/mux"
 	"forcamp/src/handlers"
+	"forcamp/src"
 	"forcamp/conf"
 	"net/http"
 	"forcamp/src/handlers/api/orgset/orgset_get"
@@ -15,7 +16,6 @@ import (
 	"forcamp/src/handlers/api/orgset/orgset_add"
 	"forcamp/src/handlers/api/orgset/orgset_edit"
 	"forcamp/src/handlers/api/orgset/orgset_delete"
-	"forcamp/src"
 	"forcamp/src/handlers/api/marks"
 )
 
@@ -66,6 +66,8 @@ func main() {
 	orgset_delete.HandleDeleteReason(APISite)
 	// Marks
 	marks.HandleEditMark(APISite)
+	marks.HandleGetMarksChanges(APISite)
+	marks.HandleDeleteMarkChange(APISite)
 
 	// Handlers: Main site
 	handlers.HandleFolder_MainSite(WWWSite)

@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CookieService} from 'angular2-cookie/core';
 import {CheckTokenService} from '../../src/checkToken.service';
 import {UserService} from '../../src/user.service';
 import {OrgSetService} from "../../src/orgset.service";
 import {alert} from "notie";
 import {MarksService} from "../../src/marks.service";
+import {DatatableComponent} from "@swimlane/ngx-datatable";
 
 interface Mark{
     id: number
@@ -30,6 +31,7 @@ export class MarksComponent implements OnInit {
     private Token: string;
     private reasonID: number = 0;
     private MarkEdit: object  = {};
+    private MarksTable_FilterTeam: number = -1;
 
     constructor(private cookieService: CookieService,
                 private checkTokenService: CheckTokenService,
@@ -65,12 +67,7 @@ export class MarksComponent implements OnInit {
         if(this.orgSetService.Token == undefined){
             this.orgSetService.Token = this.Token;
         }
-        this.orgSetService.GetOrgSettings();
-        this.orgSetService.GetCategories();
-        this.orgSetService.GetTeams();
-        this.orgSetService.GetParticipants();
-        this.orgSetService.GetEmployees();
-        this.orgSetService.GetReasons();
+        this.orgSetService.GetData();
     }
 
     private MarksServiceInit(){
@@ -81,7 +78,7 @@ export class MarksComponent implements OnInit {
         if(this.userService.Token == undefined) {
             this.userService.Token = this.Token;
         }
-        this.userService.GetSelfUserData();
+        this.userService.GetData();
     }
 
     private CheckSelfTeamMarks(login: string): boolean{

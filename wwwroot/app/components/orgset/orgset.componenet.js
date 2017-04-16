@@ -25,6 +25,7 @@ var OrgSetComponent = (function () {
         this.ParticipantEdit = {};
         this.EmployeeEdit = {};
         this.ReasonEdit = {};
+        this.ParticipantsTable_FilterTeam = -1;
     }
     OrgSetComponent.prototype.ngOnInit = function () {
         this.TokenInit();
@@ -38,18 +39,13 @@ var OrgSetComponent = (function () {
         if (this.orgSetService.Token == undefined) {
             this.orgSetService.Token = this.Token;
         }
-        this.orgSetService.GetOrgSettings();
-        this.orgSetService.GetCategories();
-        this.orgSetService.GetTeams();
-        this.orgSetService.GetParticipants();
-        this.orgSetService.GetEmployees();
-        this.orgSetService.GetReasons();
+        this.orgSetService.GetData();
     };
     OrgSetComponent.prototype.UserServiceInit = function () {
         if (this.userService.Token == undefined) {
             this.userService.Token = this.Token;
         }
-        this.userService.GetSelfUserData();
+        this.userService.GetData();
     };
     OrgSetComponent.prototype.TokenInit = function () {
         this.Token = this.cookieService.get("token");

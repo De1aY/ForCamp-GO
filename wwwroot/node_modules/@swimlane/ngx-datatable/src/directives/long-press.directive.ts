@@ -1,11 +1,6 @@
 import {
-  Directive,
-  Input,
-  Output,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  OnDestroy
+  Directive, Input, Output, EventEmitter, HostBinding,
+  HostListener, OnDestroy
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -14,6 +9,7 @@ import 'rxjs/add/operator/takeUntil';
 @Directive({ selector: '[long-press]' })
 export class LongPressDirective implements OnDestroy {
 
+  @Input() pressEnabled: boolean = true;
   @Input() pressModel: any;
   @Input() duration: number = 500;
 
@@ -40,7 +36,11 @@ export class LongPressDirective implements OnDestroy {
   @HostListener('mousedown', [ '$event' ])
   onMouseDown(event: MouseEvent): void {
     // don't do right/middle clicks
-    if (event.which !== 1) return;
+    if(event.which !== 1 || !this.pressEnabled) return;
+
+    // don't start drag if its on resize handle
+    const target = (<HTMLElement>event.target);
+    if(target.classList.contains('resize-handle')) return;
 
     this.mouseX = event.clientX;
     this.mouseY = event.clientY;
@@ -100,7 +100,6 @@ export class LongPressDirective implements OnDestroy {
     this._destroySubscription();
 
     this.longPressEnd.emit({
-      event,
       model: this.pressModel
     });
   }
@@ -113,7 +112,7 @@ export class LongPressDirective implements OnDestroy {
     this._destroySubscription();
   }
 
-  private _destroySubscription() {
+  private _destroySubscription(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
       this.subscription = undefined;

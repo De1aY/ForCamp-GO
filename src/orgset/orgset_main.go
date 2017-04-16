@@ -24,8 +24,9 @@ func CheckUserAccess(token string, ResponseWriter http.ResponseWriter) bool{
 			if APIerr != nil{
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			src.CustomConnection = src.Connect_Custom(Organization)
-			Query, err := src.CustomConnection.Query("SELECT access FROM users WHERE login=?", Login)
+			CustomConnection := src.Connect_Custom(Organization)
+			defer CustomConnection.Close()
+			Query, err := CustomConnection.Query("SELECT access FROM users WHERE login=?", Login)
 			if err != nil {
 				log.Print(err)
 				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)

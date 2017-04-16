@@ -9,6 +9,11 @@ $colours: (
         yellow: #fdba2c
 );
 
+.mdl-card__title-filter{
+  margin-top: -24px;
+  padding: 0 20px;
+}
+
 #add_reason--category{
   div.mat-select-trigger{
     font-size: 20px;

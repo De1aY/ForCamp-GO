@@ -68,8 +68,17 @@ interface Reason{
     change: number
 }
 
+interface MarksChange{
+    id: number
+    employee_login: string
+    participant_login: string
+    text: string
+    change: number
+    time: string
+}
+
 @Injectable()
-export class OrgSetService {
+export class OrgSetService{
     //Links: OrgSettings
     private GetOrgSettingsLink = "https://api.forcamp.ga/orgset.settings.get";
     private GetCategoriesLink = "https://api.forcamp.ga/orgset.categories.get";
@@ -101,9 +110,14 @@ export class OrgSetService {
     private AddReasonLink = "https://api.forcamp.ga/orgset.reason.add";
     private EditReasonLink = "https://api.forcamp.ga/orgset.reason.edit";
     private DeleteReasonLink = "https://api.forcamp.ga/orgset.reason.delete";
+    //Links: Marks
+    private GetMarksChangesLink = "https://api.forcamp.ga/marks.changes.get";
+    private DeleteMarkChangeLink = "https://api.forcamp.ga/mark.change.delete";
     //Var's
     private PostHeaders: Headers = new Headers();
+    private UpdateInterval: number;
     public Token: string;
+    // Data
     public OrgSettings: OrgSettings = {
         organization: "загрузка...",
         period: "загрузка...",
@@ -116,7 +130,9 @@ export class OrgSetService {
     public Participants: Participant[] = [];
     public Employees: Employee[] = [];
     public Reasons: Reason[] = [];
+    public MarksChanges: MarksChange[] = [];
     public Preloader: boolean = false;
+    // Pop-up
     public ParticipantValueEdit_Active: boolean = false;
     public PeriodValueEdit_Active: boolean = false;
     public TeamValueEdit_Active: boolean = false;
@@ -129,6 +145,19 @@ export class OrgSetService {
 
     constructor(@Inject(Http) private http: Http,) {
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+    }
+
+    public GetData(){
+        if(this.UpdateInterval == undefined){
+            this.UpdateInterval = setInterval(() => {this.GetData()}, 20000);
+        }
+        this.GetOrgSettings();
+        this.GetCategories();
+        this.GetTeams();
+        this.GetParticipants();
+        this.GetEmployees();
+        this.GetReasons();
+        this.GetMarksChanges();
     }
 
     // OrgSettings
@@ -354,6 +383,23 @@ export class OrgSetService {
             { headers: this.PostHeaders }).subscribe((data: Response) => this.checkAddParticipantResponse(data.json(), participant));
     }
 
+    public GetParticipantFullNameByLogin(participant_login: string): string {
+        try {
+            let data = this.Participants.filter(part => part.login == participant_login)[0];
+            return data.surname + " " + data.name + " " + data.middlename
+        } catch (e) {
+            return participant_login;
+        }
+    }
+
+    public GetParticipantsByTeamID(team_id: number): Participant[] {
+        if (team_id == -1) {
+            return this.Participants;
+        } else {
+            return this.Participants.filter(part => part.team == team_id);
+        }
+    }
+
     private checkResetParticipantPasswordResponse(data: any){
         if(data.code == 200){
             alert({type: 1, text: "Новый пароль: "+data.password, stay: true});
@@ -481,6 +527,23 @@ export class OrgSetService {
         this.http.post(this.EditEmployeePermissionLink, "token="+this.Token+"&id="+id+"&value="+value+"&login="+login, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkEditEmployeePermissionResponse(data.json()));
     }
 
+    public GetEmployeeFullNameByLogin(employee_login: string): string {
+        try {
+            let data = this.Employees.filter(empl => empl.login == employee_login)[0];
+            return data.surname + " " + data.name + " " + data.middlename
+        } catch (e) {
+            return employee_login;
+        }
+    }
+
+    public GetEmployeesByTeamID(team_id: number): Employee[] {
+        if (team_id == -1) {
+            return this.Employees;
+        } else {
+            return this.Employees.filter(part => part.team == team_id);
+        }
+    }
+
     private checkEditEmployeePermissionResponse(data: any){
         if(data.code == 200){
             alert({type: 1, text: "Операция успешно завершена!", time: 2});
@@ -584,9 +647,8 @@ export class OrgSetService {
         }
     }
 
-    //Reasons
+    // Reasons
     public GetReasons(){
-        this.PreloaderOn();
         this.http.get(this.GetReasonsLink+"?token="+this.Token).subscribe((data: Response) => this.getReasonsFromResponse(data.json()));
     }
 
@@ -611,7 +673,6 @@ export class OrgSetService {
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
         }
-        this.PreloaderOff();
     }
 
     private checkAddReasonResponse(data: any, catID: number, text: string, change: number){
@@ -641,6 +702,43 @@ export class OrgSetService {
                     break
                 }
             }
+            alert({type: 1, text: "Операция успешно завершена!", time: 2});
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+        this.PreloaderOff();
+    }
+
+    // MarksChanges
+    public GetMarksChanges(){
+        this.http.get(this.GetMarksChangesLink+"?token="+this.Token).subscribe((data: Response) => this.getMarksChangesFromResponse(data.json()));
+    }
+
+    public DeleteMarkChange(id: number){
+        this.PreloaderOn();
+        this.http.post(this.DeleteMarkChangeLink, "token="+this.Token+"&id="+id, { headers: this.PostHeaders }).subscribe((data: Response) => this.checkDeleteMarkChangeResponse(data.json(), id));
+    }
+
+    public GetMarksChangesByEmployeeLogin(employee_login: string): MarksChange[] {
+        return this.MarksChanges.filter(markChange => markChange.employee_login == employee_login);
+    }
+
+    public GetMarksChangesByParticipantLogin(participant_login: string): MarksChange[] {
+        return this.MarksChanges.filter(markChange => markChange.participant_login == participant_login);
+    }
+
+    private getMarksChangesFromResponse(data: any){
+        if(data.code == 200){
+            this.MarksChanges = data.marks_changes;
+        } else {
+            alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
+        }
+    }
+
+    private checkDeleteMarkChangeResponse(data: any, id: number){
+        if(data.code == 200){
+            this.MarksChanges = this.MarksChanges.filter(markChange => markChange.id != id);
+            this.GetData();
             alert({type: 1, text: "Операция успешно завершена!", time: 2});
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});

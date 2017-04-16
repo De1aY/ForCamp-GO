@@ -47,6 +47,13 @@ var UserService = (function () {
             Post: "загрузка..."
         };
     }
+    UserService.prototype.GetData = function () {
+        var _this = this;
+        if (this.UpdateInterval == undefined) {
+            this.UpdateInterval = setInterval(function () { _this.GetData(); }, 20000);
+        }
+        this.GetSelfUserData();
+    };
     UserService.prototype.GetSelfUserData = function () {
         var _this = this;
         this.http.get(this.GetUserLoginLink + "?token=" + this.Token).subscribe(function (data) { return _this.getSelfUserLoginFromResponse(data.json()); });

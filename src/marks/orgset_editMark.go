@@ -23,6 +23,7 @@ func EditMark(token string, participant_login string, category_id int64, reason_
 				return conf.PrintError(APIerr, responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organization)
+
 			if checkData(token, participant_login, category_id, reason_id, responseWriter) {
 				APIerr = editMark_Request(participant_login, employee_login, category_id, reason_id)
 				if APIerr != nil {
@@ -51,6 +52,7 @@ func editParticipantMark(participant_login string, employee_login string, catego
 		return APIerr
 	}
 	Query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+strconv.FormatInt(category_id, 10)+"`=? WHERE login=?")
+	defer Query.Close()
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -65,6 +67,7 @@ func editParticipantMark(participant_login string, employee_login string, catego
 
 func logMarkChange(participant_login string, employee_login string, reason_id int64) *conf.ApiError {
 	Query, err := src.CustomConnection.Prepare("INSERT INTO marks_changes(reason_id, employee_login, participant_login) VALUES (?,?,?)")
+	defer Query.Close()
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -111,11 +114,10 @@ func checkData(token string, participant_login string, category_id int64, reason
 }
 
 func checkUserAccess(token string, w http.ResponseWriter) bool {
-	organization, employee_login, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	_, employee_login, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 	if APIerr != nil {
 		return conf.PrintError(APIerr, w)
 	}
-	src.CustomConnection = src.Connect_Custom(organization)
 	APIerr = checkUserAccess_Request(employee_login)
 	if APIerr != nil {
 		return conf.PrintError(APIerr, w)

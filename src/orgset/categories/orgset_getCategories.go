@@ -27,16 +27,14 @@ type GetCategories_Success struct {
 func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
 		if authorization.CheckToken(token, ResponseWriter) {
-			Organization, _, err := orgset.GetUserOrganizationAndLoginByToken(token)
-			if err != nil {
-				log.Print(err)
-				return conf.PrintError(err, ResponseWriter)
+			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+			if APIerr != nil {
+				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Resp, err := getCategories_Request()
-			if err != nil {
-				log.Print(err)
-				return conf.PrintError(err, ResponseWriter)
+			Resp, APIerr := getCategories_Request()
+			if APIerr != nil {
+				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			Response, _ := json.Marshal(Resp)
 			fmt.Fprintf(ResponseWriter, string(Response))

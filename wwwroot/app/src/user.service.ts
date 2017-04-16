@@ -30,6 +30,7 @@ interface UserData {
 export class UserService {
     private GetUserLoginLink:string = "https://api.forcamp.ga/user.login.get";
     private GetUserDataLink: string = "https://api.forcamp.ga/user.data.get";
+    private UpdateInterval: number;
     public SelfLogin: string;
     public SelfData: UserData = {
         Name: "загрузка...",
@@ -62,6 +63,13 @@ export class UserService {
     constructor(
         @Inject(Http) private http: Http,
     ){}
+
+    public GetData(){
+        if(this.UpdateInterval == undefined){
+            this.UpdateInterval = setInterval(() => {this.GetData()}, 20000);
+        }
+        this.GetSelfUserData();
+    }
 
     public GetSelfUserData(){
         this.http.get(this.GetUserLoginLink+"?token="+this.Token).subscribe((data: Response) => this.getSelfUserLoginFromResponse(data.json()));

@@ -74,7 +74,9 @@ var OrderableDirective = (function () {
     };
     OrderableDirective.prototype.isTarget = function (model, event) {
         var i = 0;
-        var targets = this.document.elementsFromPoint(event.x, event.y);
+        var x = event.x || event.clientX;
+        var y = event.y || event.clientY;
+        var targets = this.document.elementsFromPoint(x, y);
         var _loop_1 = function (prop) {
             // current column position which throws event.
             var pos = this_1.positions[prop];

@@ -44,6 +44,7 @@ func Connect() *sql.DB{
 		log.Print(err)
 	}
 	Connection.SetMaxOpenConns(conf.MYSQL_MAX_USER_CONNECTIONS)
+	Connection.SetMaxIdleConns(0)
 	return Connection
 }
 
@@ -56,5 +57,6 @@ func Connect_Custom(name string) *sql.DB{
 		log.Print(err)
 	}
 	newConn.SetMaxOpenConns(conf.MYSQL_MAX_USER_CONNECTIONS)
+	newConn.SetMaxIdleConns(0)
 	return newConn
 }

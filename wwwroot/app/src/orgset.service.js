@@ -43,6 +43,8 @@ var OrgSetService = (function () {
         this.AddReasonLink = "https://api.forcamp.ga/orgset.reason.add";
         this.EditReasonLink = "https://api.forcamp.ga/orgset.reason.edit";
         this.DeleteReasonLink = "https://api.forcamp.ga/orgset.reason.delete";
+        this.GetMarksChangesLink = "https://api.forcamp.ga/marks.changes.get";
+        this.DeleteMarkChangeLink = "https://api.forcamp.ga/mark.change.delete";
         this.PostHeaders = new http_1.Headers();
         this.OrgSettings = {
             organization: "загрузка...",
@@ -56,6 +58,7 @@ var OrgSetService = (function () {
         this.Participants = [];
         this.Employees = [];
         this.Reasons = [];
+        this.MarksChanges = [];
         this.Preloader = false;
         this.ParticipantValueEdit_Active = false;
         this.PeriodValueEdit_Active = false;
@@ -68,6 +71,19 @@ var OrgSetService = (function () {
         this.AddReason_Active = false;
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     }
+    OrgSetService.prototype.GetData = function () {
+        var _this = this;
+        if (this.UpdateInterval == undefined) {
+            this.UpdateInterval = setInterval(function () { _this.GetData(); }, 20000);
+        }
+        this.GetOrgSettings();
+        this.GetCategories();
+        this.GetTeams();
+        this.GetParticipants();
+        this.GetEmployees();
+        this.GetReasons();
+        this.GetMarksChanges();
+    };
     OrgSetService.prototype.GetOrgSettings = function () {
         var _this = this;
         this.PreloaderOn();
@@ -282,6 +298,23 @@ var OrgSetService = (function () {
             "&sex=" + participant.sex +
             "&team=" + participant.team, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkAddParticipantResponse(data.json(), participant); });
     };
+    OrgSetService.prototype.GetParticipantFullNameByLogin = function (participant_login) {
+        try {
+            var data = this.Participants.filter(function (part) { return part.login == participant_login; })[0];
+            return data.surname + " " + data.name + " " + data.middlename;
+        }
+        catch (e) {
+            return participant_login;
+        }
+    };
+    OrgSetService.prototype.GetParticipantsByTeamID = function (team_id) {
+        if (team_id == -1) {
+            return this.Participants;
+        }
+        else {
+            return this.Participants.filter(function (part) { return part.team == team_id; });
+        }
+    };
     OrgSetService.prototype.checkResetParticipantPasswordResponse = function (data) {
         if (data.code == 200) {
             notie_1.alert({ type: 1, text: "Новый пароль: " + data.password, stay: true });
@@ -404,6 +437,23 @@ var OrgSetService = (function () {
         this.PreloaderOn();
         this.http.post(this.EditEmployeePermissionLink, "token=" + this.Token + "&id=" + id + "&value=" + value + "&login=" + login, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkEditEmployeePermissionResponse(data.json()); });
     };
+    OrgSetService.prototype.GetEmployeeFullNameByLogin = function (employee_login) {
+        try {
+            var data = this.Employees.filter(function (empl) { return empl.login == employee_login; })[0];
+            return data.surname + " " + data.name + " " + data.middlename;
+        }
+        catch (e) {
+            return employee_login;
+        }
+    };
+    OrgSetService.prototype.GetEmployeesByTeamID = function (team_id) {
+        if (team_id == -1) {
+            return this.Employees;
+        }
+        else {
+            return this.Employees.filter(function (part) { return part.team == team_id; });
+        }
+    };
     OrgSetService.prototype.checkEditEmployeePermissionResponse = function (data) {
         if (data.code == 200) {
             notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
@@ -509,7 +559,6 @@ var OrgSetService = (function () {
     };
     OrgSetService.prototype.GetReasons = function () {
         var _this = this;
-        this.PreloaderOn();
         this.http.get(this.GetReasonsLink + "?token=" + this.Token).subscribe(function (data) { return _this.getReasonsFromResponse(data.json()); });
     };
     OrgSetService.prototype.AddReason = function (catID, text, change) {
@@ -534,7 +583,6 @@ var OrgSetService = (function () {
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
         }
-        this.PreloaderOff();
     };
     OrgSetService.prototype.checkAddReasonResponse = function (data, catID, text, change) {
         if (data.code == 200) {
@@ -563,6 +611,40 @@ var OrgSetService = (function () {
                     break;
                 }
             }
+            notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+        this.PreloaderOff();
+    };
+    OrgSetService.prototype.GetMarksChanges = function () {
+        var _this = this;
+        this.http.get(this.GetMarksChangesLink + "?token=" + this.Token).subscribe(function (data) { return _this.getMarksChangesFromResponse(data.json()); });
+    };
+    OrgSetService.prototype.DeleteMarkChange = function (id) {
+        var _this = this;
+        this.PreloaderOn();
+        this.http.post(this.DeleteMarkChangeLink, "token=" + this.Token + "&id=" + id, { headers: this.PostHeaders }).subscribe(function (data) { return _this.checkDeleteMarkChangeResponse(data.json(), id); });
+    };
+    OrgSetService.prototype.GetMarksChangesByEmployeeLogin = function (employee_login) {
+        return this.MarksChanges.filter(function (markChange) { return markChange.employee_login == employee_login; });
+    };
+    OrgSetService.prototype.GetMarksChangesByParticipantLogin = function (participant_login) {
+        return this.MarksChanges.filter(function (markChange) { return markChange.participant_login == participant_login; });
+    };
+    OrgSetService.prototype.getMarksChangesFromResponse = function (data) {
+        if (data.code == 200) {
+            this.MarksChanges = data.marks_changes;
+        }
+        else {
+            notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
+        }
+    };
+    OrgSetService.prototype.checkDeleteMarkChangeResponse = function (data, id) {
+        if (data.code == 200) {
+            this.MarksChanges = this.MarksChanges.filter(function (markChange) { return markChange.id != id; });
+            this.GetData();
             notie_1.alert({ type: 1, text: "Операция успешно завершена!", time: 2 });
         }
         else {

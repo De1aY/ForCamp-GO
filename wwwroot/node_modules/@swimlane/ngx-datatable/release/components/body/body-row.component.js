@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var utils_1 = require("../../utils");
+var services_1 = require("../../services");
 var DataTableBodyRowComponent = (function () {
-    function DataTableBodyRowComponent(element) {
+    function DataTableBodyRowComponent(scrollbarHelper, element) {
+        this.scrollbarHelper = scrollbarHelper;
         this.activate = new core_1.EventEmitter();
         this.element = element.nativeElement;
     }
@@ -83,7 +85,7 @@ var DataTableBodyRowComponent = (function () {
             var bodyWidth = parseInt(this.innerWidth + '', 0);
             var totalDiff = widths.total - bodyWidth;
             var offsetDiff = totalDiff - offsetX;
-            var offset = (offsetDiff + utils_1.scrollbarWidth) * -1;
+            var offset = (offsetDiff + this.scrollbarHelper.width) * -1;
             utils_1.translateXY(styles, offset, 0);
         }
         return styles;
@@ -128,6 +130,7 @@ DataTableBodyRowComponent.decorators = [
 ];
 /** @nocollapse */
 DataTableBodyRowComponent.ctorParameters = function () { return [
+    { type: services_1.ScrollbarHelper, },
     { type: core_1.ElementRef, },
 ]; };
 DataTableBodyRowComponent.propDecorators = {

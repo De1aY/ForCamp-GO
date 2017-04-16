@@ -33,18 +33,13 @@ var OrgMainComponent = (function () {
         if (this.orgSetService.Token == undefined) {
             this.orgSetService.Token = this.Token;
         }
-        this.orgSetService.GetOrgSettings();
-        this.orgSetService.GetCategories();
-        this.orgSetService.GetTeams();
-        this.orgSetService.GetParticipants();
-        this.orgSetService.GetEmployees();
-        this.orgSetService.GetReasons();
+        this.orgSetService.GetData();
     };
     OrgMainComponent.prototype.UserServiceInit = function () {
         if (this.userService.Token == undefined) {
             this.userService.Token = this.Token;
         }
-        this.userService.GetSelfUserData();
+        this.userService.GetData();
     };
     OrgMainComponent.prototype.TokenInit = function () {
         this.Token = this.cookieService.get("token");

@@ -25,6 +25,7 @@ var MarksComponent = (function () {
         this.marksService = marksService;
         this.reasonID = 0;
         this.MarkEdit = {};
+        this.MarksTable_FilterTeam = -1;
     }
     MarksComponent.prototype.ngOnInit = function () {
         this.TokenInit();
@@ -52,12 +53,7 @@ var MarksComponent = (function () {
         if (this.orgSetService.Token == undefined) {
             this.orgSetService.Token = this.Token;
         }
-        this.orgSetService.GetOrgSettings();
-        this.orgSetService.GetCategories();
-        this.orgSetService.GetTeams();
-        this.orgSetService.GetParticipants();
-        this.orgSetService.GetEmployees();
-        this.orgSetService.GetReasons();
+        this.orgSetService.GetData();
     };
     MarksComponent.prototype.MarksServiceInit = function () {
         this.marksService.Token = this.Token;
@@ -66,7 +62,7 @@ var MarksComponent = (function () {
         if (this.userService.Token == undefined) {
             this.userService.Token = this.Token;
         }
-        this.userService.GetSelfUserData();
+        this.userService.GetData();
     };
     MarksComponent.prototype.CheckSelfTeamMarks = function (login) {
         if (!this.orgSetService.OrgSettings.self_marks) {

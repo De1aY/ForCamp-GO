@@ -5,6 +5,7 @@ var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/takeUntil");
 var LongPressDirective = (function () {
     function LongPressDirective() {
+        this.pressEnabled = true;
         this.duration = 500;
         this.longPressStart = new core_1.EventEmitter();
         this.longPressing = new core_1.EventEmitter();
@@ -27,7 +28,11 @@ var LongPressDirective = (function () {
     LongPressDirective.prototype.onMouseDown = function (event) {
         var _this = this;
         // don't do right/middle clicks
-        if (event.which !== 1)
+        if (event.which !== 1 || !this.pressEnabled)
+            return;
+        // don't start drag if its on resize handle
+        var target = event.target;
+        if (target.classList.contains('resize-handle'))
             return;
         this.mouseX = event.clientX;
         this.mouseY = event.clientY;
@@ -75,7 +80,6 @@ var LongPressDirective = (function () {
         this.pressing = false;
         this._destroySubscription();
         this.longPressEnd.emit({
-            event: event,
             model: this.pressModel
         });
     };
@@ -99,6 +103,7 @@ LongPressDirective.decorators = [
 /** @nocollapse */
 LongPressDirective.ctorParameters = function () { return []; };
 LongPressDirective.propDecorators = {
+    'pressEnabled': [{ type: core_1.Input },],
     'pressModel': [{ type: core_1.Input },],
     'duration': [{ type: core_1.Input },],
     'longPressStart': [{ type: core_1.Output },],
