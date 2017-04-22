@@ -1,0 +1,189 @@
+<div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">{{userService.UserData.Surname}} {{userService.UserData.Name}}</span></div>
+        <div [attr.aria-busy]="orgSetService.Preloader" role="progressbar"></div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Профиль</span>
+        <nav class="mdl-navigation">
+            <a *ngIf="login != userService.SelfLogin" class="mdl-navigation__link" [routerLink]="['/profile', userService.SelfLogin]">профиль</a>
+            <a *ngIf="userService.SelfData.Access == 2" class="mdl-navigation__link"
+               routerLink="/orgset">управление</a>
+            <a class="mdl-navigation__link" routerLink="/marks">баллы</a>
+            <a class="mdl-navigation__link" routerlink="/general">статистика</a>
+            <a *ngIf="userService.SelfData.Team != 0" class="mdl-navigation__link" routerLink="/team">{{orgSetService.OrgSettings.team}}</a>
+            <a class="mdl-navigation__link" routerLink="/achievements">достижения</a>
+            <a class="mdl-navigation__link" href="https://forcamp.ga/exit">выйти</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content mdl-grid" id="profile">
+            <div class="mdl-grid mdl-cell mdl-cell--top mdl-cell--3-col-desktop mdl-cell--8-col-table mdl-cell--4-col-phone">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title">
+                            <img [src]="'images/'+userService.UserData.Avatar" width="180px" height="180px"
+                                 class="mdl-card__photo-circle"/>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button md-button [disabled]="true" [color]="'primary'" class="width100">Отправить
+                                сообщение
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text" style="text-transform: none">
+                                Данные
+                            </div>
+                        </div>
+                        <div class="mdl-card__text">
+                            <div class="mdl-card__text-row">
+                                <span class="mdl-card__text-row--support">фамилия: </span>
+                                <span class="mdl-card__text-row--main">{{userService.UserData.Surname}}</span>
+                            </div>
+                            <div class="mdl-card__text-row">
+                                <span class="mdl-card__text-row--support">имя: </span>
+                                <span class="mdl-card__text-row--main">{{userService.UserData.Name}}</span>
+                            </div>
+                            <div class="mdl-card__text-row">
+                                <span class="mdl-card__text-row--support">отчество: </span>
+                                <span class="mdl-card__text-row--main">{{userService.UserData.Middlename}}</span>
+                            </div>
+                            <div class="mdl-card__text-row">
+                                <span class="mdl-card__text-row--support">{{orgSetService.OrgSettings.team}}: </span>
+                                <span class="mdl-card__text-row--main">{{orgSetService.IdToTeamName(userService.UserData.Team)}}</span>
+                            </div>
+                            <div class="mdl-card__text-row" *ngIf="userService.UserData.Access > 0">
+                                <span class="mdl-card__text-row--support">должность: </span>
+                                <span class="mdl-card__text-row--main">{{userService.UserData.Post}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col"
+                     *ngIf="userService.UserData.Access == 0">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">Баллы</div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable
+                                class="material width100"
+                                [rows]="userService.UserData.Marks"
+                                [loadingIndicator]="loadingIndicator"
+                                [columnMode]="'force'"
+                                [headerHeight]="50"
+                                [footerHeight]="0"
+                                [rowHeight]="'auto'"
+                                [sorts]="[{prop: 'value', dir: 'desc'}]"
+                                [messages]="{emptyMessage: 'категорий нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Категрия">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span style="text-transform: capitalize">Категория</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{orgSetService.CategoryIdToName(row.id)}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Балл" prop="value">
+                                    <ng-template ngx-datatable-header-template let-sort="sortFn">
+                                        <span (click)="sort()" style="text-transform: capitalize">Балл</span>
+                                    </ng-template>
+                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                        {{value}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-table mdl-cell--4-col-phone">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">
+                                Активность
+                            </div>
+                        </div>
+                        <div class="mdl-card__title card-nopad">
+                            <ngx-datatable *ngIf="userService.UserData.Access == 0"
+                                    class="material width100"
+                                    [rows]="orgSetService.GetMarksChangesByParticipantLogin(login)"
+                                    [loadingIndicator]="loadingIndicator"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="50"
+                                    [rowHeight]="'auto'"
+                                    [limit]="20"
+                                    [sorts]="[{prop: 'time', dir: 'desc'}]"
+                                    [messages]="{emptyMessage: 'активности нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Событие">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span style="text-transform: capitalize">Событие</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.change > 0" class="datatable__marksChanges-row-change--positive">+{{row.change}}</span>
+                                        <span *ngIf="row.change < 0" class="datatable__marksChanges-row-change--negative">{{row.change}}</span>
+                                        <span class="datatable__marksChanges-row-text">{{row.text | titlecase}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Дата" prop="time">
+                                    <ng-template ngx-datatable-header-template let-sort="sortFn">
+                                        <span (click)="sort()" style="text-transform: capitalize">Дата</span>
+                                    </ng-template>
+                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                        <span class="datatable__marksChanges-row-date">{{value | date}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                            <ngx-datatable *ngIf="userService.UserData.Access > 0"
+                                           class="material width100"
+                                           [rows]="orgSetService.GetMarksChangesByEmployeeLogin(login)"
+                                           [loadingIndicator]="loadingIndicator"
+                                           [columnMode]="'force'"
+                                           [headerHeight]="50"
+                                           [footerHeight]="50"
+                                           [rowHeight]="'auto'"
+                                           [limit]="20"
+                                           [sorts]="[{prop: 'time', dir: 'desc'}]"
+                                           [messages]="{emptyMessage: 'активности нет', totalMessage: 'всего'}">
+                                <ngx-datatable-column name="Событие">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span style="text-transform: capitalize">Событие</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div *ngIf="userService.UserData.Sex == 0">
+                                            Изменил балл <a [routerLink]="['/profile', row.participant_login]">{{row.participant_login}}</a> на
+                                            <span *ngIf="row.change > 0" class="datatable__marksChanges-row-change--positive">+{{row.change}}</span>
+                                            <span *ngIf="row.change < 0" class="datatable__marksChanges-row-change--negative">{{row.change}}</span>
+                                            по причине "{{row.text}}"
+                                        </div>
+                                        <div *ngIf="userService.UserData.Sex == 1">
+                                            Изменила балл <a [routerLink]="['/profile', row.participant_login]">{{row.participant_login}}</a> на
+                                            <span *ngIf="row.change > 0" class="datatable__marksChanges-row-change--positive">+{{row.change}}</span>
+                                            <span *ngIf="row.change < 0" class="datatable__marksChanges-row-change--negative">{{row.change}}</span>
+                                            по причине "{{row.text}}"
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Дата" prop="time">
+                                    <ng-template ngx-datatable-header-template let-sort="sortFn">
+                                        <span (click)="sort()" style="text-transform: capitalize">Дата</span>
+                                    </ng-template>
+                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                        {{value | date}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

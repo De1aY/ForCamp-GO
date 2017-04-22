@@ -12,7 +12,7 @@ interface MarkPermission{
     value: boolean
 }
 
-interface UserData {
+export interface UserData {
     Name: string
     Surname: string
     Middlename: string
@@ -30,14 +30,13 @@ interface UserData {
 export class UserService {
     private GetUserLoginLink:string = "https://api.forcamp.ga/user.login.get";
     private GetUserDataLink: string = "https://api.forcamp.ga/user.data.get";
-    private UpdateInterval: number;
     public SelfLogin: string;
     public SelfData: UserData = {
         Name: "загрузка...",
         Surname: "загрузка...",
         Middlename: "загрузка...",
         Team: 0,
-        Avatar: "загрузка...",
+        Avatar: "default.jpg",
         Sex: 0,
         Access: 0,
         Organization: "загрузка...",
@@ -50,7 +49,7 @@ export class UserService {
         Surname: "загрузка...",
         Middlename: "загрузка...",
         Team: 0,
-        Avatar: "загрузка...",
+        Avatar: "default.jpg",
         Sex: 0,
         Access: 0,
         Organization: "загрузка...",
@@ -65,9 +64,6 @@ export class UserService {
     ){}
 
     public GetData(){
-        if(this.UpdateInterval == undefined){
-            this.UpdateInterval = setInterval(() => {this.GetData()}, 20000);
-        }
         this.GetSelfUserData();
     }
 

@@ -35,11 +35,13 @@ var addEmployee_component_1 = require("./components/orgset/addEmployee/addEmploy
 var marks_component_1 = require("./components/marks/marks.component");
 var marks_service_1 = require("./src/marks.service");
 var addReason_component_1 = require("./components/orgset/addReason/addReason.component");
+var profile_component_1 = require("./components/profile/profile.component");
 var appRoutes = [
     { path: 'orgset', component: orgset_componenet_1.OrgSetComponent },
     { path: 'main', component: orgmain_component_1.OrgMainComponent },
     { path: 'marks', component: marks_component_1.MarksComponent },
     { path: '', component: authorization_component_1.AuthorizationComponent },
+    { path: 'profile/:login', component: profile_component_1.ProfileComponent },
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -54,6 +56,7 @@ AppModule = __decorate([
             app_component_1.AppComponent,
             orgset_componenet_1.OrgSetComponent,
             marks_component_1.MarksComponent,
+            profile_component_1.ProfileComponent,
             MDLInit_1.MDL,
             participantValueEdit_component_1.ParticipantValueEditComponent,
             periodValueEdit_component_1.PeriodValueEditComponent,

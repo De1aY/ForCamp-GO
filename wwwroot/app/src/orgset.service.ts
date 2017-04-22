@@ -115,7 +115,6 @@ export class OrgSetService{
     private DeleteMarkChangeLink = "https://api.forcamp.ga/mark.change.delete";
     //Var's
     private PostHeaders: Headers = new Headers();
-    private UpdateInterval: number;
     public Token: string;
     // Data
     public OrgSettings: OrgSettings = {
@@ -148,9 +147,6 @@ export class OrgSetService{
     }
 
     public GetData(){
-        if(this.UpdateInterval == undefined){
-            this.UpdateInterval = setInterval(() => {this.GetData()}, 20000);
-        }
         this.GetOrgSettings();
         this.GetCategories();
         this.GetTeams();

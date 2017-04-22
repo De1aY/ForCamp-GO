@@ -7,6 +7,7 @@ const(
 	FOLDER_PARTICIPANTS = "./wwwroot/data/participants"
 	FOLDER_EMPLOYEES = "./wwwroot/data/employees"
 	FOLDER_SCSS = "./wwwroot/scss"
+	FOLDER_IMAGES = "./wwwroot/data/images"
 	FILE_INDEX = "./wwwroot/index.html"
 	FILE_SYSTEM_CONFIG = "./wwwroot/systemjs.config.js"
 )

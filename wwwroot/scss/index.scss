@@ -27,6 +27,11 @@ $colours: (
   }
 }
 
+.mdl-card__photo-circle {
+  border-radius: 100px;
+  margin: 0 auto;
+}
+
 $animation-duration: 3.5s;
 
 .mdl-card {
@@ -36,6 +41,51 @@ $animation-duration: 3.5s;
 
 .mdl-card__title-text {
   font-size: 27px;
+}
+
+.mdl-card {
+
+  .mdl-card__text {
+    padding: 16px;
+
+    .mdl-card__text-row {
+      width: 100%;
+      padding: 11px 0;
+      font-size: 16px;
+
+      .mdl-card__text-row--support{
+        color: $TextColor_Secondary;
+        text-transform: capitalize;
+      }
+
+      .mdl-card__text-row--main{
+        color: $TextColor_Main;
+        text-transform: capitalize;
+      }
+
+    }
+
+  }
+
+}
+
+.datatable__marksChanges-row-change--positive {
+  color: green;
+  font-size: 16px;
+}
+
+.datatable__marksChanges-row-change--negative {
+  color: red;
+  font-size: 16px;
+}
+
+.datatable__marksChanges-row-text {
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.datatable__marksChanges-row-date {
+  font-size: 16px;
 }
 
 .mdl-card__title {

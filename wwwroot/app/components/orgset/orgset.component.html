@@ -18,7 +18,7 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Управление</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" routerLink="/profile">профиль</a>
+            <a class="mdl-navigation__link" [routerLink]="['/profile', userService.SelfLogin]">профиль</a>
             <a *ngIf="userService.SelfData.Access > 0" class="mdl-navigation__link" routerLink="/marks">баллы</a>
             <a class="mdl-navigation__link" routerlink="/general">общая статистика</a>
             <a class="mdl-navigation__link" routerLink="/team">{{orgSetService.OrgSettings.team}}</a>
@@ -706,7 +706,8 @@
                                         Сотрудник
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <a [routerLink]="['/profile', row.employee_login]" style="text-transform: capitalize">{{orgSetService.GetEmployeeFullNameByLogin(row.employee_login)}}</a>
+                                        <a [routerLink]="['/profile', row.employee_login]"
+                                           style="text-transform: capitalize">{{orgSetService.GetEmployeeFullNameByLogin(row.employee_login)}}</a>
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column [name]="this.orgSetService.OrgSettings.participant.value">
@@ -714,7 +715,8 @@
                                         <span style="text-transform: capitalize">{{this.orgSetService.OrgSettings.participant}}</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <a [routerLink]="['/profile', row.participant_login]" style="text-transform: capitalize">{{orgSetService.GetParticipantFullNameByLogin(row.participant_login)}}</a>
+                                        <a [routerLink]="['/profile', row.participant_login]"
+                                           style="text-transform: capitalize">{{orgSetService.GetParticipantFullNameByLogin(row.participant_login)}}</a>
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column name="Причина изменения">
@@ -750,6 +752,7 @@
         </section>
         <!-- Help -->
         <section class="mdl-layout__tab-panel" id="orgset_help">
+            дел
         </section>
     </main>
 </div>

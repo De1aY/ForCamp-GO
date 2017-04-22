@@ -72,10 +72,6 @@ var OrgSetService = (function () {
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     }
     OrgSetService.prototype.GetData = function () {
-        var _this = this;
-        if (this.UpdateInterval == undefined) {
-            this.UpdateInterval = setInterval(function () { _this.GetData(); }, 20000);
-        }
         this.GetOrgSettings();
         this.GetCategories();
         this.GetTeams();

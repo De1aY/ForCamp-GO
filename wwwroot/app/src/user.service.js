@@ -25,7 +25,7 @@ var UserService = (function () {
             Surname: "загрузка...",
             Middlename: "загрузка...",
             Team: 0,
-            Avatar: "загрузка...",
+            Avatar: "default.jpg",
             Sex: 0,
             Access: 0,
             Organization: "загрузка...",
@@ -38,7 +38,7 @@ var UserService = (function () {
             Surname: "загрузка...",
             Middlename: "загрузка...",
             Team: 0,
-            Avatar: "загрузка...",
+            Avatar: "default.jpg",
             Sex: 0,
             Access: 0,
             Organization: "загрузка...",
@@ -48,10 +48,6 @@ var UserService = (function () {
         };
     }
     UserService.prototype.GetData = function () {
-        var _this = this;
-        if (this.UpdateInterval == undefined) {
-            this.UpdateInterval = setInterval(function () { _this.GetData(); }, 20000);
-        }
         this.GetSelfUserData();
     };
     UserService.prototype.GetSelfUserData = function () {

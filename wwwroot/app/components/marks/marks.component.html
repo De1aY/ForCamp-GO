@@ -7,7 +7,7 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Баллы</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" routerLink="/profile">профиль</a>
+            <a class="mdl-navigation__link" [routerLink]="['/profile', userService.SelfLogin]">профиль</a>
             <a *ngIf="userService.SelfData.Access == 2" class="mdl-navigation__link"
                routerLink="/orgset">управление</a>
             <a class="mdl-navigation__link" routerlink="/general">общая статистика</a>

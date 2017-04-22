@@ -17,6 +17,11 @@ func getFolder_Scss() http.Dir {
 	return ScssFolder
 }
 
+func getFolder_Images() http.Dir {
+	ImagesFolder := http.Dir(conf.FOLDER_IMAGES)
+	return ImagesFolder
+}
+
 func getFolder_Node_Modules() http.Dir {
 	NodeModulesFolder := http.Dir(conf.FOLDER_NODE_MODULES)
 	return NodeModulesFolder
@@ -55,6 +60,13 @@ func folderHandler_Media() http.Handler {
 	return MediaHandler
 }
 
+func folderHandler_Images() http.Handler {
+	ImagesFolder := getFolder_Images()
+	ImagesFolderServer := http.FileServer(ImagesFolder)
+	ImagesHandler := http.StripPrefix("/images", ImagesFolderServer)
+	return ImagesHandler
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request){
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
@@ -74,10 +86,12 @@ func HandleFolder_MainSite(router *mux.Router) {
 	ScssHandler := folderHandler_Scss()
 	MediaHandler := folderHandler_Media()
 	NodeModulesHandler := folderHandler_Node_Modules()
+	ImagesHandler := folderHandler_Images()
 	router.PathPrefix("/app").Handler(AppHandler)
 	router.PathPrefix("/scss").Handler(ScssHandler)
 	router.PathPrefix("/node_modules").Handler(NodeModulesHandler)
 	router.PathPrefix("/media").Handler(MediaHandler)
+	router.PathPrefix("/images").Handler(ImagesHandler)
 	// Pages
 	router.HandleFunc("/", indexHandler)
 	router.HandleFunc("/main", indexHandler)
@@ -87,6 +101,7 @@ func HandleFolder_MainSite(router *mux.Router) {
 	router.HandleFunc("/profile", indexHandler)
 	router.HandleFunc("/team", indexHandler)
 	router.HandleFunc("/achievements", indexHandler)
+	router.HandleFunc("/profile/{login}", indexHandler)
 	// SystemJS
 	router.HandleFunc("/systemjs.config.js", systemConfigHandler)
 }

@@ -81,12 +81,44 @@
 #participants_add__select--team .mat-select-placeholder, #employees_add__select--team .mat-select-placeholder {
   text-transform: capitalize; }
 
+.mdl-card__photo-circle {
+  border-radius: 100px;
+  margin: 0 auto; }
+
 .mdl-card {
   width: 100%;
   min-height: 125px; }
 
 .mdl-card__title-text {
   font-size: 27px; }
+
+.mdl-card .mdl-card__text {
+  padding: 16px; }
+  .mdl-card .mdl-card__text .mdl-card__text-row {
+    width: 100%;
+    padding: 11px 0;
+    font-size: 16px; }
+    .mdl-card .mdl-card__text .mdl-card__text-row .mdl-card__text-row--support {
+      color: #757575;
+      text-transform: capitalize; }
+    .mdl-card .mdl-card__text .mdl-card__text-row .mdl-card__text-row--main {
+      color: #000;
+      text-transform: capitalize; }
+
+.datatable__marksChanges-row-change--positive {
+  color: green;
+  font-size: 16px; }
+
+.datatable__marksChanges-row-change--negative {
+  color: red;
+  font-size: 16px; }
+
+.datatable__marksChanges-row-text {
+  font-size: 16px;
+  padding-left: 10px; }
+
+.datatable__marksChanges-row-date {
+  font-size: 16px; }
 
 .mdl-card__title .card_field {
   font-size: 24px; }

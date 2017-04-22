@@ -29,12 +29,14 @@ import {AddEmployeeComponent} from "./components/orgset/addEmployee/addEmployee.
 import {MarksComponent} from "./components/marks/marks.component";
 import {MarksService} from "./src/marks.service";
 import {AddReasonComponent} from "./components/orgset/addReason/addReason.component";
+import {ProfileComponent} from "./components/profile/profile.component";
 
 const appRoutes: Routes = [
     {path: 'orgset', component: OrgSetComponent},
     {path: 'main', component: OrgMainComponent},
     {path: 'marks', component: MarksComponent},
     {path: '', component: AuthorizationComponent},
+    {path: 'profile/:login', component: ProfileComponent},
 ];
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, MaterialModule, RouterModule.forRoot(appRoutes), NgxDatatableModule, BrowserAnimationsModule ],
@@ -43,6 +45,7 @@ const appRoutes: Routes = [
         AppComponent,
         OrgSetComponent,
         MarksComponent,
+        ProfileComponent,
         MDL,
         ParticipantValueEditComponent,
         PeriodValueEditComponent,
