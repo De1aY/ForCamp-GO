@@ -193,6 +193,11 @@ body .on_edit {
     body .on_edit .on_edit-card .card_field {
       width: 100%; }
 
+g title {
+  text-transform: capitalize; }
+g text {
+  text-transform: capitalize; }
+
 header [role="progressbar"][aria-busy="true"] {
   position: absolute;
   top: 0;

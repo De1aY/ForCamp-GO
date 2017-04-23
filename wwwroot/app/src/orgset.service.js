@@ -69,6 +69,7 @@ var OrgSetService = (function () {
         this.AddParticipant_Active = false;
         this.AddEmployee_Active = false;
         this.AddReason_Active = false;
+        this.ParticipantsVerticalBar = [];
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
     }
     OrgSetService.prototype.GetData = function () {
@@ -386,10 +387,30 @@ var OrgSetService = (function () {
     OrgSetService.prototype.getParticipantsFromResponse = function (data) {
         if (data.code == 200) {
             this.Participants = data.participants;
+            for (var i = 0; i < this.Participants.length; i++) {
+                this.Participants[i].sum = 0;
+                for (var j = 0; j < this.Participants[i].marks.length; j++) {
+                    this.Participants[i].sum += this.Participants[i].marks[j].value;
+                }
+            }
+            this.getParticipantsForVerticalBarChart();
         }
         else {
             notie_1.alert({ type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3 });
         }
+    };
+    OrgSetService.prototype.getParticipantsForVerticalBarChart = function () {
+        var participantsVerticalBar = [];
+        for (var i = 0; i < this.Participants.length; i++) {
+            if (i == 10) {
+                break;
+            }
+            participantsVerticalBar.push({ name: this.Participants[i].surname + ' ' + this.Participants[i].name, value: this.Participants[i].sum });
+        }
+        participantsVerticalBar = participantsVerticalBar.sort(function (n1, n2) { if (n1.value > n2.value)
+            return -1; if (n1.value < n2.value)
+            return 1; return 0; });
+        this.ParticipantsVerticalBar = participantsVerticalBar;
     };
     OrgSetService.prototype.GetEmployees = function () {
         var _this = this;

@@ -48,6 +48,7 @@ interface Participant{
     sex: number
     team: number
     marks: Mark[]
+    sum: number
 }
 
 interface Employee{
@@ -141,6 +142,8 @@ export class OrgSetService{
     public AddParticipant_Active: boolean = false;
     public AddEmployee_Active: boolean = false;
     public AddReason_Active: boolean = false;
+    // Data for charts
+    public ParticipantsVerticalBar: object = [];
 
     constructor(@Inject(Http) private http: Http,) {
         this.PostHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -471,9 +474,28 @@ export class OrgSetService{
     private getParticipantsFromResponse(data: any){
         if(data.code == 200){
             this.Participants = data.participants;
+            for (let i = 0; i < this.Participants.length; i++) {
+                this.Participants[i].sum = 0;
+                for (let j = 0; j < this.Participants[i].marks.length; j++) {
+                    this.Participants[i].sum += this.Participants[i].marks[j].value;
+                }
+            }
+            this.getParticipantsForVerticalBarChart();
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
         }
+    }
+
+    private getParticipantsForVerticalBarChart(){
+        let participantsVerticalBar = [];
+        for (let i = 0; i < this.Participants.length; i++) {
+            if (i == 10) {
+                break
+            }
+            participantsVerticalBar.push({name: this.Participants[i].surname + ' ' + this.Participants[i].name, value: this.Participants[i].sum});
+        }
+        participantsVerticalBar = participantsVerticalBar.sort((n1, n2) => { if (n1.value > n2.value) return -1; if (n1.value < n2.value) return 1; return 0});
+        this.ParticipantsVerticalBar = participantsVerticalBar;
     }
 
     // Employees

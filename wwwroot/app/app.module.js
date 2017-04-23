@@ -13,13 +13,13 @@ var http_1 = require("@angular/http");
 var material_1 = require("@angular/material");
 var router_1 = require("@angular/router");
 var ngx_datatable_1 = require("@swimlane/ngx-datatable");
+var ngx_charts_1 = require("@swimlane/ngx-charts");
 var animations_1 = require("@angular/platform-browser/animations");
 require("hammerjs");
 var checkToken_service_1 = require("./src/checkToken.service");
 var user_service_1 = require("./src/user.service");
 var cookies_service_1 = require("angular2-cookie/services/cookies.service");
 var MDLInit_1 = require("./MDLInit");
-var orgmain_component_1 = require("./components/orgmain/orgmain.component");
 var authorization_component_1 = require("./components/authorization/authorization.component");
 var app_component_1 = require("./app.component");
 var orgset_componenet_1 = require("./components/orgset/orgset.componenet");
@@ -36,12 +36,13 @@ var marks_component_1 = require("./components/marks/marks.component");
 var marks_service_1 = require("./src/marks.service");
 var addReason_component_1 = require("./components/orgset/addReason/addReason.component");
 var profile_component_1 = require("./components/profile/profile.component");
+var general_component_1 = require("./components/general/general.component");
 var appRoutes = [
     { path: 'orgset', component: orgset_componenet_1.OrgSetComponent },
-    { path: 'main', component: orgmain_component_1.OrgMainComponent },
     { path: 'marks', component: marks_component_1.MarksComponent },
     { path: '', component: authorization_component_1.AuthorizationComponent },
     { path: 'profile/:login', component: profile_component_1.ProfileComponent },
+    { path: 'general', component: general_component_1.GeneralComponent },
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -50,13 +51,14 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, material_1.MaterialModule, router_1.RouterModule.forRoot(appRoutes), ngx_datatable_1.NgxDatatableModule, animations_1.BrowserAnimationsModule],
-        declarations: [orgmain_component_1.OrgMainComponent,
+        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, material_1.MaterialModule, router_1.RouterModule.forRoot(appRoutes), ngx_datatable_1.NgxDatatableModule, ngx_charts_1.NgxChartsModule, animations_1.BrowserAnimationsModule],
+        declarations: [
             authorization_component_1.AuthorizationComponent,
             app_component_1.AppComponent,
             orgset_componenet_1.OrgSetComponent,
             marks_component_1.MarksComponent,
             profile_component_1.ProfileComponent,
+            general_component_1.GeneralComponent,
             MDLInit_1.MDL,
             participantValueEdit_component_1.ParticipantValueEditComponent,
             periodValueEdit_component_1.PeriodValueEditComponent,
@@ -66,7 +68,8 @@ AppModule = __decorate([
             addTeam_component_1.AddTeamComponent,
             addParticipant_component_1.AddParticipantComponent,
             addEmployee_component_1.AddEmployeeComponent,
-            addReason_component_1.AddReasonComponent,],
+            addReason_component_1.AddReasonComponent,
+        ],
         bootstrap: [app_component_1.AppComponent],
         providers: [cookies_service_1.CookieService, checkToken_service_1.CheckTokenService, user_service_1.UserService, orgset_service_1.OrgSetService, marks_service_1.MarksService],
     })

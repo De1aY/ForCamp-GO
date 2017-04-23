@@ -11,7 +11,7 @@
             <a *ngIf="userService.SelfData.Access == 2" class="mdl-navigation__link"
                routerLink="/orgset">управление</a>
             <a class="mdl-navigation__link" routerLink="/marks">баллы</a>
-            <a class="mdl-navigation__link" routerlink="/general">статистика</a>
+            <a class="mdl-navigation__link" routerLink="/general">статистика</a>
             <a *ngIf="userService.SelfData.Team != 0" class="mdl-navigation__link" routerLink="/team">{{orgSetService.OrgSettings.team}}</a>
             <a class="mdl-navigation__link" routerLink="/achievements">достижения</a>
             <a class="mdl-navigation__link" href="https://forcamp.ga/exit">выйти</a>
@@ -19,7 +19,7 @@
     </div>
     <main class="mdl-layout__content">
         <div class="page-content mdl-grid" id="profile">
-            <div class="mdl-grid mdl-cell mdl-cell--top mdl-cell--3-col-desktop mdl-cell--8-col-table mdl-cell--4-col-phone">
+            <div class="mdl-grid mdl-cell mdl-cell--top mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp width100">
                         <div class="mdl-card__title">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-table mdl-cell--4-col-phone">
+            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp width100">
                         <div class="mdl-card__title mdl-card--border">

@@ -1,0 +1,104 @@
+<div mdl class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">{{orgSetService.OrgSettings.organization}}</span></div>
+        <div [attr.aria-busy]="orgSetService.Preloader" role="progressbar"></div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Статистика</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" [routerLink]="['/profile', userService.SelfLogin]">профиль</a>
+            <a *ngIf="userService.SelfData.Access == 2" class="mdl-navigation__link"
+               routerLink="/orgset">управление</a>
+            <a *ngIf="userService.SelfData.Access != 0" class="mdl-navigation__link"
+               routerLink="/marks">баллы</a>
+            <a class="mdl-navigation__link" routerLink="/team">{{orgSetService.OrgSettings.team}}</a>
+            <a class="mdl-navigation__link" routerLink="/achievements">достижения</a>
+            <a class="mdl-navigation__link" href="exit">выйти</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content mdl-grid" id="general">
+            <div class="mdl-cell mdl-cell--12-col">
+                <div class="mdl-card mdl-shadow--6dp width100">
+                    <div class="mdl-card__title mdl-card--border">
+                        <div class="mdl-card__title-text">
+                            Общий рейтинг
+                        </div>
+                    </div>
+                    <div class="mdl-card__title card-nopad">
+                        <ngx-datatable
+                                class="material width100"
+                                [rows]="orgSetService.Participants"
+                                [loadingIndicator]="loadingIndicator"
+                                [columnMode]="'force'"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [scrollbarH]="true"
+                                [limit]="10"
+                                [sorts]="[{prop: 'sum', dir: 'desc'}]"
+                                [messages]="{emptyMessage: 'Участников нет', totalMessage: 'всего'}">
+                            <ngx-datatable-column name="ФИО">
+                                <ng-template ngx-datatable-header-template>
+                                    ФИО
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <a [routerLink]="['/profile', row.login]" style="text-transform: capitalize">{{row.surname}} {{row.name}} {{row.middlename}}</a>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [name]="orgSetService.OrgSettings.team" prop="team">
+                                <ng-template ngx-datatable-header-template style="text-transform: capitalize">
+                                    <span style="text-transform: capitalize">{{orgSetService.OrgSettings.team}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template let-value="value">
+                                    <span>{{orgSetService.IdToTeamName(value)}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Сумма баллов" prop="sum">
+                                <ng-template ngx-datatable-header-template let-sort="sortFn">
+                                    <span style="text-transform: capitalize" (click)="sort()">Сумма</span>
+                                </ng-template>
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    <span>{{value}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column *ngFor="let category of orgSetService.Categories"
+                                                  [name]="category.name">
+                                <ng-template ngx-datatable-header-template>
+                                    <span style="text-transform: capitalize">{{category.name}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span>{{orgSetService.GetMarkByCategoryID(category.id, row.marks)[0].value}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+            <div class="mdl-cell mdl-cell--12-col">
+                <div class="mdl-card mdl-shadow--6dp width100">
+                    <div class="mdl-card__title mdl-card--border">
+                        <div class="mdl-card__title-text">
+                            Статистика
+                        </div>
+                    </div>
+                    <div class="mdl-card__title card-nopad">
+                        <ngx-charts-bar-vertical
+                                [results]="orgSetService.ParticipantsVerticalBar"
+                                [scheme]="colorScheme"
+                                [gradient]="false"
+                                [xAxis]="true"
+                                [yAxis]="true"
+                                [legend]="false"
+                                [showXAxisLabel]="false"
+                                [showYAxisLabel]="true"
+                                [xAxisLabel]="xAxisLabel"
+                                [yAxisLabel]="'Балл'">
+                        </ngx-charts-bar-vertical>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

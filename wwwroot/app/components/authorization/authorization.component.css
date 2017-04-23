@@ -18,7 +18,7 @@
 
 #sign_in:hover::after {
   content: " ";
-  margin-left: -86px;
+  margin-left: -82px;
   position: absolute;
   width: 0;
   animation: underline_sign_in 0.2s 1;

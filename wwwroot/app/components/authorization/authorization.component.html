@@ -7,7 +7,7 @@
             </a>
             <div id="toolbar_active">
                 <span id="sign_in" (click)="FormActive = true" *ngIf="Token == undefined">войти</span>
-                <a id="portal" routerLink="main" *ngIf="Token !== undefined">портал</a>
+                <a id="portal" routerLink="general" *ngIf="Token !== undefined">портал</a>
             </div>
         </md-toolbar>
         <div class="on_edit mdl-grid" *ngIf="FormActive">

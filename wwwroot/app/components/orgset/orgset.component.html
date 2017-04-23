@@ -20,7 +20,7 @@
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link" [routerLink]="['/profile', userService.SelfLogin]">профиль</a>
             <a *ngIf="userService.SelfData.Access > 0" class="mdl-navigation__link" routerLink="/marks">баллы</a>
-            <a class="mdl-navigation__link" routerlink="/general">общая статистика</a>
+            <a class="mdl-navigation__link" routerLink="/general">статистика</a>
             <a class="mdl-navigation__link" routerLink="/team">{{orgSetService.OrgSettings.team}}</a>
             <a class="mdl-navigation__link" routerLink="/achievements">достижения</a>
             <a class="mdl-navigation__link" href="exit">выйти</a>
