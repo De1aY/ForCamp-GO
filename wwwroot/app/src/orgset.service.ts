@@ -492,7 +492,11 @@ export class OrgSetService{
             if (i == 10) {
                 break
             }
-            participantsVerticalBar.push({name: this.Participants[i].surname + ' ' + this.Participants[i].name, value: this.Participants[i].sum});
+            let surname = this.Participants[i].surname;
+            surname = surname.charAt(0).toUpperCase() + surname.substr(1);
+            let name = this.Participants[i].name;
+            name = name.charAt(0).toUpperCase() + name.substr(1);
+            participantsVerticalBar.push({name: surname + ' ' + name, value: this.Participants[i].sum});
         }
         participantsVerticalBar = participantsVerticalBar.sort((n1, n2) => { if (n1.value > n2.value) return -1; if (n1.value < n2.value) return 1; return 0});
         this.ParticipantsVerticalBar = participantsVerticalBar;

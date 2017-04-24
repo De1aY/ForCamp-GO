@@ -76,25 +76,23 @@
                     </div>
                 </div>
             </div>
-            <div class="mdl-cell mdl-cell--12-col">
+            <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-card mdl-shadow--6dp width100">
                     <div class="mdl-card__title mdl-card--border">
                         <div class="mdl-card__title-text">
-                            Статистика
+                             10 лучших
                         </div>
                     </div>
-                    <div class="mdl-card__title card-nopad">
+                    <div class="mdl-card__title" style="padding-left: 0">
                         <ngx-charts-bar-vertical
                                 [results]="orgSetService.ParticipantsVerticalBar"
-                                [scheme]="colorScheme"
+                                [scheme]="BarChartColorScheme"
                                 [gradient]="false"
                                 [xAxis]="true"
                                 [yAxis]="true"
                                 [legend]="false"
                                 [showXAxisLabel]="false"
-                                [showYAxisLabel]="true"
-                                [xAxisLabel]="xAxisLabel"
-                                [yAxisLabel]="'Балл'">
+                                [showYAxisLabel]="false">
                         </ngx-charts-bar-vertical>
                     </div>
                 </div>

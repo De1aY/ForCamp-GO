@@ -5,46 +5,103 @@ $WarnColor: #FF772B;
 $OtherColor: #8649BA;
 $TextColor_Main: #000;
 $TextColor_Accent: #FFFFFF;
-$TextColor_Main_Hover: #014c8c;
+$TextColor_Secondary: #757575;
 
-#toolbar_active{
-  margin-left: auto;
+#content-top__text {
+  text-align: left;
+  margin-top: 150px;
 }
 
-#logo{
+#content-top__text--head {
+  width: 100%;
+  text-align: left;
+  span {
+    font-weight: 700;
+    font-size: 64px;
+    color: $TextColor_Accent;
+  }
+}
+
+#content-top__text--subhead {
+  margin-top: 40px;
+  width: 100%;
+  text-align: left;
+  span {
+    font-size: 35px;
+    color: $TextColor_Accent - 20;
+  }
+}
+
+#content-top__text--main {
+  margin-top: 40px;
+  width: 100%;
+  text-align: left;
+  span {
+    font-size: 18px;
+    color: $TextColor_Accent - 10;
+  }
+}
+
+@media (max-width: 839px) {
+  #content-top__text {
+    margin-top: 100px;
+    text-align: center;
+  }
+
+  #content-top__text--head {
+    text-align: center;
+    span {
+      font-weight: 700;
+    }
+  }
+
+  #content-top__text--subhead {
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  #content-top__text--main {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #content-top__text--head {
+    text-align: center;
+    span {
+      font-weight: 700;
+      font-size: 48px;
+    }
+  }
+
+  #content-top__text--subhead {
+    margin-top: 30px;
+    text-align: center;
+    span {
+      font-size: 20px;
+    }
+  }
+
+  #content-top__text--main {
+    text-align: center;
+    span {
+      font-size: 16px;
+    }
+  }
+}
+
+#logo {
   text-decoration: none;
+  margin: 0 auto;
+  margin-top: 9px;
+  color: $MainColor;
+  font-size: 25px;
+  padding-right: 60px;
+  font-weight: 700;
 }
 
-#logo_svg{
+#logo_svg {
   margin-top: -10px;
-}
-
-#sign_in {
-  text-transform: uppercase;
-  color: $TextColor_Accent;
-  text-shadow: #000000 0 0 2px;
-  font-size: 24px;
-}
-
-#sign_in:hover {
-  cursor: pointer;
-}
-
-#sign_in:hover::after {
-  content: " ";
-  margin-left: -82px;
-  position: absolute;
-  width: 0;
-  animation: underline_sign_in 0.2s 1;
-  height: 2px;
-  margin-top: 23px;
-  background-color: $TextColor_Accent;
-  animation-fill-mode: forwards;
-}
-
-md-toolbar{
-  padding: 50px 50px;
-  background: transparent;
 }
 
 #portal {
@@ -57,18 +114,6 @@ md-toolbar{
 
 #portal:hover {
   cursor: pointer;
-}
-
-#portal:hover::after {
-  content: " ";
-  margin-left: -94.22px;
-  position: absolute;
-  width: 0;
-  animation: underline_portal 0.2s 1;
-  height: 2px;
-  margin-top: 23px;
-  background-color: $TextColor_Accent;
-  animation-fill-mode: forwards;
 }
 
 .pop-up__background {
@@ -85,11 +130,11 @@ md-toolbar{
   padding: 0;
 }
 
-.card_field{
+.card_field {
   font-size: 20px;
 }
 
-.nopad{
+.nopad {
   padding: 0 16px;
 }
 
@@ -104,104 +149,19 @@ md-toolbar{
   overflow: hidden;
 }
 
-@keyframes underline_sign_in {
-  from {
-    width: 0;
-  }
-  to {
-    width: 83px;
-  }
+.mdl-layout__header {
+  background: #FFFFFF;
 }
 
-@keyframes underline_portal {
-  from {
-    width: 0;
-  }
-  to {
-    width: 94.22px;
-  }
-}
-
-.container {
-  z-index: 10;
-  height: 100%;
-  overflow: hidden;
-}
-
-.navbar-brand {
-  color: $TextColor_Accent;
-  text-shadow: #000000 0 0 2px;
-  font-size: 48px;
-  text-decoration: none;
-}
-
-.navbar-brand:hover {
-  color: $TextColor_Accent;
-}
-
-.navbar-text {
-  text-align: right;
-  margin-top: 11px;
-}
-
-#content__top-text {
-  font-size: 36px;
-  text-align: center;
-  line-height: 40px;
-}
-
-#content__top-down {
-  text-align: center;
-  font-size: 17px;
-  animation: bounce 4s infinite;
-  margin-top: 15px;
-}
-
-#content__top-down-arrows:hover {
-  cursor: pointer;
-}
-
-#content__top {
-  color: $TextColor_Accent;
-  text-shadow: #000000 0 0 2px;
-  position: absolute;
+#content-top {
+  background: #3f51b5;
+  background: -moz-linear-gradient(left, #3f51b5 0%, #afafaf 100%);
+  background: -webkit-linear-gradient(left, #3f51b5 0%, #afafaf 100%);
+  background: linear-gradient(to right, #3f51b5 0%, #afafaf 100%);
+  margin-top: 0;
+  margin-bottom: 0;
   width: 100%;
-  bottom: 30px;
-}
-
-.content__top {
-  top: 0;
-  position: absolute;
-  background: url("../../../media/images/ForCamp_MainPage-Background.png") center;
-  height: 100vh;
-  width: 100vw;
-  max-height: 1200px;
-}
-
-#content__center {
-  margin-top: 100vh;
-  z-index: 30;
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  background-color: $AccentColor;
-}
-
-@keyframes bounce {
-  from {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(15px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@media screen and (max-width: 522px){
-  md-toolbar{
-    padding: 50px 5px;
-    background: transparent;
-  }
+  overflow: hidden;
+  height: 590px;
+  position: fixed;
 }

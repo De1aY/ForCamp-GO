@@ -227,13 +227,15 @@ body {
 
 }
 
-g {
-  title {
-    text-transform: capitalize;
+#sign_in__header {
+  .mdl-navigation__link {
+    color: $TextColor_Main;
+    font-size: 20px;
   }
 
-  text {
-    text-transform: capitalize;
+  .mdl-layout__drawer-button {
+    color: $MainColor;
+    outline: none;
   }
 }
 

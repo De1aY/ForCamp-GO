@@ -20,8 +20,8 @@ var GeneralComponent = (function () {
         this.checkTokenService = checkTokenService;
         this.userService = userService;
         this.orgSetService = orgSetService;
-        this.colorScheme = {
-            domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+        this.BarChartColorScheme = {
+            domain: ['#5AA454', '#A10A28', '#C7B42C', '#3F51B5', '#FF772B', '#8649BA', '#FF0000']
         };
     }
     GeneralComponent.prototype.ngOnInit = function () {

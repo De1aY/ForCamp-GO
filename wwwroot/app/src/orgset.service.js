@@ -405,7 +405,11 @@ var OrgSetService = (function () {
             if (i == 10) {
                 break;
             }
-            participantsVerticalBar.push({ name: this.Participants[i].surname + ' ' + this.Participants[i].name, value: this.Participants[i].sum });
+            var surname = this.Participants[i].surname;
+            surname = surname.charAt(0).toUpperCase() + surname.substr(1);
+            var name_1 = this.Participants[i].name;
+            name_1 = name_1.charAt(0).toUpperCase() + name_1.substr(1);
+            participantsVerticalBar.push({ name: surname + ' ' + name_1, value: this.Participants[i].sum });
         }
         participantsVerticalBar = participantsVerticalBar.sort(function (n1, n2) { if (n1.value > n2.value)
             return -1; if (n1.value < n2.value)

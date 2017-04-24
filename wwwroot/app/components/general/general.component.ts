@@ -12,8 +12,8 @@ import {alert} from "notie";
 })
 export class GeneralComponent implements OnInit {
     private Token: string;
-    colorScheme = {
-        domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    BarChartColorScheme = {
+        domain: ['#5AA454', '#A10A28', '#C7B42C', '#3F51B5', '#FF772B', '#8649BA', '#FF0000']
     };
 
     constructor(private cookieService: CookieService,

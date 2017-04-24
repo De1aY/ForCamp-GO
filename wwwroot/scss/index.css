@@ -67,7 +67,7 @@
   left: 0;
   z-index: 999; }
   #loading_screen i {
-    margin-top: 25%;
+    margin-top: 20%;
     color: #FFFFFF; }
 
 .mdl-card__title-filter {
@@ -193,10 +193,12 @@ body .on_edit {
     body .on_edit .on_edit-card .card_field {
       width: 100%; }
 
-g title {
-  text-transform: capitalize; }
-g text {
-  text-transform: capitalize; }
+#sign_in__header .mdl-navigation__link {
+  color: #000;
+  font-size: 20px; }
+#sign_in__header .mdl-layout__drawer-button {
+  color: #3F51B5;
+  outline: none; }
 
 header [role="progressbar"][aria-busy="true"] {
   position: absolute;
