@@ -79,6 +79,6 @@ func main() {
 	src.Connection = src.Connect()
 
 	// Server
-	http.ListenAndServe(conf.SERVER_PORT, Router)
 	go handlers.HandleTLS(Router)
+	http.ListenAndServe(conf.SERVER_PORT, Router)
 }
