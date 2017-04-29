@@ -11,11 +11,17 @@ import (
 	"forcamp/src/orgset"
 )
 
-type AddCategory_Success struct {
+type addCategory_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	ID int64 `json:"id"`
 }
+
+func (success *addCategory_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func AddCategory(token string, category Category, ResponseWriter http.ResponseWriter) bool{
 	if orgset.CheckUserAccess(token, ResponseWriter) && checkCategoryData(category, ResponseWriter){
@@ -28,9 +34,8 @@ func AddCategory(token string, category Category, ResponseWriter http.ResponseWr
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		Resp := AddCategory_Success{200, "success", CatID}
-		Response, _ := json.Marshal(Resp)
-		fmt.Fprintf(ResponseWriter, string(Response))
+		resp := addCategory_Success{200, "success", CatID}
+		fmt.Fprintf(ResponseWriter, resp.toJSON())
 	}
 	return true
 }

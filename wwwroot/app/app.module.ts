@@ -9,15 +9,12 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import 'hammerjs'
 
-import {CheckTokenService} from './src/checkToken.service';
-import {UserService} from './src/user.service';
-import {CookieService} from 'angular2-cookie/services/cookies.service';
 import {MDL} from "./MDLInit";
 
-import {AuthorizationComponent} from "./components/authorization/authorization.component";
+// Components:
+import {LandingComponent} from "./components/landing/landing.component";
 import {AppComponent} from "./app.component";
 import {OrgSetComponent} from "./components/orgset/orgset.componenet";
-import {OrgSetService} from "./src/orgset.service";
 import {ParticipantValueEditComponent} from "./components/orgset/participantValueEdit/participantValueEdit.component";
 import {PeriodValueEditComponent} from "./components/orgset/periodValueEdit/periodValueEdit.component";
 import {TeamValueEditComponent} from "./components/orgset/teamValueEdit/teamValueEdit.component";
@@ -27,27 +24,36 @@ import {AddTeamComponent} from "./components/orgset/addTeam/addTeam.component";
 import {AddParticipantComponent} from "./components/orgset/addParticipant/addParticipant.component";
 import {AddEmployeeComponent} from "./components/orgset/addEmployee/addEmployee.component";
 import {MarksComponent} from "./components/marks/marks.component";
-import {MarksService} from "./src/marks.service";
 import {AddReasonComponent} from "./components/orgset/addReason/addReason.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {GeneralComponent} from "./components/general/general.component";
+// Services:
+import {ApanelService} from "./src/apanel.service";
+import {OrgSetService} from "./src/orgset.service";
+import {MarksService} from "./src/marks.service";
+import {ApanelComponent} from "./components/apanel/apanel.component";
+import {CheckTokenService} from './src/checkToken.service';
+import {UserService} from './src/user.service';
+import {CookieService} from 'angular2-cookie/services/cookies.service';
 
 const appRoutes: Routes = [
     {path: 'orgset', component: OrgSetComponent},
     {path: 'marks', component: MarksComponent},
-    {path: '', component: AuthorizationComponent},
+    {path: '', component: LandingComponent},
     {path: 'profile/:login', component: ProfileComponent},
     {path: 'general', component: GeneralComponent},
+    {path: 'apanel', component: ApanelComponent}
 ];
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, MaterialModule, RouterModule.forRoot(appRoutes), NgxDatatableModule, NgxChartsModule, BrowserAnimationsModule ],
     declarations: [
-        AuthorizationComponent,
+        LandingComponent,
         AppComponent,
         OrgSetComponent,
         MarksComponent,
         ProfileComponent,
         GeneralComponent,
+        ApanelComponent,
         MDL,
         ParticipantValueEditComponent,
         PeriodValueEditComponent,
@@ -59,7 +65,7 @@ const appRoutes: Routes = [
         AddEmployeeComponent,
         AddReasonComponent,],
     bootstrap: [AppComponent],
-    providers: [CookieService, CheckTokenService, UserService, OrgSetService, MarksService],
+    providers: [CookieService, CheckTokenService, UserService, OrgSetService, MarksService, ApanelService],
 })
 export class AppModule {
 }

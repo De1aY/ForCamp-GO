@@ -19,10 +19,15 @@ type Reason struct {
 	Change int `json:"change"`
 }
 
-type GetReasons_Success struct {
+type getReasons_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Reasons []Reason `json:"reasons"`
+}
+
+func (success *getReasons_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
 }
 
 func GetReasons(token string, ResponseWriter http.ResponseWriter) bool{
@@ -33,12 +38,11 @@ func GetReasons(token string, ResponseWriter http.ResponseWriter) bool{
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getReasons_Request()
+			resp, APIerr := getReasons_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
@@ -46,17 +50,17 @@ func GetReasons(token string, ResponseWriter http.ResponseWriter) bool{
 	return true
 }
 
-func getReasons_Request() (GetReasons_Success, *conf.ApiError){
+func getReasons_Request() (getReasons_Success, *conf.ApiError){
 	Query, err := src.CustomConnection.Query("SELECT id,cat_id,text,modification FROM reasons")
 	if err != nil {
 		log.Print(err)
-		return GetReasons_Success{}, conf.ErrDatabaseQueryFailed
+		return getReasons_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Reasons, APIerr := getReasonsFromQuery(Query)
 	if APIerr != nil {
-		return GetReasons_Success{}, APIerr
+		return getReasons_Success{}, APIerr
 	}
-	return GetReasons_Success{200, "success", Reasons}, nil
+	return getReasons_Success{200, "success", Reasons}, nil
 }
 
 func getReasonsFromQuery(rows *sql.Rows) ([]Reason, *conf.ApiError){

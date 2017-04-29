@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {alert} from "notie";
 import {CookieService} from 'angular2-cookie/core';
+import {CheckTokenService} from "../../src/checkToken.service";
 
 @Component({
-    selector: "sign_in",
-    templateUrl: "app/components/authorization/authorization.component.html",
-    styleUrls: ["app/components/authorization/authorization.component.css"]
+    selector: "landing",
+    templateUrl: "app/components/landing/landing.component.html",
+    styleUrls: ["app/components/landing/landing.component.css"]
 })
-export class AuthorizationComponent implements OnInit{
+export class LandingComponent implements OnInit{
     Login: string;
     Password: string;
     Token: string;
@@ -16,11 +17,15 @@ export class AuthorizationComponent implements OnInit{
     FormActive: boolean = false;
 
     constructor(private http: Http,
-                private cookieService: CookieService,) {
+                private cookieService: CookieService,
+                private checkTokenService: CheckTokenService,) {
     }
 
     ngOnInit(){
         this.Token = this.cookieService.get("token");
+        if (this.Token != undefined) {
+            this.checkTokenService.CheckToken(this.Token);
+        }
     }
 
     SubmitSignInForm() {
@@ -41,6 +46,7 @@ export class AuthorizationComponent implements OnInit{
             });
             this.Token = data.token;
             alert({type: 1, text: "Вход успешно выполнен", time: 3});
+            this.checkTokenService.CheckToken(this.Token);
         } else {
             alert({type: 3, text: "Произошла ошибка " + data.code, time: 3});
         }

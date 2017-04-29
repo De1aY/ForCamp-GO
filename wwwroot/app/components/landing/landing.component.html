@@ -11,8 +11,9 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title"></span>
         <nav class="mdl-navigation">
-            <a *ngIf="Token == undefined" class="mdl-navigation__link">Войти</a>
-            <a *ngIf="Token !== undefined" class="mdl-navigation__link" routerLink="general">Портал</a>
+            <a style="cursor: pointer" *ngIf="Token == undefined" class="mdl-navigation__link" (click)="FormActive = true">Войти</a>
+            <a style="cursor: pointer" *ngIf="Token !== undefined && checkTokenService.AdminStatus == false" class="mdl-navigation__link" routerLink="general">Портал</a>
+            <a style="cursor: pointer" *ngIf="checkTokenService.AdminStatus == true" class="mdl-navigation__link" routerLink="apanel">Адм. панель</a>
         </nav>
     </div>
     <main class="mdl-layout__content">

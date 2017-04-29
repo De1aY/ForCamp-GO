@@ -18,11 +18,17 @@ type Category struct {
 	NegativeMarks string `json:"negative_marks"`
 }
 
-type GetCategories_Success struct {
+type getCategories_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Categories []Category `json:"categories"`
 }
+
+func (success *getCategories_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
@@ -32,12 +38,11 @@ func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getCategories_Request()
+			resp, APIerr := getCategories_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
@@ -45,16 +50,16 @@ func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getCategories_Request() (GetCategories_Success, *conf.ApiError){
+func getCategories_Request() (getCategories_Success, *conf.ApiError){
 	Query, err := src.CustomConnection.Query("SELECT * FROM categories")
 	if err != nil {
 		log.Print(err)
-		return GetCategories_Success{}, conf.ErrDatabaseQueryFailed
+		return getCategories_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return getCategoriesFromQuery(Query)
 }
 
-func getCategoriesFromQuery(rows *sql.Rows) (GetCategories_Success, *conf.ApiError){
+func getCategoriesFromQuery(rows *sql.Rows) (getCategories_Success, *conf.ApiError){
 	defer rows.Close()
 	var categories []Category
 	var category Category
@@ -62,12 +67,12 @@ func getCategoriesFromQuery(rows *sql.Rows) (GetCategories_Success, *conf.ApiErr
 		err := rows.Scan(&category.ID, &category.Name, &category.NegativeMarks)
 		if err != nil{
 			log.Print(err)
-			return GetCategories_Success{}, conf.ErrDatabaseQueryFailed
+			return getCategories_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		categories = append(categories, Category{category.ID, category.Name, category.NegativeMarks})
 	}
 	if categories == nil {
-		return GetCategories_Success{200, "success", make([]Category, 0)}, nil
+		return getCategories_Success{200, "success", make([]Category, 0)}, nil
 	}
-	return GetCategories_Success{200, "success", categories}, nil
+	return getCategories_Success{200, "success", categories}, nil
 }

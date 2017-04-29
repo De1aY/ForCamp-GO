@@ -18,6 +18,7 @@ var CheckTokenService = (function () {
     function CheckTokenService(http) {
         this.http = http;
         this.Link = "https://api.forcamp.ga/token.verify";
+        this.AdminStatus = false;
     }
     CheckTokenService.prototype.CheckToken = function (Token) {
         var _this = this;
@@ -26,6 +27,9 @@ var CheckTokenService = (function () {
     CheckTokenService.prototype.checkToken = function (data) {
         if (data.code != 200) {
             window.location.href = "https://forcamp.ga/exit";
+        }
+        else {
+            this.AdminStatus = data.admin_status;
         }
     };
     return CheckTokenService;

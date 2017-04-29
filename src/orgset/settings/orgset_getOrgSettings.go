@@ -20,10 +20,15 @@ type OrgSettings struct {
 	SelfMarks string `json:"self_marks"`
 }
 
-type GetOrgSettings_Success struct {
+type getOrgSettings_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Settings OrgSettings `json:"settings"`
+}
+
+func (success *getOrgSettings_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
 }
 
 func GetOrgSettings(token string, ResponseWriter http.ResponseWriter) bool {
@@ -43,9 +48,8 @@ func GetOrgSettings(token string, ResponseWriter http.ResponseWriter) bool {
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Resp := GetOrgSettings_Success{200, "success", Data}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			resp := getOrgSettings_Success{200, "success", Data}
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 			return true
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)

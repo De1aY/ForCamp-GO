@@ -34,6 +34,13 @@ func getMysqlSource_Custom(name string) string{
 	return MysqlSource
 }
 
+func getMysqlSource_Admin() string{
+	MysqlSource := conf.MYSQL_LOCAL_LOGIN + ":"
+	MysqlSource += conf.MYSQL_LOCAL_PASSWORD + "@tcp("
+	MysqlSource += conf.MYSQL_SERVER_ADDR + conf.MYSQL_SERVER_PORT + ")/"
+	return MysqlSource
+}
+
 /*
 Function opens an MySQL connection for Database: "ForCamp"
  */
@@ -53,6 +60,16 @@ Function opens an MySQL connection for Database: %name
  */
 func Connect_Custom(name string) *sql.DB{
 	newConn, err := sql.Open("mysql", getMysqlSource_Custom(name))
+	if err != nil{
+		log.Print(err)
+	}
+	newConn.SetMaxOpenConns(conf.MYSQL_MAX_USER_CONNECTIONS)
+	newConn.SetMaxIdleConns(0)
+	return newConn
+}
+
+func Connect_Admin() *sql.DB{
+	newConn, err := sql.Open("mysql", getMysqlSource_Admin())
 	if err != nil{
 		log.Print(err)
 	}

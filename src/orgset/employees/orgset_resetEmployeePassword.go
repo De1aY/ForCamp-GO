@@ -15,11 +15,17 @@ import (
 	"fmt"
 )
 
-type ResetEmployeePassword_Success struct {
+type resetEmployeePassword_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Password string `json:"password"`
 }
+
+func (success *resetEmployeePassword_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func ResetEmployeePassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
 	if orgset.CheckUserAccess(token, ResponseWriter){
@@ -34,38 +40,37 @@ func ResetEmployeePassword(token string, login string, ResponseWriter http.Respo
 		if EmployeeOrganization != Organization{
 			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
 		}
-		Resp, APIerr := resetEmployeePassword_Request(login)
+		resp, APIerr := resetEmployeePassword_Request(login)
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		Response, _ := json.Marshal(Resp)
-		fmt.Fprintf(ResponseWriter, string(Response))
+		fmt.Fprintf(ResponseWriter, resp.toJSON())
 	}
 	return true
 }
 
-func resetEmployeePassword_Request(login string) (ResetEmployeePassword_Success, *conf.ApiError){
+func resetEmployeePassword_Request(login string) (resetEmployeePassword_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
 	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
 		log.Print(err)
-		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
+		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(Hash, login)
 	if err != nil {
 		log.Print(err)
-		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
+		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
 		log.Print(err)
-		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
+		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
 		log.Print(err)
-		return ResetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
+		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return ResetEmployeePassword_Success{200, "success", Password}, nil
+	return resetEmployeePassword_Success{200, "success", Password}, nil
 }

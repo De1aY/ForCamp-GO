@@ -12,11 +12,17 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-type AddParticipant_Success struct{
+type addParticipant_Success struct{
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Login string `json:"login"`
 }
+
+func (success *addParticipant_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func AddParticipant(token string, participant Participant, ResponseWriter http.ResponseWriter) bool {
 	if orgset.CheckUserAccess(token, ResponseWriter){
@@ -26,33 +32,32 @@ func AddParticipant(token string, participant Participant, ResponseWriter http.R
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		if checkAddParticipantData(participant, ResponseWriter) {
-			Resp, APIerr := addParticipantRequest(participant, Organization)
+			resp, APIerr := addParticipantRequest(participant, Organization)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		}
 	}
 	return true
 }
 
-func addParticipantRequest(participant Participant, organization string) (AddParticipant_Success, *conf.ApiError){
+func addParticipantRequest(participant Participant, organization string) (addParticipant_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
 	login, APIerr := addParticipant_Main(organization, Hash)
 	if APIerr != nil {
-		return AddParticipant_Success{}, APIerr
+		return addParticipant_Success{}, APIerr
 	}
 	participant.Login = login
 	APIerr = addParticipant_Organization(participant)
 	if APIerr != nil {
-		return AddParticipant_Success{}, APIerr
+		return addParticipant_Success{}, APIerr
 	}
 	APIerr = addParticipant_Excel(participant, organization, Password)
 	if APIerr != nil {
-		return AddParticipant_Success{}, APIerr
+		return addParticipant_Success{}, APIerr
 	}
-	return AddParticipant_Success{200, "success", login}, nil
+	return addParticipant_Success{200, "success", login}, nil
 }
 
 func addParticipant_Main(organization string, hash string) (string, *conf.ApiError){
@@ -127,9 +132,9 @@ func addParticipant_Excel(participant Participant, organization string, password
 	sheet := xlFile.Sheets[0]
 	row := sheet.AddRow()
 	cell := row.AddCell()
-	cell.Value = participant.Name
-	cell = row.AddCell()
 	cell.Value = participant.Surname
+	cell = row.AddCell()
+	cell.Value = participant.Name
 	cell = row.AddCell()
 	cell.Value = participant.Middlename
 	cell = row.AddCell()

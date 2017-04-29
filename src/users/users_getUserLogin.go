@@ -3,7 +3,6 @@ package users
 import (
 	"net/http"
 	"forcamp/conf"
-	"encoding/json"
 	"fmt"
 	"database/sql"
 	"forcamp/src/authorization"
@@ -21,9 +20,8 @@ func GetUserLogin(Token string, ResponseWriter http.ResponseWriter) bool{
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Resp := Success_GetUserLogin{200, "success", Login}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			resp := getUserLogin_Success{200, "success", Login}
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 			return true
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)

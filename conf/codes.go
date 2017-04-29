@@ -23,13 +23,19 @@ type Success struct {
 	Status string `json:"status"`
 }
 
+// Function returns error message
 func (err *ApiError) Error() string{
 	return err.Message
 }
 
+// Function converts struct to JSON
+func (err *ApiError) toJSON() string{
+	resp, _ := json.Marshal(err)
+	return string(resp)
+}
+
 func PrintError(err *ApiError, w http.ResponseWriter) bool{
-	Response, _ := json.Marshal(err)
-	fmt.Fprintf(w, string(Response))
+	fmt.Fprintf(w, err.toJSON())
 	return false
 }
 
@@ -49,6 +55,8 @@ var ErrDatabaseQueryFailed = &ApiError{501, "ERROR", "Database connection failed
 var ErrConvertStringToInt = &ApiError{502, "ERROR", "Cannot convert string to int"}
 var ErrOpenExcelFile = &ApiError{503, "ERROR", "Cannot open excel file"}
 var ErrSaveExcelFile = &ApiError{504, "ERROR", "Cannot save excel file"}
+var ErrCreateExcelFile = &ApiError{505, "ERROR", "Cannot create excel file"}
+var ErrCreateSheetOnExcelFile = &ApiError{506, "ERROR", "Cannot create excel sheet"}
 // 600
 var ErrUserPasswordEmpty = &ApiError{601, "ERROR", "Password is empty"}
 var ErrUserLoginEmpty = &ApiError{602, "ERROR", "Login is empty"}
@@ -82,3 +90,4 @@ var ErrPermissionValueIncorrect = &ApiError{628, "ERROR", "Permission must be a 
 var ErrCategoryIdNotINT = &ApiError{629, "ERROR", "Category id must be a number"}
 var ErrReasonIncorrect = &ApiError{630, "ERROR", "Reason is incorrect"}
 var ErrParticipantLoginIncorrect = &ApiError{631, "ERROR", "Partcipant login incorrect"}
+var ErrOrganizationNameEmpty = &ApiError{632, "ERROR", "Oranization name is empty"}

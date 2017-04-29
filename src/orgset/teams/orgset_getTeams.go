@@ -26,11 +26,18 @@ type Team struct {
 	Participants  []string `json:"participants"`
 }
 
-type GetTeams_Success struct {
+type getTeams_Success struct {
 	Code   int `json:"code"`
 	Status string `json:"status"`
 	Teams  []Team `json:"teams"`
 }
+
+func (success *getTeams_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
+// =====================================================
 
 func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
@@ -40,12 +47,11 @@ func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getTeams_Request()
+			resp, APIerr := getTeams_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
@@ -53,17 +59,17 @@ func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getTeams_Request() (GetTeams_Success, *conf.ApiError) {
+func getTeams_Request() (getTeams_Success, *conf.ApiError) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM teams")
 	if err != nil {
 		log.Print(err)
-		return GetTeams_Success{}, conf.ErrDatabaseQueryFailed
+		return getTeams_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Teams, APIerr := getTeamsFromQuery(Query)
 	if APIerr != nil {
-		return GetTeams_Success{}, APIerr
+		return getTeams_Success{}, APIerr
 	}
-	return GetTeams_Success{200, "success", Teams}, nil
+	return getTeams_Success{200, "success", Teams}, nil
 }
 
 func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiError) {

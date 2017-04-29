@@ -34,6 +34,12 @@ type getMarksChanges_Success struct {
 	Marks_changes []marksChange `json:"marks_changes"`
 }
 
+func (success *getMarksChanges_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
+
 func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, responseWriter){
 		if authorization.CheckToken(token, responseWriter) {
@@ -47,8 +53,7 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 			if APIerr != nil {
 				return conf.PrintError(APIerr, responseWriter)
 			}
-			resp, _ := json.Marshal(response)
-			fmt.Fprintf(responseWriter, string(resp))
+			fmt.Fprintf(responseWriter, response.toJSON())
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, responseWriter)
 		}

@@ -17,6 +17,7 @@ import (
 	"forcamp/src/handlers/api/orgset/orgset_edit"
 	"forcamp/src/handlers/api/orgset/orgset_delete"
 	"forcamp/src/handlers/api/marks"
+	"forcamp/src/handlers/api/apanel"
 )
 
 func main() {
@@ -68,6 +69,8 @@ func main() {
 	marks.HandleEditMark(APISite)
 	marks.HandleGetMarksChanges(APISite)
 	marks.HandleDeleteMarkChange(APISite)
+	// Apanel
+	apanel.HandleAddOrganization(APISite)
 
 	// Handlers: Main site
 	handlers.HandleFolder_MainSite(WWWSite)

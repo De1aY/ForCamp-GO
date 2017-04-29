@@ -3,7 +3,6 @@ package users
 import (
 	"forcamp/src/authorization"
 	"forcamp/src"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"forcamp/conf"
@@ -36,14 +35,12 @@ func GetUserData(Token string, ResponseWriter http.ResponseWriter, login string)
 			}
 			if len(ParticipantData.Name) > 0 {
 				ParticipantData.Organization = Organization
-				Resp := Success_GetParticipantData{200, "success", ParticipantData}
-				Response, _ := json.Marshal(Resp)
-				fmt.Fprintf(ResponseWriter, string(Response))
+				resp := getParticipantData_Success{200, "success", ParticipantData}
+				fmt.Fprintf(ResponseWriter, resp.toJSON())
 			} else {
 				EmployeeData.Organization = Organization
-				Resp := Success_GetEmployeeData{200, "success", EmployeeData}
-				Response, _ := json.Marshal(Resp)
-				fmt.Fprintf(ResponseWriter, string(Response))
+				resp := getEmployeeData_Success{200, "success", EmployeeData}
+				fmt.Fprintf(ResponseWriter, resp.toJSON())
 			}
 
 		} else {

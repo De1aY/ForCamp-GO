@@ -10,10 +10,15 @@ import (
 	"forcamp/src/orgset"
 )
 
-type AddTeam_Success struct {
+type addTeam_Success struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
 	ID int64 `json:"id"`
+}
+
+func (success *addTeam_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
 }
 
 func AddTeam(token string, name string, ResponseWriter http.ResponseWriter) bool{
@@ -27,9 +32,8 @@ func AddTeam(token string, name string, ResponseWriter http.ResponseWriter) bool
 		if APIerr != nil{
 			return conf.PrintError(APIerr, ResponseWriter)
 		}
-		Resp := AddTeam_Success{200, "success", TeamID}
-		Response, _ := json.Marshal(Resp)
-		fmt.Fprintf(ResponseWriter, string(Response))
+		resp := addTeam_Success{200, "success", TeamID}
+		fmt.Fprintf(ResponseWriter, resp.toJSON())
 	}
 	return true
 }

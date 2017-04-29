@@ -5,24 +5,40 @@ import (
 	"forcamp/conf"
 	"forcamp/src/orgset/participants"
 	"forcamp/src/orgset/employees"
+	"encoding/json"
 )
 
-type Success_GetUserLogin struct {
+type getUserLogin_Success struct {
 	Code   int `json:"code"`
 	Status string `json:"status"`
 	Login  string `json:"login"`
 }
 
-type Success_GetParticipantData struct {
+func (success *getUserLogin_Success) toJSON() string{
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
+type getParticipantData_Success struct {
 	Code            int `json:"code"`
 	Status          string `json:"status"`
 	ParticipantData ParticipantData `json:"data"`
 }
 
-type Success_GetEmployeeData struct {
+func (success *getParticipantData_Success) toJSON() string{
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
+type getEmployeeData_Success struct {
 	Code         int `json:"code"`
 	Status       string `json:"status"`
 	EmployeeData EmployeeData `json:"data"`
+}
+
+func (success *getEmployeeData_Success) toJSON() string{
+	resp, _ := json.Marshal(success)
+	return string(resp)
 }
 
 type UserData struct {

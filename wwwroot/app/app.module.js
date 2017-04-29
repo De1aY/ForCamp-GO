@@ -16,14 +16,10 @@ var ngx_datatable_1 = require("@swimlane/ngx-datatable");
 var ngx_charts_1 = require("@swimlane/ngx-charts");
 var animations_1 = require("@angular/platform-browser/animations");
 require("hammerjs");
-var checkToken_service_1 = require("./src/checkToken.service");
-var user_service_1 = require("./src/user.service");
-var cookies_service_1 = require("angular2-cookie/services/cookies.service");
 var MDLInit_1 = require("./MDLInit");
-var authorization_component_1 = require("./components/authorization/authorization.component");
+var landing_component_1 = require("./components/landing/landing.component");
 var app_component_1 = require("./app.component");
 var orgset_componenet_1 = require("./components/orgset/orgset.componenet");
-var orgset_service_1 = require("./src/orgset.service");
 var participantValueEdit_component_1 = require("./components/orgset/participantValueEdit/participantValueEdit.component");
 var periodValueEdit_component_1 = require("./components/orgset/periodValueEdit/periodValueEdit.component");
 var teamValueEdit_component_1 = require("./components/orgset/teamValueEdit/teamValueEdit.component");
@@ -33,16 +29,23 @@ var addTeam_component_1 = require("./components/orgset/addTeam/addTeam.component
 var addParticipant_component_1 = require("./components/orgset/addParticipant/addParticipant.component");
 var addEmployee_component_1 = require("./components/orgset/addEmployee/addEmployee.component");
 var marks_component_1 = require("./components/marks/marks.component");
-var marks_service_1 = require("./src/marks.service");
 var addReason_component_1 = require("./components/orgset/addReason/addReason.component");
 var profile_component_1 = require("./components/profile/profile.component");
 var general_component_1 = require("./components/general/general.component");
+var apanel_service_1 = require("./src/apanel.service");
+var orgset_service_1 = require("./src/orgset.service");
+var marks_service_1 = require("./src/marks.service");
+var apanel_component_1 = require("./components/apanel/apanel.component");
+var checkToken_service_1 = require("./src/checkToken.service");
+var user_service_1 = require("./src/user.service");
+var cookies_service_1 = require("angular2-cookie/services/cookies.service");
 var appRoutes = [
     { path: 'orgset', component: orgset_componenet_1.OrgSetComponent },
     { path: 'marks', component: marks_component_1.MarksComponent },
-    { path: '', component: authorization_component_1.AuthorizationComponent },
+    { path: '', component: landing_component_1.LandingComponent },
     { path: 'profile/:login', component: profile_component_1.ProfileComponent },
     { path: 'general', component: general_component_1.GeneralComponent },
+    { path: 'apanel', component: apanel_component_1.ApanelComponent }
 ];
 var AppModule = (function () {
     function AppModule() {
@@ -53,12 +56,13 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, material_1.MaterialModule, router_1.RouterModule.forRoot(appRoutes), ngx_datatable_1.NgxDatatableModule, ngx_charts_1.NgxChartsModule, animations_1.BrowserAnimationsModule],
         declarations: [
-            authorization_component_1.AuthorizationComponent,
+            landing_component_1.LandingComponent,
             app_component_1.AppComponent,
             orgset_componenet_1.OrgSetComponent,
             marks_component_1.MarksComponent,
             profile_component_1.ProfileComponent,
             general_component_1.GeneralComponent,
+            apanel_component_1.ApanelComponent,
             MDLInit_1.MDL,
             participantValueEdit_component_1.ParticipantValueEditComponent,
             periodValueEdit_component_1.PeriodValueEditComponent,
@@ -71,7 +75,7 @@ AppModule = __decorate([
             addReason_component_1.AddReasonComponent,
         ],
         bootstrap: [app_component_1.AppComponent],
-        providers: [cookies_service_1.CookieService, checkToken_service_1.CheckTokenService, user_service_1.UserService, orgset_service_1.OrgSetService, marks_service_1.MarksService],
+        providers: [cookies_service_1.CookieService, checkToken_service_1.CheckTokenService, user_service_1.UserService, orgset_service_1.OrgSetService, marks_service_1.MarksService, apanel_service_1.ApanelService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

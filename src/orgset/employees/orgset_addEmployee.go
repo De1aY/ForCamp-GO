@@ -17,11 +17,17 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-type AddEmployee_Success struct{
+type addEmployee_Success struct{
 	Code int `json:"code"`
 	Status string `json:"status"`
 	Login string `json:"login"`
 }
+
+func (success *addEmployee_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func AddEmployee(token string, employee Employee, ResponseWriter http.ResponseWriter) bool {
 	if orgset.CheckUserAccess(token, ResponseWriter){
@@ -31,33 +37,32 @@ func AddEmployee(token string, employee Employee, ResponseWriter http.ResponseWr
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		if checkAddEmployeeData(employee, ResponseWriter) {
-			Resp, APIerr := addEmployeeRequest(employee, Organization)
+			resp, APIerr := addEmployeeRequest(employee, Organization)
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		}
 	}
 	return true
 }
 
-func addEmployeeRequest(employee Employee, organization string) (AddEmployee_Success, *conf.ApiError){
+func addEmployeeRequest(employee Employee, organization string) (addEmployee_Success, *conf.ApiError){
 	Password, Hash := orgset.GeneratePassword()
 	login, APIerr := addEmployee_Main(organization, Hash)
 	if APIerr != nil {
-		return AddEmployee_Success{}, APIerr
+		return addEmployee_Success{}, APIerr
 	}
 	employee.Login = login
 	APIerr = addEmployee_Organization(employee)
 	if APIerr != nil {
-		return AddEmployee_Success{}, APIerr
+		return addEmployee_Success{}, APIerr
 	}
 	APIerr = addEmployee_Excel(employee, organization, Password)
 	if APIerr != nil {
-		return AddEmployee_Success{}, APIerr
+		return addEmployee_Success{}, APIerr
 	}
-	return AddEmployee_Success{200, "success", login}, nil
+	return addEmployee_Success{200, "success", login}, nil
 }
 
 func addEmployee_Main(organization string, hash string) (string, *conf.ApiError){
@@ -142,9 +147,9 @@ func addEmployee_Excel(employee Employee, organization string, password string) 
 	sheet := xlFile.Sheets[0]
 	row := sheet.AddRow()
 	cell := row.AddCell()
-	cell.Value = employee.Name
-	cell = row.AddCell()
 	cell.Value = employee.Surname
+	cell = row.AddCell()
+	cell.Value = employee.Name
 	cell = row.AddCell()
 	cell.Value = employee.Middlename
 	cell = row.AddCell()

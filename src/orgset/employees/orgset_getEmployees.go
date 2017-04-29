@@ -34,11 +34,17 @@ type Employee struct {
 	Permissions []Permission `json:"permissions"`
 }
 
-type GetEmployees_Success struct {
+type getEmployees_Success struct {
 	Code      int `json:"code"`
 	Status    string `json:"status"`
 	Employees []Employee `json:"employees"`
 }
+
+func (success *getEmployees_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
@@ -48,12 +54,11 @@ func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getEmployees_Request()
+			resp, APIerr := getEmployees_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
@@ -61,20 +66,20 @@ func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getEmployees_Request() (GetEmployees_Success, *conf.ApiError) {
+func getEmployees_Request() (getEmployees_Success, *conf.ApiError) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
 	if err != nil {
 		log.Print(err)
-		return GetEmployees_Success{}, conf.ErrDatabaseQueryFailed
+		return getEmployees_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return getEmployeesFromResponse(Query)
 }
 
-func getEmployeesFromResponse(rows *sql.Rows) (GetEmployees_Success, *conf.ApiError) {
+func getEmployeesFromResponse(rows *sql.Rows) (getEmployees_Success, *conf.ApiError) {
 	defer rows.Close()
 	Permissions, Posts, APIerr := getPermissionsAndPosts()
 	if APIerr != nil {
-		return GetEmployees_Success{}, APIerr
+		return getEmployees_Success{}, APIerr
 	}
 	var (
 		employees []Employee
@@ -84,16 +89,16 @@ func getEmployeesFromResponse(rows *sql.Rows) (GetEmployees_Success, *conf.ApiEr
 		err := rows.Scan(&employee.Login, &employee.Name, &employee.Surname, &employee.Middlename, &employee.Sex, &employee.Team)
 		if err != nil {
 			log.Print(err)
-			return GetEmployees_Success{}, conf.ErrDatabaseQueryFailed
+			return getEmployees_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		employee.Permissions = Permissions[employee.Login]
 		employee.Post = Posts[employee.Login]
 		employees = append(employees, Employee{employee.Login, employee.Name, employee.Surname, employee.Middlename, employee.Sex, employee.Team, employee.Post, employee.Permissions})
 	}
 	if employees == nil {
-		return GetEmployees_Success{200, "success", make([]Employee, 0)}, nil
+		return getEmployees_Success{200, "success", make([]Employee, 0)}, nil
 	}
-	return GetEmployees_Success{200, "success", employees}, nil
+	return getEmployees_Success{200, "success", employees}, nil
 }
 
 func getPermissionsAndPosts() (map[string][]Permission, map[string]string, *conf.ApiError) {

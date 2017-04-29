@@ -5,8 +5,21 @@ import (
 	"forcamp/conf"
 	"net/http"
 	"log"
+	"encoding/json"
+	"fmt"
 )
 
+type checkToken_Success struct {
+	Code int `json:"code"`
+	Status string `json:"status"`
+	AdminStatus bool `json:"admin_status"`
+}
+
+// Function converts struct to JSON
+func (success *checkToken_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
 
 func Authorize(inf AuthInf, ResponseWriter http.ResponseWriter) {
 	if checkAuthorizationData(inf, ResponseWriter) {
@@ -60,13 +73,35 @@ func CheckToken(token string, ResponseWriter http.ResponseWriter) bool {
 func VerifyToken(token string, ResponseWriter http.ResponseWriter) bool{
 	if len(token) > 0 {
 		if CheckToken(token, ResponseWriter) {
-			return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+			adminStatus, APIerr := checkAdminStatus(token)
+			if APIerr != nil {
+				return conf.PrintError(APIerr, ResponseWriter)
+			}
+			resp := checkToken_Success{200, "success", adminStatus}
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			return true
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
 	} else {
 		return conf.PrintError(conf.ErrUserTokenEmpty, ResponseWriter)
 	}
+}
+
+func checkAdminStatus(token string) (bool, *conf.ApiError) {
+	var login string
+	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
+	if err != nil {
+		log.Print(err)
+		return false, conf.ErrDatabaseQueryFailed
+	}
+	var adminStatus bool
+	err = src.Connection.QueryRow("SELECT admin FROM users WHERE login=?", login).Scan(&adminStatus)
+	if err != nil {
+		log.Print(err)
+		return false, conf.ErrDatabaseQueryFailed
+	}
+	return adminStatus, nil
 }
 
 func checkCurrentSessionsVal(login string, ResponseWriter http.ResponseWriter) bool {

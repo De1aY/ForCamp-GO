@@ -28,11 +28,17 @@ type Participant struct {
 	Marks      []Mark `json:"marks"`
 }
 
-type GetParticipants_Success struct {
+type getParticipants_Success struct {
 	Code         int `json:"code"`
 	Status       string `json:"status"`
 	Participants []Participant `json:"participants"`
 }
+
+func (success *getParticipants_Success) toJSON() string {
+	resp, _ := json.Marshal(success)
+	return string(resp)
+}
+
 
 func GetParticipants(token string, ResponseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
@@ -42,12 +48,11 @@ func GetParticipants(token string, ResponseWriter http.ResponseWriter) bool {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Resp, APIerr := getParticipants_Request()
+			resp, APIerr := getParticipants_Request()
 			if APIerr != nil {
 				return conf.PrintError(APIerr, ResponseWriter)
 			}
-			Response, _ := json.Marshal(Resp)
-			fmt.Fprintf(ResponseWriter, string(Response))
+			fmt.Fprintf(ResponseWriter, resp.toJSON())
 		} else {
 			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
 		}
@@ -55,20 +60,20 @@ func GetParticipants(token string, ResponseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getParticipants_Request() (GetParticipants_Success, *conf.ApiError) {
+func getParticipants_Request() (getParticipants_Success, *conf.ApiError) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='0'")
 	if err != nil {
 		log.Print(err)
-		return GetParticipants_Success{}, conf.ErrDatabaseQueryFailed
+		return getParticipants_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return getParticipantsFromResponse(Query)
 }
 
-func getParticipantsFromResponse(rows *sql.Rows) (GetParticipants_Success, *conf.ApiError) {
+func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf.ApiError) {
 	defer rows.Close()
 	marks, APIerr := getMarks()
 	if APIerr != nil {
-		return GetParticipants_Success{}, APIerr
+		return getParticipants_Success{}, APIerr
 	}
 	var (
 		participants []Participant
@@ -78,15 +83,15 @@ func getParticipantsFromResponse(rows *sql.Rows) (GetParticipants_Success, *conf
 		err := rows.Scan(&participant.Login, &participant.Name, &participant.Surname, &participant.Middlename, &participant.Sex, &participant.Team)
 		if err != nil {
 			log.Print(err)
-			return GetParticipants_Success{}, conf.ErrDatabaseQueryFailed
+			return getParticipants_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		participant.Marks = marks[participant.Login]
 		participants = append(participants, Participant{participant.Login, participant.Name, participant.Surname, participant.Middlename, participant.Sex, participant.Team, participant.Marks})
 	}
 	if participants == nil {
-		return GetParticipants_Success{200, "success", make([]Participant, 0)}, nil
+		return getParticipants_Success{200, "success", make([]Participant, 0)}, nil
 	}
-	return GetParticipants_Success{200, "success", participants}, nil
+	return getParticipants_Success{200, "success", participants}, nil
 }
 
 func getMarks() (map[string][]Mark, *conf.ApiError) {
