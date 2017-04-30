@@ -11,7 +11,7 @@ import (
 
 func getAddTeamPostValues(r *http.Request) (string, string){
 	Token := r.PostFormValue("token")
-	Name := strings.ToLower(r.PostFormValue("name"))
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
 	return Name, Token
 }
 

@@ -10,8 +10,8 @@ import (
 )
 
 func getResetEmployeePasswordPostValues(r *http.Request) (string, string){
-	Token := r.PostFormValue("token")
-	Login := strings.ToLower(r.PostFormValue("login"))
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
 	return Login, Token
 }
 

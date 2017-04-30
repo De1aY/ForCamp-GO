@@ -74,6 +74,9 @@ var UserService = (function () {
                     Permissions: data.data.permissions,
                     Post: data.data.post
                 };
+                for (var i = 0; i < this.UserData.Permissions.length; i++) {
+                    this.UserData.Permissions[i].value = this.StringToBoolean(this.UserData.Permissions[i].value);
+                }
             }
             else {
                 this.UserData = {
@@ -89,9 +92,6 @@ var UserService = (function () {
                     Permissions: [],
                     Post: ""
                 };
-            }
-            for (var i = 0; i < this.UserData.Permissions.length; i++) {
-                this.UserData.Permissions[i].value = this.StringToBoolean(this.UserData.Permissions[i].value);
             }
         }
         else {
@@ -127,6 +127,9 @@ var UserService = (function () {
                     Permissions: data.data.permissions,
                     Post: data.data.post
                 };
+                for (var i = 0; i < this.SelfData.Permissions.length; i++) {
+                    this.SelfData.Permissions[i].value = this.StringToBoolean(this.SelfData.Permissions[i].value);
+                }
             }
             else {
                 this.SelfData = {
@@ -142,9 +145,6 @@ var UserService = (function () {
                     Permissions: [],
                     Post: ""
                 };
-            }
-            for (var i = 0; i < this.SelfData.Permissions.length; i++) {
-                this.SelfData.Permissions[i].value = this.StringToBoolean(this.SelfData.Permissions[i].value);
             }
         }
         else {

@@ -13,13 +13,13 @@ import (
 
 func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiError){
 	Token := r.PostFormValue("token")
-	ID, err := strconv.ParseInt(r.PostFormValue("id"), 10, 64)
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return categories.Category{}, "", conf.ErrIDisNotINT
 	}
-	Name := strings.ToLower(r.PostFormValue("name"))
-	NegativeMarks := strings.ToLower(r.PostFormValue("negative_marks"))
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	NegativeMarks := strings.TrimSpace(strings.ToLower(r.PostFormValue("negative_marks")))
 	return categories.Category{ID: ID, Name: Name, NegativeMarks: NegativeMarks}, Token, nil
 }
 

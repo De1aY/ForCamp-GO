@@ -12,13 +12,13 @@ import (
 )
 
 func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiError){
-	Token := r.PostFormValue("token")
-	ID, err := strconv.ParseInt(r.PostFormValue("id"), 10, 64)
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return "", "", 0, conf.ErrIDisNotINT
 	}
-	Name := strings.ToLower(r.PostFormValue("name"))
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
 	return Token, Name, ID, nil
 }
 

@@ -12,19 +12,19 @@ import (
 )
 
 func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiError){
-	Token := r.PostFormValue("token")
-	ID, err := strconv.ParseInt(r.PostFormValue("id"), 10, 64)
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
-	CatID, err := strconv.ParseInt(r.PostFormValue("cat_id"), 10, 64)
+	CatID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("cat_id")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
-	Text := strings.ToLower(r.PostFormValue("text"))
-	Change, err := strconv.ParseInt(r.PostFormValue("change"), 10, 64)
+	Text := strings.TrimSpace(strings.ToLower(r.PostFormValue("text")))
+	Change, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("change")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT

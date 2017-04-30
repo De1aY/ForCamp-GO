@@ -11,16 +11,16 @@ import (
 )
 
 func getEditMarkPostValues(r *http.Request) (string, string, int64, int64, *conf.ApiError){
-	token := strings.ToLower(r.PostFormValue("token"))
-	category_id, err := strconv.ParseInt(r.PostFormValue("category_id"), 10, 64)
+	token := strings.TrimSpace(r.PostFormValue("token"))
+	category_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil {
 		return "", "", 0, 0, conf.ErrCategoryIdNotINT
 	}
-	reason_id, err := strconv.ParseInt(r.PostFormValue("reason_id"), 10, 64)
+	reason_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("reason_id")), 10, 64)
 	if err != nil {
 		return "", "", 0, 0, conf.ErrReasonIncorrect
 	}
-	participant_login := strings.ToLower(r.PostFormValue("login"))
+	participant_login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
 	return token, participant_login, category_id, reason_id, nil
 }
 

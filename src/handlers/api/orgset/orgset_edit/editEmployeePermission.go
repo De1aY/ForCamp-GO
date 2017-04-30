@@ -12,10 +12,10 @@ import (
 )
 
 func getEditEmployeePermissionPostValues(r *http.Request) (string, int64, string, string, *conf.ApiError){
-	Token := r.PostFormValue("token")
-	Login := strings.ToLower(r.PostFormValue("login"))
-	Value := strings.ToLower(r.PostFormValue("value"))
-	CatId, err := strconv.ParseInt(r.PostFormValue("id"), 10, 64)
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
+	Value := strings.TrimSpace(strings.ToLower(r.PostFormValue("value")))
+	CatId, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil {
 		log.Print(err)
 		return "", 0, "", "", conf.ErrCategoryIdNotINT

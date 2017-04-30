@@ -91,6 +91,9 @@ export class UserService {
                     Permissions: data.data.permissions,
                     Post: data.data.post
                 };
+                for (let i = 0; i < this.UserData.Permissions.length; i++){
+                    this.UserData.Permissions[i].value = this.StringToBoolean(this.UserData.Permissions[i].value);
+                }
             } else {
                 this.UserData = {
                     Name: data.data.name,
@@ -105,9 +108,7 @@ export class UserService {
                     Permissions: [],
                     Post: ""
                 };
-            }
-            for (let i = 0; i < this.UserData.Permissions.length; i++){
-                this.UserData.Permissions[i].value = this.StringToBoolean(this.UserData.Permissions[i].value);
+
             }
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});
@@ -143,6 +144,9 @@ export class UserService {
                     Permissions: data.data.permissions,
                     Post: data.data.post
                 };
+                for (let i = 0; i < this.SelfData.Permissions.length; i++){
+                    this.SelfData.Permissions[i].value = this.StringToBoolean(this.SelfData.Permissions[i].value);
+                }
             } else {
                 this.SelfData = {
                     Name: data.data.name,
@@ -156,10 +160,7 @@ export class UserService {
                     Marks: data.data.marks,
                     Permissions: [],
                     Post: ""
-                };
-            }
-            for (let i = 0; i < this.SelfData.Permissions.length; i++){
-                this.SelfData.Permissions[i].value = this.StringToBoolean(this.SelfData.Permissions[i].value);
+                }
             }
         } else {
             alert({type: 3, text: "Произошла ошибка(" + data.code + ")!", time: 3});

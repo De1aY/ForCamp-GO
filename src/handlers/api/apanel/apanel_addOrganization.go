@@ -10,8 +10,8 @@ import (
 )
 
 func getAddOrganizationPostValues(r *http.Request) (string, string){
-	Token := r.PostFormValue("token")
-	Orgname := strings.ToLower(r.PostFormValue("orgname"))
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	Orgname := strings.TrimSpace(strings.ToLower(r.PostFormValue("orgname")))
 	return Orgname, Token
 }
 

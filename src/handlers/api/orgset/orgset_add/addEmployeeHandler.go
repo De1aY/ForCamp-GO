@@ -13,16 +13,16 @@ import (
 
 func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiError){
 	Token := r.PostFormValue("token")
-	Name := strings.ToLower(r.PostFormValue("name"))
-	Surname := strings.ToLower(r.PostFormValue("surname"))
-	Middlename := strings.ToLower(r.PostFormValue("middlename"))
-	Post := strings.ToLower(r.PostFormValue("post"))
-	Sex, err := strconv.ParseInt(r.PostFormValue("sex"), 10, 64)
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	Surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
+	Middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
+	Post := strings.TrimSpace(strings.ToLower(r.PostFormValue("post")))
+	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
 	if err != nil {
 		log.Print(err)
 		return employees.Employee{}, "", conf.ErrEmployeeSexNotINT
 	}
-	Team, err := strconv.ParseInt(r.PostFormValue("team"), 10, 64)
+	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
 	if err != nil {
 		log.Print(err)
 		return employees.Employee{}, "", conf.ErrEmployeeTeamNotINT

@@ -7,10 +7,11 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/handlers"
+	"strings"
 )
 
 func getLogin(r *http.Request) string{
-	Login := r.FormValue("login")
+	Login := strings.TrimSpace(r.FormValue("login"))
 	return Login
 }
 

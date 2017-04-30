@@ -10,9 +10,9 @@ import (
 )
 
 func getAddCategoryPostValues(r *http.Request) (categories.Category, string){
-	Token := r.PostFormValue("token")
-	Name := strings.ToLower(r.PostFormValue("name"))
-	NegativeMarks := strings.ToLower(r.PostFormValue("negative_marks"))
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	NegativeMarks := strings.TrimSpace(strings.ToLower(r.PostFormValue("negative_marks")))
 	return categories.Category{ID: 0, Name: Name, NegativeMarks: NegativeMarks}, Token
 }
 

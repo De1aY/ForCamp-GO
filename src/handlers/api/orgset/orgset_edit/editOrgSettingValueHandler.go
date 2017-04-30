@@ -10,9 +10,9 @@ import (
 )
 
 func getSetOrgSettingValuePostValues(r *http.Request) (string, string, string){
-	Token := r.PostFormValue("token")
-	Name := strings.ToLower(r.PostFormValue("name"))
-	Value := strings.ToLower(r.PostFormValue("value"))
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	Value := strings.TrimSpace(strings.ToLower(r.PostFormValue("value")))
 	return Token, Name, Value
 }
 

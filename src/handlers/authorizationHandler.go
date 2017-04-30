@@ -6,12 +6,13 @@ import (
 	"github.com/gorilla/mux"
 	"forcamp/conf"
 	"forcamp/src"
+	"strings"
 )
 
 // Parse 'GET' data to AuthInf
 func getAuthorizationData(r *http.Request) authorization.AuthInf{
-	UserLogin := r.FormValue("login")
-	UserPassword := r.FormValue("password")
+	UserLogin := strings.TrimSpace(r.FormValue("login"))
+	UserPassword := strings.TrimSpace(r.FormValue("password"))
 	authInf := authorization.AuthInf{}
 	authInf.Login = UserLogin
 	authInf.Password = UserPassword

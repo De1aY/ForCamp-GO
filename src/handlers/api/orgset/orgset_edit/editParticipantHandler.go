@@ -12,17 +12,17 @@ import (
 )
 
 func getEditParticipantPostValues(r *http.Request) (participants.Participant, string, *conf.ApiError){
-	Token := r.PostFormValue("token")
-	Login := strings.ToLower(r.PostFormValue("login"))
-	Name := strings.ToLower(r.PostFormValue("name"))
-	Surname := strings.ToLower(r.PostFormValue("surname"))
-	Middlename := strings.ToLower(r.PostFormValue("middlename"))
-	Sex, err := strconv.ParseInt(r.PostFormValue("sex"), 10, 64)
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
+	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	Surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
+	Middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
+	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
 	if err != nil {
 		log.Print(err)
 		return participants.Participant{}, "", conf.ErrParticipantSexNotINT
 	}
-	Team, err := strconv.ParseInt(r.PostFormValue("team"), 10, 64)
+	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
 	if err != nil {
 		log.Print(err)
 		return participants.Participant{}, "", conf.ErrParticipantTeamNotINT

@@ -6,10 +6,11 @@ import (
 	"forcamp/conf"
 	"forcamp/src/marks"
 	"github.com/gorilla/mux"
+	"strings"
 )
 
 func getToken(r *http.Request) string {
-	token := r.FormValue("token")
+	token := strings.TrimSpace(r.FormValue("token"))
 	return token
 }
 

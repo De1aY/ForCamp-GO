@@ -8,11 +8,12 @@ import (
 	"strconv"
 	"log"
 	"forcamp/src/orgset/reasons"
+	"strings"
 )
 
 func getDeleteReasonPostValues(r *http.Request) (string, int64, *conf.ApiError){
-	Token := r.PostFormValue("token")
-	ID, err := strconv.ParseInt(r.PostFormValue("id"), 10, 64)
+	Token := strings.TrimSpace(r.PostFormValue("token"))
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return "", 0, conf.ErrIDisNotINT
