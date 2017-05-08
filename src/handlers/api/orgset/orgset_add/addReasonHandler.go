@@ -8,7 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/reasons"
+	"forcamp/src/api/orgset/reasons"
 )
 
 func getAddReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiError){

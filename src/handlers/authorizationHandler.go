@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"forcamp/src/authorization"
+	"forcamp/src/api/authorization"
 	"net/http"
 	"github.com/gorilla/mux"
 	"forcamp/conf"

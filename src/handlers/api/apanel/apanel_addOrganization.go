@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/apanel"
+	"forcamp/src/api/apanel"
 )
 
 func getAddOrganizationPostValues(r *http.Request) (string, string){

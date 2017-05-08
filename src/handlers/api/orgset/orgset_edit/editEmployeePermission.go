@@ -8,7 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/employees"
+	"forcamp/src/api/orgset/employees"
 )
 
 func getEditEmployeePermissionPostValues(r *http.Request) (string, int64, string, string, *conf.ApiError){

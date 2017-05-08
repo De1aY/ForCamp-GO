@@ -1,0 +1,89 @@
+@import "colors";
+@import "mixins";
+
+.fc-profile {
+  position: fixed;
+  top: 10%;
+  left: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
+  height: 500px;
+  width: 350px;
+  background: $MainColor;
+  @include box-shadow(0, 2px, 10px, 0, rgba(0, 0, 0, 0.7));
+
+  .fc-profile__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .fc-profile__header-avatar {
+      margin-left: 10px;
+      height: 120px;
+      @include border-radius(100px);
+    }
+
+    .fc-profile__header-fullname {
+      margin-right: 10px;
+      color: $MainTextColor;
+      text-transform: capitalize;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+  }
+
+  .fc-profile__team {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 25px;
+    color: $FirstPlace;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    border: 4px $FirstPlace outset;
+  }
+
+  .fc-profile__rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .fc-profile__rating-information {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .fc-profile__rating-value {
+        color: $MainTextColor;
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .fc-profile__rating-position {
+        margin-left: 5px;
+        color: $SecondaryTextColor;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+    }
+
+    .fc-profile__rating-filter {
+      margin-right: 10px;
+      font-size: 12px;
+
+      span:first-child   { color: $MainTextColor; }
+      span:last-child { color: $SecondaryTextColor}
+
+    }
+
+  }
+
+}

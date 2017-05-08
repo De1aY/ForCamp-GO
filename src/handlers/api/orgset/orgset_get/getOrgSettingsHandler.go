@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"forcamp/conf"
 	"forcamp/src"
-	"forcamp/src/orgset/settings"
+	"forcamp/src/api/orgset/settings"
 	"forcamp/src/handlers"
 )
 

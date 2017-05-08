@@ -8,7 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/employees"
+	"forcamp/src/api/orgset/employees"
 )
 
 func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiError){

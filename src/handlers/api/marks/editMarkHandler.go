@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"forcamp/conf"
 	"forcamp/src"
-	"forcamp/src/marks"
+	"forcamp/src/api/marks"
 )
 
 func getEditMarkPostValues(r *http.Request) (string, string, int64, int64, *conf.ApiError){

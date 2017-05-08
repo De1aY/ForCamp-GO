@@ -8,7 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/teams"
+	"forcamp/src/api/orgset/teams"
 )
 
 func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiError){

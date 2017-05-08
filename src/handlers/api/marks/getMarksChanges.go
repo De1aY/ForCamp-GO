@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"forcamp/src/marks"
+	"forcamp/src/api/marks"
 	"github.com/gorilla/mux"
 	"strings"
 )

@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/categories"
+	"forcamp/src/api/orgset/categories"
 )
 
 func getAddCategoryPostValues(r *http.Request) (categories.Category, string){

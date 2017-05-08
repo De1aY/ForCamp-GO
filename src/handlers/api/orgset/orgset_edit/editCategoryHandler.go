@@ -8,7 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/categories"
+	"forcamp/src/api/orgset/categories"
 )
 
 func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiError){

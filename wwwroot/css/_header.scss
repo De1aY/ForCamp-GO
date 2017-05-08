@@ -1,0 +1,133 @@
+@import 'colors';
+
+@mixin header($mainColor: $MainColor,
+              $secondaryColor: $SecondaryColor,
+              $mainTextColor: $MainTextColor,
+              $secondaryTextColor: $SecondaryTextColor,
+              $hoverTextColor: $HoverTextColor) {
+
+  header.fc-header {
+    top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    color: $secondaryTextColor;
+    background: $mainColor;
+
+    .fc-header__space {
+      flex-grow: 1;
+    }
+
+    .fc-header__content {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex-grow: 2;
+
+      .fc-header__brand {
+        order: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        color: inherit;
+        font-size: 48px;
+        font-weight: 700;
+        text-decoration: none;
+
+        .fc-header__brand-logo {
+          margin: 0 5px 0 0;
+          order: 0;
+          height: 60px;
+        }
+
+        .fc-header__brand-text {
+          order: 1;
+        }
+
+      }
+
+      .fc-header__brand:hover {
+        cursor: pointer
+      }
+
+      .fc-header__menu {
+        margin-top: 8px;
+        order: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 22px;
+        font-weight: 700;
+
+        .fc-header__menu-section {
+          position: relative;
+          margin: 0 10px;
+          color: inherit;
+          text-decoration: none;
+          text-transform: capitalize;
+        }
+
+        .fc-header__menu-section:before {
+          content: " ";
+          position: absolute;
+          left: 50%;
+          top: 32px;
+          display: block;
+          width: 0;
+          height: 2px;
+          background: $hoverTextColor;
+          transition: width 300ms ease-in-out, left 300ms ease-in-out;
+        }
+
+        .fc-header__menu-section:after {
+          content: " ";
+          position: absolute;
+          left: 50%;
+          top: 32px;
+          display: block;
+          width: 0;
+          height: 2px;
+          background: $hoverTextColor;
+          transition: width 300ms ease-in-out;
+        }
+
+        .fc-header__menu-section:hover { cursor: pointer; }
+
+        .fc-header__menu-section:hover:before {
+          left: 0;
+          width: 50%;
+        }
+
+        .fc-header__menu-section:hover:after { width: 50% }
+        .fc-header__menu-section:first-child { margin-left: 20px; }
+        .fc-header__menu-section:last-child { margin-right: 0; }
+
+        .fc-header__menu-section--active { color: $secondaryTextColor; }
+
+        .fc-header__menu-section--active:before {
+          left: 0;
+          width: 50%;
+          transition: none;
+        }
+        .fc-header__menu-section--active:after {
+          width: 50%;
+          transition: none;
+        }
+
+      }
+
+    }
+  }
+
+  header.fc-header--transparent {
+    color: $mainTextColor;
+    background: transparent;
+  }
+
+}

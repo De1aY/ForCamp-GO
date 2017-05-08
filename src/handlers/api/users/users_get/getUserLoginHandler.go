@@ -1,7 +1,7 @@
 package users_get
 
 import (
-	"forcamp/src/users"
+	"forcamp/src/api/users"
 	"net/http"
 	"github.com/gorilla/mux"
 	"forcamp/conf"

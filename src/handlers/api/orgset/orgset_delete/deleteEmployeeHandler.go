@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/employees"
+	"forcamp/src/api/orgset/employees"
 )
 
 func getDeleteEmployeePostValues(r *http.Request) (string, string){

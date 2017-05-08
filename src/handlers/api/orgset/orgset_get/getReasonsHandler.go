@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/handlers"
-	"forcamp/src/orgset/reasons"
+	"forcamp/src/api/orgset/reasons"
 )
 
 

@@ -1,71 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <title>ForCamp</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- JQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!-- MDL -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="node_modules/material-design-lite/material.min.css">
-    <!-- NotieJS -->
-    <link rel="stylesheet" href="node_modules/notie/dist/notie.min.css">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-    <!-- Other stylesheets -->
-    <link rel="stylesheet" href="scss/index.css">
-    <!-- Angular4 -->
-    <script src="node_modules/core-js/client/shim.min.js"></script>
-    <script src="node_modules/zone.js/dist/zone.js"></script>
-    <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="systemjs.config.js"></script>
-    <script>
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter44490754 = new Ya.Metrika({
-                        id:44490754,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true
-                    });
-                } catch(e) { }
-            });
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-98349941-1', 'auto');
-        ga('send', 'pageview');
-        System.import('app').catch(function(err){ console.error(err); });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/44490754" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
 <body>
-<app>
-    <div id="loading_screen">
-        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+<div class="fc-content" id="parallax_container">
+    <img class="fc-content-background" src="https://forcamp.ga/images/background.jpg">
+    <div class="fc-content__authorization">
+        <div class="fc-content__authorization-form parallax-layer">
+            <div class="fc-content__authorization-form-group">
+                <input type="text" class="fc-content__authorization-form-field" id="login" placeholder="ЛОГИН">
+                <label class="fc-content__authorization-form-label" for="login" data-content="логин">логин</label>
+            </div>
+            <div class="fc-content__authorization-form-group">
+                <input type="password" class="fc-content__authorization-form-field" id="password" placeholder="ПАРОЛЬ">
+                <label class="fc-content__authorization-form-label" for="password" data-content="пароль">пароль</label>
+            </div>
+            <button class="fc-content__authorization-form-submit" id="submit">вход</button>
+        </div>
     </div>
-</app>
-<!-- AJAX -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<!-- MDL -->
-<script src="node_modules/material-design-lite/material.min.js"></script>
-<!-- NotieJS -->
-<script src="node_modules/notie/dist/notie.min.js"></script>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="scripts/index.js"></script>
 </body>
 </html>

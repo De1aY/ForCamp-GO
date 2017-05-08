@@ -7,7 +7,7 @@ import (
 	"forcamp/src"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/teams"
+	"forcamp/src/api/orgset/teams"
 	"strings"
 )
 

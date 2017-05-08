@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/settings"
+	"forcamp/src/api/orgset/settings"
 )
 
 func getSetOrgSettingValuePostValues(r *http.Request) (string, string, string){

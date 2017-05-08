@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AASA,WAAW;EACT,OAAO,EAAE,CAAC",
-"sources": ["orgset.component.scss"],
-"names": [],
-"file": "orgset.component.css"
-}

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"log"
 	"forcamp/src"
-	"forcamp/src/marks"
+	"forcamp/src/api/marks"
 	"github.com/gorilla/mux"
 )
 
