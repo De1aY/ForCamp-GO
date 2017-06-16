@@ -18,7 +18,7 @@ func GeneralHandler(w http.ResponseWriter, r *http.Request){
 			if tools.CheckToken(token.Value) {
 				http.ServeFile(w, r, conf.FILE_GENERAL)
 			} else {
-				fmt.Fprintf(w, token.Value)
+				http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 			}
 		}
 	} else {
