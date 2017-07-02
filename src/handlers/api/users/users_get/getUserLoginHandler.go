@@ -1,7 +1,7 @@
 package users_get
 
 import (
-	"forcamp/src/users"
+	"forcamp/src/api/users"
 	"net/http"
 	"github.com/gorilla/mux"
 	"forcamp/conf"
@@ -16,7 +16,7 @@ func GetUserLoginHandler(w http.ResponseWriter, r *http.Request){
 		users.GetUserLogin(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

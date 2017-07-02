@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/teams"
+	"forcamp/src/api/orgset/teams"
 )
 
 func getAddTeamPostValues(r *http.Request) (string, string){
@@ -22,7 +22,7 @@ func AddTeamHandler(w http.ResponseWriter, r *http.Request){
 		teams.AddTeam(token, Name, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

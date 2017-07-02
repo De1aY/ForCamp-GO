@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/handlers"
-	"forcamp/src/orgset/employees"
+	"forcamp/src/api/orgset/employees"
 )
 
 
@@ -16,7 +16,7 @@ func GetEmployeesHandler(w http.ResponseWriter, r *http.Request){
 		employees.GetEmployees(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

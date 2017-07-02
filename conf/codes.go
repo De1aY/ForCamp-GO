@@ -1,93 +1,73 @@
+/*
+	Copyright: "NullTeam", 2016 - 2017
+	Author: "De1aY"
+	Documentation: https://bitbucket.org/lyceumdevelopers/openqr_golang/wiki/Home
+*/
 package conf
 
 import (
-	"net/http"
 	"encoding/json"
+	"net/http"
 	"fmt"
 )
 
-type ApiError struct {
+type ApiResponse struct {
 	Code int `json:"code"`
 	Status string `json:"status"`
-	Message string `json:"message"`
+	Message interface{} `json:"message"`
 }
 
-type LoginSuccess struct {
-	Code int `json:"code"`
-	Token string `json:"token"`
-	Status string `json:"status"`
+type ErrorMessage struct {
+	Ru string `json:"ru"`
+	En string `json:"en"`
 }
 
-type Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
-}
-
-// Function returns error message
-func (err *ApiError) Error() string{
-	return err.Message
-}
-
-// Function converts struct to JSON
-func (err *ApiError) toJSON() string{
-	resp, _ := json.Marshal(err)
+func (response *ApiResponse) toJSON() string {
+	resp, _ := json.Marshal(response)
 	return string(resp)
 }
 
-func PrintError(err *ApiError, w http.ResponseWriter) bool{
-	fmt.Fprintf(w, err.toJSON())
+func (response *ApiResponse) Print(writer http.ResponseWriter) bool {
+	fmt.Fprintf(writer, response.toJSON())
 	return false
 }
-
-func PrintSuccess(success *Success, w http.ResponseWriter) bool{
-	Response, _ := json.Marshal(success)
-	fmt.Fprintf(w, string(Response))
-	return true
-}
-
 // 200
-var RequestSuccess = &Success{200, "success"}
+var RequestSuccess = &ApiResponse{200, "success", nil}
 // 400
-var ErrMethodNotAllowed = &ApiError{400, "ERROR", "Method not allowed"}
-var ErrInsufficientRights = &ApiError{401, "ERROR", "Insufficient rights"}
+var ErrMethodNotAllowed = &ApiResponse{400, "error", ErrorMessage{"Метод запрещён", "Metod not allowed"}}
+var ErrInsufficientRights = &ApiResponse{401, "error", ErrorMessage{"Недостаточно прав", "Insufficient rights"}}
 // 500
-var ErrDatabaseQueryFailed = &ApiError{501, "ERROR", "Database connection failed"}
-var ErrConvertStringToInt = &ApiError{502, "ERROR", "Cannot convert string to int"}
-var ErrOpenExcelFile = &ApiError{503, "ERROR", "Cannot open excel file"}
-var ErrSaveExcelFile = &ApiError{504, "ERROR", "Cannot save excel file"}
-var ErrCreateExcelFile = &ApiError{505, "ERROR", "Cannot create excel file"}
-var ErrCreateSheetOnExcelFile = &ApiError{506, "ERROR", "Cannot create excel sheet"}
+var ErrDatabaseQueryFailed = &ApiResponse{501, "error", ErrorMessage{"Ошибка соединения с базой данных", "Database connection failed"}}
+var ErrConvertStringToInt = &ApiResponse{502, "error", ErrorMessage{"Невозможно перевести строку в число", "Cannot convert string to int"}}
+var ErrOpenExcelFile = &ApiResponse{503, "error", ErrorMessage{"Ошибка открытия файла", "Cannot open file"}}
+var ErrSaveExcelFile = &ApiResponse{504, "error", ErrorMessage{"Ошибка сохранения файла", "Cannot save file"}}
+var ErrCreateExcelFile = &ApiResponse{505, "error", ErrorMessage{"Ошибка создания файла", "Cannot create file"}}
+var ErrCreateSheetOnExcelFile = &ApiResponse{506, "error", ErrorMessage{"Ошибка создания листа Excel", "Cannot create excel sheet"}}
 // 600
-var ErrUserPasswordEmpty = &ApiError{601, "ERROR", "Password is empty"}
-var ErrUserLoginEmpty = &ApiError{602, "ERROR", "Login is empty"}
-var ErrUserTokenEmpty = &ApiError{603, "ERROR", "Token is empty"}
-var ErrAuthDataIncorrect = &ApiError{604, "ERROR", "Login or password is wrong"}
-var ErrUserTokenIncorrect = &ApiError{605, "ERROR", "Token is invalid"}
-var ErrOrgSettingNameEmpty = &ApiError{606, "ERROR", "Setting name is empty"}
-var ErrOrgSettingValueEmpty = &ApiError{606, "ERROR", "Setting value is empty"}
-var ErrOrgSettingNameIncorrect = &ApiError{607, "ERROR", "Setting name is incorrect"}
-var ErrCategoryNameEmpty = &ApiError{608, "ERROR", "Category name is empty"}
-var ErrCategoryNegativeMarksEmpty = &ApiError{609, "ERROR", "Category 'Negative marks' is empty"}
-var ErrCategoryNegativeMarksIncorrect = &ApiError{610, "ERROR", "Category 'Negative marks' is incorrect"}
-var ErrIDisNotINT = &ApiError{611, "ERROR", "ID must be a number"}
-var ErrParticipantNameEmpty = &ApiError{612, "ERROR", "Name is empty"}
-var ErrParticipantSurnameEmpty = &ApiError{613, "ERROR", "Surname is empty"}
-var ErrParticipantMiddlenameEmpty = &ApiError{614, "ERROR", "Middlename is empty"}
-var ErrParticipantSexNotINT = &ApiError{615, "ERROR", "Sex must be a number"}
-var ErrParticipantTeamNotINT = &ApiError{616, "ERROR", "Team must be a number"}
-var ErrParticipantSexIncorrect = &ApiError{617, "ERROR", "Sex is incorrect"}
-var ErrUserNotFound = &ApiError{618, "ERROR", "User not found"}
-var ErrEmployeeNameEmpty = &ApiError{619, "ERROR", "Name is empty"}
-var ErrEmployeeSurnameEmpty = &ApiError{620, "ERROR", "Surname is empty"}
-var ErrEmployeeMiddlenameEmpty = &ApiError{621, "ERROR", "Middlename is empty"}
-var ErrEmployeeSexNotINT = &ApiError{622, "ERROR", "Sex must be a number"}
-var ErrEmployeeTeamNotINT = &ApiError{623, "ERROR", "Team must be a number"}
-var ErrEmployeeSexIncorrect = &ApiError{624, "ERROR", "Sex is incorrect"}
-var ErrTeamIncorrect = &ApiError{625, "ERROR", "Team is incorrect"}
-var ErrEmployeePostEmpty = &ApiError{626, "ERROR", "Post is empty"}
-var ErrCategoryIdIncorrect = &ApiError{627, "ERROR", "Category ID is incorrect"}
-var ErrPermissionValueIncorrect = &ApiError{628, "ERROR", "Permission must be a boolean"}
-var ErrCategoryIdNotINT = &ApiError{629, "ERROR", "Category id must be a number"}
-var ErrReasonIncorrect = &ApiError{630, "ERROR", "Reason is incorrect"}
-var ErrParticipantLoginIncorrect = &ApiError{631, "ERROR", "Partcipant login incorrect"}
-var ErrOrganizationNameEmpty = &ApiError{632, "ERROR", "Oranization name is empty"}
+var ErrUserPasswordEmpty = &ApiResponse{601, "error", ErrorMessage{"Пароль отсутствует", "Password is empty"}}
+var ErrUserLoginEmpty = &ApiResponse{602, "error", ErrorMessage{"Логин отсутствует", "Login is empty"}}
+var ErrUserTokenEmpty = &ApiResponse{603, "error", ErrorMessage{"Токен отсутствует", "Token is empty"}}
+var ErrAuthDataIncorrect = &ApiResponse{604, "error", ErrorMessage{"Неправильный логин или пароль", "Login or password is wrong"}}
+var ErrUserTokenIncorrect = &ApiResponse{605, "error", ErrorMessage{"Неверный токен", "Token is invalid"}}
+var ErrOrgSettingNameEmpty = &ApiResponse{606, "error", ErrorMessage{"Название настройки отсутствует", "Setting name is empty"}}
+var ErrOrgSettingValueEmpty = &ApiResponse{606, "error", ErrorMessage{"Значение настройки отсутствует", "Setting value is empty"}}
+var ErrOrgSettingNameIncorrect = &ApiResponse{607, "error", ErrorMessage{"Неверное название настройки", "Setting name is incorrect"}}
+var ErrCategoryNameEmpty = &ApiResponse{608, "error", ErrorMessage{"Название категории отсутствует", "Category name is empty"}}
+var ErrCategoryNegativeMarksEmpty = &ApiResponse{609, "error", ErrorMessage{"Категория 'отрицательные оценки' отсутствует", "Category 'Negative marks' is empty"}}
+var ErrCategoryNegativeMarksIncorrect = &ApiResponse{610, "error", ErrorMessage{"Неверное значение категории 'отрицательные оценки'", "Category 'Negative marks' is incorrect"}}
+var ErrIDisNotINT = &ApiResponse{611, "error", ErrorMessage{"ID должен быть числом", "ID must be a number"}}
+var ErrNameEmpty = &ApiResponse{612, "error", ErrorMessage{"Имя отсутсвует", "Name is empty"}}
+var ErrSurnameEmpty = &ApiResponse{613, "error", ErrorMessage{"Фамилия отсутсвует", "Surname is empty"}}
+var ErrMiddlenameEmpty = &ApiResponse{614, "error", ErrorMessage{"Отчество отсутсвует", "Middlename is empty"}}
+var ErrSexNotINT = &ApiResponse{615, "error", ErrorMessage{"Пол должен быть числом", "Sex must be a number"}}
+var ErrTeamNotINT = &ApiResponse{616, "error", ErrorMessage{"Команда должна быть числом", "Team must be a number"}}
+var ErrSexIncorrect = &ApiResponse{617, "error", ErrorMessage{"Некорректный пол", "Sex is incorrect"}}
+var ErrUserNotFound = &ApiResponse{618, "error", ErrorMessage{"Пользователь не найден", "User not found"}}
+var ErrTeamIncorrect = &ApiResponse{619, "error", ErrorMessage{"Некорректная команда", "Team is incorrect"}}
+var ErrPostEmpty = &ApiResponse{620, "error", ErrorMessage{"Должность отсутствует", "Post is empty"}}
+var ErrCategoryIdIncorrect = &ApiResponse{621, "error", ErrorMessage{"Неверный ID категории", "Category ID is incorrect"}}
+var ErrPermissionValueIncorrect = &ApiResponse{622, "error", ErrorMessage{"Разрешение должно быть boolean", "Permission must be a boolean"}}
+var ErrCategoryIdNotINT = &ApiResponse{623, "error", ErrorMessage{"ID категории должно быть числом", "Category id must be a number"}}
+var ErrReasonIncorrect = &ApiResponse{624, "error", ErrorMessage{"Некорректная причина", "Reason is incorrect"}}
+var ErrLoginIncorrect = &ApiResponse{625, "error", ErrorMessage{"Неверный логин", "Partcipant login incorrect"}}
+var ErrOrganizationNameEmpty = &ApiResponse{626, "error", ErrorMessage{"Название организации отсутствует", "Oranization name is empty"}}

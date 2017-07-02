@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"forcamp/conf"
 	"forcamp/src"
-	"forcamp/src/orgset/teams"
+	"forcamp/src/api/orgset/teams"
 	"forcamp/src/handlers"
 )
 
@@ -15,7 +15,7 @@ func GetTeamsHandler(w http.ResponseWriter, r *http.Request){
 		teams.GetTeams(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

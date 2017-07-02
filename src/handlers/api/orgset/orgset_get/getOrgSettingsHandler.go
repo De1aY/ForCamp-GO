@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"forcamp/conf"
 	"forcamp/src"
-	"forcamp/src/orgset/settings"
+	"forcamp/src/api/orgset/settings"
 	"forcamp/src/handlers"
 )
 
@@ -16,7 +16,7 @@ func GetOrgSettingsHandler(w http.ResponseWriter, r *http.Request){
 		settings.GetOrgSettings(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

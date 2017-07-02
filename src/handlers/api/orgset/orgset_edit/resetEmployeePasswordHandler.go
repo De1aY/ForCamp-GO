@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/employees"
+	"forcamp/src/api/orgset/employees"
 )
 
 func getResetEmployeePasswordPostValues(r *http.Request) (string, string){
@@ -22,7 +22,7 @@ func ResetEmployeePasswordHandler(w http.ResponseWriter, r *http.Request){
 		employees.ResetEmployeePassword(token, login, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

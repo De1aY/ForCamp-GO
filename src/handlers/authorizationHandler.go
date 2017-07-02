@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"forcamp/src/authorization"
+	"forcamp/src/api/authorization"
 	"net/http"
 	"github.com/gorilla/mux"
 	"forcamp/conf"
@@ -27,7 +27,7 @@ func LoginAndPasswordAuthHandler(w http.ResponseWriter, r *http.Request){
 		authorization.Authorize(authInf, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

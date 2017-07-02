@@ -7,11 +7,11 @@ import (
 	"forcamp/src"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/reasons"
+	"forcamp/src/api/orgset/reasons"
 	"strings"
 )
 
-func getDeleteReasonPostValues(r *http.Request) (string, int64, *conf.ApiError){
+func getDeleteReasonPostValues(r *http.Request) (string, int64, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
@@ -27,13 +27,13 @@ func DeleteReasonHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		token, id, APIerr := getDeleteReasonPostValues(r)
 		if APIerr != nil{
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			reasons.DeleteReason(token, id, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

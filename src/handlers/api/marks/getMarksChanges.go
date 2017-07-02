@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"forcamp/src/marks"
+	"forcamp/src/api/marks"
 	"github.com/gorilla/mux"
 	"strings"
 )
@@ -21,7 +21,7 @@ func getMarksChangesHandler(w http.ResponseWriter, r *http.Request) {
 		marks.GetMarksChanges(token, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

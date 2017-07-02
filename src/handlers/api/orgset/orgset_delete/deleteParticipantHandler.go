@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/participants"
+	"forcamp/src/api/orgset/participants"
 )
 
 func getDeleteParticipantPostValues(r *http.Request) (string, string){
@@ -22,7 +22,7 @@ func DeleteParticipantHandler(w http.ResponseWriter, r *http.Request){
 		participants.DeleteParticipant(token, login, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

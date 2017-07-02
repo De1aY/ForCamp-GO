@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"forcamp/conf"
 	"forcamp/src"
-	"forcamp/src/marks"
+	"forcamp/src/api/marks"
 )
 
-func getEditMarkPostValues(r *http.Request) (string, string, int64, int64, *conf.ApiError){
+func getEditMarkPostValues(r *http.Request) (string, string, int64, int64, *conf.ApiResponse){
 	token := strings.TrimSpace(r.PostFormValue("token"))
 	category_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil {
@@ -29,13 +29,13 @@ func editMarkHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		token, participant_login, category_id, reason_id, APIerr := getEditMarkPostValues(r)
 		if APIerr != nil {
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			marks.EditMark(token, participant_login, category_id, reason_id, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

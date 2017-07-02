@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/categories"
+	"forcamp/src/api/orgset/categories"
 )
 
 func getAddCategoryPostValues(r *http.Request) (categories.Category, string){
@@ -23,7 +23,7 @@ func AddCategoryHandler(w http.ResponseWriter, r *http.Request){
 		categories.AddCategory(token, category, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

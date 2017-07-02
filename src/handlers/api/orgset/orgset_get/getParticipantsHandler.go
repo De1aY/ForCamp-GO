@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/handlers"
-	"forcamp/src/orgset/participants"
+	"forcamp/src/api/orgset/participants"
 )
 
 
@@ -16,7 +16,7 @@ func GetParticipantsHandler(w http.ResponseWriter, r *http.Request){
 		participants.GetParticipants(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

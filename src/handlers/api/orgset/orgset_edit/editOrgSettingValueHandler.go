@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/orgset/settings"
+	"forcamp/src/api/orgset/settings"
 )
 
 func getSetOrgSettingValuePostValues(r *http.Request) (string, string, string){
@@ -23,7 +23,7 @@ func SetOrgSettingValueHandler(w http.ResponseWriter, r *http.Request){
 		settings.SetOrgSettingValue(Token, Name, Value, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

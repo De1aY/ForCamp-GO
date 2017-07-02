@@ -1,0 +1,139 @@
+{{define "index"}}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/general.css">
+    <title>ForCamp</title>
+</head>
+<body>
+<header class="fc-header fc-header--transparent">
+    <div class="fc-header__space"></div>
+    <div class="fc-header__content">
+        <a class="fc-header__brand" href="https://forcamp.ga/general">
+            <img src="https://forcamp.ga/images/logo.svg" class="fc-header__brand-logo">
+            <div class="fc-header__brand-text">ForCamp</div>
+        </a>
+        <div class="fc-header__menu">
+            <a class="fc-header__menu-section" id="fc-header__menu-button--profile">профиль</a>
+            <a class="fc-header__menu-section" href="https://forcamp.ga/orgset">управление</a>
+            <a class="fc-header__menu-section">баллы</a>
+            <a class="fc-header__menu-section fc-header__menu-section--active" href="https://forcamp.ga/general">статистика</a>
+        </div>
+    </div>
+    <div class="fc-header__space"></div>
+</header>
+<div class="fc-content">
+    <div class="fc-content__top">
+        <div class="fc-content__top-row fc-content__top-row--first">
+            <div class="fc-content__top-text">
+                <span class="fc-content__top-text-place">1st</span>
+                <span class="fc-content__top-text-fullname">мария степанова</span>
+            </div>
+            <div class="fc-content__top-space"></div>
+            <div class="fc-content__top-value">
+                <span class="fc-content__top-value-text">503 балла</span>
+            </div>
+        </div>
+        <div class="fc-content__top-row fc-content__top-row--second">
+            <div class="fc-content__top-text">
+                <span class="fc-content__top-text-place">2nd</span>
+                <span class="fc-content__top-text-fullname">ильшат фатхуллин</span>
+            </div>
+            <div class="fc-content__top-space"></div>
+            <div class="fc-content__top-value">
+                <span class="fc-content__top-value-text">498 баллов</span>
+            </div>
+        </div>
+        <div class="fc-content__top-row fc-content__top-row--third">
+            <div class="fc-content__top-text">
+                <span class="fc-content__top-text-place">3rd</span>
+                <span class="fc-content__top-text-fullname">рим рахимов</span>
+            </div>
+            <div class="fc-content__top-space"></div>
+            <div class="fc-content__top-value">
+                <span class="fc-content__top-value-text">497 баллов</span>
+            </div>
+        </div>
+        <div class="fc-content__top-border"></div>
+        <div class="fc-content__top-row">
+            <div class="fc-content__top-text">
+                <span class="fc-content__top-text-place">4</span>
+                <span class="fc-content__top-text-fullname">никита моисеев</span>
+            </div>
+            <div class="fc-content__top-space"></div>
+            <div class="fc-content__top-value">
+                <span class="fc-content__top-value-text">400 баллов</span>
+            </div>
+        </div>
+        <div class="fc-content__top-row">
+            <div class="fc-content__top-text">
+                <span class="fc-content__top-text-place">5</span>
+                <span class="fc-content__top-text-fullname">георгий попутников</span>
+            </div>
+            <div class="fc-content__top-space"></div>
+            <div class="fc-content__top-value">
+                <span class="fc-content__top-value-text">390 баллов</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fc-profile">
+    <div class="fc-profile__header">
+        <img src="https://forcamp.ga/images/default.jpg" alt="" class="fc-profile__header-avatar fc-profile__header-avatar--first">
+        <div class="fc-profile__header-fullname" team="Класс: 11А">{{.FullName}}</div>
+    </div>
+    <div class="fc-profile__rating">
+        <div class="fc-profile__rating-information">
+            <div class="fc-profile__rating-value">398</div>
+            <div class="fc-profile__rating-position">(4)</div>
+        </div>
+        <div class="fc-profile__rating-filter">
+            <span>Рейтинг</span>
+            <span>(место) в</span>
+            <select class="fc-profile__rating-filter-selector">
+                <option value="1">классе</option>
+                <option value="2">организации</option>
+            </select>
+        </div>
+        <div class="fc-profile__rating-nearest">
+            <span>8</span>
+            <span>баллов до XXX</span>
+        </div>
+    </div>
+    <div class="fc-profile__achievements">
+        <div class="fc-profile__achievements-header">Достижения</div>
+        <div class="fc-profile__achievements-list">
+            <div class="fc-profile__achievements-list-img"></div>
+            <div class="fc-profile__achievements-list-img"></div>
+            <div class="fc-profile__achievements-list-img"></div>
+            <span>и ещё 10...</span>
+        </div>
+    </div>
+    <div class="fc-profile__actions">
+        <div class="fc-profile__actions-header">Активность</div>
+        <div class="fc-profile__actions-row">
+            <span class="fc-profile__actions-row-value fc-profile__actions-row-value--positive">10</span>
+            <span class="fc-profile__actions-row-reason">чистота в комнате
+                <span class="fc-profile__actions-row-date">сегодня, 14:28</span>
+            </span>
+        </div>
+        <div class="fc-profile__actions-row">
+            <span class="fc-profile__actions-row-value fc-profile__actions-row-value--negative">2</span>
+            <span class="fc-profile__actions-row-reason">чистота в комнате
+                <span class="fc-profile__actions-row-date">вчера, 12:45</span>
+            </span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="scripts/links.js"></script>
+<script type="text/javascript" src="scripts/orgset.js"></script>
+<script type="text/javascript" src="scripts/profile.js"></script>
+</body>
+</html>
+{{end}}

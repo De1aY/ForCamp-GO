@@ -8,10 +8,10 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/employees"
+	"forcamp/src/api/orgset/employees"
 )
 
-func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiError){
+func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiResponse){
 	Token := r.PostFormValue("token")
 	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
 	Surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
@@ -20,12 +20,12 @@ func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *con
 	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
 	if err != nil {
 		log.Print(err)
-		return employees.Employee{}, "", conf.ErrEmployeeSexNotINT
+		return employees.Employee{}, "", conf.ErrSexNotINT
 	}
 	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
 	if err != nil {
 		log.Print(err)
-		return employees.Employee{}, "", conf.ErrEmployeeTeamNotINT
+		return employees.Employee{}, "", conf.ErrTeamNotINT
 	}
 	return employees.Employee{"", Name, Surname, Middlename, int(Sex), Team, Post, nil}, Token, nil
 }
@@ -35,13 +35,13 @@ func AddEmployeeHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		employee, token, APIerr := getAddEmployeePostValues(r)
 		if APIerr != nil {
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			employees.AddEmployee(token, employee, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

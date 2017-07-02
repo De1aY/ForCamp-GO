@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/handlers"
-	"forcamp/src/orgset/reasons"
+	"forcamp/src/api/orgset/reasons"
 )
 
 
@@ -16,7 +16,7 @@ func GetReasonsHandler(w http.ResponseWriter, r *http.Request){
 		reasons.GetReasons(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
-	"forcamp/src/apanel"
+	"forcamp/src/api/apanel"
 )
 
 func getAddOrganizationPostValues(r *http.Request) (string, string){
@@ -22,7 +22,7 @@ func addOrganizationHandler(w http.ResponseWriter, r *http.Request){
 		apanel.CreateOrganization(token, orgname, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

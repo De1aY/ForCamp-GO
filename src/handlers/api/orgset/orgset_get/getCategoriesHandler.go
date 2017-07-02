@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"forcamp/conf"
 	"forcamp/src"
-	"forcamp/src/orgset/categories"
+	"forcamp/src/api/orgset/categories"
 	"forcamp/src/handlers"
 )
 
@@ -15,7 +15,7 @@ func GetCategoriesHandler(w http.ResponseWriter, r *http.Request){
 		categories.GetCategories(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

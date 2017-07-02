@@ -8,10 +8,10 @@ import (
 	"strings"
 	"strconv"
 	"log"
-	"forcamp/src/orgset/reasons"
+	"forcamp/src/api/orgset/reasons"
 )
 
-func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiError){
+func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
@@ -37,13 +37,13 @@ func EditReasonHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		token, reason, APIerr := getEditReasonPostValues(r)
 		if APIerr != nil{
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			reasons.EditReason(token, reason, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 
