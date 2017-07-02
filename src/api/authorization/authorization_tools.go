@@ -9,8 +9,6 @@ import (
 	"time"
 	"math/rand"
 	"strconv"
-	"encoding/json"
-	"fmt"
 )
 
 const HASH_SALT = "ef203nsd313"
@@ -20,9 +18,7 @@ type AuthInf struct {
 	Password string
 }
 
-type Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
+type authorizationSuccess struct {
 	Token string `json:"token"`
 }
 
@@ -44,28 +40,27 @@ func generateTokenHash(login string) string {
 	return base64.URLEncoding.EncodeToString(Result)
 }
 
-func getCountVal(rows *sql.Rows, ResponseWriter http.ResponseWriter) (count int) {
+func getCountVal(rows *sql.Rows, responseWriter http.ResponseWriter) (count int) {
 	defer rows.Close()
 	for rows.Next() {
 		err := rows.Scan(&count)
 		if err != nil {
-			conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+			conf.ErrDatabaseQueryFailed.Print(responseWriter)
 		}
 	}
 	return count
 }
 
-func printToken(token string, w http.ResponseWriter) bool {
-	rawResp := &Success{200, "success", token}
-	Response, _ := json.Marshal(rawResp)
-	fmt.Fprintf(w, string(Response))
+func printToken(token string, responseWriter http.ResponseWriter) bool {
+	resp := conf.ApiResponse{200, "success", authorizationSuccess{token}}
+	resp.Print(responseWriter)
 	return true
 }
 
-func CheckTokenForEmpty(token string, w http.ResponseWriter) bool{
+func CheckTokenForEmpty(token string, responseWriter http.ResponseWriter) bool{
 	if len(token) > 0{
 		return true
 	} else {
-		return conf.PrintError(conf.ErrUserTokenEmpty, w)
+		return conf.ErrUserTokenEmpty.Print(responseWriter)
 	}
 }

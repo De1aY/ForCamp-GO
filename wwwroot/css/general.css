@@ -8,8 +8,9 @@
 /* Places Colors */
 .fc-profile {
   position: fixed;
-  top: 10%;
-  left: 5%;
+  padding: 20px 0;
+  top: 20%;
+  left: -353px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -31,28 +32,33 @@
       -webkit-border-radius: 100px;
       -moz-border-radius: 100px;
       border-radius: 100px; }
+    .fc-profile .fc-profile__header .fc-profile__header-avatar--first {
+      border: 2px solid #fbba0f; }
+    .fc-profile .fc-profile__header .fc-profile__header-avatar--second {
+      border: 2px solid #c1c0c3; }
+    .fc-profile .fc-profile__header .fc-profile__header-avatar--third {
+      border: 2px solid #d3634b; }
     .fc-profile .fc-profile__header .fc-profile__header-fullname {
       margin-right: 10px;
       color: #1692ff;
       text-transform: capitalize;
       font-size: 28px;
       font-weight: 700; }
-  .fc-profile .fc-profile__team {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin: 0 25px;
-    color: #fbba0f;
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    border: 4px #fbba0f outset; }
+    .fc-profile .fc-profile__header .fc-profile__header-fullname:after {
+      content: attr(team);
+      display: block;
+      color: #b2b2b2;
+      font-size: 12px;
+      font-weight: 400;
+      text-align: right; }
   .fc-profile .fc-profile__rating {
+    margin: 0 35px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center; }
     .fc-profile .fc-profile__rating .fc-profile__rating-information {
-      margin-left: 10px;
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -62,17 +68,117 @@
         font-size: 32px;
         font-weight: 700; }
       .fc-profile .fc-profile__rating .fc-profile__rating-information .fc-profile__rating-position {
-        margin-left: 5px;
         color: #b2b2b2;
         font-size: 20px;
         font-weight: 700; }
     .fc-profile .fc-profile__rating .fc-profile__rating-filter {
-      margin-right: 10px;
-      font-size: 12px; }
+      margin-top: 3px;
+      font-size: 11px; }
       .fc-profile .fc-profile__rating .fc-profile__rating-filter span:first-child {
         color: #1692ff; }
       .fc-profile .fc-profile__rating .fc-profile__rating-filter span:last-child {
         color: #b2b2b2; }
+      .fc-profile .fc-profile__rating .fc-profile__rating-filter .fc-profile__rating-filter-selector {
+        font-size: 11px;
+        border: none;
+        outline: none; }
+    .fc-profile .fc-profile__rating .fc-profile__rating-nearest {
+      margin-top: -8px; }
+      .fc-profile .fc-profile__rating .fc-profile__rating-nearest span:first-child {
+        color: #1692ff;
+        font-size: 20px;
+        font-weight: 700; }
+      .fc-profile .fc-profile__rating .fc-profile__rating-nearest span:last-child {
+        color: #b2b2b2;
+        font-size: 13px; }
+  .fc-profile .fc-profile__achievements {
+    margin: 0 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch; }
+    .fc-profile .fc-profile__achievements .fc-profile__achievements-header {
+      color: #1692ff;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: left; }
+    .fc-profile .fc-profile__achievements .fc-profile__achievements-header:after {
+      content: ' ';
+      display: block;
+      margin-top: 2px;
+      height: 1px;
+      width: 100%;
+      background: #b2b2b2; }
+    .fc-profile .fc-profile__achievements .fc-profile__achievements-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center; }
+      .fc-profile .fc-profile__achievements .fc-profile__achievements-list div {
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+        background: black;
+        height: 50px;
+        width: 50px; }
+      .fc-profile .fc-profile__achievements .fc-profile__achievements-list span {
+        order: 1;
+        color: #b2b2b2;
+        font-size: 13px;
+        font-style: italic; }
+  .fc-profile .fc-profile__actions {
+    margin: 0 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch; }
+    .fc-profile .fc-profile__actions .fc-profile__actions-header {
+      color: #1692ff;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: left; }
+    .fc-profile .fc-profile__actions .fc-profile__actions-header:after {
+      content: ' ';
+      display: block;
+      margin-top: 2px;
+      height: 1px;
+      width: 100%;
+      background: #b2b2b2; }
+    .fc-profile .fc-profile__actions .fc-profile__actions-row {
+      margin: 5px 10px 0 10px;
+      display: flex;
+      justify-content: center;
+      align-items: baseline; }
+      .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-value {
+        margin-right: 5px;
+        flex-basis: 25%;
+        font-size: 25px;
+        font-weight: 700;
+        text-align: right; }
+      .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-value--positive {
+        color: #1692ff; }
+      .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-value--positive:before {
+        content: "+"; }
+      .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-value--negative {
+        color: #c20c0c; }
+      .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-value--negative:before {
+        content: "-"; }
+      .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-reason {
+        flex-basis: 75%;
+        color: #b2b2b2;
+        font-size: 13px; }
+        .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-reason .fc-profile__actions-row-date {
+          display: block;
+          font-size: 10px;
+          text-align: right; }
+        .fc-profile .fc-profile__actions .fc-profile__actions-row .fc-profile__actions-row-reason .fc-profile__actions-row-date:before {
+          content: ' ';
+          display: block;
+          margin: 2px 0;
+          width: 100%;
+          height: 1px;
+          background: #c6c6c6; }
 
 header.fc-header {
   top: 50px;

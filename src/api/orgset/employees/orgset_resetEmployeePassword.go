@@ -11,45 +11,37 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"log"
-	"encoding/json"
-	"fmt"
 )
 
 type resetEmployeePassword_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Password string `json:"password"`
 }
 
-func (success *resetEmployeePassword_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
 
-
-func ResetEmployeePassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func ResetEmployeePassword(token string, login string, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		if EmployeeOrganization != Organization{
-			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
+			return conf.ErrUserNotFound.Print(responseWriter)
 		}
-		resp, APIerr := resetEmployeePassword_Request(login)
+		rawResp, APIerr := resetEmployeePassword_Request(login)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
-		fmt.Fprintf(ResponseWriter, resp.toJSON())
+		resp := conf.ApiResponse{200, "success", rawResp}
+		resp.Print(responseWriter)
 	}
 	return true
 }
 
-func resetEmployeePassword_Request(login string) (resetEmployeePassword_Success, *conf.ApiError){
+func resetEmployeePassword_Request(login string) (resetEmployeePassword_Success, *conf.ApiResponse){
 	Password, Hash := orgset.GeneratePassword()
 	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
@@ -72,5 +64,5 @@ func resetEmployeePassword_Request(login string) (resetEmployeePassword_Success,
 		log.Print(err)
 		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return resetEmployeePassword_Success{200, "success", Password}, nil
+	return resetEmployeePassword_Success{Password}, nil
 }

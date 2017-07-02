@@ -8,23 +8,23 @@ import (
 	"forcamp/src/api/orgset"
 )
 
-func DeleteParticipant(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func DeleteParticipant(token string, login string, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		APIerr = deleteParticipant_Request(login)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
-		return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+		return conf.RequestSuccess.Print(responseWriter)
 	}
 	return true
 }
 
-func deleteParticipant_Request(login string) *conf.ApiError{
+func deleteParticipant_Request(login string) *conf.ApiResponse{
 	APIerr := deleteParticipant_Organization(login)
 	if APIerr != nil{
 		return APIerr
@@ -36,7 +36,7 @@ func deleteParticipant_Request(login string) *conf.ApiError{
 	return nil
 }
 
-func deleteParticipant_Main(login string) *conf.ApiError{
+func deleteParticipant_Main(login string) *conf.ApiResponse{
 	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
 	if err != nil{
 		log.Print(err)
@@ -60,7 +60,7 @@ func deleteParticipant_Main(login string) *conf.ApiError{
 	return nil
 }
 
-func deleteParticipant_Organization(login string) *conf.ApiError{
+func deleteParticipant_Organization(login string) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='0'")
 	if err != nil {
 		log.Print(err)

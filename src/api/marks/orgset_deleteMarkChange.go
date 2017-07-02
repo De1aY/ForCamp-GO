@@ -15,37 +15,37 @@ func DeleteMarkChange(token string, id int64, responseWriter http.ResponseWriter
 		if authorization.CheckToken(token, responseWriter) {
 			organization, login, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, responseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organization)
 			checkAdminPerm, APIerr := checkAdminPermissions(login)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, responseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			if checkAdminPerm {
 				APIerr = deleteMarkChange(id)
 				if APIerr != nil {
-					return conf.PrintError(APIerr, responseWriter)
+					return APIerr.Print(responseWriter)
 				}
 			} else {
 				APIerr = checkMarkChangeEmployee(login, id)
 				if APIerr != nil {
-					return conf.PrintError(APIerr, responseWriter)
+					return APIerr.Print(responseWriter)
 				}
 				APIerr = deleteMarkChange(id)
 				if APIerr != nil {
-					return conf.PrintError(APIerr, responseWriter)
+					return APIerr.Print(responseWriter)
 				}
 			}
-			return conf.PrintSuccess(conf.RequestSuccess, responseWriter)
+			return conf.RequestSuccess.Print(responseWriter)
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, responseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func checkAdminPermissions(login string) (bool, *conf.ApiError) {
+func checkAdminPermissions(login string) (bool, *conf.ApiResponse) {
 	var access int
 	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=?", login).Scan(&access)
 	if err != nil {
@@ -59,7 +59,7 @@ func checkAdminPermissions(login string) (bool, *conf.ApiError) {
 	}
 }
 
-func checkMarkChangeEmployee(employee_login string, id int64) *conf.ApiError {
+func checkMarkChangeEmployee(employee_login string, id int64) *conf.ApiResponse {
 	var count int
 	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM marks_changes WHERE employee_login=? AND id=?", employee_login, id).Scan(&count)
 	if err != nil {
@@ -73,7 +73,7 @@ func checkMarkChangeEmployee(employee_login string, id int64) *conf.ApiError {
 	}
 }
 
-func deleteMarkChange(id int64) *conf.ApiError {
+func deleteMarkChange(id int64) *conf.ApiResponse {
 	var (
 		reason_id int64
 		participant_login string
@@ -109,7 +109,7 @@ func deleteMarkChange(id int64) *conf.ApiError {
 	return nil
 }
 
-func updateParticipantMark(login string, category_id int64, newMark int) *conf.ApiError {
+func updateParticipantMark(login string, category_id int64, newMark int) *conf.ApiResponse {
 	query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+strconv.FormatInt(category_id, 10)+"`=? WHERE login=?")
 	if err != nil {
 		log.Print(err)
@@ -123,7 +123,7 @@ func updateParticipantMark(login string, category_id int64, newMark int) *conf.A
 	return nil
 }
 
-func getReasonCategoryID(reason_id int64) (int64, *conf.ApiError) {
+func getReasonCategoryID(reason_id int64) (int64, *conf.ApiResponse) {
 	var category_id int64
 	err := src.CustomConnection.QueryRow("SELECT cat_id FROM reasons WHERE id=?", reason_id).Scan(&category_id)
 	if err != nil {

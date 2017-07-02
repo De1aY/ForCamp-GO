@@ -22,7 +22,7 @@ func TokenVerificationHandler(w http.ResponseWriter, r *http.Request){
 		authorization.VerifyToken(GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

@@ -3,34 +3,34 @@ package users
 import (
 	"net/http"
 	"forcamp/conf"
-	"fmt"
 	"database/sql"
 	"forcamp/src/api/authorization"
 	"forcamp/src"
 )
 
-func GetUserLogin(Token string, ResponseWriter http.ResponseWriter) bool{
-	if authorization.CheckTokenForEmpty(Token, ResponseWriter) {
-		if authorization.CheckToken(Token,ResponseWriter) {
+func GetUserLogin(Token string, responseWriter http.ResponseWriter) bool{
+	if authorization.CheckTokenForEmpty(Token, responseWriter) {
+		if authorization.CheckToken(Token, responseWriter) {
 			Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
 			if err != nil {
-				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+				return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 			}
 			Login, APIerr := getUserLoginFromQuery(Query)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			resp := getUserLogin_Success{200, "success", Login}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			rawResp := getUserLogin_Success{Login}
+			resp := &conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 			return true
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return false
 }
 
-func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiError){
+func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiResponse){
 	var login string
 	defer rows.Close()
 	for rows.Next(){

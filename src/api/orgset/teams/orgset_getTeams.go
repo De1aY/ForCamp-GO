@@ -7,8 +7,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"forcamp/src/api/orgset"
 )
 
@@ -27,39 +25,31 @@ type Team struct {
 }
 
 type getTeams_Success struct {
-	Code   int `json:"code"`
-	Status string `json:"status"`
 	Teams  []Team `json:"teams"`
 }
 
-func (success *getTeams_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-// =====================================================
-
-func GetTeams(token string, ResponseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
+func GetTeams(token string, responseWriter http.ResponseWriter) bool {
+	if authorization.CheckTokenForEmpty(token, responseWriter) {
+		if authorization.CheckToken(token, responseWriter) {
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil{
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			resp, APIerr := getTeams_Request()
+			rawResp, APIerr := getTeams_Request()
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func getTeams_Request() (getTeams_Success, *conf.ApiError) {
+func getTeams_Request() (getTeams_Success, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM teams")
 	if err != nil {
 		log.Print(err)
@@ -69,10 +59,10 @@ func getTeams_Request() (getTeams_Success, *conf.ApiError) {
 	if APIerr != nil {
 		return getTeams_Success{}, APIerr
 	}
-	return getTeams_Success{200, "success", Teams}, nil
+	return getTeams_Success{Teams}, nil
 }
 
-func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiError) {
+func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiResponse) {
 	defer rows.Close()
 	var Teams []Team
 	var team Team
@@ -104,7 +94,7 @@ func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiError) {
 	return Teams, nil
 }
 
-func getTeamLeader(id int64) (TeamLeader, *conf.ApiError) {
+func getTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='1' LIMIT 1", id)
 	if err != nil {
 		log.Print(err)
@@ -122,7 +112,7 @@ func getTeamLeader(id int64) (TeamLeader, *conf.ApiError) {
 	return Leader, nil
 }
 
-func getTeamParticipants(id int64) ([]string, *conf.ApiError) {
+func getTeamParticipants(id int64) ([]string, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login FROM users WHERE team=? AND access='0'", id)
 	if err != nil {
 		log.Print(err)

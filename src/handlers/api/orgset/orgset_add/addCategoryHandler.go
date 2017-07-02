@@ -23,7 +23,7 @@ func AddCategoryHandler(w http.ResponseWriter, r *http.Request){
 		categories.AddCategory(token, category, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

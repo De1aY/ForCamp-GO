@@ -8,23 +8,23 @@ import (
 	"log"
 )
 
-func DeleteReason(token string, id int64, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func DeleteReason(token string, id int64, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		APIerr = deleteReason_Request(id)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
-		conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+		conf.RequestSuccess.Print(responseWriter)
 	}
 	return true
 }
 
-func deleteReason_Request(id int64) *conf.ApiError{
+func deleteReason_Request(id int64) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("DELETE FROM reasons WHERE id=?")
 	if err != nil {
 		log.Print(err)

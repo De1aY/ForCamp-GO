@@ -8,16 +8,16 @@ import (
 	"forcamp/src"
 )
 
-func SetOrgSettingValue(token string, name string, value string, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
-		if checkSetOrgSettingValueData(token, name, value, ResponseWriter){
+func SetOrgSettingValue(token string, name string, value string, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
+		if checkSetOrgSettingValueData(token, name, value, responseWriter){
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			if setOrgSettingValue_Request(name, value, ResponseWriter){
-				conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+			if setOrgSettingValue_Request(name, value, responseWriter){
+				conf.RequestSuccess.Print(responseWriter)
 			}
 		}
 	}
@@ -26,13 +26,13 @@ func SetOrgSettingValue(token string, name string, value string, ResponseWriter 
 
 func checkSetOrgSettingValueData(token string, name string, value string, w http.ResponseWriter) bool{
 	if len(token) == 0 {
-		return conf.PrintError(conf.ErrUserTokenEmpty, w)
+		return conf.ErrUserTokenEmpty.Print(w)
 	}
 	if len(name) == 0 {
-		return conf.PrintError(conf.ErrOrgSettingNameEmpty, w)
+		return conf.ErrOrgSettingNameEmpty.Print(w)
 	}
 	if len(value) == 0{
-		return conf.PrintError(conf.ErrOrgSettingValueEmpty, w)
+		return conf.ErrOrgSettingValueEmpty.Print(w)
 	}
 	return true
 }
@@ -41,13 +41,13 @@ func setOrgSettingValue_Request(name string, value string, w http.ResponseWriter
 	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name=?")
 	if err != nil{
 		log.Print(err)
-		return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
+		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(value, name)
 	if err != nil {
 		log.Print(err)
-		return conf.PrintError(conf.ErrOrgSettingNameIncorrect, w)
+		return conf.ErrOrgSettingNameIncorrect.Print(w)
 	}
 	return true
 }

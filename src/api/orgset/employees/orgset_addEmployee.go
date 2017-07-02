@@ -11,43 +11,35 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"log"
-	"encoding/json"
-	"fmt"
 	"strconv"
 	"github.com/tealeg/xlsx"
 )
 
 type addEmployee_Success struct{
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Login string `json:"login"`
 }
 
-func (success *addEmployee_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
 
-
-func AddEmployee(token string, employee Employee, ResponseWriter http.ResponseWriter) bool {
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func AddEmployee(token string, employee Employee, responseWriter http.ResponseWriter) bool {
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if checkAddEmployeeData(employee, ResponseWriter) {
-			resp, APIerr := addEmployeeRequest(employee, Organization)
+		if checkAddEmployeeData(employee, responseWriter) {
+			rawResp, APIerr := addEmployeeRequest(employee, Organization)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func addEmployeeRequest(employee Employee, organization string) (addEmployee_Success, *conf.ApiError){
+func addEmployeeRequest(employee Employee, organization string) (addEmployee_Success, *conf.ApiResponse){
 	Password, Hash := orgset.GeneratePassword()
 	login, APIerr := addEmployee_Main(organization, Hash)
 	if APIerr != nil {
@@ -62,10 +54,10 @@ func addEmployeeRequest(employee Employee, organization string) (addEmployee_Suc
 	if APIerr != nil {
 		return addEmployee_Success{}, APIerr
 	}
-	return addEmployee_Success{200, "success", login}, nil
+	return addEmployee_Success{login}, nil
 }
 
-func addEmployee_Main(organization string, hash string) (string, *conf.ApiError){
+func addEmployee_Main(organization string, hash string) (string, *conf.ApiResponse){
 	Query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
 		log.Print(err)
@@ -97,7 +89,7 @@ func addEmployee_Main(organization string, hash string) (string, *conf.ApiError)
 	return login, nil
 }
 
-func addEmployee_Organization(employee Employee) *conf.ApiError{
+func addEmployee_Organization(employee Employee) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
 	if err != nil {
 		log.Print(err)
@@ -133,7 +125,7 @@ func addEmployee_Organization(employee Employee) *conf.ApiError{
 	return nil
 }
 
-func addEmployee_Excel(employee Employee, organization string, password string) *conf.ApiError{
+func addEmployee_Excel(employee Employee, organization string, password string) *conf.ApiResponse{
 	teamName, APIerr := getTeamNameById(employee.Team)
 	if APIerr != nil {
 		return APIerr
@@ -166,7 +158,7 @@ func addEmployee_Excel(employee Employee, organization string, password string) 
 	return nil
 }
 
-func getTeamNameById(id int64) (string, *conf.ApiError){
+func getTeamNameById(id int64) (string, *conf.ApiResponse){
 	if id == 0{
 		return "отуствует", nil
 	} else {
@@ -201,18 +193,18 @@ func checkAddEmployeeData(employee Employee, w http.ResponseWriter) bool {
 							return false
 						}
 					} else {
-						return conf.PrintError(conf.ErrEmployeeSexIncorrect, w)
+						return conf.ErrSexIncorrect.Print(w)
 					}
 				} else {
-					return conf.PrintError(conf.ErrEmployeePostEmpty, w)
+					return conf.ErrPostEmpty.Print(w)
 				}
 			} else {
-				return conf.PrintError(conf.ErrEmployeeMiddlenameEmpty, w)
+				return conf.ErrMiddlenameEmpty.Print(w)
 			}
 		} else {
-			return conf.PrintError(conf.ErrEmployeeSurnameEmpty, w)
+			return conf.ErrSurnameEmpty.Print(w)
 		}
 	} else {
-		return conf.PrintError(conf.ErrEmployeeNameEmpty, w)
+		return conf.ErrNameEmpty.Print(w)
 	}
 }

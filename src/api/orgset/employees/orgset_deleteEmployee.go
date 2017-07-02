@@ -13,23 +13,23 @@ import (
 	"forcamp/src/api/orgset"
 )
 
-func DeleteEmployee(token string, login string, ResponseWriter http.ResponseWriter) bool {
-	if orgset.CheckUserAccess(token, ResponseWriter) {
+func DeleteEmployee(token string, login string, responseWriter http.ResponseWriter) bool {
+	if orgset.CheckUserAccess(token, responseWriter) {
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		APIerr = deleteEmployee_Request(login)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
-		return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+		return conf.RequestSuccess.Print(responseWriter)
 	}
 	return true
 }
 
-func deleteEmployee_Request(login string) *conf.ApiError {
+func deleteEmployee_Request(login string) *conf.ApiResponse {
 	APIerr := deleteEmployee_Organization(login)
 	if APIerr != nil {
 		return APIerr
@@ -41,7 +41,7 @@ func deleteEmployee_Request(login string) *conf.ApiError {
 	return nil
 }
 
-func deleteEmployee_Main(login string) *conf.ApiError {
+func deleteEmployee_Main(login string) *conf.ApiResponse {
 	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
 	if err != nil {
 		log.Print(err)
@@ -65,7 +65,7 @@ func deleteEmployee_Main(login string) *conf.ApiError {
 	return nil
 }
 
-func deleteEmployee_Organization(login string) *conf.ApiError {
+func deleteEmployee_Organization(login string) *conf.ApiResponse {
 	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='1'")
 	if err != nil {
 		log.Print(err)

@@ -22,7 +22,7 @@ func addOrganizationHandler(w http.ResponseWriter, r *http.Request){
 		apanel.CreateOrganization(token, orgname, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

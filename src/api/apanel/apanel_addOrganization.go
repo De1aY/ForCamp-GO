@@ -7,11 +7,10 @@ import (
 	"forcamp/src"
 	"log"
 	"strconv"
-	"fmt"
 	"github.com/tealeg/xlsx"
 )
 
-func checkAddOrganizationData(token string, orgname string) *conf.ApiError {
+func checkAddOrganizationData(token string, orgname string) *conf.ApiResponse {
 	if len(orgname) == 0 {
 		return conf.ErrOrganizationNameEmpty
 	} else {
@@ -22,14 +21,17 @@ func checkAddOrganizationData(token string, orgname string) *conf.ApiError {
 func CreateOrganization(token string, orgname string, responseWriter http.ResponseWriter) bool {
 	APIerr := checkAddOrganizationData(token, orgname)
 	if APIerr != nil {
-		return conf.PrintError(APIerr, responseWriter)
+		return APIerr.Print(responseWriter)
 	}
-	resp, APIerr := createOrganization_Request(orgname)
-	fmt.Fprintf(responseWriter, resp.toJSON())
-	return true
+	rawResp, APIerr := createOrganization_Request(orgname)
+	if APIerr != nil {
+		return APIerr.Print(responseWriter)
+	}
+	resp := &conf.ApiResponse{200, "success", rawResp}
+	return resp.Print(responseWriter)
 }
 
-func createOrganization_Request(orgname string) (createOrganization_Success, *conf.ApiError) {
+func createOrganization_Request(orgname string) (createOrganization_Success, *conf.ApiResponse) {
 	login, password, APIerr := createOrganizationAdminAccount(orgname)
 	if APIerr != nil {
 		return createOrganization_Success{}, APIerr
@@ -46,10 +48,10 @@ func createOrganization_Request(orgname string) (createOrganization_Success, *co
 	if APIerr != nil {
 		return createOrganization_Success{}, APIerr
 	}
-	return createOrganization_Success{200, "success", login, password}, nil
+	return createOrganization_Success{login, password}, nil
 }
 
-func createOrganizationAdminAccount(orgname string) (string, string, *conf.ApiError){
+func createOrganizationAdminAccount(orgname string) (string, string, *conf.ApiResponse){
 	password, hash := orgset.GeneratePassword()
 	query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
@@ -78,7 +80,7 @@ func createOrganizationAdminAccount(orgname string) (string, string, *conf.ApiEr
 	return user_login, password, nil
 }
 
-func createOrganizationExcelFiles(orgname string) *conf.ApiError {
+func createOrganizationExcelFiles(orgname string) *conf.ApiResponse {
 	APIerr := createOrganizationExcelFile_Employees(orgname)
 	if APIerr != nil {
 		return APIerr
@@ -90,7 +92,7 @@ func createOrganizationExcelFiles(orgname string) *conf.ApiError {
 	return nil
 }
 
-func createOrganizationExcelFile_Participant(orgname string) *conf.ApiError {
+func createOrganizationExcelFile_Participant(orgname string) *conf.ApiResponse {
 	excelFilePath := conf.FOLDER_PARTICIPANTS+"/"+orgname+".xlsx"
 	xlFile := xlsx.NewFile()
 	sheet, err := xlFile.AddSheet("участники")
@@ -119,7 +121,7 @@ func createOrganizationExcelFile_Participant(orgname string) *conf.ApiError {
 	return nil
 }
 
-func createOrganizationExcelFile_Employees(orgname string) *conf.ApiError {
+func createOrganizationExcelFile_Employees(orgname string) *conf.ApiResponse {
 	excelFilePath := conf.FOLDER_EMPLOYEES+"/"+orgname+".xlsx"
 	xlFile := xlsx.NewFile()
 	sheet, err := xlFile.AddSheet("сотрудники")
@@ -148,7 +150,7 @@ func createOrganizationExcelFile_Employees(orgname string) *conf.ApiError {
 	return nil
 }
 
-func createOrganizationDB(orgname string) *conf.ApiError {
+func createOrganizationDB(orgname string) *conf.ApiResponse {
 	connection := src.Connect_Admin()
 	defer connection.Close()
 	_, err := connection.Exec("CREATE DATABASE IF NOT EXISTS "+orgname)
@@ -159,7 +161,7 @@ func createOrganizationDB(orgname string) *conf.ApiError {
 	return nil
 }
 
-func createOrganizationDBTables(orgname string, user_login string) *conf.ApiError{
+func createOrganizationDBTables(orgname string, user_login string) *conf.ApiResponse{
 	src.CustomConnection = src.Connect_Custom(orgname)
 	APIerr := createOrganizationDBTable_Users(user_login)
 	if APIerr != nil {
@@ -196,7 +198,7 @@ func createOrganizationDBTables(orgname string, user_login string) *conf.ApiErro
 	return nil
 }
 
-func createOrganizationDBTable_Users(user_login string) *conf.ApiError{
+func createOrganizationDBTable_Users(user_login string) *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS users(" +
 		"login TINYTEXT," +
 		"name TINYTEXT," +
@@ -231,7 +233,7 @@ func createOrganizationDBTable_Users(user_login string) *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_Employees(user_login string) *conf.ApiError{
+func createOrganizationDBTable_Employees(user_login string) *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS employees(" +
 		"login TINYTEXT," +
 		"post TINYTEXT" +
@@ -260,7 +262,7 @@ func createOrganizationDBTable_Employees(user_login string) *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_Participants() *conf.ApiError{
+func createOrganizationDBTable_Participants() *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS participants(" +
 		"login TINYTEXT" +
 		")")
@@ -277,7 +279,7 @@ func createOrganizationDBTable_Participants() *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_Settings() *conf.ApiError{
+func createOrganizationDBTable_Settings() *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS settings(" +
 		"name TINYTEXT," +
 		"value TINYTEXT" +
@@ -350,7 +352,7 @@ func createOrganizationDBTable_Settings() *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_Teams() *conf.ApiError{
+func createOrganizationDBTable_Teams() *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE teams(" +
 		"id INT(11) NOT NULL AUTO_INCREMENT," +
 		"name TINYTEXT," +
@@ -369,7 +371,7 @@ func createOrganizationDBTable_Teams() *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_Categories() *conf.ApiError{
+func createOrganizationDBTable_Categories() *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS categories(" +
 		"id INT(11) NOT NULL AUTO_INCREMENT," +
 		"name TINYTEXT," +
@@ -389,7 +391,7 @@ func createOrganizationDBTable_Categories() *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_Reasons() *conf.ApiError{
+func createOrganizationDBTable_Reasons() *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS reasons(" +
 		"id INT(11) NOT NULL AUTO_INCREMENT," +
 		"cat_id INT(11)," +
@@ -410,7 +412,7 @@ func createOrganizationDBTable_Reasons() *conf.ApiError{
 	return nil
 }
 
-func createOrganizationDBTable_MarksChanges() *conf.ApiError{
+func createOrganizationDBTable_MarksChanges() *conf.ApiResponse{
 	query, err := src.CustomConnection.Prepare("CREATE TABLE IF NOT EXISTS marks_changes(" +
 		"id INT(11) NOT NULL AUTO_INCREMENT," +
 		"reason_id INT(11)," +

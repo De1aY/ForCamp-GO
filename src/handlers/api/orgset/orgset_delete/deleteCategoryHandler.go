@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func getDeleteCategoryPostValues(r *http.Request) (int64, string, *conf.ApiError){
+func getDeleteCategoryPostValues(r *http.Request) (int64, string, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
@@ -26,13 +26,13 @@ func DeleteCategoryHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		ID, token, err := getDeleteCategoryPostValues(r)
 		if err != nil{
-			 conf.PrintError(err, w)
+			 err.Print(w)
 		} else {
 			categories.DeleteCategory(token, ID, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

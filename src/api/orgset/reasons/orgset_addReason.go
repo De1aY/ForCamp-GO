@@ -6,40 +6,32 @@ import (
 	"forcamp/src"
 	"forcamp/conf"
 	"log"
-	"encoding/json"
-	"fmt"
 )
 
 type addReason_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	ID int64 `json:"id"`
 }
 
-func (success *addReason_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-func AddReason(token string, reason Reason, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func AddReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if orgset.CheckCategoryId(reason.Cat_id, ResponseWriter){
-			resp, APIerr := addReason_Request(reason)
+		if orgset.CheckCategoryId(reason.Cat_id, responseWriter){
+			rawResp, APIerr := addReason_Request(reason)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func addReason_Request(reason Reason) (addReason_Success, *conf.ApiError){
+func addReason_Request(reason Reason) (addReason_Success, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Prepare("INSERT INTO reasons(cat_id,text,modification) VALUES(?,?,?)")
 	if err != nil {
 		log.Print(err)
@@ -55,5 +47,5 @@ func addReason_Request(reason Reason) (addReason_Success, *conf.ApiError){
 		log.Print(err)
 		return addReason_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return addReason_Success{200, "success", ID}, nil
+	return addReason_Success{ID}, nil
 }

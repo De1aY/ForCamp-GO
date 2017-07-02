@@ -15,7 +15,7 @@ func GetCategoriesHandler(w http.ResponseWriter, r *http.Request){
 		categories.GetCategories(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

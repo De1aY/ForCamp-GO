@@ -11,7 +11,7 @@ import (
 	"forcamp/src/api/orgset/categories"
 )
 
-func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiError){
+func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiResponse){
 	Token := r.PostFormValue("token")
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
@@ -28,13 +28,13 @@ func EditCategoryHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		category, token, APIerr := getEditCategoryPostValues(r)
 		if APIerr != nil{
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			categories.EditCategory(token, category, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

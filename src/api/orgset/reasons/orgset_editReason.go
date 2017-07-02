@@ -8,25 +8,25 @@ import (
 	"log"
 )
 
-func EditReason(token string, reason Reason, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func EditReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if orgset.CheckCategoryId(reason.Cat_id, ResponseWriter){
+		if orgset.CheckCategoryId(reason.Cat_id, responseWriter){
 			APIerr = editReason_Request(reason)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+			conf.RequestSuccess.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func editReason_Request(reason Reason) *conf.ApiError{
+func editReason_Request(reason Reason) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE reasons SET text=?, modification=?, cat_id=? WHERE id=?")
 	if err != nil {
 		log.Print(err)

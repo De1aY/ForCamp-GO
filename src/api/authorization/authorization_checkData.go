@@ -7,9 +7,9 @@ import (
 	"forcamp/src"
 )
 
-func checkAuthorizationData(inf AuthInf, ResponseWriter http.ResponseWriter) bool {
-	if checkUserLogin(inf.Login, ResponseWriter) && checkUserPassword(inf.Password, ResponseWriter) {
-		if checkAuthorizationData_Request(inf, ResponseWriter){
+func checkAuthorizationData(inf AuthInf, responseWriter http.ResponseWriter) bool {
+	if checkUserLogin(inf.Login, responseWriter) && checkUserPassword(inf.Password, responseWriter) {
+		if checkAuthorizationData_Request(inf, responseWriter){
 			return true
 		} else {
 			return false
@@ -19,33 +19,33 @@ func checkAuthorizationData(inf AuthInf, ResponseWriter http.ResponseWriter) boo
 	}
 }
 
-func checkUserLogin(login string, ResponseWriter http.ResponseWriter) bool {
+func checkUserLogin(login string, responseWriter http.ResponseWriter) bool {
 	if len(login) > 0 {
 		return true
 	} else {
-		return conf.PrintError(conf.ErrUserLoginEmpty, ResponseWriter)
+		return conf.ErrUserLoginEmpty.Print(responseWriter)
 	}
 }
 
-func checkUserPassword(password string, ResponseWriter http.ResponseWriter) bool {
+func checkUserPassword(password string, responseWriter http.ResponseWriter) bool {
 	if len(password) > 0{
 		return true
 	} else {
-		return conf.PrintError(conf.ErrUserPasswordEmpty, ResponseWriter)
+		return conf.ErrUserPasswordEmpty.Print(responseWriter)
 	}
 }
 
 // select ID by Login and Password
-func checkAuthorizationData_Request(authInf AuthInf, ResponseWriter http.ResponseWriter) bool {
+func checkAuthorizationData_Request(authInf AuthInf, responseWriter http.ResponseWriter) bool {
 	authInf.Login = html.EscapeString(authInf.Login)
 	authInf.Password = GeneratePasswordHash(authInf.Password)
 	Query, err := src.Connection.Query("SELECT COUNT(id) as count FROM users WHERE login=? AND password=?", authInf.Login, authInf.Password)
 	if err != nil {
-		return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 	}
-	if getCountVal(Query, ResponseWriter) > 0 {
+	if getCountVal(Query, responseWriter) > 0 {
 		return true
 	} else {
-		return conf.PrintError(conf.ErrAuthDataIncorrect, ResponseWriter)
+		return conf.ErrAuthDataIncorrect.Print(responseWriter)
 	}
 }

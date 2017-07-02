@@ -11,7 +11,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func getDeleteMarkChangePostData(r *http.Request) (string, int64, *conf.ApiError){
+func getDeleteMarkChangePostData(r *http.Request) (string, int64, *conf.ApiResponse){
 	token := strings.TrimSpace(r.PostFormValue("token"))
 	id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil {
@@ -26,13 +26,13 @@ func deleteMarkChangeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		token, id, APIerr := getDeleteMarkChangePostData(r)
 		if APIerr != nil {
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			marks.DeleteMarkChange(token, id, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

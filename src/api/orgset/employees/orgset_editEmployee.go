@@ -13,29 +13,29 @@ import (
 	"log"
 )
 
-func EditEmployee(token string, employee Employee, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter) {
+func EditEmployee(token string, employee Employee, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter) {
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if checkEditEmployeeData(employee, ResponseWriter) {
+		if checkEditEmployeeData(employee, responseWriter) {
 			EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(employee.Login)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			if EmployeeOrganization != Organization {
-				return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
+				return conf.ErrUserNotFound.Print(responseWriter)
 			}
 			APIerr = editEmployee_Request(employee)
-			return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+			return conf.RequestSuccess.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func editEmployee_Request(employee Employee) *conf.ApiError{
+func editEmployee_Request(employee Employee) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
 	if err != nil {
 		log.Print(err)
@@ -83,21 +83,21 @@ func checkEditEmployeeData(employee Employee, w http.ResponseWriter) bool {
 								return false
 							}
 						} else {
-							return conf.PrintError(conf.ErrEmployeeSexIncorrect, w)
+							return conf.ErrSexIncorrect.Print(w)
 						}
 					} else {
-						return conf.PrintError(conf.ErrEmployeePostEmpty, w)
+						return conf.ErrPostEmpty.Print(w)
 					}
 				} else {
-					return conf.PrintError(conf.ErrEmployeeMiddlenameEmpty, w)
+					return conf.ErrMiddlenameEmpty.Print(w)
 				}
 			} else {
-				return conf.PrintError(conf.ErrEmployeeSurnameEmpty, w)
+				return conf.ErrSurnameEmpty.Print(w)
 			}
 		} else {
-			return conf.PrintError(conf.ErrEmployeeNameEmpty, w)
+			return conf.ErrNameEmpty.Print(w)
 		}
 	} else {
-		return conf.PrintError(conf.ErrUserNotFound, w)
+		return conf.ErrUserNotFound.Print(w)
 	}
 }

@@ -45,23 +45,22 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 		if authorization.CheckToken(token, responseWriter) {
 			organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, responseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organization)
-
 			response, APIerr := getMarksChanges_Request()
 			if APIerr != nil {
-				return conf.PrintError(APIerr, responseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			fmt.Fprintf(responseWriter, response.toJSON())
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, responseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func getMarksChanges_Request() (getMarksChanges_Success, *conf.ApiError) {
+func getMarksChanges_Request() (getMarksChanges_Success, *conf.ApiResponse) {
 	marksChangesRaw, APIerr := getMarksChangesFromDataTable()
 	if APIerr != nil {
 		return getMarksChanges_Success{}, APIerr
@@ -77,7 +76,7 @@ func getMarksChanges_Request() (getMarksChanges_Success, *conf.ApiError) {
 	return getMarksChanges_Success{200, "success", marksChanges}, nil
 }
 
-func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiError) {
+func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiResponse) {
 	query, err := src.CustomConnection.Query("SELECT id, employee_login, participant_login, reason_id, time FROM marks_changes")
 	defer query.Close()
 	if err != nil {
@@ -103,7 +102,7 @@ func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiError) {
 	return marksChangesRaw, nil
 }
 
-func getReasonText(reason_id int64) (string, int, *conf.ApiError) {
+func getReasonText(reason_id int64) (string, int, *conf.ApiResponse) {
 	var (
 		text string
 		change int

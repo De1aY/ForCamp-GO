@@ -6,43 +6,34 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"log"
-	"encoding/json"
-	"fmt"
 	"strconv"
 	"github.com/tealeg/xlsx"
 )
 
 type addParticipant_Success struct{
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Login string `json:"login"`
 }
 
-func (success *addParticipant_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-
-func AddParticipant(token string, participant Participant, ResponseWriter http.ResponseWriter) bool {
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func AddParticipant(token string, participant Participant, responseWriter http.ResponseWriter) bool {
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if checkAddParticipantData(participant, ResponseWriter) {
-			resp, APIerr := addParticipantRequest(participant, Organization)
+		if checkAddParticipantData(participant, responseWriter) {
+			rawResp, APIerr := addParticipantRequest(participant, Organization)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func addParticipantRequest(participant Participant, organization string) (addParticipant_Success, *conf.ApiError){
+func addParticipantRequest(participant Participant, organization string) (addParticipant_Success, *conf.ApiResponse){
 	Password, Hash := orgset.GeneratePassword()
 	login, APIerr := addParticipant_Main(organization, Hash)
 	if APIerr != nil {
@@ -57,10 +48,10 @@ func addParticipantRequest(participant Participant, organization string) (addPar
 	if APIerr != nil {
 		return addParticipant_Success{}, APIerr
 	}
-	return addParticipant_Success{200, "success", login}, nil
+	return addParticipant_Success{login}, nil
 }
 
-func addParticipant_Main(organization string, hash string) (string, *conf.ApiError){
+func addParticipant_Main(organization string, hash string) (string, *conf.ApiResponse){
 	Query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
 		log.Print(err)
@@ -92,7 +83,7 @@ func addParticipant_Main(organization string, hash string) (string, *conf.ApiErr
 	return login, nil
 }
 
-func addParticipant_Organization(participant Participant) *conf.ApiError{
+func addParticipant_Organization(participant Participant) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("INSERT INTO users(login,name,surname,middlename,team,access,sex,avatar) VALUES(?,?,?,?,?,?,?,?)")
 	if err != nil {
 		log.Print(err)
@@ -118,7 +109,7 @@ func addParticipant_Organization(participant Participant) *conf.ApiError{
 	return nil
 }
 
-func addParticipant_Excel(participant Participant, organization string, password string) *conf.ApiError{
+func addParticipant_Excel(participant Participant, organization string, password string) *conf.ApiResponse{
 	teamName, APIerr := getTeamNameById(participant.Team)
 	if APIerr != nil {
 		return APIerr
@@ -151,7 +142,7 @@ func addParticipant_Excel(participant Participant, organization string, password
 	return nil
 }
 
-func getTeamNameById(id int64) (string, *conf.ApiError){
+func getTeamNameById(id int64) (string, *conf.ApiResponse){
 	if id == 0{
 		return "отуствует", nil
 	} else {
@@ -185,16 +176,16 @@ func checkAddParticipantData(participant Participant, w http.ResponseWriter) boo
 						return false
 					}
 				} else {
-					return conf.PrintError(conf.ErrParticipantSexIncorrect, w)
+					return conf.ErrSexIncorrect.Print(w)
 				}
 			} else {
-				return conf.PrintError(conf.ErrParticipantMiddlenameEmpty, w)
+				return conf.ErrMiddlenameEmpty.Print(w)
 			}
 		} else {
-			return conf.PrintError(conf.ErrParticipantSurnameEmpty, w)
+			return conf.ErrSurnameEmpty.Print(w)
 		}
 	} else {
-		return conf.PrintError(conf.ErrParticipantNameEmpty, w)
+		return conf.ErrNameEmpty.Print(w)
 	}
 }
 

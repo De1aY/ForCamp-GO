@@ -11,7 +11,7 @@ import (
 	"forcamp/src/api/orgset/teams"
 )
 
-func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiError){
+func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
@@ -27,13 +27,13 @@ func EditTeamHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		token, name, id, APIerr := getEditTeamPostValues(r)
 		if APIerr != nil{
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			teams.EditTeam(token, name, id, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

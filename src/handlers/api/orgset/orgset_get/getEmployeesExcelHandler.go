@@ -20,12 +20,12 @@ func GetEmployeesExcelHandler(w http.ResponseWriter, r *http.Request){
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token);
 			if APIerr != nil {
 				src.SetHeaders_API(w)
-				conf.PrintError(APIerr, w)
+				APIerr.Print(w)
 			} else {
 				file, err := ioutil.ReadFile(conf.FOLDER_EMPLOYEES+"/"+Organization+".xlsx")
 				if err != nil {
 					src.SetHeaders_API(w)
-					conf.PrintError(conf.ErrOpenExcelFile, w)
+					conf.ErrOpenExcelFile.Print(w)
 				} else {
 					src.SetHeaders_API_Download(w, "сотрудники.xlsx", r)
 					http.ServeContent(w, r, "сотрудники.xlsx", time.Now(), bytes.NewReader(file))
@@ -34,7 +34,7 @@ func GetEmployeesExcelHandler(w http.ResponseWriter, r *http.Request){
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

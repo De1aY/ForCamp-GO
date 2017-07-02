@@ -11,7 +11,7 @@ import (
 	"forcamp/src/api/orgset/reasons"
 )
 
-func getAddReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiError){
+func getAddReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiResponse){
 	Token := r.PostFormValue("token")
 	CatID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("cat_id")), 10, 64)
 	if err != nil{
@@ -32,13 +32,13 @@ func AddReasonHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		token, reason, APIerr := getAddReasonPostValues(r)
 		if APIerr != nil{
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			reasons.AddReason(token, reason, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

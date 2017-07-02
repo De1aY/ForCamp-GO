@@ -15,7 +15,7 @@ func ExitHandler(w http.ResponseWriter, r *http.Request){
 			http.Redirect(w, r, "https://forcamp.ga", http.StatusTemporaryRedirect)
 		} else {
 			w.WriteHeader(http.StatusMethodNotAllowed)
-			conf.PrintError(conf.ErrMethodNotAllowed, w)
+			conf.ErrMethodNotAllowed.Print(w)
 		}
 	} else {
 		http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)

@@ -1,25 +1,17 @@
 package apanel
 
 import (
-	"encoding/json"
 	"forcamp/conf"
 	"forcamp/src"
 	"log"
 )
 
 type createOrganization_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	AdminLogin string `json:"admin_login"`
 	AdminPassword string `json:"admin_password"`
 }
 
-func (success *createOrganization_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-func getLoginByToken(token string) (string, *conf.ApiError) {
+func getLoginByToken(token string) (string, *conf.ApiResponse) {
 	if len(token) == 0{
 		return "", conf.ErrUserTokenEmpty
 	}
@@ -35,7 +27,7 @@ func getLoginByToken(token string) (string, *conf.ApiError) {
 	return login, nil
 }
 
-func checkPermissions(token string) *conf.ApiError{
+func checkPermissions(token string) *conf.ApiResponse{
 	login, APIerr := getLoginByToken(token)
 	if APIerr != nil {
 		return APIerr

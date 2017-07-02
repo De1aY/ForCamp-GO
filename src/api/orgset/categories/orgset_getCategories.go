@@ -6,8 +6,6 @@ import (
 	"forcamp/src"
 	"forcamp/conf"
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"log"
 	"forcamp/src/api/orgset"
 )
@@ -19,38 +17,32 @@ type Category struct {
 }
 
 type getCategories_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Categories []Category `json:"categories"`
 }
 
-func (success *getCategories_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
 
-
-func GetCategories(token string, ResponseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
+func GetCategories(token string, responseWriter http.ResponseWriter) bool {
+	if authorization.CheckTokenForEmpty(token, responseWriter) {
+		if authorization.CheckToken(token, responseWriter) {
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			resp, APIerr := getCategories_Request()
+			rawResp, APIerr := getCategories_Request()
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := &conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func getCategories_Request() (getCategories_Success, *conf.ApiError){
+func getCategories_Request() (getCategories_Success, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Query("SELECT * FROM categories")
 	if err != nil {
 		log.Print(err)
@@ -59,7 +51,7 @@ func getCategories_Request() (getCategories_Success, *conf.ApiError){
 	return getCategoriesFromQuery(Query)
 }
 
-func getCategoriesFromQuery(rows *sql.Rows) (getCategories_Success, *conf.ApiError){
+func getCategoriesFromQuery(rows *sql.Rows) (getCategories_Success, *conf.ApiResponse){
 	defer rows.Close()
 	var categories []Category
 	var category Category
@@ -72,7 +64,7 @@ func getCategoriesFromQuery(rows *sql.Rows) (getCategories_Success, *conf.ApiErr
 		categories = append(categories, Category{category.ID, category.Name, category.NegativeMarks})
 	}
 	if categories == nil {
-		return getCategories_Success{200, "success", make([]Category, 0)}, nil
+		return getCategories_Success{make([]Category, 0)}, nil
 	}
-	return getCategories_Success{200, "success", categories}, nil
+	return getCategories_Success{categories}, nil
 }

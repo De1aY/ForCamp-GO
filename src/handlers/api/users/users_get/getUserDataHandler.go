@@ -21,7 +21,7 @@ func GetUserDataHandler(w http.ResponseWriter, r *http.Request){
 		users.GetUserData(handlers.GetToken(r), w, getLogin(r))
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

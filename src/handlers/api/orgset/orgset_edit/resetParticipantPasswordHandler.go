@@ -22,7 +22,7 @@ func ResetParticipantPasswordHandler(w http.ResponseWriter, r *http.Request){
 		participants.ResetParticipantPassword(token, login, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

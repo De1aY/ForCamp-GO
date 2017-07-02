@@ -14,29 +14,29 @@ import (
 	"strconv"
 )
 
-func EditEmployeePermission(token string, login string, catId int64, value string, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter) {
+func EditEmployeePermission(token string, login string, catId int64, value string, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter) {
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 		if APIerr != nil {
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		if EmployeeOrganization != Organization {
-			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
+			return conf.ErrUserNotFound.Print(responseWriter)
 		}
-		if orgset.CheckCategoryId(catId, ResponseWriter) && checkPermissionValue(value, ResponseWriter){
+		if orgset.CheckCategoryId(catId, responseWriter) && checkPermissionValue(value, responseWriter){
 			APIerr = editEmployeePermission_Request(login, catId, value)
-			return conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+			return conf.RequestSuccess.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func editEmployeePermission_Request(login string, catId int64, value string) *conf.ApiError{
+func editEmployeePermission_Request(login string, catId int64, value string) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE employees SET `"+strconv.FormatInt(catId, 10)+"`=? WHERE login=?")
 	if err != nil {
 		log.Print(err)
@@ -54,6 +54,6 @@ func checkPermissionValue(value string, w http.ResponseWriter) bool{
 	if value == "false" || value == "true"{
 		return true
 	} else {
-		return conf.PrintError(conf.ErrPermissionValueIncorrect, w)
+		return conf.ErrPermissionValueIncorrect.Print(w)
 	}
 }

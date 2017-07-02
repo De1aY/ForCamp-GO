@@ -8,8 +8,6 @@ import (
 	"forcamp/src/api/orgset"
 	"database/sql"
 	"log"
-	"encoding/json"
-	"fmt"
 )
 
 type Reason struct {
@@ -20,37 +18,31 @@ type Reason struct {
 }
 
 type getReasons_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Reasons []Reason `json:"reasons"`
 }
 
-func (success *getReasons_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-func GetReasons(token string, ResponseWriter http.ResponseWriter) bool{
-	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
+func GetReasons(token string, responseWriter http.ResponseWriter) bool{
+	if authorization.CheckTokenForEmpty(token, responseWriter) {
+		if authorization.CheckToken(token, responseWriter) {
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			resp, APIerr := getReasons_Request()
+			rawResp, APIerr := getReasons_Request()
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func getReasons_Request() (getReasons_Success, *conf.ApiError){
+func getReasons_Request() (getReasons_Success, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Query("SELECT id,cat_id,text,modification FROM reasons")
 	if err != nil {
 		log.Print(err)
@@ -60,10 +52,10 @@ func getReasons_Request() (getReasons_Success, *conf.ApiError){
 	if APIerr != nil {
 		return getReasons_Success{}, APIerr
 	}
-	return getReasons_Success{200, "success", Reasons}, nil
+	return getReasons_Success{Reasons}, nil
 }
 
-func getReasonsFromQuery(rows *sql.Rows) ([]Reason, *conf.ApiError){
+func getReasonsFromQuery(rows *sql.Rows) ([]Reason, *conf.ApiResponse){
 	defer rows.Close()
 	var (
 		reason Reason

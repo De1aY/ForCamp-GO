@@ -8,8 +8,6 @@ import (
 	"forcamp/src"
 	"log"
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"strconv"
 )
 
@@ -29,38 +27,32 @@ type Participant struct {
 }
 
 type getParticipants_Success struct {
-	Code         int `json:"code"`
-	Status       string `json:"status"`
 	Participants []Participant `json:"participants"`
 }
 
-func (success *getParticipants_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
 
-
-func GetParticipants(token string, ResponseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
+func GetParticipants(token string, responseWriter http.ResponseWriter) bool {
+	if authorization.CheckTokenForEmpty(token, responseWriter) {
+		if authorization.CheckToken(token, responseWriter) {
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			resp, APIerr := getParticipants_Request()
+			rawResp, APIerr := getParticipants_Request()
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func getParticipants_Request() (getParticipants_Success, *conf.ApiError) {
+func getParticipants_Request() (getParticipants_Success, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='0'")
 	if err != nil {
 		log.Print(err)
@@ -69,7 +61,7 @@ func getParticipants_Request() (getParticipants_Success, *conf.ApiError) {
 	return getParticipantsFromResponse(Query)
 }
 
-func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf.ApiError) {
+func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf.ApiResponse) {
 	defer rows.Close()
 	marks, APIerr := getMarks()
 	if APIerr != nil {
@@ -89,12 +81,12 @@ func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf
 		participants = append(participants, Participant{participant.Login, participant.Name, participant.Surname, participant.Middlename, participant.Sex, participant.Team, participant.Marks})
 	}
 	if participants == nil {
-		return getParticipants_Success{200, "success", make([]Participant, 0)}, nil
+		return getParticipants_Success{make([]Participant, 0)}, nil
 	}
-	return getParticipants_Success{200, "success", participants}, nil
+	return getParticipants_Success{participants}, nil
 }
 
-func getMarks() (map[string][]Mark, *conf.ApiError) {
+func getMarks() (map[string][]Mark, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM participants")
 	if err != nil {
 		log.Print(err)
@@ -111,7 +103,7 @@ func getMarks() (map[string][]Mark, *conf.ApiError) {
 	return getMarksIfCategories(Query, CategoriesIDs)
 }
 
-func getMarksIfNoCategories(rows *sql.Rows) (map[string][]Mark, *conf.ApiError) {
+func getMarksIfNoCategories(rows *sql.Rows) (map[string][]Mark, *conf.ApiResponse) {
 	defer rows.Close()
 	var (
 		login string
@@ -128,7 +120,7 @@ func getMarksIfNoCategories(rows *sql.Rows) (map[string][]Mark, *conf.ApiError) 
 	return marks, nil
 }
 
-func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Mark, *conf.ApiError) {
+func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Mark, *conf.ApiResponse) {
 	CategoriesIDs = CategoriesIDs[1:]
 	var (
 		rawResult = make([][]byte, len(CategoriesIDs) + 1)

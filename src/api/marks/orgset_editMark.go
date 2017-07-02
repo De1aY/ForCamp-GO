@@ -20,25 +20,25 @@ func EditMark(token string, participant_login string, category_id int64, reason_
 		if authorization.CheckToken(token, responseWriter) {
 			organization, employee_login, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, responseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organization)
 
 			if checkData(token, participant_login, category_id, reason_id, responseWriter) {
 				APIerr = editMark_Request(participant_login, employee_login, category_id, reason_id)
 				if APIerr != nil {
-					return conf.PrintError(APIerr, responseWriter)
+					return APIerr.Print(responseWriter)
 				}
-				return conf.PrintSuccess(conf.RequestSuccess, responseWriter)
+				return conf.RequestSuccess.Print(responseWriter)
 			}
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, responseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func editMark_Request(participant_login string, employee_login string, category_id int64, reason_id int64) *conf.ApiError{
+func editMark_Request(participant_login string, employee_login string, category_id int64, reason_id int64) *conf.ApiResponse{
 	change, APIerr := getReasonChange(reason_id)
 	if APIerr != nil {
 		return APIerr
@@ -46,7 +46,7 @@ func editMark_Request(participant_login string, employee_login string, category_
 	return editParticipantMark(participant_login, employee_login, category_id, reason_id, change)
 }
 
-func editParticipantMark(participant_login string, employee_login string, category_id int64, reason_id int64, change int) *conf.ApiError {
+func editParticipantMark(participant_login string, employee_login string, category_id int64, reason_id int64, change int) *conf.ApiResponse {
 	currentMark, APIerr := getCurrentMarkValue(participant_login, category_id)
 	if APIerr != nil {
 		return APIerr
@@ -65,7 +65,7 @@ func editParticipantMark(participant_login string, employee_login string, catego
 	return logMarkChange(participant_login, employee_login, reason_id)
 }
 
-func logMarkChange(participant_login string, employee_login string, reason_id int64) *conf.ApiError {
+func logMarkChange(participant_login string, employee_login string, reason_id int64) *conf.ApiResponse {
 	Query, err := src.CustomConnection.Prepare("INSERT INTO marks_changes(reason_id, employee_login, participant_login) VALUES (?,?,?)")
 	defer Query.Close()
 	if err != nil {
@@ -80,7 +80,7 @@ func logMarkChange(participant_login string, employee_login string, reason_id in
 	return nil
 }
 
-func getCurrentMarkValue(participant_login string, category_id int64) (int, *conf.ApiError) {
+func getCurrentMarkValue(participant_login string, category_id int64) (int, *conf.ApiResponse) {
 	var value int
 	err := src.CustomConnection.QueryRow("SELECT `"+strconv.FormatInt(category_id, 10)+"` FROM participants WHERE login=?", participant_login).Scan(&value)
 	if err != nil {
@@ -90,7 +90,7 @@ func getCurrentMarkValue(participant_login string, category_id int64) (int, *con
 	return value, nil
 }
 
-func getReasonChange(reason_id int64) (int, *conf.ApiError) {
+func getReasonChange(reason_id int64) (int, *conf.ApiResponse) {
 	var change int
 	err := src.CustomConnection.QueryRow("SELECT modification FROM reasons WHERE id=?", reason_id).Scan(&change)
 	if err != nil {
@@ -116,16 +116,16 @@ func checkData(token string, participant_login string, category_id int64, reason
 func checkUserAccess(token string, w http.ResponseWriter) bool {
 	_, employee_login, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 	if APIerr != nil {
-		return conf.PrintError(APIerr, w)
+		return APIerr.Print(w)
 	}
 	APIerr = checkUserAccess_Request(employee_login)
 	if APIerr != nil {
-		return conf.PrintError(APIerr, w)
+		return APIerr.Print(w)
 	}
 	return true
 }
 
-func checkUserAccess_Request(employee_login string) *conf.ApiError {
+func checkUserAccess_Request(employee_login string) *conf.ApiResponse {
 	var access int
 	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=? LIMIT 1", employee_login).Scan(&access)
 	if err != nil {
@@ -144,11 +144,11 @@ func checkParticipantLogin(participant_login string, w http.ResponseWriter) bool
 	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=?", participant_login).Scan(&access)
 	if err != nil {
 		log.Print(err)
-		return conf.PrintError(conf.ErrDatabaseQueryFailed, w)
+		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	if access == 0 {
 		return true
 	} else {
-		return conf.PrintError(conf.ErrParticipantLoginIncorrect, w)
+		return conf.ErrLoginIncorrect.Print(w)
 	}
 }

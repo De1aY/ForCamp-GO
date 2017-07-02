@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{define "index"}}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -17,10 +17,10 @@
             <div class="fc-header__brand-text">ForCamp</div>
         </a>
         <div class="fc-header__menu">
-            <a class="fc-header__menu-section">Профиль</a>
-            <a class="fc-header__menu-section" href="https://forcamp.ga/orgset">Управление</a>
-            <a class="fc-header__menu-section">Баллы</a>
-            <a class="fc-header__menu-section fc-header__menu-section--active" href="https://forcamp.ga/general">Статистика</a>
+            <a class="fc-header__menu-section" id="fc-header__menu-button--profile">профиль</a>
+            <a class="fc-header__menu-section" href="https://forcamp.ga/orgset">управление</a>
+            <a class="fc-header__menu-section">баллы</a>
+            <a class="fc-header__menu-section fc-header__menu-section--active" href="https://forcamp.ga/general">статистика</a>
         </div>
     </div>
     <div class="fc-header__space"></div>
@@ -82,11 +82,8 @@
 </div>
 <div class="fc-profile">
     <div class="fc-profile__header">
-        <img src="https://forcamp.ga/images/default.jpg" alt="" class="fc-profile__header-avatar">
-        <div class="fc-profile__header-fullname">иванов н.с.</div>
-    </div>
-    <div class="fc-profile__team">
-        Ученик 11А класса
+        <img src="https://forcamp.ga/images/default.jpg" alt="" class="fc-profile__header-avatar fc-profile__header-avatar--first">
+        <div class="fc-profile__header-fullname" team="Класс: 11А">{{.FullName}}</div>
     </div>
     <div class="fc-profile__rating">
         <div class="fc-profile__rating-information">
@@ -95,14 +92,48 @@
         </div>
         <div class="fc-profile__rating-filter">
             <span>Рейтинг</span>
-            <span>(место)в</span>
-            <select id="fc-profile__rating-filter-selector">
-                <option value="1">11A</option>
-                <option value="2">10A</option>
+            <span>(место) в</span>
+            <select class="fc-profile__rating-filter-selector">
+                <option value="1">классе</option>
+                <option value="2">организации</option>
             </select>
-            <label for="fc-profile__rating-filter-selector">классе</label>
+        </div>
+        <div class="fc-profile__rating-nearest">
+            <span>8</span>
+            <span>баллов до XXX</span>
+        </div>
+    </div>
+    <div class="fc-profile__achievements">
+        <div class="fc-profile__achievements-header">Достижения</div>
+        <div class="fc-profile__achievements-list">
+            <div class="fc-profile__achievements-list-img"></div>
+            <div class="fc-profile__achievements-list-img"></div>
+            <div class="fc-profile__achievements-list-img"></div>
+            <span>и ещё 10...</span>
+        </div>
+    </div>
+    <div class="fc-profile__actions">
+        <div class="fc-profile__actions-header">Активность</div>
+        <div class="fc-profile__actions-row">
+            <span class="fc-profile__actions-row-value fc-profile__actions-row-value--positive">10</span>
+            <span class="fc-profile__actions-row-reason">чистота в комнате
+                <span class="fc-profile__actions-row-date">сегодня, 14:28</span>
+            </span>
+        </div>
+        <div class="fc-profile__actions-row">
+            <span class="fc-profile__actions-row-value fc-profile__actions-row-value--negative">2</span>
+            <span class="fc-profile__actions-row-reason">чистота в комнате
+                <span class="fc-profile__actions-row-date">вчера, 12:45</span>
+            </span>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="scripts/links.js"></script>
+<script type="text/javascript" src="scripts/orgset.js"></script>
+<script type="text/javascript" src="scripts/profile.js"></script>
 </body>
 </html>
+{{end}}

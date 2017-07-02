@@ -13,8 +13,6 @@ import (
 	"forcamp/src"
 	"log"
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"strconv"
 )
 
@@ -35,38 +33,31 @@ type Employee struct {
 }
 
 type getEmployees_Success struct {
-	Code      int `json:"code"`
-	Status    string `json:"status"`
 	Employees []Employee `json:"employees"`
 }
 
-func (success *getEmployees_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-
-func GetEmployees(token string, ResponseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, ResponseWriter) {
-		if authorization.CheckToken(token, ResponseWriter) {
+func GetEmployees(token string, responseWriter http.ResponseWriter) bool {
+	if authorization.CheckTokenForEmpty(token, responseWriter) {
+		if authorization.CheckToken(token, responseWriter) {
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			resp, APIerr := getEmployees_Request()
+			rawResp, APIerr := getEmployees_Request()
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", rawResp}
+			resp.Print(responseWriter)
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func getEmployees_Request() (getEmployees_Success, *conf.ApiError) {
+func getEmployees_Request() (getEmployees_Success, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
 	if err != nil {
 		log.Print(err)
@@ -75,7 +66,7 @@ func getEmployees_Request() (getEmployees_Success, *conf.ApiError) {
 	return getEmployeesFromResponse(Query)
 }
 
-func getEmployeesFromResponse(rows *sql.Rows) (getEmployees_Success, *conf.ApiError) {
+func getEmployeesFromResponse(rows *sql.Rows) (getEmployees_Success, *conf.ApiResponse) {
 	defer rows.Close()
 	Permissions, Posts, APIerr := getPermissionsAndPosts()
 	if APIerr != nil {
@@ -96,12 +87,12 @@ func getEmployeesFromResponse(rows *sql.Rows) (getEmployees_Success, *conf.ApiEr
 		employees = append(employees, Employee{employee.Login, employee.Name, employee.Surname, employee.Middlename, employee.Sex, employee.Team, employee.Post, employee.Permissions})
 	}
 	if employees == nil {
-		return getEmployees_Success{200, "success", make([]Employee, 0)}, nil
+		return getEmployees_Success{make([]Employee, 0)}, nil
 	}
-	return getEmployees_Success{200, "success", employees}, nil
+	return getEmployees_Success{employees}, nil
 }
 
-func getPermissionsAndPosts() (map[string][]Permission, map[string]string, *conf.ApiError) {
+func getPermissionsAndPosts() (map[string][]Permission, map[string]string, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM employees")
 	if err != nil {
 		log.Print(err)
@@ -118,7 +109,7 @@ func getPermissionsAndPosts() (map[string][]Permission, map[string]string, *conf
 	return getPermissionsIfCategories(Query, CategoriesIDs)
 }
 
-func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, map[string]string, *conf.ApiError) {
+func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, map[string]string, *conf.ApiResponse) {
 	defer rows.Close()
 	var (
 		login string
@@ -138,7 +129,7 @@ func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, map[
 	return Permissions, Posts, nil
 }
 
-func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Permission, map[string]string,*conf.ApiError) {
+func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Permission, map[string]string,*conf.ApiResponse) {
 	CategoriesIDs = CategoriesIDs[2:]
 	var (
 		rawResult = make([][]byte, len(CategoriesIDs) + 2)

@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"database/sql"
-	"encoding/json"
-	"fmt"
 	"forcamp/src/api/authorization"
 	"forcamp/src"
 	"log"
@@ -21,44 +19,37 @@ type OrgSettings struct {
 }
 
 type getOrgSettings_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Settings OrgSettings `json:"settings"`
 }
 
-func (success *getOrgSettings_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-func GetOrgSettings(token string, ResponseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, ResponseWriter){
-		if authorization.CheckToken(token, ResponseWriter) {
+func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
+	if authorization.CheckTokenForEmpty(token, responseWriter){
+		if authorization.CheckToken(token, responseWriter) {
 			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
 			Query, err := src.CustomConnection.Query("SELECT * FROM settings")
 			if err != nil {
 				log.Print(err)
-				return conf.PrintError(conf.ErrDatabaseQueryFailed, ResponseWriter)
+				return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 			}
 			Data, APIerr := getOrgSettingFromQuery(Query)
 			if APIerr != nil {
-				return conf.PrintError(APIerr, ResponseWriter)
+				return APIerr.Print(responseWriter)
 			}
-			resp := getOrgSettings_Success{200, "success", Data}
-			fmt.Fprintf(ResponseWriter, resp.toJSON())
+			resp := conf.ApiResponse{200, "success", getOrgSettings_Success{Data}}
+			resp.Print(responseWriter)
 			return true
 		} else {
-			return conf.PrintError(conf.ErrUserTokenIncorrect, ResponseWriter)
+			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
 	}
 	return false
 }
 
-func getOrgSettingFromQuery(rows *sql.Rows) (OrgSettings, *conf.ApiError) {
+func getOrgSettingFromQuery(rows *sql.Rows) (OrgSettings, *conf.ApiResponse) {
 	OrgSettingsRaw := make(map[string]string)
 	var key, value string
 	defer rows.Close()

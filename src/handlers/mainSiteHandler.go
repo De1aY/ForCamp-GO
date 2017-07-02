@@ -23,11 +23,6 @@ func getFolder_Images() http.Dir {
 	return ImagesFolder
 }
 
-func getFolder_Node_Modules() http.Dir {
-	NodeModulesFolder := http.Dir(conf.FOLDER_NODE_MODULES)
-	return NodeModulesFolder
-}
-
 func getFolder_Media() http.Dir {
 	MediaFolder := http.Dir(conf.FOLDER_MEDIA)
 	return MediaFolder
@@ -45,13 +40,6 @@ func folderHandler_css() http.Handler {
 	CssFileServer := http.FileServer(CssFolder)
 	CssHandler := http.StripPrefix("/css", CssFileServer)
 	return CssHandler
-}
-
-func folderHandler_Node_Modules() http.Handler {
-	NodeModulesFolder := getFolder_Node_Modules()
-	NodeModulesFileServer := http.FileServer(NodeModulesFolder)
-	NodeModulesHandler := http.StripPrefix("/node_modules", NodeModulesFileServer)
-	return NodeModulesHandler
 }
 
 func folderHandler_Media() http.Handler {
@@ -100,11 +88,9 @@ func HandleFolder_MainSite(router *mux.Router) {
 	ScriptsHandler := folderHandler_Scripts()
 	CssHandler := folderHandler_css()
 	MediaHandler := folderHandler_Media()
-	NodeModulesHandler := folderHandler_Node_Modules()
 	ImagesHandler := folderHandler_Images()
 	router.PathPrefix("/scripts").Handler(ScriptsHandler)
 	router.PathPrefix("/css").Handler(CssHandler)
-	router.PathPrefix("/node_modules").Handler(NodeModulesHandler)
 	router.PathPrefix("/media").Handler(MediaHandler)
 	router.PathPrefix("/images").Handler(ImagesHandler)
 	// Pages

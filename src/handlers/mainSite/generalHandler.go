@@ -5,23 +5,30 @@ import (
 	"forcamp/src"
 	"forcamp/conf"
 	"forcamp/src/tools"
-	"fmt"
+	"text/template"
 )
 
-func GeneralHandler(w http.ResponseWriter, r *http.Request){
+type generalTemplateData struct {
+	Token string
+
+}
+
+var gtd generalTemplateData
+
+func GeneralHandler(w http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
 		token, err := r.Cookie("token");
-		if err != nil {
-			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
-		} else {
-			if tools.CheckToken(token.Value) {
-				http.ServeFile(w, r, conf.FILE_GENERAL)
-			} else {
-				http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+		if err == nil && tools.CheckToken(token.Value) {
+			generalHtml, err := template.ParseFiles(conf.FILE_GENERAL); if err != nil {
+				w.WriteHeader(http.StatusInternalServerError);
 			}
+			gtd.Token = token.Value;
+			generalHtml.ExecuteTemplate(w, "index", gtd);
+		} else {
+			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
-		http.Redirect(w, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
 	}
 }

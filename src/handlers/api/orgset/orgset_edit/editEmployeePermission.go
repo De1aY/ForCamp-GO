@@ -11,7 +11,7 @@ import (
 	"forcamp/src/api/orgset/employees"
 )
 
-func getEditEmployeePermissionPostValues(r *http.Request) (string, int64, string, string, *conf.ApiError){
+func getEditEmployeePermissionPostValues(r *http.Request) (string, int64, string, string, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
 	Value := strings.TrimSpace(strings.ToLower(r.PostFormValue("value")))
@@ -28,13 +28,13 @@ func EditEmployeePermissionHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodPost {
 		login, catId, value, token, APIerr := getEditEmployeePermissionPostValues(r)
 		if APIerr != nil {
-			conf.PrintError(APIerr, w)
+			APIerr.Print(w)
 		} else {
 			employees.EditEmployeePermission(token, login, catId, value, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		conf.PrintError(conf.ErrMethodNotAllowed,  w)
+		conf.ErrMethodNotAllowed.Print(w)
 	}
 }
 

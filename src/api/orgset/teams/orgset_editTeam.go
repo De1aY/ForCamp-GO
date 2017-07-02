@@ -8,23 +8,23 @@ import (
 	"forcamp/src/api/orgset"
 )
 
-func EditTeam(token string, name string, id int64, ResponseWriter http.ResponseWriter) bool{
-	if checkTeamData(name, ResponseWriter) && orgset.CheckUserAccess(token, ResponseWriter){
+func EditTeam(token string, name string, id int64, responseWriter http.ResponseWriter) bool{
+	if checkTeamData(name, responseWriter) && orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
 		APIerr = editTeam_Request(name, id)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
-		conf.PrintSuccess(conf.RequestSuccess, ResponseWriter)
+		conf.RequestSuccess.Print(responseWriter)
 	}
 	return true
 }
 
-func editTeam_Request(name string, id int64) *conf.ApiError{
+func editTeam_Request(name string, id int64) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE teams SET name=? WHERE id=?")
 	if err != nil{
 		log.Print(err)

@@ -6,44 +6,36 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"log"
-	"encoding/json"
-	"fmt"
 )
 
 type resetParticipantPassword_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
 	Password string `json:"password"`
 }
 
-func (success *resetParticipantPassword_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
-func ResetParticipantPassword(token string, login string, ResponseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, ResponseWriter){
+func ResetParticipantPassword(token string, login string, responseWriter http.ResponseWriter) bool{
+	if orgset.CheckUserAccess(token, responseWriter){
 		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
 		if ParticipantOrganization != Organization{
-			return conf.PrintError(conf.ErrUserNotFound, ResponseWriter)
+			return conf.ErrUserNotFound.Print(responseWriter)
 		}
-		resp, APIerr := resetParticipantPassword_Request(login)
+		rawResp, APIerr := resetParticipantPassword_Request(login)
 		if APIerr != nil{
-			return conf.PrintError(APIerr, ResponseWriter)
+			return APIerr.Print(responseWriter)
 		}
-		fmt.Fprintf(ResponseWriter, resp.toJSON())
+		resp := conf.ApiResponse{200, "success", rawResp}
+		resp.Print(responseWriter)
 	}
 	return true
 }
 
-func resetParticipantPassword_Request(login string) (resetParticipantPassword_Success, *conf.ApiError){
+func resetParticipantPassword_Request(login string) (resetParticipantPassword_Success, *conf.ApiResponse){
 	Password, Hash := orgset.GeneratePassword()
 	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
@@ -66,5 +58,5 @@ func resetParticipantPassword_Request(login string) (resetParticipantPassword_Su
 		log.Print(err)
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return resetParticipantPassword_Success{200, "success", Password}, nil
+	return resetParticipantPassword_Success{Password}, nil
 }
