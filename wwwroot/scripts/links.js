@@ -8,7 +8,7 @@ const __GetUserLoginLink = "https://api.forcamp.ga/user.login.get";
 //  API Links: OrgSettings
 const __GetOrgSettingsLink = "https://api.forcamp.ga/orgset.settings.get";
 const __GetCategoriesLink = "https://api.forcamp.ga/orgset.categories.get";
-const __SetOrgSettingValueLink = "https://api.forcamp.ga/orgset.setting.edit";
+const __SetOrgSettingValueLink = "https://api.forcamp.ga/orgset.settings.edit";
 //  API Links: Categories
 const __AddCategoryLink = "https://api.forcamp.ga/orgset.category.add";
 const __DeleteCategoryLink = "https://api.forcamp.ga/orgset.category.delete";

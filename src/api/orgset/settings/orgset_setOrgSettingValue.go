@@ -50,7 +50,7 @@ func setOrgSettingValue_Request(orgSet OrgSettings, w http.ResponseWriter) bool 
 }
 
 func setOrgSettingValue_Request_Team(orgSet OrgSettings, w http.ResponseWriter) bool {
-	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name=team")
+	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='team'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
@@ -65,7 +65,7 @@ func setOrgSettingValue_Request_Team(orgSet OrgSettings, w http.ResponseWriter) 
 }
 
 func setOrgSettingValue_Request_Participant(orgSet OrgSettings, w http.ResponseWriter) bool {
-	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name=participant")
+	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='participant'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
@@ -80,7 +80,7 @@ func setOrgSettingValue_Request_Participant(orgSet OrgSettings, w http.ResponseW
 }
 
 func setOrgSettingValue_Request_Period(orgSet OrgSettings, w http.ResponseWriter) bool {
-	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name=period")
+	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='period'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
@@ -95,7 +95,7 @@ func setOrgSettingValue_Request_Period(orgSet OrgSettings, w http.ResponseWriter
 }
 
 func setOrgSettingValue_Request_Organization(orgSet OrgSettings, w http.ResponseWriter) bool {
-	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name=organization")
+	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='organization'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
@@ -110,7 +110,7 @@ func setOrgSettingValue_Request_Organization(orgSet OrgSettings, w http.Response
 }
 
 func setOrgSettingValue_Request_SelfMarks(orgSet OrgSettings, w http.ResponseWriter) bool {
-	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name=self_marks")
+	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='self_marks'")
 	if err != nil{
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
