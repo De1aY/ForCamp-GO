@@ -1,35 +1,62 @@
-<!DOCTYPE html>
+{{define "index"}}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.css">
-    <link rel="stylesheet" href="css/index.css">
     <title>ForCamp</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.css">
+    <link rel="stylesheet" href="css/libs/jquery.fullpage.min.css">
 </head>
 <body>
-<div class="fc-content" id="parallax_container">
-    <img class="fc-content-background" src="https://forcamp.ga/images/background.jpg">
-    <div class="fc-content__authorization">
-        <div class="fc-content__authorization-form parallax-layer">
-            <div class="fc-content__authorization-form-group">
-                <input type="text" class="fc-content__authorization-form-field" id="login" placeholder="ЛОГИН">
-                <label class="fc-content__authorization-form-label" for="login" data-content="логин">логин</label>
+<div class="fc-content" id="fullpage">
+    <div class="fc-auth">
+        <div class="fc-auth__overlay"></div>
+        <div class="fc-auth__form">
+            <div class="fc-auth__form-group">
+                <input type="text" class="fc-auth__form-field" id="login" placeholder="ЛОГИН">
+                <label class="fc-auth__form-label" for="login" data-content="логин">логин</label>
             </div>
-            <div class="fc-content__authorization-form-group">
-                <input type="password" class="fc-content__authorization-form-field" id="password" placeholder="ПАРОЛЬ">
-                <label class="fc-content__authorization-form-label" for="password" data-content="пароль">пароль</label>
+            <div class="fc-auth__form-group">
+                <input type="password" class="fc-auth__form-field" id="password" placeholder="ПАРОЛЬ">
+                <label class="fc-auth__form-label" for="password" data-content="пароль">пароль</label>
             </div>
-            <button class="fc-content__authorization-form-submit" id="submit">вход</button>
+            <button class="fc-auth__form-submit" id="submit">вход</button>
         </div>
     </div>
+    <div class="fc-content__top fc-content__section">
+        <header class="fc-header">
+            <div class="fc-header__brand">
+                <span class="fc-header__brand-text">NullTeam</span>
+            </div>
+            <div class="fc-header__action">
+                {{if not .LoggedIn}}<span class="fc-header__action-button" id="fc-header__action-button--auth">войти</span>{{end}}
+                {{if .LoggedIn}}<a class="fc-header__action-button" href="https://forcamp.ga/general">портал</a>{{end}}
+            </div>
+        </header>
+        <div class="fc-content__logo">
+            <img src="images/logo.svg" alt="ForCamp">
+            <span class="fc-content__logo-text">ForCamp</span>
+        </div>
+        <div class="fc-content__teaser">
+            <span class="fc-content__teaser-text">
+                Система для геймификации любого процесса, начиная образованием и заканчивая бизнесом
+            </span>
+            <button class="fc-content__teaser-button">
+                начать сейчас!
+            </button>
+        </div>
+    </div>
+    <div class="fc-content__section"></div>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/libs/jquery.fullpage.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="scripts/links.js"></script>
 <script type="text/javascript" src="scripts/index.js"></script>
 </body>
 </html>
+{{end}}

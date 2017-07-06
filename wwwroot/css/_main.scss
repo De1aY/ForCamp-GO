@@ -1,5 +1,17 @@
-@import url('https://fonts.googleapis.com/css?family=Play:400,700&subset=cyrillic');
+@import "colors";
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic');
 
 * {
-  font-family: 'Play', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+
+  .mdl-layout__drawer-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 }

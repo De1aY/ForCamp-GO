@@ -50,7 +50,7 @@ func main() {
 	orgset_add.HandleAddEmployee(APISite)
 	orgset_add.HandleAddReason(APISite)
 	// OrgSet: EDIT
-	orgset_edit.HandleSetOrgSettingValue(APISite)
+	orgset_edit.HandleSetOrgSettingsValue(APISite)
 	orgset_edit.HandleEditCategory(APISite)
 	orgset_edit.HandleEditTeam(APISite)
 	orgset_edit.HandleResetParticipantPassword(APISite)

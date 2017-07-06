@@ -3,23 +3,18 @@ package users
 import (
 	"net/http"
 	"forcamp/conf"
-	"database/sql"
 	"forcamp/src/api/authorization"
 	"forcamp/src"
 )
 
-func GetUserLogin(Token string, responseWriter http.ResponseWriter) bool{
-	if authorization.CheckTokenForEmpty(Token, responseWriter) {
-		if authorization.CheckToken(Token, responseWriter) {
-			Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
-			if err != nil {
-				return conf.ErrDatabaseQueryFailed.Print(responseWriter)
+func GetUserLogin(token string, responseWriter http.ResponseWriter) bool{
+	if authorization.CheckTokenForEmpty(token, responseWriter) {
+		if authorization.CheckToken(token, responseWriter) {
+			login, apiErr := GetUserLogin_Request(token)
+			if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
-			Login, APIerr := getUserLoginFromQuery(Query)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
-			}
-			rawResp := getUserLogin_Success{Login}
+			rawResp := getUserLogin_Success{login}
 			resp := &conf.ApiResponse{200, "success", rawResp}
 			resp.Print(responseWriter)
 			return true
@@ -30,14 +25,11 @@ func GetUserLogin(Token string, responseWriter http.ResponseWriter) bool{
 	return false
 }
 
-func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiResponse){
+func GetUserLogin_Request (token string) (string, *conf.ApiResponse) {
 	var login string
-	defer rows.Close()
-	for rows.Next(){
-		err := rows.Scan(&login)
-		if err != nil {
-			return "", conf.ErrDatabaseQueryFailed
-		}
+	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
+	if err != nil {
+		return "", conf.ErrDatabaseQueryFailed
 	}
 	return login, nil
 }

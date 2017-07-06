@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"forcamp/src/api/authorization"
 	"forcamp/src"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -25,21 +24,16 @@ type getOrgSettings_Success struct {
 func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, responseWriter){
 		if authorization.CheckToken(token, responseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
+			Organization, _, apiErr := orgset.GetUserOrganizationAndLoginByToken(token)
+			if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			Query, err := src.CustomConnection.Query("SELECT * FROM settings")
-			if err != nil {
-				log.Print(err)
-				return conf.ErrDatabaseQueryFailed.Print(responseWriter)
+			data, apiErr := GetOrgSettings_Query()
+			if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
-			Data, APIerr := getOrgSettingFromQuery(Query)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
-			}
-			resp := conf.ApiResponse{200, "success", getOrgSettings_Success{Data}}
+			resp := conf.ApiResponse{200, "success", getOrgSettings_Success{data}}
 			resp.Print(responseWriter)
 			return true
 		} else {
@@ -49,6 +43,18 @@ func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
 	return false
 }
 
+func GetOrgSettings_Query() (OrgSettings, *conf.ApiResponse) {
+	query, err := src.CustomConnection.Query("SELECT * FROM settings")
+	if err != nil {
+		return OrgSettings{}, conf.ErrDatabaseQueryFailed
+	}
+	data, APIerr := getOrgSettingFromQuery(query)
+	if APIerr != nil {
+		return OrgSettings{}, APIerr
+	}
+	return data, nil
+}
+
 func getOrgSettingFromQuery(rows *sql.Rows) (OrgSettings, *conf.ApiResponse) {
 	OrgSettingsRaw := make(map[string]string)
 	var key, value string
@@ -56,7 +62,6 @@ func getOrgSettingFromQuery(rows *sql.Rows) (OrgSettings, *conf.ApiResponse) {
 	for rows.Next() {
 		err := rows.Scan(&key, &value)
 		if err != nil {
-			log.Print(err)
 			return OrgSettings{}, conf.ErrDatabaseQueryFailed
 		}
 		OrgSettingsRaw[key] = value

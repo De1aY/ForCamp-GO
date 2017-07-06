@@ -28,7 +28,7 @@ func GetUserData(Token string, responseWriter http.ResponseWriter, login string)
 			if UserOrganization != Organization {
 				return conf.ErrUserNotFound.Print(responseWriter)
 			}
-			userData, APIerr := getUserData_Request(login)
+			userData, APIerr := GetUserData_Request(login)
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
@@ -44,7 +44,7 @@ func GetUserData(Token string, responseWriter http.ResponseWriter, login string)
 	return true
 }
 
-func getUserData_Request(login string) (UserData, *conf.ApiResponse) {
+func GetUserData_Request(login string) (UserData, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
 	if err != nil {
 		log.Print(err)
