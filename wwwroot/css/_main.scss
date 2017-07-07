@@ -3,15 +3,60 @@
 
 * {
   font-family: 'Roboto', sans-serif;
+  outline: none;
 }
 
 body {
   margin: 0;
 
+  .notie-alert {
+    z-index: 1000;
+  }
+
   .mdl-layout__drawer-button {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .mdl-navigation__link, .mdl-layout-title { text-transform: capitalize; }
+
+  .dataTables_wrapper {
+
+    .dataTables_filter {
+
+      label {
+
+        input { border: none; }
+
+        span:after {
+          content: ' ';
+          display: block;
+          height: 2px;
+          width: 0;
+          margin-top: 2px;
+          margin-right: 149px;
+          margin-left: auto;
+          transition: width 300ms ease-in-out, margin-right 300ms ease-in-out;
+          background: $MainColor;
+        }
+
+        input:hover + span:after {
+          width: 149px;
+          margin-right: 0;
+        }
+
+        input:focus + span:after {
+          width: 149px;
+          margin-right: 0;
+        }
+
+      }
+
+      @media (max-width: 479px) { max-width: 207px; }
+
+    }
+
   }
 
 }

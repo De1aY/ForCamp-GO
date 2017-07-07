@@ -29,11 +29,11 @@ func GetCategories(token string, responseWriter http.ResponseWriter) bool {
 				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			rawResp, APIerr := getCategories_Request()
+			rawResp, APIerr := GetCategories_Request()
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
-			resp := &conf.ApiResponse{200, "success", rawResp}
+			resp := &conf.ApiResponse{200, "success", getCategories_Success{rawResp}}
 			resp.Print(responseWriter)
 		} else {
 			return conf.ErrUserTokenIncorrect.Print(responseWriter)
@@ -42,16 +42,16 @@ func GetCategories(token string, responseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getCategories_Request() (getCategories_Success, *conf.ApiResponse){
+func GetCategories_Request() ([]Category, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Query("SELECT * FROM categories")
 	if err != nil {
 		log.Print(err)
-		return getCategories_Success{}, conf.ErrDatabaseQueryFailed
+		return nil, conf.ErrDatabaseQueryFailed
 	}
 	return getCategoriesFromQuery(Query)
 }
 
-func getCategoriesFromQuery(rows *sql.Rows) (getCategories_Success, *conf.ApiResponse){
+func getCategoriesFromQuery(rows *sql.Rows) ([]Category, *conf.ApiResponse){
 	defer rows.Close()
 	var categories []Category
 	var category Category
@@ -59,12 +59,12 @@ func getCategoriesFromQuery(rows *sql.Rows) (getCategories_Success, *conf.ApiRes
 		err := rows.Scan(&category.ID, &category.Name, &category.NegativeMarks)
 		if err != nil{
 			log.Print(err)
-			return getCategories_Success{}, conf.ErrDatabaseQueryFailed
+			return nil, conf.ErrDatabaseQueryFailed
 		}
 		categories = append(categories, Category{category.ID, category.Name, category.NegativeMarks})
 	}
 	if categories == nil {
-		return getCategories_Success{make([]Category, 0)}, nil
+		return make([]Category, 0), nil
 	}
-	return getCategories_Success{categories}, nil
+	return categories, nil
 }

@@ -53,15 +53,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-func orgSetHandler(w http.ResponseWriter, r *http.Request){
-	if r.TLS != nil {
-		src.SetHeaders_Main(w)
-		http.ServeFile(w, r, conf.FILE_ORGSET)
-	} else {
-		http.Redirect(w, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
-	}
-}
-
 func HandleFolder_MainSite(router *mux.Router) {
 	// Folders
 	ScriptsHandler := folderHandler_Scripts()
@@ -73,9 +64,9 @@ func HandleFolder_MainSite(router *mux.Router) {
 	// Pages
 	router.HandleFunc("/", mainSite.IndexHandler)
 	router.HandleFunc("/main", indexHandler)
-	router.HandleFunc("/orgset", orgSetHandler)
+	router.HandleFunc("/orgset", mainSite.OrgSetHandler)
 	router.HandleFunc("/marks", indexHandler)
-	router.HandleFunc("/general", mainSite.GeneralHandler)
+	router.HandleFunc("/general", indexHandler)
 	router.HandleFunc("/profile", indexHandler)
 	router.HandleFunc("/team", indexHandler)
 	router.HandleFunc("/achievements", indexHandler)

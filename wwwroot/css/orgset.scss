@@ -2,11 +2,6 @@
 
 body {
 
-  .mdl-layout-title {
-    text-transform: capitalize;
-    outline: none;
-  }
-
   .mdl-card {
     width: 100%;
     min-height: 125px;
@@ -28,10 +23,7 @@ body {
           margin-right: 10px;
         }
 
-        .mdl-card__body-row-text--editing {
-          margin-top: 4px;
-          outline: none;
-        }
+        .mdl-card__body-row-text--editing { margin-top: 4px; }
 
         .mdl-card__body-row-text--editing:after {
           content: ' ';
@@ -45,7 +37,7 @@ body {
         .mdl-card__body-row-text--capitalize { text-transform: capitalize }
         .mdl-card__body-row-text--uppercase  { text-transform: uppercase }
 
-        .mdl-card__body-row-toggle {
+        .mdl-card__body-row-switch {
 
           .mdl-switch__track { margin-top: 1px; }
           .mdl-switch__thumb { margin-top: 1px; }
@@ -53,7 +45,7 @@ body {
 
         }
 
-        .mdl-card__body-row-toggle--16px {
+        .mdl-card__body-row-switch--16px {
 
           .mdl-switch__label {
             font-size: 16px;
@@ -61,7 +53,7 @@ body {
 
         }
 
-        .mdl-card__body-row-toggle--24px {
+        .mdl-card__body-row-switch--24px {
 
           .mdl-switch__label {
             font-size: 24px;
@@ -69,7 +61,7 @@ body {
 
         }
 
-        .mdl-card__body-row-toggle--32px {
+        .mdl-card__body-row-switch--32px {
 
           .mdl-switch__label {
             font-size: 32px;
@@ -97,6 +89,36 @@ body {
       .mdl-card__body-row--16px { font-size: 16px }
       .mdl-card__body-row--24px { font-size: 24px }
       .mdl-card__body-row--32px { font-size: 32px }
+
+      .mdl-card__body-table     {
+        width: 100%;
+
+        .mdl-card__body-table-row__field--editing { margin-top: 4px; }
+
+        .mdl-card__body-table-row__field--editing:after {
+          content: ' ';
+          display: block;
+          height: 2px;
+          width: 0;
+          margin-top: 2px;
+          transition: width 300ms ease-in-out;
+          background: $MainColor;
+        }
+
+        .mdl-card__body-table-row__field--editing:focus:after { width: 100%; }
+
+        .mdl-card__body-table-row_actions {
+
+          .mdl-card__body-table-row_actions--delete { color: $ErrorColor; }
+
+        }
+
+      }
+
+    }
+
+    .mdl-card__body--nopad {
+      padding: 0;
     }
 
   }

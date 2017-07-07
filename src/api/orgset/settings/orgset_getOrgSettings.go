@@ -29,7 +29,7 @@ func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
 				return apiErr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			data, apiErr := GetOrgSettings_Query()
+			data, apiErr := GetOrgSettings_Request()
 			if apiErr != nil {
 				return apiErr.Print(responseWriter)
 			}
@@ -43,7 +43,7 @@ func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
 	return false
 }
 
-func GetOrgSettings_Query() (OrgSettings, *conf.ApiResponse) {
+func GetOrgSettings_Request() (OrgSettings, *conf.ApiResponse) {
 	query, err := src.CustomConnection.Query("SELECT * FROM settings")
 	if err != nil {
 		return OrgSettings{}, conf.ErrDatabaseQueryFailed
