@@ -14,9 +14,78 @@ $(document).ready(function(){
                 }
                 break;
             }
+            case "team": {
+                let id = await addTeam("Новая команда");
+                if (id !== -1) {
+                    TeamsTable.row.add({id: id, name: "Новая команда", leader: {login: ""}, participants: []}).draw();
+                    $('.mdl-card__body-table-row__field#mdl-card__body-table-teams--name-'+id).dblclick();
+                }
+                break;
+            }
         }
     });
 });
+
+function onTableDraw() {
+    componentHandler.upgradeDom();
+    $('.mdl-card__body-table-row__field:not(.mdl-card__body-table-row__field--noteditable)').unbind('dblclick').dblclick(function () {
+        let textField = $(this);
+        let baseText = textField.text();
+        let editInfo = textField.data('content').split('-');
+        textField.addClass('mdl-card__body-table-row__field--editing');
+        textField.attr('contenteditable', 'true');
+        textField.focus();
+        textField.off('focusout keydown').on('focusout keydown',function (e) {
+            if(e.keyCode === 13 || e.type === "focusout") {
+                textField.removeClass('mdl-card__body-table-row__field--editing');
+                textField.attr('contenteditable', 'false');
+                let text = textField.text();
+                if (text !== baseText) {
+                    switch (editInfo[0]) {
+                        case "category": {
+                            let name = $('#mdl-card__body-table-categories--name-' + editInfo[1]).text();
+                            let negative_marks = $('#mdl-card__body-table-categories--negative_marks-' + editInfo[1]).prop('checked');
+                            editCategory(name, negative_marks, editInfo[1]);
+                            break;
+                        }
+                        case "team": {
+                            let name = $('#mdl-card__body-table-teams--name-'+editInfo[1]).text();
+                            editTeam(name, editInfo[1]);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    });
+    $('.mdl-card__body-table-row_switch').unbind('mousedown').mousedown( function () {
+        let toggle = $(this);
+        let editInfo = toggle.attr('for').split('--')[1].split('-');
+        let editObject = toggle.attr('for').split('--')[0].split('-')[3];
+        switch (editObject) {
+            case "categories": {
+                let name = $('#mdl-card__body-table-categories--name-' + editInfo[1]).text();
+                let negative_marks = $('#mdl-card__body-table-categories--negative_marks-' + editInfo[1]).prop('checked');
+                editCategory(name, negative_marks, editInfo[1]);
+                break;
+            }
+        }
+    });
+    $('.mdl-card__body-table-row_actions--delete').unbind('mousedown').mousedown( function () {
+        let button = $(this);
+        let editInfo = button.data('content').split('-');
+        switch (editInfo[0]){
+            case "category": {
+                deleteCategory(editInfo[1], button);
+                break;
+            }
+            case "team": {
+                deleteTeam(editInfo[1], button);
+                break;
+            }
+        }
+    });
+}
 
 // Settings
 
@@ -158,9 +227,9 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
             name: "name",
             className: 'mdl-data-table__cell--non-numeric',
             data: "name",
-            render: function ( name, type, full, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-categories--name-'+full.id+'"' +
-                    ' data-content="category-'+full.id+'-name">'+
+            render: function ( name, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-categories--name-'+row.id+'"' +
+                    ' data-content="category-'+row.id+'-name">'+
                     name[0].toUpperCase()+name.substring(1)+'</div>';
             },
         },
@@ -175,12 +244,12 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
                 if(negative_marks === 'true') {
                     return '<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect mdl-card__body-table-row_switch"' +
                         'for="mdl-card__body-table-categories--negative_marks-' + row.id + '">' +
-                        '<input type="checkbox" id="mdl-card__body-table-categories--negative_marks-' + row.id + '" class="mdl-switch__input"> ' +
+                        '<input type="checkbox" id="mdl-card__body-table-categories--negative_marks-' + row.id + '" class="mdl-switch__input" checked> ' +
                         '<span class="mdl-switch__label"></span></label>';
                 } else {
                     return '<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect mdl-card__body-table-row_switch"' +
                         'for="mdl-card__body-table-categories--negative_marks-' + row.id + '">' +
-                        '<input type="checkbox" id="mdl-card__body-table-categories--negative_marks-' + row.id + '" class="mdl-switch__input" checked> ' +
+                        '<input type="checkbox" id="mdl-card__body-table-categories--negative_marks-' + row.id + '" class="mdl-switch__input"> ' +
                         '<span class="mdl-switch__label"></span></label>';
                 }
             },
@@ -223,54 +292,142 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
     },
     "drawCallback": function () {
         $('#mdl-card__body-table-categories').css('width', '100%');
-        componentHandler.upgradeDom();
-        $('.mdl-card__body-table-row__field').unbind('dblclick').dblclick(function () {
-            let textField = $(this);
-            let baseText = textField.text();
-            let editInfo = textField.data('content').split('-');
-            textField.addClass('mdl-card__body-table-row__field--editing');
-            textField.attr('contenteditable', 'true');
-            textField.focus();
-            textField.off('focusout keydown').on('focusout keydown',function (e) {
-                if(e.keyCode === 13 || e.type === "focusout") {
-                    textField.removeClass('mdl-card__body-table-row__field--editing');
-                    textField.attr('contenteditable', 'false');
-                    let text = textField.text();
-                    if (text !== baseText) {
-                        switch (editInfo[0]) {
-                            case "category": {
-                                let name = $('#mdl-card__body-table-categories--name-' + editInfo[1]).text();
-                                let negative_marks = $('#mdl-card__body-table-categories--negative_marks-' + editInfo[1]).prop('checked');
-                                editCategory(name, negative_marks, editInfo[1]);
-                                break;
-                            }
-                        }
-                    }
-                }
-            });
-        });
-        $('.mdl-card__body-table-row_switch').unbind('mousedown').mousedown( function () {
-            let toggle = $(this);
-            let editInfo = toggle.attr('for').split('--')[1].split('-');
-            let editObject = toggle.attr('for').split('--')[0].split('-')[3];
-            switch (editObject) {
-                case "categories":
-                    let name = $('#mdl-card__body-table-categories--name-' + editInfo[1]).text();
-                    let negative_marks = $('#mdl-card__body-table-categories--negative_marks-' + editInfo[1]).prop('checked');
-                    editCategory(name, negative_marks, editInfo[1]);
-                    break;
+        onTableDraw();
+    },
+    responsive: true,
+});
+
+// Teams
+
+function addTeam(name) {
+    return new Promise(resolve => {
+        $.post(__AddTeamLink, { token: Token, name: name }, function (resp) {
+            if(resp.code === 200) {
+                resolve(resp.message.id);
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+                resolve(-1);
             }
         });
-        $('.mdl-card__body-table-row_actions--delete').unbind('mousedown').mousedown( function () {
-           let button = $(this);
-           let editInfo = button.data('content').split('-');
-           switch (editInfo[0]){
-               case "category": {
-                   deleteCategory(editInfo[1], button);
-                   break;
-               }
-           }
-        });
+    });
+}
+
+function editTeam(name, id) {
+    $.post(__EditTeamLink, { token: Token, name: name, id: id}, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+function deleteTeam(id, button) {
+    $.post(__DeleteTeamLink, { token: Token, id: id }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            TeamsTable.row(button.parents('tr')).remove().draw();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
+    "ajax": {
+        "url": __GetTeamsLink,
+        "type": "GET",
+        "data": {
+            "token": Token,
+        },
+        "dataSrc": function (data) {
+            return data.message.teams;
+        },
+    },
+    columnDefs: [
+        {
+            targets: 0,
+            name: "name",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "name",
+            render: function ( name, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-teams--name-'+row.id+'"' +
+                    ' data-content="team-'+row.id+'-name">'+
+                    name[0].toUpperCase()+name.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 1,
+            name: "leader",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "leader",
+            searchable: false,
+            orderable: false,
+            render: function ( leader, type, row, meta ) {
+                if (leader.login.length > 0) {
+                    return '<a class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
+                        'id="mdl-card__body-table-teams--leader-' + row.id + '"' +
+                        ' data-content="team-' + row.id + '-leader" href="https://forcamp.ga/profile?login=' + leader.login + '">' +
+                        leader.surname + ' ' + leader.name + ' ' + leader.middlename + '</a>';
+                } else {
+                    return '<div class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
+                        'id="mdl-card__body-table-teams--leader-' + row.id + '"' +
+                        ' data-content="team-' + row.id + '-leader">отсутствует</div>';
+                }
+            },
+        },
+        {
+            targets: 2,
+            name: "participants",
+            className: '',
+            data: "participants",
+            searchable: false,
+            orderable: true,
+            render: function ( participants, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
+                    'id="mdl-card__body-table-teams--participants-'+row.id+'"' +
+                    ' data-content="team-'+row.id+'-participants">'+participants.length+'</div>';
+            }
+        },
+        {
+            targets: 3,
+            name: "actions",
+            className: 'mdl-card__body-table-row_actions',
+            data: "id",
+            searchable: false,
+            orderable: false,
+            render: function ( id, type, row, meta ) {
+                return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
+                    ' data-content="team-'+id+'"> ' +
+                    '<i class="material-icons">delete_forever</i></button>';
+            }
+        },
+    ],
+    language: {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка категорий...",
+        "zeroRecords": "Команды отсутствуют.",
+        "emptyTable": "Команды отсутствуют",
+        "paginate": {
+            "first": "Первая",
+            "previous": "Пред.",
+            "next": "След.",
+            "last": "Последняя"
+        },
+        "aria": {
+            "sortAscending": ": отсортировать по возрастанию",
+            "sortDescending": ": отсортировать по убыванию"
+        }
+    },
+    "drawCallback": function () {
+        $('#mdl-card__body-table-teams').css('width', '100%');
+        onTableDraw();
     },
     responsive: true,
 });

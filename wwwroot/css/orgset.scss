@@ -110,6 +110,7 @@ body {
         }
 
         .mdl-card__body-table-row__field--editing:focus:after { width: 100%; }
+        .mdl-card__body-table-row__field--capitalize { text-transform: capitalize }
 
         .mdl-card__body-table-row_actions {
 

@@ -112,6 +112,8 @@ body .mdl-card {
         background: #3f51b5; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing:focus:after {
         width: 100%; }
+      body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--capitalize {
+        text-transform: capitalize; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--delete {
         color: #e1515b; }
   body .mdl-card .mdl-card__body--nopad {
