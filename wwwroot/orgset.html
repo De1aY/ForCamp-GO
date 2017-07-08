@@ -25,7 +25,7 @@
             <a href="#orgset_teams" class="mdl-layout__tab">Команды</a>
             <a href="#orgset_participants" class="mdl-layout__tab">Участники</a>
             <a href="#orgset_employees" class="mdl-layout__tab">Сотрудники</a>
-            <a href="#orgset_reasons" class="mdl-layout__tab">События</a>
+            <a href="#orgset_reasons" class="mdl-layout__tab">Причины</a>
             <a href="#orgset_achievements" class="mdl-layout__tab">Достижения</a>
             <a href="#orgset_actions" class="mdl-layout__tab">События</a>
             <a href="#orgset_help" class="mdl-layout__tab">Помощь</a>
@@ -35,6 +35,7 @@
         <span class="mdl-layout-title">статистика</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga">главная</a>
+            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/profile?login={{.Login}}">профиль</a>
             {{if .IsAdmin}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/orgset">управление</a>{{end}}
             {{if .IsEmployee}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/marks">баллы</a>{{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/team">{{.OrgSettings.Team}}</a>
@@ -55,7 +56,7 @@
                                 <span class="mdl-card__body-row-icon fa fa-user-circle-o"></span>
                                 <span class="mdl-card__body-row-text mdl-card__body-row-text--capitalize" data-content="participant">{{.OrgSettings.Participant}}</span>
                                 <div class="mdl-card__body-row-actions">
-                                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
+                                    <button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
                                             data-content="participant">
                                         <i class="material-icons">create</i>
                                     </button>
@@ -87,7 +88,7 @@
                                 <span class="mdl-card__body-row-icon fa fa-users"></span>
                                 <span class="mdl-card__body-row-text mdl-card__body-row-text--capitalize" data-content="team">{{.OrgSettings.Team}}</span>
                                 <div class="mdl-card__body-row-actions">
-                                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
+                                    <button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
                                             data-content="team">
                                         <i class="material-icons">create</i>
                                     </button>
@@ -119,7 +120,7 @@
                                 <span class="mdl-card__body-row-icon fa fa-university"></span>
                                 <span class="mdl-card__body-row-text mdl-card__body-row-text--capitalize" data-content="organization">{{.OrgSettings.Organization}}</span>
                                 <div class="mdl-card__body-row-actions">
-                                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
+                                    <button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
                                             data-content="organization">
                                         <i class="material-icons">create</i>
                                     </button>
@@ -151,7 +152,7 @@
                                 <span class="mdl-card__body-row-icon fa fa-calendar-o"></span>
                                 <span class="mdl-card__body-row-text mdl-card__body-row-text--capitalize" data-content="period">{{.OrgSettings.Period}}</span>
                                 <div class="mdl-card__body-row-actions">
-                                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
+                                    <button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-row-button--edit"
                                             data-content="period">
                                         <i class="material-icons">create</i>
                                     </button>
@@ -274,7 +275,41 @@
                 </div>
             </div>
         </section>
-        <section class="mdl-layout__tab-panel" id="orgset_participants"></section>
+        <section class="mdl-layout__tab-panel" id="orgset_participants">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">Участники</div>
+                        </div>
+                        <div class="mdl-card__body mdl-card__body--nopad">
+                            <table id="mdl-card__body-table-participants" class="mdl-card__body-table mdl-data-table">
+                                <thead>
+                                <tr>
+                                    <th>Фамилия</th>
+                                    <th>Имя</th>
+                                    <th>Отчество</th>
+                                    <th>Пол</th>
+                                    <th>{{.OrgSettings.Team | toTitleCase}}</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-card__menu-button--download" data-content="participants">
+                                <i class="material-icons">cloud_download</i>
+                            </button>
+                            <button class="mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-card__menu-button--add" data-content="participant">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="mdl-layout__tab-panel" id="orgset_employees"></section>
         <section class="mdl-layout__tab-panel" id="orgset_reasons"></section>
         <section class="mdl-layout__tab-panel" id="orgset_achievements"></section>

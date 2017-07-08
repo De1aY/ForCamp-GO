@@ -7,6 +7,7 @@ let OrgSettings = {
     team: ""
 };
 let Categories = {};
+let Teams = {};
 
 function GetOrganizationSettings() {
     return new Promise ( resolve => {
@@ -35,13 +36,36 @@ function GetCategories() {
             }
             resolve();
         });
-    })
+    });
 }
 
-window.materializeMyHTML = function(str){
-    let html = $.parseHTML(str);
-    $('*', $(html)).each(function () {
-        componentHandler.upgradeElement(this);
+function GetTeams() {
+    return new Promise ( resolve => {
+        $.get(__GetTeamsLink, {token: Token}, function (resp) {
+            if (resp.code === 200) {
+                Categories = resp.message.teams;
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
+            resolve();
+        });
     });
-    return html;
-};
+}
+
+function GetTeamNameByID(team_id) {
+    if (team_id === 0) {
+        return "отсутствует";
+    } else {
+        return Teams.filter(team => {
+            return team.id === team_id;
+        })[0].name;
+    }
+}
+
+function GetSexByID(id) {
+    if (id === 0) {
+        return "мужской";
+    } else {
+        return "женский";
+    }
+}

@@ -28,5 +28,5 @@ func StringToBoolean(data string) bool {
 }
 
 func ToTitleCase(data string) string {
-	return strings.ToUpper(data[:1])+data[1:]
+	return strings.ToUpper(data[:2])+data[2:]
 }

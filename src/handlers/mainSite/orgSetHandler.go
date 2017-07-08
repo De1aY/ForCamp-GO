@@ -50,6 +50,7 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 
 func getOrgSetTemplateData (token string) (orgSetTemplateData, *conf.ApiResponse) {
 	var ostd orgSetTemplateData
+	ostd.Token = token;
 	Organization, _, apiErr := orgset.GetUserOrganizationAndLoginByToken(token); if apiErr != nil {
 		return ostd, apiErr
 	}

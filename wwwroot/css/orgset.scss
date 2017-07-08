@@ -112,9 +112,61 @@ body {
         .mdl-card__body-table-row__field--editing:focus:after { width: 100%; }
         .mdl-card__body-table-row__field--capitalize { text-transform: capitalize }
 
+        .mdl-card__body-table-row__dropdown {
+
+          ul {
+            z-index: 20;
+            margin: 0;
+            padding: 0;
+            max-height: 0;
+            position: absolute;
+            top: 0;
+            background: #FFF;
+            font-weight: 400;
+            text-align: center;
+            list-style-type: none;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -ms-overflow-style: none;
+            transition: max-height 300ms ease-in-out;
+
+            li {
+              display: block;
+              font-size: 14px;
+              text-align: left;
+              height: 52px;
+
+              span {
+                display: block;
+                padding: 14px 16px;
+                color: $MainColor;
+                cursor: pointer;
+              }
+
+            }
+
+            li:hover { background: $HoverColor; }
+
+          }
+
+          ul::-webkit-scrollbar {
+            display: none;
+          }
+
+        }
+
+        .mdl-card__body-table-row__dropdown--editing {
+
+          .mdl-card__body-table-row__dropdown-ttl ~ ul { max-height: 120px; }
+
+        }
+
         .mdl-card__body-table-row_actions {
 
-          .mdl-card__body-table-row_actions--delete { color: $ErrorColor; }
+          .mdl-card__body-table-row_actions--create  { color: $SuccessColor; }
+          .mdl-card__body-table-row_actions--decline { color: $ErrorColor; }
+          .mdl-card__body-table-row_actions--delete  { color: $ErrorColor; }
 
         }
 
