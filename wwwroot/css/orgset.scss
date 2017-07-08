@@ -93,6 +93,10 @@ body {
       .mdl-card__body-table     {
         width: 100%;
 
+        .mdl-card__body-table-row__field {
+          min-height: 18px;
+        }
+
         .mdl-card__body-table-row__field--editing { margin-top: 4px; }
 
         .mdl-card__body-table-row__field--editing:after {

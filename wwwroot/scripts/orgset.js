@@ -2,6 +2,20 @@ setInterval(updateSettings, 10000);
 
 $(document).ready(function(){
     $(".form-control").after("<span></span>");
+    $('.mdl-card__menu-button--add').mousedown(async function () {
+        let button = $(this);
+        let editInfo = button.data('content');
+        switch (editInfo) {
+            case "category": {
+                let id = await addCategory("Новая категория", "false");
+                if (id !== -1) {
+                    CategoriesTable.row.add({id: id, name: "Новая категория", negative_marks: "false"}).draw();
+                    $('.mdl-card__body-table-row__field#mdl-card__body-table-categories--name-'+id).dblclick();
+                }
+                break;
+            }
+        }
+    });
 });
 
 // Settings
@@ -92,6 +106,19 @@ $('.mdl-card__body-row-button--edit').click(function () {
 });
 
 // Categories
+
+function addCategory(name, negative_marks) {
+    return new Promise(resolve => {
+        $.post(__AddCategoryLink, { token: Token, name: name, negative_marks: negative_marks }, function (resp) {
+            if(resp.code === 200) {
+                resolve(resp.message.id);
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+                resolve(-1);
+            }
+        });
+    });
+}
 
 function editCategory(name, negative_marks, id) {
     $.post(__EditCategoryLink, { token: Token, name: name, negative_marks: negative_marks, id: id}, function (resp) {
@@ -211,11 +238,12 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
                     let text = textField.text();
                     if (text !== baseText) {
                         switch (editInfo[0]) {
-                            case "category":
-                                let name = $('#mdl-card__body-table-categories--name-'+editInfo[1]).text();
-                                let negative_marks = $('#mdl-card__body-table-categories--negative_marks-'+editInfo[1]).prop('checked');
+                            case "category": {
+                                let name = $('#mdl-card__body-table-categories--name-' + editInfo[1]).text();
+                                let negative_marks = $('#mdl-card__body-table-categories--negative_marks-' + editInfo[1]).prop('checked');
                                 editCategory(name, negative_marks, editInfo[1]);
                                 break;
+                            }
                         }
                     }
                 }
