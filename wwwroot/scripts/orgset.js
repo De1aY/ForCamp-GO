@@ -6,6 +6,7 @@ function reloadTables() {
     CategoriesTable.ajax.reload(null, false);
     ParticipantsTable.ajax.reload(null, false);
     EmployeesTable.ajax.reload(null ,false);
+    ReasonsTable.ajax.reload(null, false);
 }
 
 function getDefaultPermissions() {
@@ -58,6 +59,15 @@ $(document).ready(function(){
                 }).search("Фамилия Имя Отчество должность").draw();
                 $('.mdl-card__body-table-row__field#mdl-card__body-table-employees--surname-000').dblclick();
                 break;
+            }
+            case "reason": {
+                ReasonsTable.row.add({
+                    id: "000",
+                    category_id: "000",
+                    text: "Новая причина",
+                    change: 0
+                }).search("Новая причина").draw();
+                $('.mdl-card__body-table-row__field#mdl-card__body-table-reasons--text-000').dblclick();
             }
         }
     });
@@ -126,6 +136,13 @@ function onTableDraw() {
                             editEmployee(name, surname, middlename, post, sex, team, editInfo[1]);
                             break;
                         }
+                        case "reason": {
+                            let text = $('#mdl-card__body-table-reasons--text-'+editInfo[1]).text();
+                            let change = $('#mdl-card__body-table-reasons--change-'+editInfo[1]).text();
+                            let category_id = $('#mdl-card__body-table-reasons--category-'+editInfo[1]).data('content').split('-')[3];
+                            editReason(editInfo[1], text, change, category_id);
+                            break;
+                        }
                     }
                 }
             }
@@ -155,25 +172,34 @@ function onTableDraw() {
             let editInfo = field.data('content').split('-');
             dropdownWrapper.children('.mdl-card__body-table-row__dropdown-ttl').text(field.text());
             dropdownWrapper.data('content', field.data('content'));
-            switch (editInfo[0]) {
-                case "participant": {
-                    let name = $('#mdl-card__body-table-participants--name-'+editInfo[1]).text();
-                    let surname = $('#mdl-card__body-table-participants--surname-'+editInfo[1]).text();
-                    let middlename = $('#mdl-card__body-table-participants--middlename-'+editInfo[1]).text();
-                    let sex = $('#mdl-card__body-table-participants--sex-'+editInfo[1]).data('content').split('-')[3];
-                    let team = $('#mdl-card__body-table-participants--team-'+editInfo[1]).data('content').split('-')[3];
-                    editParticipant(name, surname, middlename, sex, team, editInfo[1]);
-                    break;
-                }
-                case "employee": {
-                    let name = $('#mdl-card__body-table-employees--name-'+editInfo[1]).text();
-                    let surname = $('#mdl-card__body-table-employees--surname-'+editInfo[1]).text();
-                    let middlename = $('#mdl-card__body-table-employees--middlename-'+editInfo[1]).text();
-                    let post = $('#mdl-card__body-table-employees--post-'+editInfo[1]).text();
-                    let sex = $('#mdl-card__body-table-employees--sex-'+editInfo[1]).data('content').split('-')[3];
-                    let team = $('#mdl-card__body-table-employees--team-'+editInfo[1]).data('content').split('-')[3];
-                    editEmployee(name, surname, middlename, post, sex, team, editInfo[1]);
-                    break;
+            if (editInfo[1] !== "000") {
+                switch (editInfo[0]) {
+                    case "participant": {
+                        let name = $('#mdl-card__body-table-participants--name-' + editInfo[1]).text();
+                        let surname = $('#mdl-card__body-table-participants--surname-' + editInfo[1]).text();
+                        let middlename = $('#mdl-card__body-table-participants--middlename-' + editInfo[1]).text();
+                        let sex = $('#mdl-card__body-table-participants--sex-' + editInfo[1]).data('content').split('-')[3];
+                        let team = $('#mdl-card__body-table-participants--team-' + editInfo[1]).data('content').split('-')[3];
+                        editParticipant(name, surname, middlename, sex, team, editInfo[1]);
+                        break;
+                    }
+                    case "employee": {
+                        let name = $('#mdl-card__body-table-employees--name-' + editInfo[1]).text();
+                        let surname = $('#mdl-card__body-table-employees--surname-' + editInfo[1]).text();
+                        let middlename = $('#mdl-card__body-table-employees--middlename-' + editInfo[1]).text();
+                        let post = $('#mdl-card__body-table-employees--post-' + editInfo[1]).text();
+                        let sex = $('#mdl-card__body-table-employees--sex-' + editInfo[1]).data('content').split('-')[3];
+                        let team = $('#mdl-card__body-table-employees--team-' + editInfo[1]).data('content').split('-')[3];
+                        editEmployee(name, surname, middlename, post, sex, team, editInfo[1]);
+                        break;
+                    }
+                    case "reason": {
+                        let text = $('#mdl-card__body-table-reasons--text-'+editInfo[1]).text();
+                        let change = $('#mdl-card__body-table-reasons--change-'+editInfo[1]).text();
+                        let category_id = $('#mdl-card__body-table-reasons--category-'+editInfo[1]).data('content').split('-')[3];
+                        editReason(editInfo[1], text, change, category_id);
+                        break;
+                    }
                 }
             }
         });
@@ -211,7 +237,7 @@ function onTableDraw() {
                let middlename = $('#mdl-card__body-table-participants--middlename-'+creationInfo[1]).text();
                let sex = $('#mdl-card__body-table-participants--sex-'+creationInfo[1]).data('content').split('-')[3];
                let team = $('#mdl-card__body-table-participants--team-'+creationInfo[1]).data('content').split('-')[3];
-               let login = addParticipant(name, surname, middlename, sex, team);
+               let login = await addParticipant(name, surname, middlename, sex, team);
                if (login === -1) {
                    ParticipantsTable.row(button.parents('tr')).remove().draw();
                } else {
@@ -228,13 +254,13 @@ function onTableDraw() {
                break;
            }
            case "employee": {
-               let name = $('#mdl-card__body-table-employees--name-'+editInfo[1]).text();
-               let surname = $('#mdl-card__body-table-employees--surname-'+editInfo[1]).text();
-               let middlename = $('#mdl-card__body-table-employees--middlename-'+editInfo[1]).text();
-               let post = $('#mdl-card__body-table-employees--post-'+editInfo[1]).text();
-               let sex = $('#mdl-card__body-table-employees--sex-'+editInfo[1]).data('content').split('-')[3];
-               let team = $('#mdl-card__body-table-employees--team-'+editInfo[1]).data('content').split('-')[3];
-               let login = addEmployee(name, surname, middlename, sex, team);
+               let name = $('#mdl-card__body-table-employees--name-'+creationInfo[1]).text();
+               let surname = $('#mdl-card__body-table-employees--surname-'+creationInfo[1]).text();
+               let middlename = $('#mdl-card__body-table-employees--middlename-'+creationInfo[1]).text();
+               let post = $('#mdl-card__body-table-employees--post-'+creationInfo[1]).text();
+               let sex = $('#mdl-card__body-table-employees--sex-'+creationInfo[1]).data('content').split('-')[3];
+               let team = $('#mdl-card__body-table-employees--team-'+creationInfo[1]).data('content').split('-')[3];
+               let login = await addEmployee(name, surname, middlename, post,sex, team);
                if (login === -1) {
                    EmployeesTable.row(button.parents('tr')).remove().draw();
                } else {
@@ -247,6 +273,24 @@ function onTableDraw() {
                        post: post,
                        sex: sex,
                        team: team
+                   }).search("").draw();
+               }
+               break;
+           }
+           case "reason": {
+               let text = $('#mdl-card__body-table-reasons--text-'+creationInfo[1]).text();
+               let change = $('#mdl-card__body-table-reasons--change-'+creationInfo[1]).text();
+               let category_id = $('#mdl-card__body-table-reasons--category-'+creationInfo[1]).data('content').split('-')[3];
+               let id = await addReason(text, change, category_id);
+               if (id === -1) {
+                   TeamsTable.row(button.parents('tr')).remove().draw();
+               } else {
+                   TeamsTable.row(button.parents('tr')).remove();
+                   ReasonsTable.row.add({
+                       id: id,
+                       category_id: category_id,
+                       text: text,
+                       change: change
                    }).search("").draw();
                }
                break;
@@ -274,6 +318,10 @@ function onTableDraw() {
                 EmployeesTable.row(button.parents('tr')).remove().search("").draw();
                 break;
             }
+            case "reasons": {
+                TeamsTable.row(button.parents('tr')).remove().search("").draw();
+                break;
+            }
         }
         $('.mdl-card__menu-button--add[data-content='+creationInfo[0]+']').toggle();
     });
@@ -295,6 +343,10 @@ function onTableDraw() {
             }
             case "employee": {
                 deleteEmployee(editInfo[1], button);
+                break;
+            }
+            case "reason": {
+                deleteReason(editInfo[1], button);
                 break;
             }
         }
@@ -1159,6 +1211,153 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             let value = checkbox.prop('checked');
             editEmployeePermission(editInfo[7], editInfo[6], value);
         });
+        onTableDraw();
+    },
+});
+
+// Reasons
+
+function addReason(text, change, category_id) {
+    return new Promise(resolve => {
+        $.post(__AddReasonLink, { token: Token, text: text, change: change, category_id: category_id }, function (resp) {
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+                resolve(resp.message.id);
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+                resolve(-1);
+            }
+        });
+    });
+}
+
+function editReason(id, text, change, category_id) {
+    $.post(__EditReasonLink, { token: Token, text: text, change: change, category_id: category_id, id: id }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            reloadTables();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+function deleteReason(id, button) {
+    $.post(__DeleteReasonLink, { token: Token, id: id }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            ReasonsTable.row(button.parents('td')).remove().draw();
+            reloadTables();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+let ReasonsTable = $('#mdl-card__body-table-reasons').DataTable({
+    "ajax": {
+        "url": __GetReasonsLink,
+        "type": "GET",
+        "data": {
+            "token": Token,
+        },
+        "dataSrc": function (data) {
+            return data.message.reasons;
+        },
+    },
+    columnDefs: [
+        {
+            targets: 0,
+            name: "category",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "category_id",
+            searchable: false,
+            orderable: true,
+            render: function ( category_id, type, row, meta ) {
+                let dropdown = '<div class="mdl-card__body-table-row__dropdown" ' +
+                    'id="mdl-card__body-table-reasons--category-'+row.id+'"' +
+                    ' data-content="reason-' + row.id + '-category-' + category_id + '">' +
+                    '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetCategoryNameByID(category_id) +'</div><ul>';
+                Categories.forEach(function (category) {
+                    dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="reason-' + row.id + '-category-' + category.id + '">' +
+                        '<span>' + category.name[0].toUpperCase() + category.name.substring(1) + '</span></li>';
+                });
+                return dropdown + '</ul></label></div>';
+            },
+        },
+        {
+            targets: 1,
+            name: "text",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "text",
+            searchable: true,
+            orderable: false,
+            render: function ( text, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-reasons--text-'+row.id+'"' +
+                    ' data-content="reason-'+row.id+'-text">'+
+                    text[0].toUpperCase()+text.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 2,
+            name: "change",
+            data: "change",
+            className: 'mdl-data-table__cell--non-numeric',
+            searchable: true,
+            orderable: false,
+            render: function ( change, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-reasons--change-'+row.id+'"' +
+                    ' data-content="reason-'+row.id+'-change">'+change+'</div>';
+            },
+        },
+        {
+            targets: -1,
+            name: "actions",
+            className: 'mdl-card__body-table-row_actions',
+            data: "id",
+            searchable: false,
+            orderable: false,
+            render: function ( id, type, row, meta ) {
+                if (id === "000") {
+                    return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--create"' +
+                        ' data-content="reason-' + id + '"> ' +
+                        '<i class="material-icons">done</i></button>' +
+                        '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--decline"' +
+                        ' data-content="reason-' + id + '"> ' +
+                        '<i class="material-icons">close</i></button>';
+                } else {
+                    return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
+                        ' data-content="reason-' + id + '"> ' +
+                        '<i class="material-icons">delete_forever</i></button>';
+                }
+            }
+        },
+    ],
+    language: {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка причин...",
+        "zeroRecords": "Причины отсутствуют.",
+        "emptyTable": "Причины отсутствуют",
+        "paginate": {
+            "first": "Первая",
+            "previous": "Пред.",
+            "next": "След.",
+            "last": "Последняя"
+        },
+        "aria": {
+            "sortAscending": ": отсортировать по возрастанию",
+            "sortDescending": ": отсортировать по убыванию"
+        }
+    },
+    "drawCallback": function () {
+        $('#mdl-card__body-table-reasons').css('width', '100%');
         onTableDraw();
     },
 });

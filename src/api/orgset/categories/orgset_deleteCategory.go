@@ -45,6 +45,23 @@ func deleteCategory_Request(id int64) *conf.ApiResponse{
 	if APIerr != nil{
 		return APIerr
 	}
+	APIerr = deleteCategory_Reasons(id)
+	if APIerr != nil {
+		return APIerr
+	}
+	return nil
+}
+
+func deleteCategory_Reasons(id int64) *conf.ApiResponse {
+	query, err := src.CustomConnection.Prepare("DELETE FROM reasons WHERE cat_id=?")
+	if err != nil {
+		return conf.ErrDatabaseQueryFailed
+	}
+	_, err = query.Exec(id)
+	if err != nil {
+		return conf.ErrDatabaseQueryFailed
+	}
+	query.Close()
 	return nil
 }
 

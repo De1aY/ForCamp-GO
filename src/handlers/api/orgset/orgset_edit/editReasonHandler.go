@@ -18,7 +18,7 @@ func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.Api
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
-	CatID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("cat_id")), 10, 64)
+	CatID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil{
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
