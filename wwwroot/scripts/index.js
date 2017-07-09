@@ -4,13 +4,18 @@ $('#submit').click(function () {
         password: $('#password').val()
     }, function (data) {
         if (data.code === 200) {
-            $.cookie('token', data.message.token, {expires: 366, path: '/', secure: true});
-            timeout = setTimeout('window.location.href = "https://forcamp.ga/general"', 2000);
-            notie.alert({type: 1, text: "Вход успешно выполнен!", time: 3});
+            $.cookie('token', data.message.token.replace('%3D', '='), {expires: 366, path: '/', secure: true});
+            window.location.href = "https://forcamp.ga";
         } else {
             notie.alert({type: 3, text: data.message.ru, time: 3});
         }
     }, "json");
+});
+
+$('.fc-auth__form-field').keydown(function (e) {
+   if(e.keyCode === 13) {
+       $('#fc-header__action-button--auth').click();
+   }
 });
 
 $('.fc-auth__overlay').click(function () {
