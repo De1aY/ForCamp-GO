@@ -70,7 +70,6 @@
         .fc-auth__form-label::before {
           content: " ";
           position: absolute;
-          margin-top: -2px;
           width: 100%;
           height: 2px;
           background: $AccentColor;
@@ -80,7 +79,6 @@
           content: " ";
           position: absolute;
           left: 50%;
-          margin-top: -2px;
           width: 0;
           height: 2px;
           transition: width 300ms ease-in-out, left 300ms ease-in-out;

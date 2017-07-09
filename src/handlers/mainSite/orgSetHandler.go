@@ -10,6 +10,7 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/src/api/orgset/settings"
 	//"forcamp/src/api/orgset/categories"
+	"net/url"
 )
 
 type orgSetTemplateData struct {
@@ -32,6 +33,7 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
 		token, err := r.Cookie("token");
+		token.Value, err = url.QueryUnescape(token.Value);
 		if err == nil && tools.CheckToken(token.Value) {
 			orgSetHTML, err := template.New(conf.FILE_ORGSET).Funcs(orgSetTemplateFuncMap).ParseFiles(conf.FILE_ORGSET); if err != nil {
 				w.WriteHeader(http.StatusInternalServerError);

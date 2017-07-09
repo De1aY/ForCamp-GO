@@ -14,7 +14,7 @@ $('#submit').click(function () {
 
 $('.fc-auth__form-field').keydown(function (e) {
    if(e.keyCode === 13) {
-       $('#fc-header__action-button--auth').click();
+       $('#submit').click();
    }
 });
 

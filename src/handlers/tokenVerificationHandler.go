@@ -7,11 +7,12 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strings"
+	"net/url"
 )
 
 // Parse 'Token' from 'GET' data
 func GetToken(r *http.Request) string{
-	Token := strings.TrimSpace(strings.ToLower(r.FormValue("token")))
+	Token, _ := url.QueryUnescape(strings.TrimSpace(strings.ToLower(r.FormValue("token"))))
 	return Token
 }
 
