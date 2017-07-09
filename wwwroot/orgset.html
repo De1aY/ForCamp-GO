@@ -310,7 +310,43 @@
                 </div>
             </div>
         </section>
-        <section class="mdl-layout__tab-panel" id="orgset_employees"></section>
+        <section class="mdl-layout__tab-panel" id="orgset_employees">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">Сотрудники</div>
+                        </div>
+                        <div class="mdl-card__body mdl-card__body--nopad">
+                            <table id="mdl-card__body-table-employees" class="mdl-card__body-table mdl-data-table">
+                                <thead>
+                                <tr>
+                                    <th>Фамилия</th>
+                                    <th>Имя</th>
+                                    <th>Отчество</th>
+                                    <th>Должность</th>
+                                    <th>Пол</th>
+                                    <th>{{.OrgSettings.Team | toTitleCase}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-card__menu-button--download" data-content="employees">
+                                <i class="material-icons">cloud_download</i>
+                            </button>
+                            <button class="mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-card__menu-button--add" data-content="employee">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="mdl-layout__tab-panel" id="orgset_reasons"></section>
         <section class="mdl-layout__tab-panel" id="orgset_achievements"></section>
         <section class="mdl-layout__tab-panel" id="orgset_actions"></section>

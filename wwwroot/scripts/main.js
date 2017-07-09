@@ -6,8 +6,8 @@ let OrgSettings = {
     self_marks: "",
     team: ""
 };
-let Categories = {};
-let Teams = {};
+let Categories = [];
+let Teams = [];
 
 function GetOrganizationSettings() {
     return new Promise ( resolve => {
@@ -53,12 +53,12 @@ function GetTeams() {
 }
 
 function GetTeamNameByID(team_id) {
-    if (team_id === 0) {
-        return "отсутствует";
-    } else {
+    try {
         return Teams.filter(team => {
             return team.id === team_id;
         })[0].name;
+    } catch (e) {
+        return "отсутствует";
     }
 }
 
@@ -67,5 +67,16 @@ function GetSexByID(id) {
         return "мужской";
     } else {
         return "женский";
+    }
+}
+
+function GetCategoryNameByID(category_id) {
+    try {
+        let name = Categories.filter(category => {
+            return category.id === category_id;
+        })[0].name;
+        return name[0].toUpperCase() + name.substring(1);
+    } catch (e) {
+        return "Произошла ошибка";
     }
 }

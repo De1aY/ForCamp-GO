@@ -5,6 +5,15 @@ function reloadTables() {
     TeamsTable.ajax.reload(null, false);
     CategoriesTable.ajax.reload(null, false);
     ParticipantsTable.ajax.reload(null, false);
+    EmployeesTable.ajax.reload(null ,false);
+}
+
+function getDefaultPermissions() {
+    let permissions = [];
+    Categories.forEach(category => {
+       permissions.push({id: category.id, value: "true"});
+    });
+    return permissions;
 }
 
 $(document).ready(function(){
@@ -15,12 +24,12 @@ $(document).ready(function(){
         button.toggle();
         switch (editInfo) {
             case "category": {
-                CategoriesTable.row.add({id: "000", name: "Новая категория", negative_marks: "false"}).draw();
+                CategoriesTable.row.add({id: "000", name: "Новая категория", negative_marks: "false"}).search("Новая категория").draw();
                 $('.mdl-card__body-table-row__field#mdl-card__body-table-categories--name-000').dblclick();
                 break;
             }
             case "team": {
-                TeamsTable.row.add({id: "000", name: "Новая команда", leader: {login: ""}, participants: []}).draw();
+                TeamsTable.row.add({id: "000", name: "Новая команда", leader: {login: ""}, participants: []}).search("Новая команда").draw();
                 $('.mdl-card__body-table-row__field#mdl-card__body-table-teams--name-000').dblclick();
                 break;
             }
@@ -32,13 +41,27 @@ $(document).ready(function(){
                     middlename: "Отчество",
                     sex: 0,
                     team: 0
-                }).draw();
-                $('.mdl-card__body-table-row__field#mdl-card__body-table-participants--name-000').dblclick();
+                }).search("Фамилия Имя Отчество").draw();
+                $('.mdl-card__body-table-row__field#mdl-card__body-table-participants--surname-000').dblclick();
+                break;
+            }
+            case "employee": {
+                EmployeesTable.row.add({
+                    login: "000",
+                    name: "Имя",
+                    surname: "Фамилия",
+                    middlename: "Отчество",
+                    post: "должность",
+                    sex: 0,
+                    team: 0,
+                    permissions: getDefaultPermissions(),
+                }).search("Фамилия Имя Отчество должность").draw();
+                $('.mdl-card__body-table-row__field#mdl-card__body-table-employees--surname-000').dblclick();
                 break;
             }
         }
     });
-    $('.mdl-card__menu-button--download').mousedown(function () {
+    $('.mdl-card__menu-button--download').click(function () {
         let button = $(this);
         let info = button.data('content');
         switch (info) {
@@ -93,13 +116,23 @@ function onTableDraw() {
                             editParticipant(name, surname, middlename, sex, team, editInfo[1]);
                             break;
                         }
+                        case "employee": {
+                            let name = $('#mdl-card__body-table-employees--name-'+editInfo[1]).text();
+                            let surname = $('#mdl-card__body-table-employees--surname-'+editInfo[1]).text();
+                            let middlename = $('#mdl-card__body-table-employees--middlename-'+editInfo[1]).text();
+                            let post = $('#mdl-card__body-table-employees--post-'+editInfo[1]).text();
+                            let sex = $('#mdl-card__body-table-employees--sex-'+editInfo[1]).data('content').split('-')[3];
+                            let team = $('#mdl-card__body-table-employees--team-'+editInfo[1]).data('content').split('-')[3];
+                            editEmployee(name, surname, middlename, post, sex, team, editInfo[1]);
+                            break;
+                        }
                     }
                 }
             }
         });
     });
-    $('.mdl-card__body-table-row_switch').unbind('mousedown').mousedown( function () {
-        let toggle = $(this);
+    $('.mdl-card__body-table-row_switch').children('label').children('input').unbind('change').change( function () {
+        let toggle = $(this).parents('label');
         let editInfo = toggle.attr('for').split('--')[1].split('-');
         let editObject = toggle.attr('for').split('--')[0].split('-')[3];
         if (editInfo[1] !== "000") {
@@ -132,10 +165,20 @@ function onTableDraw() {
                     editParticipant(name, surname, middlename, sex, team, editInfo[1]);
                     break;
                 }
+                case "employee": {
+                    let name = $('#mdl-card__body-table-employees--name-'+editInfo[1]).text();
+                    let surname = $('#mdl-card__body-table-employees--surname-'+editInfo[1]).text();
+                    let middlename = $('#mdl-card__body-table-employees--middlename-'+editInfo[1]).text();
+                    let post = $('#mdl-card__body-table-employees--post-'+editInfo[1]).text();
+                    let sex = $('#mdl-card__body-table-employees--sex-'+editInfo[1]).data('content').split('-')[3];
+                    let team = $('#mdl-card__body-table-employees--team-'+editInfo[1]).data('content').split('-')[3];
+                    editEmployee(name, surname, middlename, post, sex, team, editInfo[1]);
+                    break;
+                }
             }
         });
     });
-    $('.mdl-card__body-table-row_actions--create').unbind('mousedown').mousedown(async function () {
+    $('.mdl-card__body-table-row_actions--create').unbind('click').click(async function () {
        let button = $(this);
        let creationInfo = button.data('content').split('-');
        switch (creationInfo[0]) {
@@ -146,7 +189,7 @@ function onTableDraw() {
                    TeamsTable.row(button.parents('tr')).remove().draw();
                } else {
                    TeamsTable.row(button.parents('tr')).remove();
-                   TeamsTable.row.add({id: id, name: name, leader: {login: ""}, participants: []}).draw();
+                   TeamsTable.row.add({id: id, name: name, leader: {login: ""}, participants: []}).search("").draw();
                }
                break;
            }
@@ -158,7 +201,7 @@ function onTableDraw() {
                    CategoriesTable.row(button.parents('tr')).remove().draw();
                } else {
                    CategoriesTable.row(button.parents('tr')).remove();
-                   CategoriesTable.row.add({id: id, name: name, negative_marks: negative_marks}).draw();
+                   CategoriesTable.row.add({id: id, name: name, negative_marks: negative_marks}).search("").draw();
                }
                break;
            }
@@ -180,33 +223,61 @@ function onTableDraw() {
                        middlename: middlename,
                        sex: sex,
                        team: team
-                   }).draw();
+                   }).search("").draw();
+               }
+               break;
+           }
+           case "employee": {
+               let name = $('#mdl-card__body-table-employees--name-'+editInfo[1]).text();
+               let surname = $('#mdl-card__body-table-employees--surname-'+editInfo[1]).text();
+               let middlename = $('#mdl-card__body-table-employees--middlename-'+editInfo[1]).text();
+               let post = $('#mdl-card__body-table-employees--post-'+editInfo[1]).text();
+               let sex = $('#mdl-card__body-table-employees--sex-'+editInfo[1]).data('content').split('-')[3];
+               let team = $('#mdl-card__body-table-employees--team-'+editInfo[1]).data('content').split('-')[3];
+               let login = addEmployee(name, surname, middlename, sex, team);
+               if (login === -1) {
+                   EmployeesTable.row(button.parents('tr')).remove().draw();
+               } else {
+                   EmployeesTable.row(button.parents('tr')).remove();
+                   EmployeesTable.row.add({
+                       login: login,
+                       name: name,
+                       surname: surname,
+                       middlename: middlename,
+                       post: post,
+                       sex: sex,
+                       team: team
+                   }).search("").draw();
                }
                break;
            }
        }
         $('.mdl-card__menu-button--add[data-content='+creationInfo[0]+']').toggle();
     });
-    $('.mdl-card__body-table-row_actions--decline').unbind('mousedown').mousedown(async function () {
+    $('.mdl-card__body-table-row_actions--decline').unbind('click').click(async function () {
         let button = $(this);
         let creationInfo = button.data('content').split('-');
         switch (creationInfo[0]) {
             case "team": {
-                TeamsTable.row(button.parents('tr')).remove().draw();
+                TeamsTable.row(button.parents('tr')).remove().search("").draw();
                 break;
             }
             case "category": {
-                CategoriesTable.row(button.parents('tr')).remove().draw();
+                CategoriesTable.row(button.parents('tr')).remove().search("").draw();
                 break;
             }
             case "participant": {
-                ParticipantsTable.row(button.parents('tr')).remove().draw();
+                ParticipantsTable.row(button.parents('tr')).remove().search("").draw();
+                break;
+            }
+            case "employee": {
+                EmployeesTable.row(button.parents('tr')).remove().search("").draw();
                 break;
             }
         }
         $('.mdl-card__menu-button--add[data-content='+creationInfo[0]+']').toggle();
     });
-    $('.mdl-card__body-table-row_actions--delete').unbind('mousedown').mousedown( function () {
+    $('.mdl-card__body-table-row_actions--delete').unbind('click').click( function () {
         let button = $(this);
         let editInfo = button.data('content').split('-');
         switch (editInfo[0]){
@@ -222,14 +293,18 @@ function onTableDraw() {
                 deleteParticipant(editInfo[1], button);
                 break;
             }
+            case "employee": {
+                deleteEmployee(editInfo[1], button);
+                break;
+            }
         }
     });
-    $('.mdl-card__body-table-row_actions--reset_password').unbind('mousedown').mousedown( function () {
+    $('.mdl-card__body-table-row_actions--reset_password').unbind('click').click( function () {
         let button = $(this);
         let editInfo = button.data('content').split('-');
         switch (editInfo[0]){
             case "employee": {
-                deleteCategory(editInfo[1]);
+                resetEmployeePassword(editInfo[1]);
                 break;
             }
             case "participant": {
@@ -238,7 +313,7 @@ function onTableDraw() {
             }
         }
     });
-    $('.mdl-card__body-table-row_actions--profile').unbind('mousedown').mousedown( function () {
+    $('.mdl-card__body-table-row_actions--profile').unbind('click').click( function () {
        let button = $(this);
        let login = button.data('content').split('-')[1];
        window.location.href = "https://forcamp.ga/profile?login=" + login;
@@ -344,7 +419,7 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
             }
         },
         {
-            targets: 3,
+            targets: -1,
             name: "actions",
             className: 'mdl-card__body-table-row_actions',
             data: "id",
@@ -392,7 +467,6 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
         $('#mdl-card__body-table-teams').css('width', '100%');
         onTableDraw();
     },
-    responsive: true,
 });
 
 // Settings
@@ -422,7 +496,7 @@ function editOrganizationSettings() {
     });
 }
 
-$('.mdl-card__body-row-switch').mousedown(function () {
+$('.mdl-card__body-row-switch').children('label').children('input').change(function () {
     let toggle = $(this);
     let content = toggle.data('content');
     OrgSettings[content] = $('#fc-orgset__main-'+content).prop('checked');
@@ -500,7 +574,7 @@ function addCategory(name, negative_marks) {
 }
 
 function editCategory(name, negative_marks, id) {
-    $.post(__EditCategoryLink, { token: Token, name: name, negative_marks: !negative_marks, id: id}, function (resp) {
+    $.post(__EditCategoryLink, { token: Token, name: name, negative_marks: negative_marks, id: id}, function (resp) {
        if(resp.code === 200) {
            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
            reloadTables();
@@ -555,20 +629,20 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
             orderable: false,
             render: function ( negative_marks, type, row, meta ) {
                 if(negative_marks === "true") {
-                    return '<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect mdl-card__body-table-row_switch"' +
+                    return '<div class="mdl-card__body-table-row_switch"><label class="mdl-switch mdl-js-switch mdl-js-ripple-effect"' +
                         'for="mdl-card__body-table-categories--negative_marks-' + row.id + '">' +
                         '<input type="checkbox" id="mdl-card__body-table-categories--negative_marks-' + row.id + '" class="mdl-switch__input" checked> ' +
-                        '<span class="mdl-switch__label"></span></label>';
+                        '<span class="mdl-switch__label"></span></label></div>';
                 } else {
-                    return '<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect mdl-card__body-table-row_switch"' +
+                    return '<div class="mdl-card__body-table-row_switch"><label class="mdl-switch mdl-js-switch mdl-js-ripple-effect"' +
                         'for="mdl-card__body-table-categories--negative_marks-' + row.id + '">' +
                         '<input type="checkbox" id="mdl-card__body-table-categories--negative_marks-' + row.id + '" class="mdl-switch__input"> ' +
-                        '<span class="mdl-switch__label"></span></label>';
+                        '<span class="mdl-switch__label"></span></label></div>';
                 }
             },
         },
         {
-            targets: 2,
+            targets: -1,
             name: "actions",
             className: 'mdl-card__body-table-row_actions',
             data: "id",
@@ -616,7 +690,6 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
         $('#mdl-card__body-table-categories').css('width', '100%');
         onTableDraw();
     },
-    responsive: true,
 });
 
 // Participants
@@ -737,8 +810,8 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
                     'id="mdl-card__body-table-participants--sex-'+row.login+'"' +
                     ' data-content="participant-' + row.login + '-sex-' + sex + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">'+GetSexByID(sex)+'</div><ul>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field" data-content="participant-' + row.login + '-sex-0"><span class="wave-effect">мужской</span></li>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field" data-content="participant-' + row.login + '-sex-1"><span class="wave-effect">женский</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-sex-0"><span>мужской</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-sex-1"><span>женский</span></li>'+
                     '</ul></label></div>';
             },
         },
@@ -753,16 +826,18 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
                 let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
                 'id="mdl-card__body-table-participants--team-'+row.login+'"' +
                 ' data-content="participant-' + row.login + '-team-' + team_id + '">' +
-                '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>';
+                '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>'+
+                '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-team-0">' +
+                    '<span>отсутствует</span></li>';
                 Teams.forEach(function (team) {
                     dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-team-' + team.id + '">' +
-                        '<span class="wave-effect">' + team.name + '</span></li>';
+                        '<span>' + team.name + '</span></li>';
                 });
                 return dropdown + '</ul></label></div>';
             }
         },
         {
-            targets: 5,
+            targets: -1,
             name: "actions",
             className: 'mdl-card__body-table-row_actions',
             data: "login",
@@ -816,5 +891,274 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
         $('#mdl-card__body-table-participants').css('width', '100%');
         onTableDraw();
     },
-    responsive: true,
+});
+
+// Employees
+
+function addEmployee(name, surname, middlename, post, sex, team) {
+    return new Promise(resolve => {
+        $.post(__AddEmployeeLink, { token: Token,
+            name: name,
+            surname: surname,
+            middlename: middlename,
+            post: post,
+            sex: sex,
+            team: team}, function (resp) {
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+                resolve(resp.message.id);
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+                resolve(-1);
+            }
+        });
+    });
+}
+
+function editEmployee(name, surname, middlename, post, sex, team, login) {
+    $.post(__EditEmployeeLink, { token: Token,
+        name: name,
+        surname: surname,
+        middlename: middlename,
+        sex: sex,
+        team: team,
+        post: post,
+        login: login}, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            reloadTables();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+function deleteEmployee(login, button) {
+    $.post(__DeleteEmployeeLink, { token: Token, login: login }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            EmployeesTable.row(button.parents('td')).remove().draw();
+            reloadTables();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+function editEmployeePermission(login, category_id, value) {
+    $.post(__EditEmployeePermissionLink, { token: Token, login: login, id: category_id, value: value }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+function resetEmployeePassword(login) {
+    $.post(__ResetEmployeePasswordLink, { token: Token, login: login }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
+    "ajax": {
+        "url": __GetEmployeesLink,
+        "type": "GET",
+        "data": {
+            "token": Token,
+        },
+        "dataSrc": function (data) {
+            return data.message.employees;
+        },
+    },
+    columnDefs: [
+        {
+            targets: 0,
+            name: "surname",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "surname",
+            render: function ( surname, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--surname-'+row.login+'"' +
+                    ' data-content="employee-'+row.login+'-surname">'+
+                    surname[0].toUpperCase()+surname.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 1,
+            name: "name",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "name",
+            render: function ( name, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--name-'+row.login+'"' +
+                    ' data-content="employee-'+row.login+'-name">'+
+                    name[0].toUpperCase()+name.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 2,
+            name: "middlename",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "middlename",
+            render: function ( middlename, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--middlename-'+row.login+'"' +
+                    ' data-content="employee-'+row.login+'-middlename">'+
+                    middlename[0].toUpperCase()+middlename.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 3,
+            name: "post",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "post",
+            orderable: false,
+            render: function ( post, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--post-'+row.login+'"' +
+                    ' data-content="employee-'+row.login+'-post">'+
+                    post[0].toUpperCase()+post.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 4,
+            name: "sex",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "sex",
+            searchable: false,
+            orderable: false,
+            render: function ( sex, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
+                    'id="mdl-card__body-table-employees--sex-'+row.login+'"' +
+                    ' data-content="employee-' + row.login + '-sex-' + sex + '">' +
+                    '<div class="mdl-card__body-table-row__dropdown-ttl">'+GetSexByID(sex)+'</div><ul>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-sex-0"><span>мужской</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-sex-1"><span>женский</span></li>'+
+                    '</ul></label></div>';
+            },
+        },
+        {
+            targets: 5,
+            name: "team",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "team",
+            searchable: true,
+            orderable: true,
+            render: function ( team_id, type, row, meta ) {
+                let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
+                    'id="mdl-card__body-table-employees--team-'+row.login+'"' +
+                    ' data-content="employee-' + row.login + '-team-' + team_id + '">' +
+                    '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-team-0">' +
+                    '<span>отсутствует</span></li>';
+                Teams.forEach(function (team) {
+                    dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-team-' + team.id + '">' +
+                        '<span>' + team.name + '</span></li>';
+                });
+                return dropdown + '</ul></label></div>';
+            }
+        },
+        {
+            targets: -2,
+            name: "permissions",
+            className: 'mdl-card__body-table-cell--addition',
+            data: "permissions",
+            searchable: false,
+            orderable: false,
+            render: function ( permissions, type, row, meta ) {
+                let additionalContent = '<div class="mdl-card__body-table-row__switch-dropdown"><div class="mdl-card__body-table-row__switch-dropdown-ttl"></div><ul>';
+                if (permissions !==undefined) {
+                    permissions.forEach(permission => {
+                        if(permission.value === "true") {
+                            additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
+                                'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
+                                '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input" checked> ' +
+                                '<span class="mdl-checkbox__label">' + GetCategoryNameByID(permission.id) + '</span></label></div></li>';
+                        } else {
+                            additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
+                                'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
+                                '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input"> ' +
+                                '<span class="mdl-checkbox__label">' + GetCategoryNameByID(permission.id) + '</span></label></div></li>';
+                        }
+                    });
+                }
+                return additionalContent + '</ul></div>'
+            }
+        },
+        {
+            targets: -1,
+            name: "actions",
+            className: 'mdl-card__body-table-row_actions',
+            data: "login",
+            searchable: false,
+            orderable: false,
+            render: function ( login, type, row, meta ) {
+                if (login === "000") {
+                    return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--create"' +
+                        ' data-content="employee-' + login + '"> ' +
+                        '<i class="material-icons">done</i></button>' +
+                        '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--decline"' +
+                        ' data-content="employee-' + login + '"> ' +
+                        '<i class="material-icons">close</i></button>';
+                } else {
+                    return '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--profile"' +
+                        ' data-content="employee-' + login + '"> ' +
+                        '<i class="material-icons">person</i></button>' +
+                        '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--permissions"' +
+                        ' data-content="employee-' + login + '"> ' +
+                        '<i class="material-icons">vpn_key</i></button>' +
+                        '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--reset_password"' +
+                        ' data-content="employee-' + login + '"> ' +
+                        '<i class="material-icons">refresh</i></button>' +
+                        '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
+                        ' data-content="employee-' + login + '"> ' +
+                        '<i class="material-icons">delete_forever</i></button>';
+                }
+            }
+        },
+    ],
+    language: {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка сотрудников...",
+        "zeroRecords": "Сотрудники отсутствуют.",
+        "emptyTable": "Сотрудники отсутствуют",
+        "paginate": {
+            "first": "Первая",
+            "previous": "Пред.",
+            "next": "След.",
+            "last": "Последняя"
+        },
+        "aria": {
+            "sortAscending": ": отсортировать по возрастанию",
+            "sortDescending": ": отсортировать по убыванию"
+        }
+    },
+    "drawCallback": function () {
+        $('#mdl-card__body-table-employees').css('width', '100%');
+        $('.mdl-card__body-table-row_actions--permissions').unbind('mousedown').mousedown( function () {
+            let button = $(this);
+            let additionContent = button.parents('tr').children('.mdl-card__body-table-cell--addition').children('.mdl-card__body-table-row__switch-dropdown');
+            if (additionContent.hasClass('mdl-card__body-table-row__switch-dropdown--editing')) {
+                additionContent.removeClass('mdl-card__body-table-row__switch-dropdown--editing');
+            } else {
+                additionContent.addClass('mdl-card__body-table-row__switch-dropdown--editing');
+            }
+        });
+        $('.mdl-card__body-table-row__switch-dropdown ul li label input').unbind("change").change(function () {
+            let checkbox = $(this);
+            let editInfo = checkbox.attr('id').split('-');
+            let value = checkbox.prop('checked');
+            editEmployeePermission(editInfo[7], editInfo[6], value);
+        });
+        onTableDraw();
+    },
 });

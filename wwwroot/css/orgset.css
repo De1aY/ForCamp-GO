@@ -146,12 +146,51 @@ body .mdl-card {
         display: none; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown--editing .mdl-card__body-table-row__dropdown-ttl ~ ul {
         max-height: 120px; }
+      body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul {
+        z-index: 20;
+        margin: 0;
+        padding: 0;
+        max-height: 0;
+        position: absolute;
+        top: 0;
+        background: #FFF;
+        font-weight: 400;
+        text-align: center;
+        list-style-type: none;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        overflow-x: hidden;
+        -ms-overflow-style: none;
+        transition: max-height 300ms ease-in-out; }
+        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li {
+          display: block;
+          font-size: 14px;
+          text-align: left;
+          height: 52px; }
+          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li div {
+            display: block;
+            padding: 14px 16px;
+            color: #3f51b5; }
+        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li:hover {
+          background: #eee; }
+      body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul::-webkit-scrollbar {
+        display: none; }
+      body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown--editing .mdl-card__body-table-row__switch-dropdown-ttl ~ ul {
+        max-height: 120px; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--create {
         color: #57bf57; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--decline {
         color: #e1515b; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--delete {
         color: #e1515b; }
+    body .mdl-card .mdl-card__body .dt-table .mdl-cell {
+      overflow-x: scroll;
+      -ms-overflow-style: none;
+      padding-bottom: 65px; }
+    body .mdl-card .mdl-card__body .dt-table .mdl-cell::-webkit-scrollbar {
+      display: none; }
+    body .mdl-card .mdl-card__body .dt-table ~ .mdl-grid {
+      margin-top: -50px; }
   body .mdl-card .mdl-card__body--nopad {
     padding: 0; }
 
