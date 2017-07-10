@@ -1121,7 +1121,8 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             searchable: false,
             orderable: false,
             render: function ( permissions, type, row, meta ) {
-                let additionalContent = '<div class="mdl-card__body-table-row__switch-dropdown"><div class="mdl-card__body-table-row__switch-dropdown-ttl"></div><ul>';
+                let additionalContent = '<div class="mdl-card__body-table-row__switch-dropdown"><div class="mdl-card__body-table-row__switch-dropdown-ttl"></div><ul>'+
+                    '<li><div class="mdl-card__body-table-row__switch-dropdown-button">Закрыть</div></li>';
                 if (permissions !==undefined) {
                     permissions.forEach(permission => {
                         if(permission.value === "true") {
@@ -1210,6 +1211,10 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             let editInfo = checkbox.attr('id').split('-');
             let value = checkbox.prop('checked');
             editEmployeePermission(editInfo[7], editInfo[6], value);
+        });
+        $('.mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button').unbind('click').click(function () {
+           let button = $(this);
+           button.parents('.mdl-card__body-table-row__switch-dropdown').removeClass('mdl-card__body-table-row__switch-dropdown--editing')
         });
         onTableDraw();
     },

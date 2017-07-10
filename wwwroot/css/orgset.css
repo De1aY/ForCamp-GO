@@ -171,6 +171,12 @@ body .mdl-card {
             display: block;
             padding: 14px 16px;
             color: #3f51b5; }
+          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button {
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer; }
+          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button:hover {
+            background: #eee; }
         body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li:hover {
           background: #eee; }
       body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul::-webkit-scrollbar {

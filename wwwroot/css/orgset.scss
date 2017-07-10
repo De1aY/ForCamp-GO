@@ -193,6 +193,14 @@ body {
                 color: $MainColor;
               }
 
+              .mdl-card__body-table-row__switch-dropdown-button {
+                font-size: 16px;
+                text-align: center;
+                cursor: pointer;
+              }
+
+              .mdl-card__body-table-row__switch-dropdown-button:hover { background: $HoverColor; }
+
             }
 
             li:hover { background: $HoverColor; }
