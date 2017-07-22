@@ -29,11 +29,11 @@ func GetReasons(token string, responseWriter http.ResponseWriter) bool{
 				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(Organization)
-			rawResp, APIerr := getReasons_Request()
+			rawResp, APIerr := GetReasons_Request()
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
-			resp := conf.ApiResponse{200, "success", rawResp}
+			resp := conf.ApiResponse{200, "success", getReasons_Success{rawResp}}
 			resp.Print(responseWriter)
 		} else {
 			return conf.ErrUserTokenIncorrect.Print(responseWriter)
@@ -42,17 +42,17 @@ func GetReasons(token string, responseWriter http.ResponseWriter) bool{
 	return true
 }
 
-func getReasons_Request() (getReasons_Success, *conf.ApiResponse){
+func GetReasons_Request() ([]Reason, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Query("SELECT id,cat_id,text,modification FROM reasons")
 	if err != nil {
 		log.Print(err)
-		return getReasons_Success{}, conf.ErrDatabaseQueryFailed
+		return nil, conf.ErrDatabaseQueryFailed
 	}
 	Reasons, APIerr := getReasonsFromQuery(Query)
 	if APIerr != nil {
-		return getReasons_Success{}, APIerr
+		return nil, APIerr
 	}
-	return getReasons_Success{Reasons}, nil
+	return Reasons, nil
 }
 
 func getReasonsFromQuery(rows *sql.Rows) ([]Reason, *conf.ApiResponse){

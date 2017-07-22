@@ -9,7 +9,6 @@ import (
 	"forcamp/src/api/users"
 	"forcamp/src/api/orgset"
 	"forcamp/src/api/orgset/settings"
-	//"forcamp/src/api/orgset/categories"
 	"net/url"
 )
 
@@ -18,7 +17,6 @@ type orgSetTemplateData struct {
 	Login string
 	UserData users.UserData
 	OrgSettings settings.OrgSettings
-	//Categories []categories.Category
 	// Flags
 	IsAdmin bool
 	IsEmployee bool
@@ -27,13 +25,13 @@ type orgSetTemplateData struct {
 var orgSetTemplateFuncMap = template.FuncMap{
 	"stringToBoolean": tools.StringToBoolean,
 	"toTitleCase": tools.ToTitleCase,
-};
+}
 
 func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
 		token, err := r.Cookie("token");
-		token.Value, err = url.QueryUnescape(token.Value);
+		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
 			orgSetHTML, err := template.New(conf.FILE_ORGSET).Funcs(orgSetTemplateFuncMap).ParseFiles(conf.FILE_ORGSET); if err != nil {
 				w.WriteHeader(http.StatusInternalServerError);
@@ -41,7 +39,11 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 			ostd, apiErr := getOrgSetTemplateData(token.Value); if apiErr != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
-			orgSetHTML.ExecuteTemplate(w, "orgset", ostd);
+			if ostd.UserData.Access == 2 {
+				orgSetHTML.ExecuteTemplate(w, "orgset", ostd)
+			} else {
+				http.Redirect(w, r, "https://forcamp.ga/general", http.StatusTemporaryRedirect)
+			}
 		} else {
 			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
@@ -52,37 +54,23 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 
 func getOrgSetTemplateData (token string) (orgSetTemplateData, *conf.ApiResponse) {
 	var ostd orgSetTemplateData
-	ostd.Token = token;
-	Organization, _, apiErr := orgset.GetUserOrganizationAndLoginByToken(token); if apiErr != nil {
+	ostd.Token = token
+	organization, login, apiErr := orgset.GetUserOrganizationAndLoginByToken(token); if apiErr != nil {
 		return ostd, apiErr
 	}
-	src.CustomConnection = src.Connect_Custom(Organization)
-	apiErr = getOrgSetTemplateData_Login(token, &ostd); if apiErr != nil {
+	src.CustomConnection = src.Connect_Custom(organization)
+	ostd.Login = login
+	apiErr = ostd.GetUserData(); if apiErr != nil {
 		return ostd, apiErr
 	}
-	apiErr = getOrgSetTemplateData_UserData(&ostd); if apiErr != nil {
+	apiErr = ostd.GetOrgSettings(); if apiErr != nil {
 		return ostd, apiErr
 	}
-	apiErr = getOrgSetTemplateData_OrgSettings(&ostd); if apiErr != nil {
-		return ostd, apiErr
-	}
-	//apiErr = getOrgSetTemplateData_Categories(&ostd); if apiErr != nil {
-	//	return ostd, apiErr
-	//}
-	getOrgSetTemplateData_SetFlags(&ostd)
+	ostd.SetFlags()
 	return ostd, nil
 }
 
-func getOrgSetTemplateData_Login (token string, ostd *orgSetTemplateData) *conf.ApiResponse {
-	login, apiErr := users.GetUserLogin_Request(token)
-	if apiErr != nil {
-		return apiErr
-	}
-	ostd.Login = login
-	return nil
-}
-
-func getOrgSetTemplateData_UserData (ostd *orgSetTemplateData) *conf.ApiResponse {
+func (ostd *orgSetTemplateData) GetUserData() *conf.ApiResponse {
 	userData, apiErr := users.GetUserData_Request(ostd.Login)
 	if apiErr != nil {
 		return apiErr
@@ -91,7 +79,7 @@ func getOrgSetTemplateData_UserData (ostd *orgSetTemplateData) *conf.ApiResponse
 	return nil
 }
 
-func getOrgSetTemplateData_OrgSettings (ostd *orgSetTemplateData) *conf.ApiResponse {
+func (ostd *orgSetTemplateData) GetOrgSettings() *conf.ApiResponse {
 	orgSettings, apiErr := settings.GetOrgSettings_Request()
 	if apiErr != nil {
 		return apiErr
@@ -100,31 +88,21 @@ func getOrgSetTemplateData_OrgSettings (ostd *orgSetTemplateData) *conf.ApiRespo
 	return nil
 }
 
-/*
-func getOrgSetTemplateData_Categories (ostd *orgSetTemplateData) *conf.ApiResponse {
-	categories, apiErr := categories.GetCategories_Request()
-	if apiErr != nil {
-		return apiErr
-	}
-	ostd.Categories = categories
-	return nil
-}*/
-
 // Flags
 
-func getOrgSetTemplateData_SetFlags(ostd *orgSetTemplateData) {
-	getOrgSetTemplateData_SetFlagIsAdmin(ostd);
-	getOrgSetTemplateData_SetFlagIsEmployee(ostd);
+func (ostd *orgSetTemplateData) SetFlags() {
+	ostd.setFlag_IsAdmin();
+	ostd.setFlag_IsEmployee();
 }
 
-func getOrgSetTemplateData_SetFlagIsAdmin(ostd *orgSetTemplateData) {
+func (ostd *orgSetTemplateData) setFlag_IsAdmin(){
 	if ostd.UserData.Access == 2 {
 		ostd.IsAdmin = true
 		ostd.IsEmployee = true
 	}
 }
 
-func getOrgSetTemplateData_SetFlagIsEmployee(ostd *orgSetTemplateData) {
+func (ostd *orgSetTemplateData) setFlag_IsEmployee() {
 	if ostd.UserData.Access == 1 {
 		ostd.IsEmployee = true
 	}

@@ -59,4 +59,257 @@ body {
 
   }
 
+  .mdl-card {
+    width: 100%;
+    min-height: 125px;
+
+    .mdl-card__body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+
+      .mdl-card__body-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .mdl-card__body-row-icon {
+          margin-right: 10px;
+        }
+
+        .mdl-card__body-row-text--editing { margin-top: 4px; }
+
+        .mdl-card__body-row-text--editing:after {
+          content: ' ';
+          display: block;
+          margin-top: 2px;
+          height: 2px;
+          width: 100%;
+          background: $MainColor;
+        }
+
+        .mdl-card__body-row-text--capitalize { text-transform: capitalize }
+        .mdl-card__body-row-text--uppercase  { text-transform: uppercase }
+
+        .mdl-card__body-row-switch {
+
+          .mdl-switch__track { margin-top: 1px; }
+          .mdl-switch__thumb { margin-top: 1px; }
+          .mdl-switch__ripple-container { margin-top: 1px }
+
+        }
+
+        .mdl-card__body-row-switch--16px {
+
+          .mdl-switch__label {
+            font-size: 16px;
+          }
+
+        }
+
+        .mdl-card__body-row-switch--24px {
+
+          .mdl-switch__label {
+            font-size: 24px;
+          }
+
+        }
+
+        .mdl-card__body-row-switch--32px {
+
+          .mdl-switch__label {
+            font-size: 32px;
+          }
+
+        }
+
+        .mdl-card__body-row-actions {
+          margin-left: auto;
+          margin-right: 0;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          button[display=block]:not(:last-child) { margin-right: 5px; }
+
+          .mdl-card__body-row-button--off     { display: none }
+          .mdl-card__body-row-button--accept  { color: $SuccessColor; }
+          .mdl-card__body-row-button--decline { color: $ErrorColor; }
+
+        }
+
+      }
+
+      .mdl-card__body-row--16px { font-size: 16px }
+      .mdl-card__body-row--24px { font-size: 24px }
+      .mdl-card__body-row--32px { font-size: 32px }
+
+      .mdl-card__body-table     {
+        width: 100%;
+
+        .mdl-card__body-table-row__field {
+          min-height: 18px;
+        }
+
+        .mdl-card__body-table-row__field--editing { margin-top: 4px; }
+
+        .mdl-card__body-table-row__field--editing:after {
+          content: ' ';
+          display: block;
+          height: 2px;
+          width: 0;
+          margin-top: 2px;
+          transition: width 300ms ease-in-out;
+          background: $MainColor;
+        }
+
+        .mdl-card__body-table-row__field--editing:focus:after { width: 100%; }
+        .mdl-card__body-table-row__field--capitalize { text-transform: capitalize }
+
+        .mdl-card__body-table-row__dropdown {
+
+          ul {
+            z-index: 20;
+            margin: 0;
+            padding: 0;
+            max-height: 0;
+            position: absolute;
+            top: 0;
+            background: #FFF;
+            font-weight: 400;
+            text-align: center;
+            list-style-type: none;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -ms-overflow-style: none;
+            transition: max-height 300ms ease-in-out;
+
+            li {
+              display: block;
+              font-size: 14px;
+              text-align: left;
+              height: 52px;
+
+              span {
+                display: block;
+                padding: 14px 16px;
+                color: $MainColor;
+                cursor: pointer;
+              }
+
+            }
+
+            li:hover { background: $HoverColor; }
+
+          }
+
+          ul::-webkit-scrollbar {
+            display: none;
+          }
+
+        }
+
+        .mdl-card__body-table-row__dropdown--editing {
+
+          .mdl-card__body-table-row__dropdown-ttl ~ ul { max-height: 120px; }
+
+        }
+
+        .mdl-card__body-table-row__switch-dropdown {
+
+          ul {
+            z-index: 20;
+            margin: 0;
+            padding: 0;
+            max-height: 0;
+            position: absolute;
+            top: 0;
+            background: #FFF;
+            font-weight: 400;
+            text-align: center;
+            list-style-type: none;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -ms-overflow-style: none;
+            transition: max-height 300ms ease-in-out;
+
+            li {
+              display: block;
+              font-size: 14px;
+              text-align: left;
+              height: 52px;
+
+              div {
+                display: block;
+                padding: 14px 16px;
+                color: $MainColor;
+              }
+
+              .mdl-card__body-table-row__switch-dropdown-button {
+                font-size: 16px;
+                text-align: center;
+                cursor: pointer;
+              }
+
+              .mdl-card__body-table-row__switch-dropdown-button:hover { background: $HoverColor; }
+
+            }
+
+            li:hover { background: $HoverColor; }
+
+          }
+
+          ul::-webkit-scrollbar {
+            display: none;
+          }
+
+        }
+
+        .mdl-card__body-table-row__switch-dropdown--editing {
+
+          .mdl-card__body-table-row__switch-dropdown-ttl ~ ul { max-height: 120px; }
+
+        }
+
+        .mdl-card__body-table-row_actions {
+
+          .mdl-card__body-table-row_actions--create  { color: $SuccessColor; }
+          .mdl-card__body-table-row_actions--decline { color: $ErrorColor; }
+          .mdl-card__body-table-row_actions--delete  { color: $ErrorColor; }
+
+        }
+
+      }
+
+      .dt-table {
+
+        .mdl-cell {
+          overflow-x: scroll;
+          -ms-overflow-style: none;
+          padding-bottom: 65px;
+        }
+
+        .mdl-cell::-webkit-scrollbar {
+          display: none;
+        }
+
+      }
+
+      .dt-table ~ .mdl-grid {
+        margin-top: -50px;
+      }
+
+    }
+
+    .mdl-card__body--nopad {
+      padding: 0;
+    }
+
+  }
+
 }

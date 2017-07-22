@@ -7,11 +7,9 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/src"
 	"log"
-	"encoding/json"
-	"fmt"
 )
 
-type marksChange struct {
+type MarksChange struct {
 	ID int64 `json:"id"`
 	Employee_login string `json:"employee_login"`
 	Participant_login string `json:"participant_login"`
@@ -29,16 +27,8 @@ type marksChange_Raw struct {
 }
 
 type getMarksChanges_Success struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
-	Marks_changes []marksChange `json:"marks_changes"`
+	Marks_changes []MarksChange `json:"marks_changes"`
 }
-
-func (success *getMarksChanges_Success) toJSON() string {
-	resp, _ := json.Marshal(success)
-	return string(resp)
-}
-
 
 func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 	if authorization.CheckTokenForEmpty(token, responseWriter){
@@ -48,11 +38,12 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organization)
-			response, APIerr := getMarksChanges_Request()
+			rawResp, APIerr := GetMarksChanges_Request()
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
-			fmt.Fprintf(responseWriter, response.toJSON())
+			resp := &conf.ApiResponse{200, "success", getMarksChanges_Success{rawResp}}
+			resp.Print(responseWriter)
 		} else {
 			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
@@ -60,20 +51,25 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getMarksChanges_Request() (getMarksChanges_Success, *conf.ApiResponse) {
+func GetMarksChanges_Request() ([]MarksChange, *conf.ApiResponse) {
 	marksChangesRaw, APIerr := getMarksChangesFromDataTable()
 	if APIerr != nil {
-		return getMarksChanges_Success{}, APIerr
+		return nil, APIerr
 	}
-	marksChanges := make([]marksChange, 0)
+	marksChanges := make([]MarksChange, 0)
 	for i := range marksChangesRaw {
 		reasonText, reasonChange, APIerr := getReasonText(marksChangesRaw[i].Reason_ID)
 		if APIerr != nil {
-			return getMarksChanges_Success{}, APIerr
+			return nil, APIerr
 		}
-		marksChanges = append(marksChanges, marksChange{ID: marksChangesRaw[i].ID, Employee_login: marksChangesRaw[i].Employee_login, Participant_login: marksChangesRaw[i].Participant_login, Text: reasonText, Time: marksChangesRaw[i].Time, Change: reasonChange})
+		marksChanges = append(marksChanges, MarksChange{ID: marksChangesRaw[i].ID,
+			Employee_login: marksChangesRaw[i].Employee_login,
+			Participant_login: marksChangesRaw[i].Participant_login,
+			Text: reasonText,
+			Time: marksChangesRaw[i].Time,
+			Change: reasonChange})
 	}
-	return getMarksChanges_Success{200, "success", marksChanges}, nil
+	return marksChanges, nil
 }
 
 func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiResponse) {
@@ -81,7 +77,7 @@ func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiResponse) {
 	defer query.Close()
 	if err != nil {
 		log.Print(err)
-		return make([]marksChange_Raw, 0), conf.ErrDatabaseQueryFailed
+		return nil, conf.ErrDatabaseQueryFailed
 	}
 	marksChangesRaw := make([]marksChange_Raw, 0)
 	var (
@@ -95,7 +91,7 @@ func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiResponse) {
 		err := query.Scan(&id, &employee_login, &participant_login, &reason_id, &time)
 		if err != nil {
 			log.Print(err)
-			return make([]marksChange_Raw, 0), conf.ErrDatabaseQueryFailed
+			return nil, conf.ErrDatabaseQueryFailed
 		}
 		marksChangesRaw = append(marksChangesRaw, marksChange_Raw{ID: id, Employee_login: employee_login, Participant_login: participant_login, Time: time, Reason_ID: reason_id})
 	}

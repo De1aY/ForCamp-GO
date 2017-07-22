@@ -12,4 +12,5 @@ const(
 	FILE_INDEX = "./wwwroot/index.html"
 	FILE_GENERAL = "./wwwroot/orgset.html"
 	FILE_ORGSET = "./wwwroot/orgset.html"
+	FILE_PROFILE = "./wwwroot/profile.html"
 )
