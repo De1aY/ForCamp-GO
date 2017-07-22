@@ -74,7 +74,7 @@ func VerifyToken(token string, responseWriter http.ResponseWriter) bool{
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
-			resp := &conf.ApiResponse{200, "Success", checkToken_Success{adminStatus}}
+			resp := &conf.ApiResponse{200, "success", checkToken_Success{adminStatus}}
 			resp.Print(responseWriter)
 			return true
 		} else {
