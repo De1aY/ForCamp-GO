@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"forcamp/src/api/orgset/participants"
 	"forcamp/src/api/orgset/employees"
+	"forcamp/src/api/orgset/categories"
 )
 
 func GetUserData(Token string, responseWriter http.ResponseWriter, login string) bool {
@@ -137,16 +138,19 @@ func getMarksIfNoCategories(rows *sql.Rows) ([]participants.Mark, *conf.ApiRespo
 	return marks, nil
 }
 
-func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]participants.Mark, *conf.ApiResponse) {
-	CategoriesIDs = CategoriesIDs[1:]
+func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participants.Mark, *conf.ApiResponse) {
+	categoriesIDs = categoriesIDs[1:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 1)
-		Result = make([]interface{}, len(CategoriesIDs) + 1)
-		Marks []participants.Mark
-		Values = make([]string, len(CategoriesIDs) + 1)
+		rawResult = make([][]byte, len(categoriesIDs) + 1)
+		Result = make([]interface{}, len(categoriesIDs) + 1)
+		marks []participants.Mark
+		Values = make([]string, len(categoriesIDs) + 1)
 	)
 	for i, _ := range Result {
 		Result[i] = &rawResult[i]
+	}
+	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
+		return nil, apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -163,22 +167,22 @@ func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]participant
 				Values[i] = string(raw)
 			}
 		}
-		CategoriesValues := Values[1:]
-		for i := 0; i < len(CategoriesValues); i++ {
-			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
+		categoriesValues := Values[1:]
+		for i := 0; i < len(categoriesValues); i++ {
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
-			value, err := strconv.ParseInt(CategoriesValues[i], 10, 64)
+			value, err := strconv.ParseInt(categoriesValues[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
-			Marks = append(Marks, participants.Mark{id, value})
+			marks = append(marks, participants.Mark{id, categoriesList[i].Name, value})
 		}
 	}
-	return Marks, nil
+	return marks, nil
 }
 
 func getPermissionsAndPost(login string) ([]employees.Permission, string, *conf.ApiResponse) {
