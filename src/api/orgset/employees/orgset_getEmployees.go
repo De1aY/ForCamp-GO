@@ -14,10 +14,12 @@ import (
 	"log"
 	"database/sql"
 	"strconv"
+	"forcamp/src/api/orgset/categories"
 )
 
 type Permission struct {
-	Id    int64 `json:"id"`
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
 	Value string `json:"value"`
 }
 
@@ -129,44 +131,47 @@ func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, map[
 	return Permissions, Posts, nil
 }
 
-func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Permission, map[string]string,*conf.ApiResponse) {
-	CategoriesIDs = CategoriesIDs[2:]
+func getPermissionsIfCategories(rows *sql.Rows, categoriesIDs []string) (map[string][]Permission, map[string]string,*conf.ApiResponse) {
+	categoriesIDs = categoriesIDs[2:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 2)
-		Result = make([]interface{}, len(CategoriesIDs) + 2)
-		Permissions = make(map[string][]Permission)
-		Values = make([]string, len(CategoriesIDs) + 2)
-		Posts = make(map[string]string)
+		rawResult = make([][]byte, len(categoriesIDs) + 2)
+		result = make([]interface{}, len(categoriesIDs) + 2)
+		permissions = make(map[string][]Permission)
+		values = make([]string, len(categoriesIDs) + 2)
+		posts = make(map[string]string)
 	)
-	for i, _ := range Result {
-		Result[i] = &rawResult[i]
+	for i, _ := range result {
+		result[i] = &rawResult[i]
+	}
+	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
+		return make(map[string][]Permission), make(map[string]string), apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(Result...)
+		err := rows.Scan(result...)
 		if err != nil {
-			return make(map[string][]Permission), make(map[string]string),conf.ErrDatabaseQueryFailed
+			return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
 			if raw == nil {
-				Result[i] = "\\N"
+				result[i] = "\\N"
 			} else {
-				Values[i] = string(raw)
+				values[i] = string(raw)
 			}
 		}
-		Login := Values[0]
-		Post := Values[1]
-		Posts[Login] = Post
-		Values = Values[2:]
-		for i := 0; i < len(Values); i++ {
-			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
+		Login := values[0]
+		Post := values[1]
+		posts[Login] = Post
+		values = values[2:]
+		for i := 0; i < len(values); i++ {
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return make(map[string][]Permission), make(map[string]string),conf.ErrConvertStringToInt
 			}
-			Permissions[Login] = append(Permissions[Login], Permission{id, Values[i]})
+			permissions[Login] = append(permissions[Login], Permission{id, categoriesList[i].Name, values[i]})
 		}
-		Values = make([]string, len(CategoriesIDs) + 2)
+		values = make([]string, len(categoriesIDs) + 2)
 	}
-	return Permissions, Posts, nil
+	return permissions, posts, nil
 }

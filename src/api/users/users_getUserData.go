@@ -220,43 +220,46 @@ func getPermissionsIfNoCategories(rows *sql.Rows) ([]employees.Permission, strin
 	return Permissions, post, nil
 }
 
-func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]employees.Permission, string, *conf.ApiResponse) {
-	CategoriesIDs = CategoriesIDs[2:]
+func getPermissionsIfCategories(rows *sql.Rows, categoriesIDs []string) ([]employees.Permission, string, *conf.ApiResponse) {
+	categoriesIDs = categoriesIDs[2:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 2)
-		Result = make([]interface{}, len(CategoriesIDs) + 2)
-		Permissions []employees.Permission
-		Values = make([]string, len(CategoriesIDs) + 2)
-		Post string
+		rawResult = make([][]byte, len(categoriesIDs) + 2)
+		result = make([]interface{}, len(categoriesIDs) + 2)
+		permissions []employees.Permission
+		values = make([]string, len(categoriesIDs) + 2)
+		post string
 	)
-	for i, _ := range Result {
-		Result[i] = &rawResult[i]
+	for i, _ := range result {
+		result[i] = &rawResult[i]
+	}
+	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
+		return nil, "", apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(Result...)
+		err := rows.Scan(result...)
 		if err != nil {
 			log.Print(err)
 			return nil, "", conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
 			if raw == nil {
-				Result[i] = "\\N"
+				result[i] = "\\N"
 			} else {
-				Values[i] = string(raw)
+				values[i] = string(raw)
 			}
 		}
-		Post = Values[1]
-		Values = Values[2:]
-		for i := 0; i < len(Values); i++ {
-			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
+		post = values[1]
+		values = values[2:]
+		for i := 0; i < len(values); i++ {
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return nil, "", conf.ErrConvertStringToInt
 			}
-			Permissions = append(Permissions, employees.Permission{id, Values[i]})
+			permissions = append(permissions, employees.Permission{id, categoriesList[i].Name, values[i]})
 		}
-		Values = make([]string, len(CategoriesIDs) + 2)
+		values = make([]string, len(categoriesIDs) + 2)
 	}
-	return Permissions, Post, nil
+	return permissions, post, nil
 }

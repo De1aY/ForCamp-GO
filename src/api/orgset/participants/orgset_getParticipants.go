@@ -162,9 +162,6 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) (map[string][]
 				log.Print(err)
 				return make(map[string][]Mark), conf.ErrConvertStringToInt
 			}
-			log.Print(id)
-			log.Print(categoriesList[i].ID)
-			log.Print("------------------")
 			marks[login] = append(marks[login], Mark{id, categoriesList[i].Name, value})
 		}
 	}
