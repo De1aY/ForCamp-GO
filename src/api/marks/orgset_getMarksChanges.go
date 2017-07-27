@@ -7,6 +7,7 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/src"
 	"log"
+	"database/sql"
 )
 
 type MarksChange struct {
@@ -38,7 +39,7 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 				return APIerr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organization)
-			rawResp, APIerr := GetMarksChanges_Request()
+			rawResp, APIerr := GetMarksChanges_Request("")
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
@@ -51,8 +52,8 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func GetMarksChanges_Request() ([]MarksChange, *conf.ApiResponse) {
-	marksChangesRaw, APIerr := getMarksChangesFromDataTable()
+func GetMarksChanges_Request(login string) ([]MarksChange, *conf.ApiResponse) {
+	marksChangesRaw, APIerr := getMarksChangesFromDataTable(login)
 	if APIerr != nil {
 		return nil, APIerr
 	}
@@ -72,8 +73,14 @@ func GetMarksChanges_Request() ([]MarksChange, *conf.ApiResponse) {
 	return marksChanges, nil
 }
 
-func getMarksChangesFromDataTable() ([]marksChange_Raw, *conf.ApiResponse) {
-	query, err := src.CustomConnection.Query("SELECT id, employee_login, participant_login, reason_id, time FROM marks_changes")
+func getMarksChangesFromDataTable(login string) ([]marksChange_Raw, *conf.ApiResponse) {
+	var query *sql.Rows
+	var err error
+	if len(login) > 2 {
+		query, err = src.CustomConnection.Query("SELECT id, employee_login, participant_login, reason_id, time FROM marks_changes WHERE employee_login=? OR participant_login=?", login, login)
+	} else {
+		query, err = src.CustomConnection.Query("SELECT id, employee_login, participant_login, reason_id, time FROM marks_changes")
+	}
 	defer query.Close()
 	if err != nil {
 		log.Print(err)

@@ -12,6 +12,7 @@ import (
 	"forcamp/src/api/orgset/participants"
 	"forcamp/src/api/orgset/employees"
 	"forcamp/src/api/orgset/categories"
+	"forcamp/src/api/marks"
 )
 
 func GetUserData(Token string, responseWriter http.ResponseWriter, login string) bool {
@@ -68,6 +69,9 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			return UserData{}, conf.ErrDatabaseQueryFailed
 		}
 	}
+	actions, apiErr := marks.GetMarksChanges_Request(login); if apiErr != nil {
+		return UserData{}, apiErr
+	}
 	if userData.Access == 0 {
 		marks, APIerr := getMarks(login)
 		if APIerr != nil {
@@ -86,6 +90,7 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			Access: userData.Access,
 			Avatar: userData.Avatar,
 			Post: orgSettings_Participant,
+			Actions: actions,
 			AdditionalData: marks}, nil
 	} else {
 		permissions, post, APIerr := getPermissionsAndPost(login)
@@ -100,6 +105,7 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			Access: userData.Access,
 			Avatar: userData.Avatar,
 			Post: post,
+			Actions: actions,
 			AdditionalData: permissions}, nil
 	}
 }

@@ -3,6 +3,7 @@ package users
 import (
 	"net/http"
 	"forcamp/conf"
+	"forcamp/src/api/marks"
 )
 
 type getUserLogin_Success struct {
@@ -23,6 +24,7 @@ type UserData struct {
 	Sex          int `json:"sex"`
 	Organization string `json:"organization"`
 	Post         string `json:"post"`
+	Actions      []marks.MarksChange `json:"actions"`
 	AdditionalData interface{} `json:"additional_data"`
 }
 
