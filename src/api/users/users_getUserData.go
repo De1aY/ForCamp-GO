@@ -13,6 +13,7 @@ import (
 	"forcamp/src/api/orgset/employees"
 	"forcamp/src/api/orgset/categories"
 	"forcamp/src/api/marks"
+	"forcamp/src/api/orgset/teams"
 )
 
 func GetUserData(Token string, responseWriter http.ResponseWriter, login string) bool {
@@ -62,8 +63,9 @@ func GetUserData_Request(login string) (UserData, *conf.ApiResponse) {
 func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResponse) {
 	defer rows.Close()
 	var userData UserData
+	var teamID int64
 	for rows.Next() {
-		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &userData.Team)
+		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &teamID)
 		if err != nil {
 			log.Print(err)
 			return UserData{}, conf.ErrDatabaseQueryFailed
@@ -71,6 +73,9 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 	}
 	actions, apiErr := marks.GetMarksChanges_Request(login); if apiErr != nil {
 		return UserData{}, apiErr
+	}
+	teamInfo, apiErr := getTeamInfo(teamID); if apiErr != nil {
+		return userData, apiErr
 	}
 	if userData.Access == 0 {
 		marks, APIerr := getMarks(login)
@@ -86,7 +91,7 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			Surname: userData.Surname,
 			Middlename: userData.Middlename,
 			Sex: userData.Sex,
-			Team: userData.Team,
+			Team: teamInfo,
 			Access: userData.Access,
 			Avatar: userData.Avatar,
 			Post: orgSettings_Participant,
@@ -101,13 +106,35 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			Surname: userData.Surname,
 			Middlename: userData.Middlename,
 			Sex: userData.Sex,
-			Team: userData.Team,
+			Team: teamInfo,
 			Access: userData.Access,
 			Avatar: userData.Avatar,
 			Post: post,
 			Actions: actions,
 			AdditionalData: permissions}, nil
 	}
+}
+
+func getTeamInfo(teamID int64) (teams.Team, *conf.ApiResponse){
+	var teamInfo teams.Team
+	rows, err := src.CustomConnection.Query("SELECT * FROM teams WHERE id=?", teamID); if err != nil {
+		return teamInfo, conf.ErrDatabaseQueryFailed
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(&teamInfo.Id, &teamInfo.Name); if err != nil {
+			return teamInfo, conf.ErrDatabaseQueryFailed
+		}
+		leader, apiErr := teams.GetTeamLeader(teamID); if apiErr != nil {
+			return teamInfo, apiErr
+		}
+		participants, apiErr := teams.GetTeamParticipants(teamID); if apiErr != nil {
+			return teamInfo, apiErr
+		}
+		teamInfo.Leader = leader
+		teamInfo.Participants = participants
+	}
+	return teamInfo, nil
 }
 
 func getMarks(login string) ([]participants.Mark, *conf.ApiResponse) {

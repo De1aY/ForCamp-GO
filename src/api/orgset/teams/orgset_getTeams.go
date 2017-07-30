@@ -70,22 +70,18 @@ func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiResponse) {
 		err := rows.Scan(&team.Id, &team.Name)
 		if err != nil {
 			log.Print(err)
-			return []Team{}, conf.ErrDatabaseQueryFailed
+			return Teams, conf.ErrDatabaseQueryFailed
 		}
-		Leader, APIerr := getTeamLeader(team.Id)
+		Leader, APIerr := GetTeamLeader(team.Id)
 		if APIerr != nil {
-			return []Team{}, APIerr
+			return Teams, APIerr
 		}
 		team.Leader = Leader
-		participants, APIerr := getTeamParticipants(team.Id)
+		participants, APIerr := GetTeamParticipants(team.Id)
 		if APIerr != nil {
-			return []Team{}, APIerr
+			return Teams, APIerr
 		}
-		if participants == nil {
-			team.Participants = make([]string, 0)
-		} else {
-			team.Participants = participants
-		}
+		team.Participants = participants
 		Teams = append(Teams, team)
 	}
 	if Teams == nil {
@@ -94,7 +90,7 @@ func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiResponse) {
 	return Teams, nil
 }
 
-func getTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
+func GetTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='1' LIMIT 1", id)
 	if err != nil {
 		log.Print(err)
@@ -112,7 +108,7 @@ func getTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
 	return Leader, nil
 }
 
-func getTeamParticipants(id int64) ([]string, *conf.ApiResponse) {
+func GetTeamParticipants(id int64) ([]string, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login FROM users WHERE team=? AND access='0'", id)
 	if err != nil {
 		log.Print(err)
