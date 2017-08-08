@@ -465,6 +465,7 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
             searchable: false,
             orderable: true,
             render: function ( participants, type, row, meta ) {
+                console.log(participants);
                 return '<div class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
                     'id="mdl-card__body-table-teams--participants-'+row.id+'"' +
                     ' data-content="team-'+row.id+'-participants">'+participants.length+'</div>';

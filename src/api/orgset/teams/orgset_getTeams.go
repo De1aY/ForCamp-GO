@@ -125,6 +125,9 @@ func GetTeamParticipants(id int64) ([]string, *conf.ApiResponse) {
 		}
 		logins = append(logins, login)
 	}
+	if logins == nil {
+		logins = make([]string, 0)
+	}
 	return logins, nil
 }
 
