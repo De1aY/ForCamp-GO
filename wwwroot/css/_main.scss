@@ -63,6 +63,18 @@ body {
     width: 100%;
     min-height: 125px;
 
+    .mdl-card__title {
+
+      .mdl-card__title-photo--round { border-radius: 100px; }
+
+    }
+
+    .mdl-card__title--photo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .mdl-card__body {
       padding: 16px;
       display: flex;
@@ -75,6 +87,7 @@ body {
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
+        padding: 5px 0;
 
         .mdl-card__body-row-icon {
           margin-right: 10px;
@@ -91,6 +104,8 @@ body {
           background: $MainColor;
         }
 
+        .mdl-card__body-row-text--bold       { font-weight: 700 }
+        .mdl-card__body-row-text--italic     { font-style: inherit }
         .mdl-card__body-row-text--capitalize { text-transform: capitalize }
         .mdl-card__body-row-text--uppercase  { text-transform: uppercase }
 
@@ -143,9 +158,10 @@ body {
 
       }
 
-      .mdl-card__body-row--16px { font-size: 16px }
-      .mdl-card__body-row--24px { font-size: 24px }
-      .mdl-card__body-row--32px { font-size: 32px }
+      .mdl-card__body-row--16px  { font-size: 16px }
+      .mdl-card__body-row--24px  { font-size: 24px }
+      .mdl-card__body-row--32px  { font-size: 32px }
+      .mdl-card__body-row--nopad { padding: 0 }
 
       .mdl-card__body-table     {
         width: 100%;
@@ -306,9 +322,7 @@ body {
 
     }
 
-    .mdl-card__body--nopad {
-      padding: 0;
-    }
+    .mdl-card__body--nopad   { padding: 0; }
 
   }
 

@@ -109,7 +109,8 @@ func (ptd *profileTemplateData) GetOrgSettings() *conf.ApiResponse {
 func (ptd *profileTemplateData) GetRequestData() *conf.ApiResponse {
 	if ptd.Login != ptd.RequestLogin {
 		requestOrganization, apiErr := orgset.GetUserOrganizationByLogin(ptd.RequestLogin)
-		if requestOrganization != ptd.OrgSettings.Organization {
+		userOrganization, apiErr := orgset.GetUserOrganizationByLogin(ptd.Login)
+		if requestOrganization != userOrganization {
 			return conf.ErrUserNotFound
 		}
 		requestData, apiErr := users.GetUserData_Request(ptd.RequestLogin)

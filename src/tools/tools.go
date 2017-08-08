@@ -27,6 +27,14 @@ func StringToBoolean(data string) bool {
 	}
 }
 
+func IsLatinLetter (r rune) bool{
+	return r < 'A' || r > 'z'
+}
+
 func ToTitleCase(data string) string {
-	return strings.ToUpper(data[:2])+data[2:]
+	if strings.IndexFunc(data[:1], IsLatinLetter) != -1 {
+		return strings.ToUpper(data[:2])+data[2:]
+	} else {
+		return strings.ToUpper(data[:1])+data[1:]
+	}
 }
