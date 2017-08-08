@@ -53,6 +53,6 @@ func checkTeamData(name string, w http.ResponseWriter) bool{
 	if len(name) > 0 {
 		return true
 	} else {
-		return conf.ErrCategoryNameEmpty.Print(w)
+		return conf.ErrTeamNameEmpty.Print(w)
 	}
 }

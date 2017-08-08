@@ -9,11 +9,13 @@ import (
 	"log"
 	"database/sql"
 	"strconv"
+	"forcamp/src/api/orgset/categories"
 )
 
 type Mark struct {
-	Id    int64 `json:"id"`
-	Value int64 `json:"value"`
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Value int64  `json:"value"`
 }
 
 type Participant struct {
@@ -120,46 +122,48 @@ func getMarksIfNoCategories(rows *sql.Rows) (map[string][]Mark, *conf.ApiRespons
 	return marks, nil
 }
 
-func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) (map[string][]Mark, *conf.ApiResponse) {
-	CategoriesIDs = CategoriesIDs[1:]
+func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) (map[string][]Mark, *conf.ApiResponse) {
+	categoriesIDs = categoriesIDs[1:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 1)
-		Result = make([]interface{}, len(CategoriesIDs) + 1)
-		Marks = make(map[string][]Mark)
-		Values = make([]string, len(CategoriesIDs) + 1)
+		rawResult = make([][]byte, len(categoriesIDs) + 1)
+		result = make([]interface{}, len(categoriesIDs) + 1)
+		marks = make(map[string][]Mark)
+		values = make([]string, len(categoriesIDs) + 1)
 	)
-	for i, _ := range Result {
-		Result[i] = &rawResult[i]
+	for i, _ := range result {
+		result[i] = &rawResult[i]
+	}
+	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
+		return make(map[string][]Mark), apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
-
-		err := rows.Scan(Result...)
+		err := rows.Scan(result...)
 		if err != nil {
 			return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
 			if raw == nil {
-				Result[i] = "\\N"
+				result[i] = "\\N"
 			} else {
-				Values[i] = string(raw)
+				values[i] = string(raw)
 			}
 		}
-		Login := Values[0]
-		CategoriesValues := Values[1:]
-		for i := 0; i < len(CategoriesValues); i++ {
-			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
+		login := values[0]
+		categoriesValues := values[1:]
+		for i := 0; i < len(categoriesValues); i++ {
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return make(map[string][]Mark), conf.ErrConvertStringToInt
 			}
-			value, err := strconv.ParseInt(CategoriesValues[i], 10, 64)
+			value, err := strconv.ParseInt(categoriesValues[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return make(map[string][]Mark), conf.ErrConvertStringToInt
 			}
-			Marks[Login] = append(Marks[Login], Mark{id, value})
+			marks[login] = append(marks[login], Mark{id, categoriesList[i].Name, value})
 		}
 	}
-	return Marks, nil
+	return marks, nil
 }

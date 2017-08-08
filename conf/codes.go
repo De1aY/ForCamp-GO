@@ -70,3 +70,4 @@ var ErrCategoryIdNotINT = &ApiResponse{623, "error", ErrorMessage{"ID катег
 var ErrReasonIncorrect = &ApiResponse{624, "error", ErrorMessage{"Некорректная причина", "Reason is incorrect"}}
 var ErrLoginIncorrect = &ApiResponse{625, "error", ErrorMessage{"Неверный логин", "Partcipant login incorrect"}}
 var ErrOrganizationNameEmpty = &ApiResponse{626, "error", ErrorMessage{"Название организации отсутствует", "Oranization name is empty"}}
+var ErrTeamNameEmpty = &ApiResponse{627, "error", ErrorMessage{"Название команды отсутствует", "Team name is empty"}}

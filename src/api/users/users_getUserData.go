@@ -11,6 +11,9 @@ import (
 	"strconv"
 	"forcamp/src/api/orgset/participants"
 	"forcamp/src/api/orgset/employees"
+	"forcamp/src/api/orgset/categories"
+	"forcamp/src/api/marks"
+	"forcamp/src/api/orgset/teams"
 )
 
 func GetUserData(Token string, responseWriter http.ResponseWriter, login string) bool {
@@ -60,12 +63,19 @@ func GetUserData_Request(login string) (UserData, *conf.ApiResponse) {
 func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResponse) {
 	defer rows.Close()
 	var userData UserData
+	var teamID int64
 	for rows.Next() {
-		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &userData.Team)
+		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &teamID)
 		if err != nil {
 			log.Print(err)
 			return UserData{}, conf.ErrDatabaseQueryFailed
 		}
+	}
+	actions, apiErr := marks.GetMarksChanges_Request(login); if apiErr != nil {
+		return UserData{}, apiErr
+	}
+	teamInfo, apiErr := getTeamInfo(teamID); if apiErr != nil {
+		return userData, apiErr
 	}
 	if userData.Access == 0 {
 		marks, APIerr := getMarks(login)
@@ -81,10 +91,11 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			Surname: userData.Surname,
 			Middlename: userData.Middlename,
 			Sex: userData.Sex,
-			Team: userData.Team,
+			Team: teamInfo,
 			Access: userData.Access,
 			Avatar: userData.Avatar,
 			Post: orgSettings_Participant,
+			Actions: actions,
 			AdditionalData: marks}, nil
 	} else {
 		permissions, post, APIerr := getPermissionsAndPost(login)
@@ -95,12 +106,35 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			Surname: userData.Surname,
 			Middlename: userData.Middlename,
 			Sex: userData.Sex,
-			Team: userData.Team,
+			Team: teamInfo,
 			Access: userData.Access,
 			Avatar: userData.Avatar,
 			Post: post,
+			Actions: actions,
 			AdditionalData: permissions}, nil
 	}
+}
+
+func getTeamInfo(teamID int64) (teams.Team, *conf.ApiResponse){
+	var teamInfo teams.Team
+	rows, err := src.CustomConnection.Query("SELECT * FROM teams WHERE id=?", teamID); if err != nil {
+		return teamInfo, conf.ErrDatabaseQueryFailed
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(&teamInfo.Id, &teamInfo.Name); if err != nil {
+			return teamInfo, conf.ErrDatabaseQueryFailed
+		}
+		leader, apiErr := teams.GetTeamLeader(teamID); if apiErr != nil {
+			return teamInfo, apiErr
+		}
+		participants, apiErr := teams.GetTeamParticipants(teamID); if apiErr != nil {
+			return teamInfo, apiErr
+		}
+		teamInfo.Leader = leader
+		teamInfo.Participants = participants
+	}
+	return teamInfo, nil
 }
 
 func getMarks(login string) ([]participants.Mark, *conf.ApiResponse) {
@@ -137,16 +171,19 @@ func getMarksIfNoCategories(rows *sql.Rows) ([]participants.Mark, *conf.ApiRespo
 	return marks, nil
 }
 
-func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]participants.Mark, *conf.ApiResponse) {
-	CategoriesIDs = CategoriesIDs[1:]
+func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participants.Mark, *conf.ApiResponse) {
+	categoriesIDs = categoriesIDs[1:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 1)
-		Result = make([]interface{}, len(CategoriesIDs) + 1)
-		Marks []participants.Mark
-		Values = make([]string, len(CategoriesIDs) + 1)
+		rawResult = make([][]byte, len(categoriesIDs) + 1)
+		Result = make([]interface{}, len(categoriesIDs) + 1)
+		marks []participants.Mark
+		Values = make([]string, len(categoriesIDs) + 1)
 	)
 	for i, _ := range Result {
 		Result[i] = &rawResult[i]
+	}
+	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
+		return nil, apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -163,22 +200,22 @@ func getMarksIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]participant
 				Values[i] = string(raw)
 			}
 		}
-		CategoriesValues := Values[1:]
-		for i := 0; i < len(CategoriesValues); i++ {
-			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
+		categoriesValues := Values[1:]
+		for i := 0; i < len(categoriesValues); i++ {
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
-			value, err := strconv.ParseInt(CategoriesValues[i], 10, 64)
+			value, err := strconv.ParseInt(categoriesValues[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
-			Marks = append(Marks, participants.Mark{id, value})
+			marks = append(marks, participants.Mark{id, categoriesList[i].Name, value})
 		}
 	}
-	return Marks, nil
+	return marks, nil
 }
 
 func getPermissionsAndPost(login string) ([]employees.Permission, string, *conf.ApiResponse) {
@@ -216,43 +253,46 @@ func getPermissionsIfNoCategories(rows *sql.Rows) ([]employees.Permission, strin
 	return Permissions, post, nil
 }
 
-func getPermissionsIfCategories(rows *sql.Rows, CategoriesIDs []string) ([]employees.Permission, string, *conf.ApiResponse) {
-	CategoriesIDs = CategoriesIDs[2:]
+func getPermissionsIfCategories(rows *sql.Rows, categoriesIDs []string) ([]employees.Permission, string, *conf.ApiResponse) {
+	categoriesIDs = categoriesIDs[2:]
 	var (
-		rawResult = make([][]byte, len(CategoriesIDs) + 2)
-		Result = make([]interface{}, len(CategoriesIDs) + 2)
-		Permissions []employees.Permission
-		Values = make([]string, len(CategoriesIDs) + 2)
-		Post string
+		rawResult = make([][]byte, len(categoriesIDs) + 2)
+		result = make([]interface{}, len(categoriesIDs) + 2)
+		permissions []employees.Permission
+		values = make([]string, len(categoriesIDs) + 2)
+		post string
 	)
-	for i, _ := range Result {
-		Result[i] = &rawResult[i]
+	for i, _ := range result {
+		result[i] = &rawResult[i]
+	}
+	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
+		return nil, "", apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(Result...)
+		err := rows.Scan(result...)
 		if err != nil {
 			log.Print(err)
 			return nil, "", conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
 			if raw == nil {
-				Result[i] = "\\N"
+				result[i] = "\\N"
 			} else {
-				Values[i] = string(raw)
+				values[i] = string(raw)
 			}
 		}
-		Post = Values[1]
-		Values = Values[2:]
-		for i := 0; i < len(Values); i++ {
-			id, err := strconv.ParseInt(CategoriesIDs[i], 10, 64)
+		post = values[1]
+		values = values[2:]
+		for i := 0; i < len(values); i++ {
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
 				log.Print(err)
 				return nil, "", conf.ErrConvertStringToInt
 			}
-			Permissions = append(Permissions, employees.Permission{id, Values[i]})
+			permissions = append(permissions, employees.Permission{id, categoriesList[i].Name, values[i]})
 		}
-		Values = make([]string, len(CategoriesIDs) + 2)
+		values = make([]string, len(categoriesIDs) + 2)
 	}
-	return Permissions, Post, nil
+	return permissions, post, nil
 }
