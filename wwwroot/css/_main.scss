@@ -163,6 +163,12 @@ body {
       .mdl-card__body-row--32px  { font-size: 32px }
       .mdl-card__body-row--nopad { padding: 0 }
 
+      .mdl-card__body-row--table {
+        margin: 5px 0;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+      }
+
       .mdl-card__body-table     {
         width: 100%;
 
