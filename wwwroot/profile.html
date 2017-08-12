@@ -136,6 +136,33 @@
                 </div>
                 {{end}}
             </div>
+            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">
+                                Активность
+                            </div>
+                        </div>
+                        <div class="mdl-card__body">
+                            {{range $action := .RequestData.Actions}}
+                            <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
+                                <div class="mdl-card__body-row-text">
+                                    <span>{{$action.Text | toTitleCase}}</span>
+                                </div>
+                                <div class="mdl-card__body-row-text">
+                                    {{if $action.Change | isNegative}}
+                                    <span class="mdl-card__body-row-text--negative">{{$action.Change}}</span>
+                                    {{else}}
+                                    <span class="mdl-card__body-row-text--positive">{{$action.Change}}</span>
+                                    {{end}}
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </div>
