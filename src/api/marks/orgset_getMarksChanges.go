@@ -29,6 +29,7 @@ type marksChange_Raw struct {
 }
 
 type userData struct {
+	Login		   string `json:"login"`
 	Name           string `json:"name"`
 	Surname        string `json:"surname"`
 	Middlename     string `json:"middlename"`
@@ -142,6 +143,7 @@ func getUserData(login string) (userData, *conf.ApiResponse) {
 	teamData, apiErr := getTeamInfo(teamID); if apiErr != nil {
 		return data, apiErr
 	}
+	data.Login = login
 	data.Team = teamData
 	return data, nil
 }
