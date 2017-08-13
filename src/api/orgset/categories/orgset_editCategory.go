@@ -5,7 +5,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -28,13 +27,11 @@ func EditCategory(token string, category Category, responseWriter http.ResponseW
 func editCategory_Request(category Category) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE categories SET name=?, negative_marks=? WHERE id=?")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(category.Name, category.NegativeMarks, strconv.FormatInt(category.ID, 10))
 	Query.Close()
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return  nil

@@ -73,8 +73,8 @@ func main() {
 	apanel.HandleAddOrganization(APISite)
 
 	// Handlers: Main site
-	handlers.HandleFolder_MainSite(WWWSite)
-	handlers.HandleFolder_MainSite(MainSite)
+	handlers.HandleMainSite(WWWSite)
+	handlers.HandleMainSite(MainSite)
 	handlers.HandleExit(WWWSite)
 	handlers.HandleExit(MainSite)
 

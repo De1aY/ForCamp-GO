@@ -7,7 +7,6 @@ import (
 	"forcamp/src"
 	"strings"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset/employees"
 )
 
@@ -17,7 +16,6 @@ func getEditEmployeePermissionPostValues(r *http.Request) (string, int64, string
 	Value := strings.TrimSpace(strings.ToLower(r.PostFormValue("value")))
 	CatId, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil {
-		log.Print(err)
 		return "", 0, "", "", conf.ErrCategoryIdNotINT
 	}
 	return Login, CatId, Value, Token, nil

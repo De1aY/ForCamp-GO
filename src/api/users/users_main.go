@@ -1,8 +1,6 @@
 package users
 
 import (
-	"net/http"
-	"forcamp/conf"
 	"forcamp/src/api/marks"
 	"forcamp/src/api/orgset/teams"
 )
@@ -27,16 +25,4 @@ type UserData struct {
 	Post           string `json:"post"`
 	Actions        []marks.MarksChange `json:"actions"`
 	AdditionalData interface{} `json:"additional_data"`
-}
-
-func checkData(token string, login string, w http.ResponseWriter) bool {
-	if len(token) > 0 {
-		if len(login) > 0 {
-			return true
-		} else {
-			return conf.ErrUserLoginEmpty.Print(w)
-		}
-	} else {
-		return conf.ErrUserTokenEmpty.Print(w)
-	}
 }

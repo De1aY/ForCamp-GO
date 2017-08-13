@@ -2,7 +2,6 @@ package tools
 
 import (
 	"forcamp/src"
-	"log"
 	"strings"
 )
 
@@ -10,7 +9,6 @@ func CheckToken(token string) bool {
 	var count int
 	err := src.Connection.QueryRow("SELECT COUNT(login) FROM sessions WHERE token=?", token).Scan(&count)
 	if err != nil {
-		log.Print(err)
 		return false
 	}
 	if count > 0 {
@@ -37,4 +35,14 @@ func ToTitleCase(data string) string {
 	} else {
 		return strings.ToUpper(data[:1])+data[1:]
 	}
+}
+
+func TimestampToDate(t string) string {
+	date := strings.Split(t, " ")
+	ymd := strings.Split(date[0], "-")
+	return ymd[2] + "." + ymd[1] + "." +ymd[0]
+}
+
+func IsNegative (val int64) bool {
+	return val < 0
 }

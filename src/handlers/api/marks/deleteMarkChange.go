@@ -5,7 +5,6 @@ import (
 	"forcamp/conf"
 	"strings"
 	"strconv"
-	"log"
 	"forcamp/src"
 	"forcamp/src/api/marks"
 	"github.com/gorilla/mux"
@@ -15,7 +14,6 @@ func getDeleteMarkChangePostData(r *http.Request) (string, int64, *conf.ApiRespo
 	token := strings.TrimSpace(r.PostFormValue("token"))
 	id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil {
-		log.Print(err)
 		return "", 0, conf.ErrIDisNotINT
 	}
 	return token, id, nil

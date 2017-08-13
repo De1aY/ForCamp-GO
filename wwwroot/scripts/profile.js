@@ -1,75 +1,65 @@
-let SelfData = {
-    Login: "",
-    Data: ""
-};
-let UserData = {
-    Login: "",
-    Data: ""
-};
-showProfile_Status = false;
-getSelfLogin();
-
-function getSelfLogin() {
-    $.get(__GetUserLoginLink, {token: Token}, function (resp) {
-        if (resp.code === 200) {
-            SelfData.Login = resp.message.login;
-            getSelfData();
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 3});
+let MarksTable = $('#mdl-card__body-table-marks').DataTable({
+    "searching": false,
+    "paging": false,
+    "lengthChange": false,
+    "ajax": {
+        "url": __GetUserDataLink,
+        "type": "GET",
+        "data": {
+            "token": Token,
+            "login": "participant_11",
+        },
+        "dataSrc": function (data) {
+            return data.message.data.additional_data;
+        },
+    },
+    columnDefs: [
+        {
+            targets: 0,
+            name: "name",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "name",
+            render: function ( name, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-teams--name-'+row.id+'"' +
+                    ' data-content="team-'+row.id+'-name">'+
+                    name[0].toUpperCase()+name.substring(1)+'</div>';
+            },
+        },
+        {
+            targets: 1,
+            name: "value",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "value",
+            render: function ( name, type, row, meta ) {
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-teams--name-'+row.id+'"' +
+                    ' data-content="team-'+row.id+'-name">'+
+                    row.value+'</div>';
+            },
+        },
+    ],
+    language: {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка баллов...",
+        "zeroRecords": "Категории отсутствуют.",
+        "emptyTable": "Категории отсутствуют",
+        "paginate": {
+            "first": "Первая",
+            "previous": "Пред.",
+            "next": "След.",
+            "last": "Последняя"
+        },
+        "aria": {
+            "sortAscending": ": отсортировать по возрастанию",
+            "sortDescending": ": отсортировать по убыванию"
         }
-    }, 'json');
-}
-
-function getSelfData() {
-    $.get(__GetUserDataLink, {token: Token, login: SelfData.Login}, function (resp) {
-        if (resp.code === 200) {
-            SelfData.Data = resp.message.data;
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 3});
-        }
-    }, 'json');
-}
-
-function setProfile(userData) {
-    setFullName(userData.Data.name, userData.Data.surname, userData.Data.middlename);
-    setAvatar(userData.Data.avatar);
-}
-
-function setFullName(name, surname, middlename) {
-    fullName = surname + ' ' + name[0] + '.' + middlename[0] + '.';
-    $('.fc-profile__header-fullname').text(fullName);
-}
-
-function setAvatar(src) {
-    $('.fc-profile__header-avatar').attr('src', __ImagesLink + src);
-}
-
-function showProfile(userData) {
-    setProfile(userData);
-    $('.fc-profile').animate({
-        left: "+=353px"
-    }, 1000);
-}
-
-function hideProfile() {
-    $('.fc-profile').animate({
-        left: "-=353px"
-    }, 1000);
-}
-
-function toggleProfile(userData, button) {
-    if(showProfile_Status) {
-        $(button).removeClass('fc-header__menu-section--active');
-        hideProfile();
-    } else {
-        $(button).addClass('fc-header__menu-section--active');
-        showProfile(userData);
-    }
-    showProfile_Status = !showProfile_Status;
-}
-
-$(document).ready(function () {
-    $('.fc-header__menu .fc-header__menu-section:first-child').click(function () {
-        toggleProfile(SelfData, this);
-    });
+    },
+    "drawCallback": function () {
+        $('#mdl-card__body-table-marks').css('width', '100%');
+    },
 });

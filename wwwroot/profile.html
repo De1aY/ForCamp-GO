@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="css/libs/font-awesome.min.css">
     <link rel="stylesheet" href="css/libs/material.min.css">
     <link rel="stylesheet" href="css/profile.css">
+    <noscript><div><img src="https://mc.yandex.ru/watch/45602721" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">{{.OrgSettings.Organization}}</span>
+            <span class="mdl-layout-title">{{.RequestData.Surname | toTitleCase}} {{.RequestData.Name | toTitleCase}}</span>
         </div>
     </header>
     <div class="mdl-layout__drawer">
@@ -36,7 +37,7 @@
         </nav>
     </div>
     <main class="mdl-layout__content">
-        <div class="page-content mdl-grid" id="profile">
+        <div class="page-content mdl-grid">
             <div class="mdl-grid mdl-cell mdl-cell--top mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp">
@@ -65,36 +66,124 @@
                             </div>
                         </div>
                         <div class="mdl-card__body">
-                            <div class="mdl-card__body-row mdl-card__body-row--16px">
+                            <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
                                 <div class="mdl-card__body-row-text">
                                     <span class="mdl-card__body-row-text--bold">Фамилия:</span>
-                                    {{.UserData.Surname | toTitleCase}}
+                                </div>
+                                <div class="mdl-card__body-row-text">
+                                    <span>{{.UserData.Surname | toTitleCase}}</span>
                                 </div>
                             </div>
-                            <div class="mdl-card__body-row mdl-card__body-row--16px">
+                            <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
                                 <div class="mdl-card__body-row-text">
                                     <span class="mdl-card__body-row-text--bold">Имя:</span>
-                                    {{.UserData.Name | toTitleCase}}
+                                </div>
+                                <div class="mdl-card__body-row-text">
+                                    <span>{{.UserData.Name | toTitleCase}}</span>
                                 </div>
                             </div>
-                            <div class="mdl-card__body-row mdl-card__body-row--16px">
+                            <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
                                 <div class="mdl-card__body-row-text">
                                     <span class="mdl-card__body-row-text--bold">Отчество:</span>
-                                    {{.UserData.Middlename | toTitleCase}}
+                                </div>
+                                <div class="mdl-card__body-row-text">
+                                    <span>{{.UserData.Middlename | toTitleCase}}</span>
                                 </div>
                             </div>
-                            <div class="mdl-card__body-row mdl-card__body-row--16px">
+                            <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
                                 <div class="mdl-card__body-row-text">
                                     <span class="mdl-card__body-row-text--bold">{{.OrgSettings.Team | toTitleCase}}:</span>
                                     {{.UserData.Team.Name}}
                                 </div>
-                            </div>
-                            <div class="mdl-card__body-row mdl-card__body-row--16px">
                                 <div class="mdl-card__body-row-text">
-                                    <span class="mdl-card__body-row-text--bold">Должность:</span>
-                                    {{.RequestData.Post | toTitleCase}}
+                                    <span>{{.UserData.Team.Name}}</span>
                                 </div>
                             </div>
+                            <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
+                                <div class="mdl-card__body-row-text">
+                                    <span class="mdl-card__body-row-text--bold">Должность:</span>
+                                </div>
+                                <div class="mdl-card__body-row-text">
+                                    <span>{{.RequestData.Post | toTitleCase}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{if not .IsRequestEmployee}}
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">Баллы</div>
+                        </div>
+                        <div class="mdl-card__body">
+                            {{range $mark := .RequestData.AdditionalData}}
+                            <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
+                                <div class="mdl-card__body-row-text">
+                                    <span>{{$mark.Name | toTitleCase}}</span>
+                                </div>
+                                <div class="mdl-card__body-row-text">
+                                    {{if $mark.Value | isNegative}}
+                                    <span class="mdl-card__body-row-text--negative">{{$mark.Value}}</span>
+                                    {{else}}
+                                    <span class="mdl-card__body-row-text--positive">{{$mark.Value}}</span>
+                                    {{end}}
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">
+                                Активность
+                            </div>
+                        </div>
+                        <div class="mdl-card__body">
+                            {{range .RequestData.Actions}}
+                                {{if not $.IsRequestEmployee}}
+                                <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
+                                    <div class="mdl-card__body-row-text">
+                                        {{if isNegative .Change}}
+                                        <span class="mdl-card__body-row-text--negative">{{.Change}}</span>
+                                        {{else}}
+                                        <span class="mdl-card__body-row-text--positive mdl-card__body-row-text--positive--plus">{{.Change}}</span>
+                                        {{end}}
+                                        <span>{{.Text | toTitleCase}}</span>
+                                    </div>
+                                    <div class="mdl-card__body-row-text">
+                                        <span>{{.Time | timestampToDate}}</span>
+                                    </div>
+                                </div>
+                                {{else}}
+                                <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
+                                    <div class="mdl-card__body-row-text">
+                                        {{if eq $.RequestData.Sex 0}}
+                                        <span>Изменил балл</span>
+                                        {{else}}
+                                        <span>Изменила балл </span>
+                                        {{end}}
+                                        <a href="https://forcamp.ga/profile?login={{.Participant.Login}}">{{.Participant.Surname | toTitleCase}}
+                                            {{.Participant.Name | toTitleCase}}
+                                            {{.Participant.Middlename | toTitleCase}}</a> на
+                                        {{if isNegative .Change}}
+                                        <span class="mdl-card__body-row-text--negative">{{.Change}}</span>
+                                        {{else}}
+                                        <span class="mdl-card__body-row-text--positive">{{.Change}}</span>
+                                        {{end}}
+                                        по причине "{{.Text | toTitleCase}}"
+                                    </div>
+                                    <div class="mdl-card__body-row-text">
+                                        {{.Time | timestampToDate}}
+                                    </div>
+                                </div>
+                                {{end}}
+                            {{end}}
                         </div>
                     </div>
                 </div>
@@ -110,9 +199,10 @@
 <script type="text/javascript" src="scripts/libs/datatables.material.min.js"></script>
 <script type="text/javascript" src="scripts/libs/material.min.js"></script>
 <script type="text/javascript" src="scripts/libs/wave_effect.js"></script>
+<script type="text/javascript" src="scripts/metrica.js"></script>
 <script type="text/javascript" src="scripts/links.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
-<!-- <script type="text/javascript" src="scripts/orgset.js"></script> -->
+<script type="text/javascript" src="scripts/profile.js"></script>
 </body>
 </html>
 {{end}}

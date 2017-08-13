@@ -7,7 +7,6 @@ import (
 	"forcamp/src"
 	"strings"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset/categories"
 )
 
@@ -15,7 +14,6 @@ func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *c
 	Token := r.PostFormValue("token")
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
-		log.Print(err)
 		return categories.Category{}, "", conf.ErrIDisNotINT
 	}
 	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))

@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -27,13 +26,11 @@ func EditTeam(token string, name string, id int64, responseWriter http.ResponseW
 func editTeam_Request(name string, id int64) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE teams SET name=? WHERE id=?")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(name, id)
 	Query.Close()
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return  nil

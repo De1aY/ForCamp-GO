@@ -10,7 +10,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"strconv"
 	"github.com/tealeg/xlsx"
 )
@@ -60,29 +59,24 @@ func addEmployeeRequest(employee Employee, organization string) (addEmployee_Suc
 func addEmployee_Main(organization string, hash string) (string, *conf.ApiResponse){
 	Query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Resp, err := Query.Exec(hash, organization)
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	ID, err := Resp.LastInsertId()
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.Connection.Prepare("UPDATE users SET login=? WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	login := "employee_"+strconv.FormatInt(ID, 10)
 	_, err = Query.Exec(login, ID)
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
@@ -92,33 +86,27 @@ func addEmployee_Main(organization string, hash string) (string, *conf.ApiRespon
 func addEmployee_Organization(employee Employee) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(employee.Team)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query, err = src.CustomConnection.Prepare("INSERT INTO users(login,name,surname,middlename,team,access,sex,avatar) VALUES(?,?,?,?,?,?,?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(employee.Login, employee.Name, employee.Surname, employee.Middlename, employee.Team, 1, employee.Sex, "default.jpg")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.CustomConnection.Prepare("INSERT INTO employees(login, post) VALUES(?, ?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(employee.Login, employee.Post)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
@@ -133,7 +121,6 @@ func addEmployee_Excel(employee Employee, organization string, password string) 
 	excelFilePath := conf.FOLDER_EMPLOYEES+"/"+organization+".xlsx"
 	xlFile, err := xlsx.OpenFile(excelFilePath)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrOpenExcelFile
 	}
 	sheet := xlFile.Sheets[0]
@@ -152,7 +139,6 @@ func addEmployee_Excel(employee Employee, organization string, password string) 
 	cell.Value = password
 	err = xlFile.Save(excelFilePath)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrSaveExcelFile
 	}
 	return nil
@@ -164,7 +150,6 @@ func getTeamNameById(id int64) (string, *conf.ApiResponse){
 	} else {
 		Query, err := src.CustomConnection.Query("SELECT name FROM teams WHERE id=?", id)
 		if err != nil {
-			log.Print(err)
 			return "", conf.ErrDatabaseQueryFailed
 		}
 		defer Query.Close()
@@ -172,7 +157,6 @@ func getTeamNameById(id int64) (string, *conf.ApiResponse){
 		for Query.Next(){
 			err = Query.Scan(&name)
 			if err != nil {
-				log.Print(err)
 				return "", conf.ErrDatabaseQueryFailed
 			}
 		}

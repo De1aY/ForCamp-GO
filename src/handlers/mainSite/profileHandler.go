@@ -31,6 +31,8 @@ type profileTemplateData struct {
 var profileTemplateFuncMap = template.FuncMap{
 	"stringToBoolean": tools.StringToBoolean,
 	"toTitleCase": tools.ToTitleCase,
+	"isNegative": tools.IsNegative,
+	"timestampToDate": tools.TimestampToDate,
 }
 
 func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {

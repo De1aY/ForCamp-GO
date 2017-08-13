@@ -10,7 +10,8 @@ const(
 	FOLDER_FONTS = "./wwwroot/data/fonts"
 	// Files
 	FILE_INDEX = "./wwwroot/index.html"
-	FILE_GENERAL = "./wwwroot/orgset.html"
+	FILE_GENERAL = "./wwwroot/general.html"
 	FILE_ORGSET = "./wwwroot/orgset.html"
 	FILE_PROFILE = "./wwwroot/profile.html"
+	FILE_MARKS = "./wwwroot/marks.html"
 )
