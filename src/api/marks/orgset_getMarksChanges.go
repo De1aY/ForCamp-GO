@@ -8,12 +8,13 @@ import (
 	"forcamp/src"
 	"log"
 	"database/sql"
+	"forcamp/src/api/orgset/teams"
 )
 
 type MarksChange struct {
 	ID int64 `json:"id"`
-	Employee_login string `json:"employee_login"`
-	Participant_login string `json:"participant_login"`
+	Employee userData `json:"employee"`
+	Participant userData `json:"participant"`
 	Text string `json:"text"`
 	Change int `json:"change"`
 	Time string `json:"time"`
@@ -25,6 +26,16 @@ type marksChange_Raw struct {
 	Participant_login string
 	Reason_ID int64
 	Time string
+}
+
+type userData struct {
+	Name           string `json:"name"`
+	Surname        string `json:"surname"`
+	Middlename     string `json:"middlename"`
+	Team           teams.Team `json:"team"`
+	Access         int `json:"access"`
+	Avatar         string `json:"avatar"`
+	Sex            int `json:"sex"`
 }
 
 type getMarksChanges_Success struct {
@@ -53,19 +64,21 @@ func GetMarksChanges(token string, responseWriter http.ResponseWriter) bool {
 }
 
 func GetMarksChanges_Request(login string) ([]MarksChange, *conf.ApiResponse) {
-	marksChangesRaw, APIerr := getMarksChangesFromDataTable(login)
-	if APIerr != nil {
-		return nil, APIerr
+	marksChangesRaw, apiErr := getMarksChangesFromDataTable(login)
+	if apiErr != nil {
+		return nil, apiErr
 	}
 	marksChanges := make([]MarksChange, 0)
 	for i := range marksChangesRaw {
-		reasonText, reasonChange, APIerr := getReasonText(marksChangesRaw[i].Reason_ID)
-		if APIerr != nil {
-			return nil, APIerr
+		reasonText, reasonChange, apiErr := getReasonText(marksChangesRaw[i].Reason_ID)
+		if apiErr != nil {
+			return nil, apiErr
 		}
+		employeeData, apiErr := getUserData(marksChangesRaw[i].Employee_login)
+		participantData, apiErr := getUserData(marksChangesRaw[i].Participant_login)
 		marksChanges = append(marksChanges, MarksChange{ID: marksChangesRaw[i].ID,
-			Employee_login: marksChangesRaw[i].Employee_login,
-			Participant_login: marksChangesRaw[i].Participant_login,
+			Employee: employeeData,
+			Participant: participantData,
 			Text: reasonText,
 			Time: marksChangesRaw[i].Time,
 			Change: reasonChange})
@@ -116,4 +129,41 @@ func getReasonText(reason_id int64) (string, int, *conf.ApiResponse) {
 		return "", 0, conf.ErrDatabaseQueryFailed
 	}
 	return text, change, nil
+}
+
+func getUserData(login string) (userData, *conf.ApiResponse) {
+	var data userData
+	var teamID int64
+	err := src.CustomConnection.QueryRow("SELECT name, surname, middlename, sex, access, avatar, team FROM users " +
+		"WHERE login=?", login).Scan(&data.Name, &data.Surname, &data.Middlename, &data.Sex, &data.Access, &data.Avatar, &teamID)
+	if err != nil {
+		return data, conf.ErrDatabaseQueryFailed
+	}
+	teamData, apiErr := getTeamInfo(teamID); if apiErr != nil {
+		return data, apiErr
+	}
+	data.Team = teamData
+	return data, nil
+}
+
+func getTeamInfo(teamID int64) (teams.Team, *conf.ApiResponse){
+	var teamInfo teams.Team
+	rows, err := src.CustomConnection.Query("SELECT * FROM teams WHERE id=?", teamID); if err != nil {
+		return teamInfo, conf.ErrDatabaseQueryFailed
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err = rows.Scan(&teamInfo.Id, &teamInfo.Name); if err != nil {
+			return teamInfo, conf.ErrDatabaseQueryFailed
+		}
+		leader, apiErr := teams.GetTeamLeader(teamID); if apiErr != nil {
+			return teamInfo, apiErr
+		}
+		participantsData, apiErr := teams.GetTeamParticipants(teamID); if apiErr != nil {
+			return teamInfo, apiErr
+		}
+		teamInfo.Leader = leader
+		teamInfo.Participants = participantsData
+	}
+	return teamInfo, nil
 }

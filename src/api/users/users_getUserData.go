@@ -16,33 +16,35 @@ import (
 	"forcamp/src/api/orgset/teams"
 )
 
-func GetUserData(Token string, responseWriter http.ResponseWriter, login string) bool {
-	if checkData(Token, login, responseWriter) {
-		if authorization.CheckToken(Token, responseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token)
+func GetUserData(token string, responseWriter http.ResponseWriter, login string) bool {
+	if authorization.CheckToken(token, responseWriter) {
+		organization, userLogin, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+		if APIerr != nil {
+			return APIerr.Print(responseWriter)
+		}
+		src.CustomConnection = src.Connect_Custom(organization)
+		if len(login) != 0 {
+			userOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
-			src.CustomConnection = src.Connect_Custom(Organization)
-			UserOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
-			}
-			if UserOrganization != Organization {
+			if userOrganization != organization {
 				return conf.ErrUserNotFound.Print(responseWriter)
 			}
-			userData, APIerr := GetUserData_Request(login)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
-			}
-			userData.Organization = Organization
-			rawResp := getUserData_Success{userData}
-			resp := &conf.ApiResponse{200, "success", rawResp}
-			resp.Print(responseWriter)
-
 		} else {
-			return conf.ErrUserTokenIncorrect.Print(responseWriter)
+			login = userLogin
 		}
+		userData, APIerr := GetUserData_Request(login)
+		if APIerr != nil {
+			return APIerr.Print(responseWriter)
+		}
+		userData.Organization = organization
+		rawResp := getUserData_Success{userData}
+		resp := &conf.ApiResponse{200, "success", rawResp}
+		resp.Print(responseWriter)
+
+	} else {
+		return conf.ErrUserTokenIncorrect.Print(responseWriter)
 	}
 	return true
 }
@@ -78,7 +80,7 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 		return userData, apiErr
 	}
 	if userData.Access == 0 {
-		marks, APIerr := getMarks(login)
+		marksData, APIerr := getMarks(login)
 		if APIerr != nil {
 			return UserData{}, APIerr
 		}
@@ -88,15 +90,15 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 			return UserData{}, conf.ErrDatabaseQueryFailed
 		}
 		return UserData{Name: userData.Name,
-			Surname: userData.Surname,
-			Middlename: userData.Middlename,
-			Sex: userData.Sex,
-			Team: teamInfo,
-			Access: userData.Access,
-			Avatar: userData.Avatar,
-			Post: orgSettings_Participant,
-			Actions: actions,
-			AdditionalData: marks}, nil
+			Surname:          userData.Surname,
+			Middlename:       userData.Middlename,
+			Sex:              userData.Sex,
+			Team:             teamInfo,
+			Access:           userData.Access,
+			Avatar:           userData.Avatar,
+			Post:             orgSettings_Participant,
+			Actions:          actions,
+			AdditionalData:   marksData}, nil
 	} else {
 		permissions, post, APIerr := getPermissionsAndPost(login)
 		if APIerr != nil {
@@ -128,11 +130,11 @@ func getTeamInfo(teamID int64) (teams.Team, *conf.ApiResponse){
 		leader, apiErr := teams.GetTeamLeader(teamID); if apiErr != nil {
 			return teamInfo, apiErr
 		}
-		participants, apiErr := teams.GetTeamParticipants(teamID); if apiErr != nil {
+		participantsData, apiErr := teams.GetTeamParticipants(teamID); if apiErr != nil {
 			return teamInfo, apiErr
 		}
 		teamInfo.Leader = leader
-		teamInfo.Participants = participants
+		teamInfo.Participants = participantsData
 	}
 	return teamInfo, nil
 }
@@ -157,8 +159,8 @@ func getMarks(login string) ([]participants.Mark, *conf.ApiResponse) {
 func getMarksIfNoCategories(rows *sql.Rows) ([]participants.Mark, *conf.ApiResponse) {
 	defer rows.Close()
 	var (
-		login string
-		marks []participants.Mark
+		login     string
+		marksData []participants.Mark
 	)
 	for rows.Next() {
 		err := rows.Scan(&login)
@@ -166,18 +168,18 @@ func getMarksIfNoCategories(rows *sql.Rows) ([]participants.Mark, *conf.ApiRespo
 			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
-		marks = make([]participants.Mark, 0)
+		marksData = make([]participants.Mark, 0)
 	}
-	return marks, nil
+	return marksData, nil
 }
 
 func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participants.Mark, *conf.ApiResponse) {
 	categoriesIDs = categoriesIDs[1:]
 	var (
-		rawResult = make([][]byte, len(categoriesIDs) + 1)
-		Result = make([]interface{}, len(categoriesIDs) + 1)
-		marks []participants.Mark
-		Values = make([]string, len(categoriesIDs) + 1)
+		rawResult  = make([][]byte, len(categoriesIDs) + 1)
+		Result     = make([]interface{}, len(categoriesIDs) + 1)
+		marksData []participants.Mark
+		Values     = make([]string, len(categoriesIDs) + 1)
 	)
 	for i, _ := range Result {
 		Result[i] = &rawResult[i]
@@ -212,10 +214,10 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participant
 				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
-			marks = append(marks, participants.Mark{id, categoriesList[i].Name, value})
+			marksData = append(marksData, participants.Mark{id, categoriesList[i].Name, value})
 		}
 	}
-	return marks, nil
+	return marksData, nil
 }
 
 func getPermissionsAndPost(login string) ([]employees.Permission, string, *conf.ApiResponse) {

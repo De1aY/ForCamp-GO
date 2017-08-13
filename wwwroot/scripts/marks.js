@@ -8,42 +8,20 @@ $(document).ready(function() {
 
 function reloadTables() {
     MarksTable.ajax.reload(null, false);
+    MarksChangesTable.ajax.reload(null, false);
 }
 
 function onTableDraw() {
     componentHandler.upgradeDom();
-    $('.mdl-card__body-table-row__dropdown').unbind('dblclick').dblclick( function () {
-        let dropdownWrapper = $(this);
-        dropdownWrapper.addClass('mdl-card__body-table-row__dropdown--editing');
-        dropdownWrapper.children('ul').children('li').unbind('mousedown').mousedown(function () {
-            dropdownWrapper.removeClass('mdl-card__body-table-row__dropdown--editing');
-            let field = $(this);
-            let editInfo = field.data('content').split('-');
-            if (editInfo[0] === "close") {
-                return
+    $('.mdl-card__body-table-row_actions--delete').unbind('click').click( function () {
+        let button = $(this);
+        let editInfo = button.data('content').split('-');
+        switch (editInfo[0]){
+            case "action": {
+                deleteMarkChange(editInfo[1], button);
+                break;
             }
-            dropdownWrapper.children('.mdl-card__body-table-row__dropdown-ttl').text(field.text());
-            dropdownWrapper.data('content', field.data('content'));
-            switch (editInfo[0]) {
-                case "participant": {
-                    let login = editInfo[1];
-                    let category_id = editInfo[3];
-                    let reason_id = editInfo[5];
-                    editMark(login, category_id, reason_id);
-                    break;
-                }
-                case "action": {
-                    let name = $('#mdl-card__body-table-employees--name-' + editInfo[1]).text();
-                    let surname = $('#mdl-card__body-table-employees--surname-' + editInfo[1]).text();
-                    let middlename = $('#mdl-card__body-table-employees--middlename-' + editInfo[1]).text();
-                    let post = $('#mdl-card__body-table-employees--post-' + editInfo[1]).text();
-                    let sex = $('#mdl-card__body-table-employees--sex-' + editInfo[1]).data('content').split('-')[3];
-                    let team = $('#mdl-card__body-table-employees--team-' + editInfo[1]).data('content').split('-')[3];
-                    editEmployee(name, surname, middlename, post, sex, team, editInfo[1]);
-                    break;
-                }
-            }
-        });
+        }
     });
 }
 
@@ -150,6 +128,138 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
     },
     "drawCallback": function () {
         $('#mdl-card__body-table-marks').css('width', '100%');
+        $('.mdl-card__body-table-row__dropdown').unbind('dblclick').dblclick( function () {
+            let dropdownWrapper = $(this);
+            dropdownWrapper.addClass('mdl-card__body-table-row__dropdown--editing');
+            dropdownWrapper.children('ul').children('li').unbind('mousedown').mousedown(function () {
+                dropdownWrapper.removeClass('mdl-card__body-table-row__dropdown--editing');
+                let field = $(this);
+                let editInfo = field.data('content').split('-');
+                if (editInfo[0] === "close") {
+                    return
+                }
+                if (editInfo[0] === "participant") {
+                    let login = editInfo[1];
+                    let category_id = editInfo[3];
+                    let reason_id = editInfo[5];
+                    editMark(login, category_id, reason_id);
+                }
+            });
+        });
+        onTableDraw();
+    },
+});
+
+// Last changes
+
+function deleteMarkChange(id, button) {
+    $.post(__DeleteMarkChangeLink, { token: Token, id: id }, function (resp) {
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            MarksChangesTable.row(button.parents('tr')).remove().draw();
+            reloadTables();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
+    "ajax": {
+        "url": __GetUserDataLink,
+        "type": "GET",
+        "data": {
+            "token": Token,
+        },
+        "dataSrc": function (data) {
+            return data.message.data.actions;
+        },
+    },
+    columnDefs: [
+        {
+            targets: 0,
+            name: "change",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "change",
+            searchable: true,
+            render: function ( change, type, row, meta ) {
+                return '<span>' + change +'</span>';
+            },
+        },
+        {
+            targets: 1,
+            name: "login",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "participant",
+            searchable: false,
+            render: function ( participant, type, row, meta ) {
+                return '<a href="https://forcamp.ga/profile?login=' + participant.login + '" ' +
+                    'class="mdl-card__body-table-row__field">'+
+                    participant.surname[0].toUpperCase() + participant.surname.substring(1) + ' '
+                    + participant.name[0].toUpperCase() + participant.name.substring(1) + ' '
+                    + participant.middlename[0].toUpperCase() + participant.middlename.substring(1) + '</a>';
+            },
+        },
+        {
+            targets: 2,
+            name: "text",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "text",
+            orderable: true,
+            render: function ( text, type, row, meta ) {
+                return '<span>' + text[0].toUpperCase() + text.substring(1) + '</span>';
+            }
+        },
+        {
+            targets: 3,
+            name: "date",
+            className: 'mdl-card__body-table-row_actions',
+            data: "time",
+            searchable: true,
+            orderable: true,
+            render: function ( time, type, row, meta ) {
+                let date = new Date(time);
+                return '<span>' + date.toLocaleDateString() + '</span>';
+            }
+        },
+        {
+            targets: 4,
+            name: "actions",
+            className: 'mdl-card__body-table-row_actions',
+            data: "id",
+            searchable: false,
+            orderable: false,
+            render: function ( id, type, row, meta ) {
+                return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
+                    ' data-content="action-' + id + '"> ' +
+                    '<i class="material-icons">delete_forever</i></button>';
+            }
+        },
+    ],
+    language: {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка участников...",
+        "zeroRecords": "Участники отсутствуют.",
+        "emptyTable": "Участники отсутствуют",
+        "paginate": {
+            "first": "Первая",
+            "previous": "Пред.",
+            "next": "След.",
+            "last": "Последняя"
+        },
+        "aria": {
+            "sortAscending": ": отсортировать по возрастанию",
+            "sortDescending": ": отсортировать по убыванию"
+        }
+    },
+    "drawCallback": function () {
+        $('#mdl-card__body-table-actions').css('width', '100%');
         onTableDraw();
     },
 });
