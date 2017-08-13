@@ -3,7 +3,6 @@ package teams
 import (
 	"net/http"
 	"forcamp/src/api/authorization"
-	"log"
 	"forcamp/conf"
 	"forcamp/src"
 	"database/sql"
@@ -52,7 +51,6 @@ func GetTeams(token string, responseWriter http.ResponseWriter) bool {
 func getTeams_Request() (getTeams_Success, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM teams")
 	if err != nil {
-		log.Print(err)
 		return getTeams_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Teams, APIerr := getTeamsFromQuery(Query)
@@ -69,7 +67,6 @@ func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiResponse) {
 	for rows.Next() {
 		err := rows.Scan(&team.Id, &team.Name)
 		if err != nil {
-			log.Print(err)
 			return Teams, conf.ErrDatabaseQueryFailed
 		}
 		Leader, APIerr := GetTeamLeader(team.Id)
@@ -93,7 +90,6 @@ func getTeamsFromQuery(rows *sql.Rows) ([]Team, *conf.ApiResponse) {
 func GetTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename FROM users WHERE team=? AND access='1' LIMIT 1", id)
 	if err != nil {
-		log.Print(err)
 		return TeamLeader{}, conf.ErrDatabaseQueryFailed
 	}
 	defer Query.Close()
@@ -101,7 +97,6 @@ func GetTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
 	for Query.Next() {
 		err = Query.Scan(&Leader.Login, &Leader.Name, &Leader.Surname, &Leader.Middlename)
 		if err != nil {
-			log.Print(err)
 			return TeamLeader{}, conf.ErrDatabaseQueryFailed
 		}
 	}
@@ -111,7 +106,6 @@ func GetTeamLeader(id int64) (TeamLeader, *conf.ApiResponse) {
 func GetTeamParticipants(id int64) ([]string, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login FROM users WHERE team=? AND access='0'", id)
 	if err != nil {
-		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
 	}
 	defer Query.Close()
@@ -120,7 +114,6 @@ func GetTeamParticipants(id int64) ([]string, *conf.ApiResponse) {
 	for Query.Next() {
 		err = Query.Scan(&login)
 		if err != nil {
-			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		logins = append(logins, login)

@@ -5,7 +5,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 )
 
 func EditParticipant(token string, participant Participant, responseWriter http.ResponseWriter) bool{
@@ -33,12 +32,10 @@ func EditParticipant(token string, participant Participant, responseWriter http.
 func editParticipant_Request(participant Participant) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, team=?, sex=? WHERE login=? AND access='0'")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(participant.Name, participant.Surname, participant.Middlename, participant.Team, participant.Sex, participant.Login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()

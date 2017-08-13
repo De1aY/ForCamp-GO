@@ -3,7 +3,6 @@ package settings
 import (
 	"net/http"
 	"forcamp/conf"
-	"log"
 	"forcamp/src/api/orgset"
 	"forcamp/src"
 )
@@ -52,13 +51,11 @@ func setOrgSettingValue_Request(orgSet OrgSettings, w http.ResponseWriter) bool 
 func setOrgSettingValue_Request_Team(orgSet OrgSettings, w http.ResponseWriter) bool {
 	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='team'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(orgSet.Team)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	return true
@@ -67,13 +64,11 @@ func setOrgSettingValue_Request_Team(orgSet OrgSettings, w http.ResponseWriter) 
 func setOrgSettingValue_Request_Participant(orgSet OrgSettings, w http.ResponseWriter) bool {
 	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='participant'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(orgSet.Participant)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	return true
@@ -82,13 +77,11 @@ func setOrgSettingValue_Request_Participant(orgSet OrgSettings, w http.ResponseW
 func setOrgSettingValue_Request_Period(orgSet OrgSettings, w http.ResponseWriter) bool {
 	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='period'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(orgSet.Period)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	return true
@@ -97,13 +90,11 @@ func setOrgSettingValue_Request_Period(orgSet OrgSettings, w http.ResponseWriter
 func setOrgSettingValue_Request_Organization(orgSet OrgSettings, w http.ResponseWriter) bool {
 	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='organization'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(orgSet.Organization)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	return true
@@ -112,13 +103,11 @@ func setOrgSettingValue_Request_Organization(orgSet OrgSettings, w http.Response
 func setOrgSettingValue_Request_SelfMarks(orgSet OrgSettings, w http.ResponseWriter) bool {
 	Query, err := src.CustomConnection.Prepare("UPDATE settings SET value=? WHERE name='self_marks'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	defer Query.Close()
 	_, err = Query.Exec(orgSet.SelfMarks)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	return true

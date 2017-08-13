@@ -8,7 +8,6 @@ import (
 	"strings"
 	"forcamp/src/api/orgset/participants"
 	"strconv"
-	"log"
 )
 
 func getEditParticipantPostValues(r *http.Request) (participants.Participant, string, *conf.ApiResponse){
@@ -19,12 +18,10 @@ func getEditParticipantPostValues(r *http.Request) (participants.Participant, st
 	Middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
 	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
 	if err != nil {
-		log.Print(err)
 		return participants.Participant{}, "", conf.ErrSexNotINT
 	}
 	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
 	if err != nil {
-		log.Print(err)
 		return participants.Participant{}, "", conf.ErrTeamNotINT
 	}
 	return participants.Participant{Login, Name, Surname, Middlename, int(Sex), Team, nil}, Token, nil

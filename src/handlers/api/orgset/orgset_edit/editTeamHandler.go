@@ -7,7 +7,6 @@ import (
 	"forcamp/src"
 	"strings"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset/teams"
 )
 
@@ -15,7 +14,6 @@ func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiRes
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
-		log.Print(err)
 		return "", "", 0, conf.ErrIDisNotINT
 	}
 	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))

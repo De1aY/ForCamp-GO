@@ -1,8 +1,3 @@
-/*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
-*/
 package employees
 
 import (
@@ -10,7 +5,6 @@ import (
 	"forcamp/src"
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
-	"log"
 	"strconv"
 )
 
@@ -39,12 +33,10 @@ func EditEmployeePermission(token string, login string, catId int64, value strin
 func editEmployeePermission_Request(login string, catId int64, value string) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE employees SET `"+strconv.FormatInt(catId, 10)+"`=? WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(value, login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

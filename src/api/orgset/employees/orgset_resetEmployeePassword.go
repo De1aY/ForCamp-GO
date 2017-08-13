@@ -1,8 +1,3 @@
-/*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
-*/
 package employees
 
 import (
@@ -10,7 +5,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 )
 
 type resetEmployeePassword_Success struct {
@@ -45,23 +39,19 @@ func resetEmployeePassword_Request(login string) (resetEmployeePassword_Success,
 	Password, Hash := orgset.GeneratePassword()
 	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(Hash, login)
 	if err != nil {
-		log.Print(err)
 		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return resetEmployeePassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return resetEmployeePassword_Success{Password}, nil

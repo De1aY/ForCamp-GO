@@ -6,7 +6,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset/teams"
 	"strings"
 )
@@ -15,7 +14,6 @@ func getDeleteTeamPostValues(r *http.Request) (int64, string, *conf.ApiResponse)
 	Token := strings.TrimSpace(r.PostFormValue("token"))
 	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
 	if err != nil{
-		log.Print(err)
 		return 0, "", conf.ErrIDisNotINT
 	}
 	return ID, Token, nil

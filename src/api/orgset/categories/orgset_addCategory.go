@@ -5,7 +5,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -34,18 +33,15 @@ func AddCategory(token string, category Category, responseWriter http.ResponseWr
 func addCategory_Request(category Category) (int64, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Prepare("INSERT INTO categories(name, negative_marks) VALUES(?, ?)")
 	if err != nil{
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	Resp, err := Query.Exec(category.Name, category.NegativeMarks)
 	Query.Close()
 	if err != nil{
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	CatID, err := Resp.LastInsertId()
 	if err != nil{
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	APIerr := addCategory_Participants(CatID)
@@ -62,7 +58,6 @@ func addCategory_Request(category Category) (int64, *conf.ApiResponse){
 func addCategory_Participants(CatID int64) *conf.ApiResponse{
 	_, err := src.CustomConnection.Query("ALTER TABLE participants ADD `"+strconv.FormatInt(CatID, 10)+"` INT NOT NULL DEFAULT '0'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -71,7 +66,6 @@ func addCategory_Participants(CatID int64) *conf.ApiResponse{
 func addCategory_Employees(CatID int64) *conf.ApiResponse{
 	_, err := src.CustomConnection.Query("ALTER TABLE employees ADD `"+strconv.FormatInt(CatID, 10)+"` ENUM('true','false') NOT NULL DEFAULT 'true'")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

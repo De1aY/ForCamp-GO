@@ -6,7 +6,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"database/sql"
 	"strconv"
 	"forcamp/src/api/orgset/categories"
@@ -57,7 +56,6 @@ func GetParticipants(token string, responseWriter http.ResponseWriter) bool {
 func getParticipants_Request() (getParticipants_Success, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='0'")
 	if err != nil {
-		log.Print(err)
 		return getParticipants_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return getParticipantsFromResponse(Query)
@@ -76,7 +74,6 @@ func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf
 	for rows.Next() {
 		err := rows.Scan(&participant.Login, &participant.Name, &participant.Surname, &participant.Middlename, &participant.Sex, &participant.Team)
 		if err != nil {
-			log.Print(err)
 			return getParticipants_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		participant.Marks = marks[participant.Login]
@@ -91,12 +88,10 @@ func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf
 func getMarks() (map[string][]Mark, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM participants")
 	if err != nil {
-		log.Print(err)
 		return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
 	}
 	CategoriesIDs, err := Query.Columns()
 	if err != nil {
-		log.Print(err)
 		return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
 	}
 	if len(CategoriesIDs) == 1 {
@@ -114,7 +109,6 @@ func getMarksIfNoCategories(rows *sql.Rows) (map[string][]Mark, *conf.ApiRespons
 	for rows.Next() {
 		err := rows.Scan(&login)
 		if err != nil {
-			log.Print(err)
 			return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
 		}
 		marks[login] = make([]Mark, 0)
@@ -154,12 +148,10 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) (map[string][]
 		for i := 0; i < len(categoriesValues); i++ {
 			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
-				log.Print(err)
 				return make(map[string][]Mark), conf.ErrConvertStringToInt
 			}
 			value, err := strconv.ParseInt(categoriesValues[i], 10, 64)
 			if err != nil {
-				log.Print(err)
 				return make(map[string][]Mark), conf.ErrConvertStringToInt
 			}
 			marks[login] = append(marks[login], Mark{id, categoriesList[i].Name, value})

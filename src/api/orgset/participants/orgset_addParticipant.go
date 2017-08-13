@@ -5,7 +5,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"strconv"
 	"github.com/tealeg/xlsx"
 )
@@ -54,29 +53,24 @@ func addParticipantRequest(participant Participant, organization string) (addPar
 func addParticipant_Main(organization string, hash string) (string, *conf.ApiResponse){
 	Query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Resp, err := Query.Exec(hash, organization)
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	ID, err := Resp.LastInsertId()
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.Connection.Prepare("UPDATE users SET login=? WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	login := "participant_"+strconv.FormatInt(ID, 10)
 	_, err = Query.Exec(login, ID)
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
@@ -86,23 +80,19 @@ func addParticipant_Main(organization string, hash string) (string, *conf.ApiRes
 func addParticipant_Organization(participant Participant) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("INSERT INTO users(login,name,surname,middlename,team,access,sex,avatar) VALUES(?,?,?,?,?,?,?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(participant.Login, participant.Name, participant.Surname, participant.Middlename, participant.Team, 0, participant.Sex, "default.jpg")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.CustomConnection.Prepare("INSERT INTO participants(login) VALUES(?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(participant.Login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
@@ -117,7 +107,6 @@ func addParticipant_Excel(participant Participant, organization string, password
 	excelFilePath := conf.FOLDER_PARTICIPANTS+"/"+organization+".xlsx"
 	xlFile, err := xlsx.OpenFile(excelFilePath)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrOpenExcelFile
 	}
 	sheet := xlFile.Sheets[0]
@@ -136,7 +125,6 @@ func addParticipant_Excel(participant Participant, organization string, password
 	cell.Value = password
 	err = xlFile.Save(excelFilePath)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrSaveExcelFile
 	}
 	return nil
@@ -148,7 +136,6 @@ func getTeamNameById(id int64) (string, *conf.ApiResponse){
 	} else {
 		Query, err := src.CustomConnection.Query("SELECT name FROM teams WHERE id=?", id)
 		if err != nil {
-			log.Print(err)
 			return "", conf.ErrDatabaseQueryFailed
 		}
 		defer Query.Close()
@@ -156,7 +143,6 @@ func getTeamNameById(id int64) (string, *conf.ApiResponse){
 		for Query.Next(){
 			err = Query.Scan(&name)
 			if err != nil {
-				log.Print(err)
 				return "", conf.ErrDatabaseQueryFailed
 			}
 		}

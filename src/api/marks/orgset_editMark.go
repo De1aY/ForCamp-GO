@@ -1,8 +1,3 @@
-/*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
-*/
 package marks
 
 import (
@@ -11,7 +6,6 @@ import (
 	"forcamp/src/api/authorization"
 	"forcamp/conf"
 	"forcamp/src/api/orgset"
-	"log"
 	"strconv"
 )
 
@@ -54,12 +48,10 @@ func editParticipantMark(participant_login string, employee_login string, catego
 	Query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+strconv.FormatInt(category_id, 10)+"`=? WHERE login=?")
 	defer Query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(currentMark + change, participant_login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return logMarkChange(participant_login, employee_login, reason_id)
@@ -69,12 +61,10 @@ func logMarkChange(participant_login string, employee_login string, reason_id in
 	Query, err := src.CustomConnection.Prepare("INSERT INTO marks_changes(reason_id, employee_login, participant_login) VALUES (?,?,?)")
 	defer Query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(reason_id, employee_login, participant_login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -84,7 +74,6 @@ func getCurrentMarkValue(participant_login string, category_id int64) (int64, *c
 	var value int64
 	err := src.CustomConnection.QueryRow("SELECT `"+strconv.FormatInt(category_id, 10)+"` FROM participants WHERE login=?", participant_login).Scan(&value)
 	if err != nil {
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	return value, nil
@@ -94,7 +83,6 @@ func getReasonChange(reason_id int64) (int64, *conf.ApiResponse) {
 	var change int64
 	err := src.CustomConnection.QueryRow("SELECT modification FROM reasons WHERE id=?", reason_id).Scan(&change)
 	if err != nil {
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	return change, nil
@@ -129,7 +117,6 @@ func checkUserAccess_Request(employee_login string) *conf.ApiResponse {
 	var access int
 	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=? LIMIT 1", employee_login).Scan(&access)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	if access != 0 {
@@ -143,7 +130,6 @@ func checkParticipantLogin(participant_login string, w http.ResponseWriter) bool
 	var access int
 	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=?", participant_login).Scan(&access)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
 	if access == 0 {

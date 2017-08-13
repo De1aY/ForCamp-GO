@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -39,22 +38,18 @@ func deleteParticipant_Request(login string) *conf.ApiResponse{
 func deleteParticipant_Main(login string) *conf.ApiResponse{
 	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil{
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -63,18 +58,15 @@ func deleteParticipant_Main(login string) *conf.ApiResponse{
 func deleteParticipant_Organization(login string) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='0'")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	resp, err := Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	rowsAffected, err := resp.RowsAffected()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	if rowsAffected == 0{
@@ -82,12 +74,10 @@ func deleteParticipant_Organization(login string) *conf.ApiResponse{
 	}
 	Query, err = src.CustomConnection.Prepare("DELETE FROM participants WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

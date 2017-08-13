@@ -6,7 +6,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src/api/orgset"
 	"forcamp/src"
-	"log"
 	"strconv"
 )
 
@@ -49,7 +48,6 @@ func checkAdminPermissions(login string) (bool, *conf.ApiResponse) {
 	var access int
 	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=?", login).Scan(&access)
 	if err != nil {
-		log.Print(err)
 		return false, conf.ErrDatabaseQueryFailed
 	}
 	if access == 2 {
@@ -63,7 +61,6 @@ func checkMarkChangeEmployee(employee_login string, id int64) *conf.ApiResponse 
 	var count int
 	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM marks_changes WHERE employee_login=? AND id=?", employee_login, id).Scan(&count)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	if count == 1 {
@@ -80,7 +77,6 @@ func deleteMarkChange(id int64) *conf.ApiResponse {
 	)
 	err := src.CustomConnection.QueryRow("SELECT reason_id, participant_login FROM marks_changes WHERE id=?", id).Scan(&reason_id, &participant_login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	reason_change, APIerr := getReasonChange(reason_id)
@@ -98,12 +94,10 @@ func deleteMarkChange(id int64) *conf.ApiResponse {
 	}
 	query, err := src.CustomConnection.Prepare("DELETE FROM marks_changes WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec(id)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -112,12 +106,10 @@ func deleteMarkChange(id int64) *conf.ApiResponse {
 func updateParticipantMark(login string, category_id int64, newMark int64) *conf.ApiResponse {
 	query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+strconv.FormatInt(category_id, 10)+"`=? WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec(newMark, login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -127,7 +119,6 @@ func getReasonCategoryID(reason_id int64) (int64, *conf.ApiResponse) {
 	var category_id int64
 	err := src.CustomConnection.QueryRow("SELECT cat_id FROM reasons WHERE id=?", reason_id).Scan(&category_id)
 	if err != nil {
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	return category_id, nil

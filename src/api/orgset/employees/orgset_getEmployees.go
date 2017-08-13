@@ -1,8 +1,3 @@
-/*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
-*/
 package employees
 
 import (
@@ -11,7 +6,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"database/sql"
 	"strconv"
 	"forcamp/src/api/orgset/categories"
@@ -62,7 +56,6 @@ func GetEmployees(token string, responseWriter http.ResponseWriter) bool {
 func getEmployees_Request() (getEmployees_Success, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='1'")
 	if err != nil {
-		log.Print(err)
 		return getEmployees_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return getEmployeesFromResponse(Query)
@@ -81,7 +74,6 @@ func getEmployeesFromResponse(rows *sql.Rows) (getEmployees_Success, *conf.ApiRe
 	for rows.Next() {
 		err := rows.Scan(&employee.Login, &employee.Name, &employee.Surname, &employee.Middlename, &employee.Sex, &employee.Team)
 		if err != nil {
-			log.Print(err)
 			return getEmployees_Success{}, conf.ErrDatabaseQueryFailed
 		}
 		employee.Permissions = Permissions[employee.Login]
@@ -97,12 +89,10 @@ func getEmployeesFromResponse(rows *sql.Rows) (getEmployees_Success, *conf.ApiRe
 func getPermissionsAndPosts() (map[string][]Permission, map[string]string, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM employees")
 	if err != nil {
-		log.Print(err)
 		return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 	}
 	CategoriesIDs, err := Query.Columns()
 	if err != nil {
-		log.Print(err)
 		return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 	}
 	if len(CategoriesIDs) == 1 {
@@ -122,7 +112,6 @@ func getPermissionsIfNoCategories(rows *sql.Rows) (map[string][]Permission, map[
 	for rows.Next() {
 		err := rows.Scan(&login, &post)
 		if err != nil {
-			log.Print(err)
 			return make(map[string][]Permission), make(map[string]string), conf.ErrDatabaseQueryFailed
 		}
 		Permissions[login] = make([]Permission, 0)
@@ -166,7 +155,6 @@ func getPermissionsIfCategories(rows *sql.Rows, categoriesIDs []string) (map[str
 		for i := 0; i < len(values); i++ {
 			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
-				log.Print(err)
 				return make(map[string][]Permission), make(map[string]string),conf.ErrConvertStringToInt
 			}
 			permissions[Login] = append(permissions[Login], Permission{id, categoriesList[i].Name, values[i]})

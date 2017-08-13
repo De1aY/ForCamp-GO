@@ -7,7 +7,6 @@ import (
 	"forcamp/src"
 	"strings"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset/employees"
 )
 
@@ -19,12 +18,10 @@ func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *con
 	Post := strings.TrimSpace(strings.ToLower(r.PostFormValue("post")))
 	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
 	if err != nil {
-		log.Print(err)
 		return employees.Employee{}, "", conf.ErrSexNotINT
 	}
 	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
 	if err != nil {
-		log.Print(err)
 		return employees.Employee{}, "", conf.ErrTeamNotINT
 	}
 	return employees.Employee{"", Name, Surname, Middlename, int(Sex), Team, Post, nil}, Token, nil

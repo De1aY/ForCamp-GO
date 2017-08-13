@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -27,12 +26,10 @@ func DeleteTeam(token string, id int64, responseWriter http.ResponseWriter) bool
 func deleteTeam_Request(id int64) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("DELETE FROM teams WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(id)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
@@ -46,12 +43,10 @@ func deleteTeam_Request(id int64) *conf.ApiResponse{
 func deleteTeam_Users(id int64) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(id)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
