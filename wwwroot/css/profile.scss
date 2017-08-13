@@ -1,1 +1,27 @@
 @import "main";
+
+body {
+
+  .mdl-card {
+
+    .mdl-card__body {
+
+        .mdl-card__body-row-text {
+
+          .mdl-card__body-row-text--positive {
+            color: $SuccessColor;
+            font-weight: 700;
+          }
+
+          .mdl-card__body-row-text--negative {
+            color: $ErrorColor;
+            font-weight: 700;
+          }
+
+        }
+
+    }
+
+  }
+
+}

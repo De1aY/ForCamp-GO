@@ -170,6 +170,9 @@ function onTableDraw() {
             dropdownWrapper.removeClass('mdl-card__body-table-row__dropdown--editing');
             let field = $(this);
             let editInfo = field.data('content').split('-');
+            if (editInfo[0] === "close") {
+                return
+            }
             dropdownWrapper.children('.mdl-card__body-table-row__dropdown-ttl').text(field.text());
             dropdownWrapper.data('content', field.data('content'));
             if (editInfo[1] !== "000") {
@@ -465,7 +468,6 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
             searchable: false,
             orderable: true,
             render: function ( participants, type, row, meta ) {
-                console.log(participants);
                 return '<div class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
                     'id="mdl-card__body-table-teams--participants-'+row.id+'"' +
                     ' data-content="team-'+row.id+'-participants">'+participants.length+'</div>';
@@ -859,10 +861,11 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             searchable: false,
             orderable: false,
             render: function ( sex, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
+                return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
                     'id="mdl-card__body-table-participants--sex-'+row.login+'"' +
                     ' data-content="participant-' + row.login + '-sex-' + sex + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">'+GetSexByID(sex)+'</div><ul>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-sex-0"><span>мужской</span></li>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-sex-1"><span>женский</span></li>'+
                     '</ul></label></div>';
@@ -876,10 +879,11 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             searchable: true,
             orderable: true,
             render: function ( team_id, type, row, meta ) {
-                let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
+                let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
                 'id="mdl-card__body-table-participants--team-'+row.login+'"' +
                 ' data-content="participant-' + row.login + '-team-' + team_id + '">' +
                 '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>'+
+                '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
                 '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-team-0">' +
                     '<span>отсутствует</span></li>';
                 Teams.forEach(function (team) {
@@ -1084,10 +1088,11 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             searchable: false,
             orderable: false,
             render: function ( sex, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
+                return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
                     'id="mdl-card__body-table-employees--sex-'+row.login+'"' +
                     ' data-content="employee-' + row.login + '-sex-' + sex + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">'+GetSexByID(sex)+'</div><ul>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-sex-0"><span>мужской</span></li>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-sex-1"><span>женский</span></li>'+
                     '</ul></label></div>';
@@ -1101,10 +1106,11 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             searchable: true,
             orderable: true,
             render: function ( team_id, type, row, meta ) {
-                let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize" ' +
+                let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
                     'id="mdl-card__body-table-employees--team-'+row.login+'"' +
                     ' data-content="employee-' + row.login + '-team-' + team_id + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-team-0">' +
                     '<span>отсутствует</span></li>';
                 Teams.forEach(function (team) {
@@ -1130,12 +1136,12 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
                             additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
                                 'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
                                 '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input" checked> ' +
-                                '<span class="mdl-checkbox__label">' + GetCategoryNameByID(permission.id) + '</span></label></div></li>';
+                                '<span class="mdl-checkbox__label">' + permission.name[0].toUpperCase() + permission.name.substring(1) + '</span></label></div></li>';
                         } else {
                             additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
                                 'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
                                 '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input"> ' +
-                                '<span class="mdl-checkbox__label">' + GetCategoryNameByID(permission.id) + '</span></label></div></li>';
+                                '<span class="mdl-checkbox__label">' + permission.name[0].toUpperCase() + permission.name.substring(1) + '</span></label></div></li>';
                         }
                     });
                 }
@@ -1281,10 +1287,11 @@ let ReasonsTable = $('#mdl-card__body-table-reasons').DataTable({
             searchable: false,
             orderable: true,
             render: function ( category_id, type, row, meta ) {
-                let dropdown = '<div class="mdl-card__body-table-row__dropdown" ' +
+                let dropdown = '<div class="mdl-card__body-table-row__dropdown user-select--none" ' +
                     'id="mdl-card__body-table-reasons--category-'+row.id+'"' +
                     ' data-content="reason-' + row.id + '-category-' + category_id + '">' +
-                    '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetCategoryNameByID(category_id) +'</div><ul>';
+                    '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetCategoryNameByID(category_id) +'</div><ul>' +
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>';
                 Categories.forEach(function (category) {
                     dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="reason-' + row.id + '-category-' + category.id + '">' +
                         '<span>' + category.name[0].toUpperCase() + category.name.substring(1) + '</span></li>';

@@ -53,7 +53,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request){
 	}
 }
 
-func HandleFolder_MainSite(router *mux.Router) {
+func HandleMainSite(router *mux.Router) {
 	// Folders
 	ScriptsHandler := folderHandler_Scripts()
 	CssHandler := folderHandler_css()
@@ -65,7 +65,7 @@ func HandleFolder_MainSite(router *mux.Router) {
 	router.HandleFunc("/", mainSite.IndexHandler)
 	router.HandleFunc("/main", indexHandler)
 	router.HandleFunc("/orgset", mainSite.OrgSetHandler)
-	router.HandleFunc("/marks", indexHandler)
+	router.HandleFunc("/marks", mainSite.MarksHandler)
 	router.HandleFunc("/general", indexHandler)
 	router.HandleFunc("/profile", mainSite.ProfileHandler)
 	router.HandleFunc("/team", indexHandler)

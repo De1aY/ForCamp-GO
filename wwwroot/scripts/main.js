@@ -8,6 +8,7 @@ let OrgSettings = {
 };
 let Categories = [];
 let Teams = [];
+let Reasons = [];
 
 function GetOrganizationSettings() {
     return new Promise ( resolve => {
@@ -39,11 +40,24 @@ function GetCategories() {
     });
 }
 
+function GetReasons() {
+    return new Promise ( resolve => {
+        $.get(__GetReasonsLink, {token: Token}, function (resp) {
+            if (resp.code === 200) {
+                Reasons = resp.message.reasons;
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
+            resolve();
+        });
+    });
+}
+
 function GetTeams() {
     return new Promise ( resolve => {
         $.get(__GetTeamsLink, {token: Token}, function (resp) {
             if (resp.code === 200) {
-                Categories = resp.message.teams;
+                Teams = resp.message.teams;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }

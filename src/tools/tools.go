@@ -38,3 +38,7 @@ func ToTitleCase(data string) string {
 		return strings.ToUpper(data[:1])+data[1:]
 	}
 }
+
+func IsNegative (val int64) bool {
+	return val < 0
+}

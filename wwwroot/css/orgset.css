@@ -5,6 +5,11 @@
 
 body {
   margin: 0; }
+  body .user-select--none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
   body .notie-alert {
     z-index: 1000; }
   body .mdl-layout__drawer-button {
@@ -108,6 +113,10 @@ body {
         font-size: 32px; }
       body .mdl-card .mdl-card__body .mdl-card__body-row--nopad {
         padding: 0; }
+      body .mdl-card .mdl-card__body .mdl-card__body-row--table {
+        margin: 5px 0;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
       body .mdl-card .mdl-card__body .mdl-card__body-table {
         width: 100%; }
         body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing {

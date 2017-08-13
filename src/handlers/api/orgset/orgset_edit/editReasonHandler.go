@@ -23,7 +23,7 @@ func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.Api
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
-	Text := strings.TrimSpace(strings.ToLower(r.PostFormValue("text")))
+	Text := strings.TrimSpace(r.PostFormValue("text"))
 	Change, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("change")), 10, 64)
 	if err != nil{
 		log.Print(err)
