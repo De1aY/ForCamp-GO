@@ -29,7 +29,7 @@ func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.Api
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
-	return Token, reasons.Reason{Id: ID, Cat_id: CatID, Text: Text, Change: int(Change)}, nil
+	return Token, reasons.Reason{Id: ID, Cat_id: CatID, Text: Text, Change: Change}, nil
 }
 
 func EditReasonHandler(w http.ResponseWriter, r *http.Request){

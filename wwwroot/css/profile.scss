@@ -13,6 +13,8 @@ body {
             font-weight: 700;
           }
 
+          .mdl-card__body-row-text--positive--plus::before { content: '+'; }
+
           .mdl-card__body-row-text--negative {
             color: $ErrorColor;
             font-weight: 700;

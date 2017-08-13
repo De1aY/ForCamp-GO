@@ -46,7 +46,7 @@ func editMark_Request(participant_login string, employee_login string, category_
 	return editParticipantMark(participant_login, employee_login, category_id, reason_id, change)
 }
 
-func editParticipantMark(participant_login string, employee_login string, category_id int64, reason_id int64, change int) *conf.ApiResponse {
+func editParticipantMark(participant_login string, employee_login string, category_id int64, reason_id int64, change int64) *conf.ApiResponse {
 	currentMark, APIerr := getCurrentMarkValue(participant_login, category_id)
 	if APIerr != nil {
 		return APIerr
@@ -57,7 +57,7 @@ func editParticipantMark(participant_login string, employee_login string, catego
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(currentMark+change, participant_login)
+	_, err = Query.Exec(currentMark + change, participant_login)
 	if err != nil {
 		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
@@ -80,8 +80,8 @@ func logMarkChange(participant_login string, employee_login string, reason_id in
 	return nil
 }
 
-func getCurrentMarkValue(participant_login string, category_id int64) (int, *conf.ApiResponse) {
-	var value int
+func getCurrentMarkValue(participant_login string, category_id int64) (int64, *conf.ApiResponse) {
+	var value int64
 	err := src.CustomConnection.QueryRow("SELECT `"+strconv.FormatInt(category_id, 10)+"` FROM participants WHERE login=?", participant_login).Scan(&value)
 	if err != nil {
 		log.Print(err)
@@ -90,8 +90,8 @@ func getCurrentMarkValue(participant_login string, category_id int64) (int, *con
 	return value, nil
 }
 
-func getReasonChange(reason_id int64) (int, *conf.ApiResponse) {
-	var change int
+func getReasonChange(reason_id int64) (int64, *conf.ApiResponse) {
+	var change int64
 	err := src.CustomConnection.QueryRow("SELECT modification FROM reasons WHERE id=?", reason_id).Scan(&change)
 	if err != nil {
 		log.Print(err)

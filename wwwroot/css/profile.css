@@ -222,6 +222,8 @@ body {
 body .mdl-card .mdl-card__body .mdl-card__body-row-text .mdl-card__body-row-text--positive {
   color: #57bf57;
   font-weight: 700; }
+body .mdl-card .mdl-card__body .mdl-card__body-row-text .mdl-card__body-row-text--positive--plus::before {
+  content: '+'; }
 body .mdl-card .mdl-card__body .mdl-card__body-row-text .mdl-card__body-row-text--negative {
   color: #e1515b;
   font-weight: 700; }

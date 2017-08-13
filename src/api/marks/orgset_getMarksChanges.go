@@ -16,7 +16,7 @@ type MarksChange struct {
 	Employee userData `json:"employee"`
 	Participant userData `json:"participant"`
 	Text string `json:"text"`
-	Change int `json:"change"`
+	Change int64 `json:"change"`
 	Time string `json:"time"`
 }
 
@@ -119,10 +119,10 @@ func getMarksChangesFromDataTable(login string) ([]marksChange_Raw, *conf.ApiRes
 	return marksChangesRaw, nil
 }
 
-func getReasonText(reason_id int64) (string, int, *conf.ApiResponse) {
+func getReasonText(reason_id int64) (string, int64, *conf.ApiResponse) {
 	var (
 		text string
-		change int
+		change int64
 	)
 	err := src.CustomConnection.QueryRow("SELECT text, modification FROM reasons WHERE id=?", reason_id).Scan(&text, &change)
 	if err != nil {

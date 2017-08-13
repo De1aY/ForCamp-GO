@@ -24,7 +24,7 @@ func getAddReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiR
 		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
-	return Token, reasons.Reason{Id: 0, Cat_id: CatID, Text: Text, Change: int(Change)}, nil
+	return Token, reasons.Reason{Id: 0, Cat_id: CatID, Text: Text, Change: Change}, nil
 }
 
 func AddReasonHandler(w http.ResponseWriter, r *http.Request){

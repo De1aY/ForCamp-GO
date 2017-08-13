@@ -145,19 +145,44 @@
                             </div>
                         </div>
                         <div class="mdl-card__body">
-                            {{range $action := .RequestData.Actions}}
-                            <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
-                                <div class="mdl-card__body-row-text">
-                                    <span>{{$action.Text | toTitleCase}}</span>
+                            {{range .RequestData.Actions}}
+                                {{if not $.IsRequestEmployee}}
+                                <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
+                                    <div class="mdl-card__body-row-text">
+                                        {{if isNegative .Change}}
+                                        <span class="mdl-card__body-row-text--negative">{{.Change}}</span>
+                                        {{else}}
+                                        <span class="mdl-card__body-row-text--positive mdl-card__body-row-text--positive--plus">{{.Change}}</span>
+                                        {{end}}
+                                        <span>{{.Text | toTitleCase}}</span>
+                                    </div>
+                                    <div class="mdl-card__body-row-text">
+                                        <span>{{.Time | timestampToDate}}</span>
+                                    </div>
                                 </div>
-                                <div class="mdl-card__body-row-text">
-                                    {{if $action.Change | isNegative}}
-                                    <span class="mdl-card__body-row-text--negative">{{$action.Change}}</span>
-                                    {{else}}
-                                    <span class="mdl-card__body-row-text--positive">{{$action.Change}}</span>
-                                    {{end}}
+                                {{else}}
+                                <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
+                                    <div class="mdl-card__body-row-text">
+                                        {{if eq $.RequestData.Sex 0}}
+                                        <span>Изменил балл</span>
+                                        {{else}}
+                                        <span>Изменила балл </span>
+                                        {{end}}
+                                        <a href="https://forcamp.ga/profile?login={{.Participant.Login}}">{{.Participant.Surname | toTitleCase}}
+                                            {{.Participant.Name | toTitleCase}}
+                                            {{.Participant.Middlename | toTitleCase}}</a> на
+                                        {{if isNegative .Change}}
+                                        <span class="mdl-card__body-row-text--negative">{{.Change}}</span>
+                                        {{else}}
+                                        <span class="mdl-card__body-row-text--positive">{{.Change}}</span>
+                                        {{end}}
+                                        по причине "{{.Text | toTitleCase}}"
+                                    </div>
+                                    <div class="mdl-card__body-row-text">
+                                        {{.Time | timestampToDate}}
+                                    </div>
                                 </div>
-                            </div>
+                                {{end}}
                             {{end}}
                         </div>
                     </div>

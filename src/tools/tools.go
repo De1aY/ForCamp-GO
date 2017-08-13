@@ -39,6 +39,12 @@ func ToTitleCase(data string) string {
 	}
 }
 
+func TimestampToDate(t string) string {
+	date := strings.Split(t, " ")
+	ymd := strings.Split(date[0], "-")
+	return ymd[2] + "." + ymd[1] + "." +ymd[0]
+}
+
 func IsNegative (val int64) bool {
 	return val < 0
 }

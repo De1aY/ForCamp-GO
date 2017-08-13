@@ -109,7 +109,7 @@ func deleteMarkChange(id int64) *conf.ApiResponse {
 	return nil
 }
 
-func updateParticipantMark(login string, category_id int64, newMark int) *conf.ApiResponse {
+func updateParticipantMark(login string, category_id int64, newMark int64) *conf.ApiResponse {
 	query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+strconv.FormatInt(category_id, 10)+"`=? WHERE login=?")
 	if err != nil {
 		log.Print(err)

@@ -14,7 +14,7 @@ type Reason struct {
 	Id int64 `json:"id"`
 	Cat_id int64 `json:"category_id"`
 	Text string `json:"text"`
-	Change int `json:"change"`
+	Change int64 `json:"change"`
 }
 
 type getReasons_Success struct {
