@@ -5,6 +5,11 @@
 
 body {
   margin: 0; }
+  body .user-select--none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
   body .notie-alert {
     z-index: 1000; }
   body .mdl-layout__drawer-button {

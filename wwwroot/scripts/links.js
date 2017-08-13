@@ -1,41 +1,43 @@
-const __ImagesLink = "https://forcamp.ga/images/";
+const __SiteDomain = "https://api.forcamp.ga";
+const __ImagesLink = __SiteDomain + "/images/";
 //  API Links: Auth
-const __GetUserTokenLink = "https://api.forcamp.ga/token.get";
-const __CheckTokenLink = "https://api.forcamp.ga/token.verify";
+const __GetUserTokenLink = __SiteDomain + "/token.get";
+const __CheckTokenLink = __SiteDomain + "/token.verify";
 //  API Links: UserData
-const __GetUserDataLink = "https://api.forcamp.ga/user.data.get";
-const __GetUserLoginLink = "https://api.forcamp.ga/user.login.get";
+const __GetUserDataLink = __SiteDomain + "/user.data.get";
+const __GetUserLoginLink = __SiteDomain + "/user.login.get";
 //  API Links: OrgSettings
-const __GetOrgSettingsLink = "https://api.forcamp.ga/orgset.settings.get";
-const __GetCategoriesLink = "https://api.forcamp.ga/orgset.categories.get";
-const __SetOrgSettingValueLink = "https://api.forcamp.ga/orgset.settings.edit";
+const __GetOrgSettingsLink = __SiteDomain + "/orgset.settings.get";
+const __GetCategoriesLink = __SiteDomain + "/orgset.categories.get";
+const __SetOrgSettingValueLink = __SiteDomain + "/orgset.settings.edit";
 //  API Links: Categories
-const __AddCategoryLink = "https://api.forcamp.ga/orgset.category.add";
-const __DeleteCategoryLink = "https://api.forcamp.ga/orgset.category.delete";
-const __EditCategoryLink = "https://api.forcamp.ga/orgset.category.edit";
+const __AddCategoryLink = __SiteDomain + "/orgset.category.add";
+const __DeleteCategoryLink = __SiteDomain + "/orgset.category.delete";
+const __EditCategoryLink = __SiteDomain + "/orgset.category.edit";
 //  API Links: Teams
-const __GetTeamsLink = "https://api.forcamp.ga/orgset.teams.get";
-const __EditTeamLink = "https://api.forcamp.ga/orgset.team.edit";
-const __AddTeamLink = "https://api.forcamp.ga/orgset.team.add";
-const __DeleteTeamLink = "https://api.forcamp.ga/orgset.team.delete";
+const __GetTeamsLink = __SiteDomain + "/orgset.teams.get";
+const __EditTeamLink = __SiteDomain + "/orgset.team.edit";
+const __AddTeamLink = __SiteDomain + "/orgset.team.add";
+const __DeleteTeamLink = __SiteDomain + "/orgset.team.delete";
 //  API Links: Participants
-const __GetParticipantsLink = "https://api.forcamp.ga/orgset.participants.get";
-const __EditParticipantLink = "https://api.forcamp.ga/orgset.participant.edit";
-const __DeleteParticipantLink = "https://api.forcamp.ga/orgset.participant.delete";
-const __ResetParticipantPasswordLink = "https://api.forcamp.ga/orgset.participant.password.reset";
-const __AddParticipantLink = "https://api.forcamp.ga/orgset.participant.add";
+const __GetParticipantsLink = __SiteDomain + "/orgset.participants.get";
+const __EditParticipantLink = __SiteDomain + "/orgset.participant.edit";
+const __DeleteParticipantLink = __SiteDomain + "/orgset.participant.delete";
+const __ResetParticipantPasswordLink = __SiteDomain + "/orgset.participant.password.reset";
+const __AddParticipantLink = __SiteDomain + "/orgset.participant.add";
 //  API Links: Employees
-const __GetEmployeesLink = "https://api.forcamp.ga/orgset.employees.get";
-const __EditEmployeeLink = "https://api.forcamp.ga/orgset.employee.edit";
-const __DeleteEmployeeLink = "https://api.forcamp.ga/orgset.employee.delete";
-const __ResetEmployeePasswordLink = "https://api.forcamp.ga/orgset.employee.password.reset";
-const __AddEmployeeLink = "https://api.forcamp.ga/orgset.employee.add";
-const __EditEmployeePermissionLink = "https://api.forcamp.ga/orgset.employee.permission.edit";
+const __GetEmployeesLink = __SiteDomain + "/orgset.employees.get";
+const __EditEmployeeLink = __SiteDomain + "/orgset.employee.edit";
+const __DeleteEmployeeLink = __SiteDomain + "/orgset.employee.delete";
+const __ResetEmployeePasswordLink = __SiteDomain + "/orgset.employee.password.reset";
+const __AddEmployeeLink = __SiteDomain + "/orgset.employee.add";
+const __EditEmployeePermissionLink = __SiteDomain + "/orgset.employee.permission.edit";
 //  API Links: Reasons
-const __GetReasonsLink = "https://api.forcamp.ga/orgset.reasons.get";
-const __AddReasonLink = "https://api.forcamp.ga/orgset.reason.add";
-const __EditReasonLink = "https://api.forcamp.ga/orgset.reason.edit";
-const __DeleteReasonLink = "https://api.forcamp.ga/orgset.reason.delete";
+const __GetReasonsLink = __SiteDomain + "/orgset.reasons.get";
+const __AddReasonLink = __SiteDomain + "/orgset.reason.add";
+const __EditReasonLink = __SiteDomain + "/orgset.reason.edit";
+const __DeleteReasonLink = __SiteDomain + "/orgset.reason.delete";
 //  API Links: Marks
-const __GetMarksChangesLink = "https://api.forcamp.ga/marks.changes.get";
-const __DeleteMarkChangeLink = "https://api.forcamp.ga/mark.change.delete";
+const __GetMarksChangesLink = __SiteDomain + "/marks.changes.get";
+const __EditMark = __SiteDomain + "/mark.edit";
+const __DeleteMarkChangeLink = __SiteDomain + "/mark.change.delete";

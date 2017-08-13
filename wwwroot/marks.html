@@ -50,7 +50,7 @@
                             <thead>
                             <tr>
                                 <th>ФИО</th>
-                                <th>Команда</th>
+                                <th>{{.OrgSettings.Team | toTitleCase}}</th>
                                 {{range $category := .Categories}}
                                 <th>{{$category.Name | toTitleCase}}</th>
                                 {{end}}
