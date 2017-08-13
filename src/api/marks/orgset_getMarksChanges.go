@@ -6,7 +6,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src/api/orgset"
 	"forcamp/src"
-	"log"
 	"database/sql"
 	"forcamp/src/api/orgset/teams"
 )
@@ -97,7 +96,6 @@ func getMarksChangesFromDataTable(login string) ([]marksChange_Raw, *conf.ApiRes
 	}
 	defer query.Close()
 	if err != nil {
-		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
 	}
 	marksChangesRaw := make([]marksChange_Raw, 0)
@@ -111,7 +109,6 @@ func getMarksChangesFromDataTable(login string) ([]marksChange_Raw, *conf.ApiRes
 	for query.Next() {
 		err := query.Scan(&id, &employee_login, &participant_login, &reason_id, &time)
 		if err != nil {
-			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		marksChangesRaw = append(marksChangesRaw, marksChange_Raw{ID: id, Employee_login: employee_login, Participant_login: participant_login, Time: time, Reason_ID: reason_id})
@@ -126,7 +123,6 @@ func getReasonText(reason_id int64) (string, int64, *conf.ApiResponse) {
 	)
 	err := src.CustomConnection.QueryRow("SELECT text, modification FROM reasons WHERE id=?", reason_id).Scan(&text, &change)
 	if err != nil {
-		log.Print(err)
 		return "", 0, conf.ErrDatabaseQueryFailed
 	}
 	return text, change, nil

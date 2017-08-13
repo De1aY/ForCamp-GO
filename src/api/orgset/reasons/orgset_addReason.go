@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"log"
 )
 
 type addReason_Success struct {
@@ -34,17 +33,14 @@ func AddReason(token string, reason Reason, responseWriter http.ResponseWriter) 
 func addReason_Request(reason Reason) (addReason_Success, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Prepare("INSERT INTO reasons(cat_id,text,modification) VALUES(?,?,?)")
 	if err != nil {
-		log.Print(err)
 		return addReason_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Resp, err := Query.Exec(reason.Cat_id, reason.Text, reason.Change)
 	if err != nil {
-		log.Print(err)
 		return addReason_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	ID, err := Resp.LastInsertId()
 	if err != nil {
-		log.Print(err)
 		return addReason_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return addReason_Success{ID}, nil

@@ -1,15 +1,9 @@
-/*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
-*/
 package employees
 
 import (
 	"net/http"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -44,22 +38,18 @@ func deleteEmployee_Request(login string) *conf.ApiResponse {
 func deleteEmployee_Main(login string) *conf.ApiResponse {
 	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -68,18 +58,15 @@ func deleteEmployee_Main(login string) *conf.ApiResponse {
 func deleteEmployee_Organization(login string) *conf.ApiResponse {
 	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='1'")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	resp, err := Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	rowsAffected, err := resp.RowsAffected()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	if rowsAffected == 0 {
@@ -87,12 +74,10 @@ func deleteEmployee_Organization(login string) *conf.ApiResponse {
 	}
 	Query, err = src.CustomConnection.Prepare("DELETE FROM employees WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

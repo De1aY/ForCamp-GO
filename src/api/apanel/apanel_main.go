@@ -3,7 +3,6 @@ package apanel
 import (
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 )
 
 type createOrganization_Success struct {
@@ -18,7 +17,6 @@ func getLoginByToken(token string) (string, *conf.ApiResponse) {
 	var login string
 	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
 	if err != nil {
-		log.Print(err)
 		return "", conf.ErrDatabaseQueryFailed
 	}
 	if len(login) == 0 {
@@ -35,7 +33,6 @@ func checkPermissions(token string) *conf.ApiResponse{
 	var admin_status bool
 	err := src.Connection.QueryRow("SELECT admin FROM users WHERE login=?", login).Scan(&admin_status)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	if admin_status {

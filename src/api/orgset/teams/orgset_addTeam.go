@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -32,18 +31,15 @@ func AddTeam(token string, name string, responseWriter http.ResponseWriter) bool
 func addTeam_Request(name string) (int64, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Prepare("INSERT INTO teams(name) VALUES(?)")
 	if err != nil{
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	Resp, err := Query.Exec(name)
 	Query.Close()
 	if err != nil{
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	TeamID, err := Resp.LastInsertId()
 	if err != nil{
-		log.Print(err)
 		return 0, conf.ErrDatabaseQueryFailed
 	}
 	return TeamID, nil

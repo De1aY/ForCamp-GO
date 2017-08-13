@@ -7,7 +7,6 @@ import (
 	"forcamp/src"
 	"strings"
 	"strconv"
-	"log"
 	"forcamp/src/api/orgset/reasons"
 )
 
@@ -15,13 +14,11 @@ func getAddReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiR
 	Token := r.PostFormValue("token")
 	CatID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil{
-		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
 	Text := strings.TrimSpace(r.PostFormValue("text"))
 	Change, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("change")), 10, 64)
 	if err != nil{
-		log.Print(err)
 		return "", reasons.Reason{}, conf.ErrIDisNotINT
 	}
 	return Token, reasons.Reason{Id: 0, Cat_id: CatID, Text: Text, Change: Change}, nil

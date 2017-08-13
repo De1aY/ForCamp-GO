@@ -5,7 +5,6 @@ import (
 	"forcamp/conf"
 	"forcamp/src/api/orgset"
 	"forcamp/src"
-	"log"
 	"strconv"
 	"github.com/tealeg/xlsx"
 )
@@ -55,25 +54,21 @@ func createOrganizationAdminAccount(orgname string) (string, string, *conf.ApiRe
 	password, hash := orgset.GeneratePassword()
 	query, err := src.Connection.Prepare("INSERT INTO users(password,organization) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
 	}
 	resp, err := query.Exec(hash, orgname)
 	user_id, err := resp.LastInsertId()
 	if err != nil {
-		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.Connection.Prepare("UPDATE users SET login=? WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
 	}
 	user_login := "orgadmin_"+strconv.FormatInt(user_id, 10)
 	_, err = query.Exec(user_login, user_id)
 	if err != nil {
-		log.Print(err)
 		return "", "", conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
@@ -97,7 +92,6 @@ func createOrganizationExcelFile_Participant(orgname string) *conf.ApiResponse {
 	xlFile := xlsx.NewFile()
 	sheet, err := xlFile.AddSheet("участники")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrCreateSheetOnExcelFile
 	}
 	row := sheet.AddRow()
@@ -115,7 +109,6 @@ func createOrganizationExcelFile_Participant(orgname string) *conf.ApiResponse {
 	cell.Value = "Пароль"
 	err = xlFile.Save(excelFilePath)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrSaveExcelFile
 	}
 	return nil
@@ -126,7 +119,6 @@ func createOrganizationExcelFile_Employees(orgname string) *conf.ApiResponse {
 	xlFile := xlsx.NewFile()
 	sheet, err := xlFile.AddSheet("сотрудники")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrCreateSheetOnExcelFile
 	}
 	row := sheet.AddRow()
@@ -144,7 +136,6 @@ func createOrganizationExcelFile_Employees(orgname string) *conf.ApiResponse {
 	cell.Value = "Пароль"
 	err = xlFile.Save(excelFilePath)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrSaveExcelFile
 	}
 	return nil
@@ -155,7 +146,6 @@ func createOrganizationDB(orgname string) *conf.ApiResponse {
 	defer connection.Close()
 	_, err := connection.Exec("CREATE DATABASE IF NOT EXISTS "+orgname)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -210,23 +200,19 @@ func createOrganizationDBTable_Users(user_login string) *conf.ApiResponse{
 		"access SMALLINT(6)" +
 		")")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO users(login,name,surname,middlename,sex,team,avatar,access) VALUES(?,?,?,?,?,?,?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec(user_login, "admin", "admin", "admin", 0, 0, "default.jpg", 2)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
@@ -239,23 +225,19 @@ func createOrganizationDBTable_Employees(user_login string) *conf.ApiResponse{
 		"post TINYTEXT" +
 		")")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO employees(login,post) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec(user_login, "администрация")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
@@ -268,12 +250,10 @@ func createOrganizationDBTable_Participants() *conf.ApiResponse{
 		")")
 	defer query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -285,67 +265,55 @@ func createOrganizationDBTable_Settings() *conf.ApiResponse{
 		"value TINYTEXT" +
 		")")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO settings(name,value) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec("team", "команда")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO settings(name,value) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec("self_marks", "true")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO settings(name,value) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec("organization", "организация")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO settings(name,value) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec("period", "1 смена")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
 	query, err = src.CustomConnection.Prepare("INSERT INTO settings(name,value) VALUES(?,?)")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec("participant", "участник")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	query.Close()
@@ -360,12 +328,10 @@ func createOrganizationDBTable_Teams() *conf.ApiResponse{
 		")")
 	defer query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -380,12 +346,10 @@ func createOrganizationDBTable_Categories() *conf.ApiResponse{
 		")")
 	defer query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -401,12 +365,10 @@ func createOrganizationDBTable_Reasons() *conf.ApiResponse{
 		")")
 	defer query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
@@ -423,12 +385,10 @@ func createOrganizationDBTable_MarksChanges() *conf.ApiResponse{
 		")")
 	defer query.Close()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = query.Exec()
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

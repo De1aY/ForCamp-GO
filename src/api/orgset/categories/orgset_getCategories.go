@@ -6,7 +6,6 @@ import (
 	"forcamp/src"
 	"forcamp/conf"
 	"database/sql"
-	"log"
 	"forcamp/src/api/orgset"
 )
 
@@ -45,7 +44,6 @@ func GetCategories(token string, responseWriter http.ResponseWriter) bool {
 func GetCategories_Request() ([]Category, *conf.ApiResponse){
 	Query, err := src.CustomConnection.Query("SELECT * FROM categories")
 	if err != nil {
-		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
 	}
 	return getCategoriesFromQuery(Query)
@@ -58,7 +56,6 @@ func getCategoriesFromQuery(rows *sql.Rows) ([]Category, *conf.ApiResponse){
 	for rows.Next(){
 		err := rows.Scan(&category.ID, &category.Name, &category.NegativeMarks)
 		if err != nil{
-			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		categories = append(categories, Category{category.ID, category.Name, category.NegativeMarks})

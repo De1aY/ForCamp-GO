@@ -7,7 +7,6 @@ import (
 	"forcamp/conf"
 	"database/sql"
 	"forcamp/src/api/orgset"
-	"log"
 	"strconv"
 	"forcamp/src/api/orgset/participants"
 	"forcamp/src/api/orgset/employees"
@@ -52,7 +51,6 @@ func GetUserData(token string, responseWriter http.ResponseWriter, login string)
 func GetUserData_Request(login string) (UserData, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT name, surname, middlename, sex, access, avatar, team FROM users WHERE login=?", login)
 	if err != nil {
-		log.Print(err)
 		return UserData{}, conf.ErrDatabaseQueryFailed
 	}
 	userData, APIerr := getUserDataFromQuery(Query, login)
@@ -69,7 +67,6 @@ func getUserDataFromQuery(rows *sql.Rows, login string) (UserData, *conf.ApiResp
 	for rows.Next() {
 		err := rows.Scan(&userData.Name, &userData.Surname, &userData.Middlename, &userData.Sex, &userData.Access, &userData.Avatar, &teamID)
 		if err != nil {
-			log.Print(err)
 			return UserData{}, conf.ErrDatabaseQueryFailed
 		}
 	}
@@ -142,12 +139,10 @@ func getTeamInfo(teamID int64) (teams.Team, *conf.ApiResponse){
 func getMarks(login string) ([]participants.Mark, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM participants WHERE login=?", login)
 	if err != nil {
-		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
 	}
 	CategoriesIDs, err := Query.Columns()
 	if err != nil {
-		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
 	}
 	if len(CategoriesIDs) == 1 {
@@ -165,7 +160,6 @@ func getMarksIfNoCategories(rows *sql.Rows) ([]participants.Mark, *conf.ApiRespo
 	for rows.Next() {
 		err := rows.Scan(&login)
 		if err != nil {
-			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		marksData = make([]participants.Mark, 0)
@@ -192,7 +186,6 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participant
 
 		err := rows.Scan(Result...)
 		if err != nil {
-			log.Print(err)
 			return nil, conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
@@ -206,12 +199,10 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participant
 		for i := 0; i < len(categoriesValues); i++ {
 			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
-				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
 			value, err := strconv.ParseInt(categoriesValues[i], 10, 64)
 			if err != nil {
-				log.Print(err)
 				return nil, conf.ErrConvertStringToInt
 			}
 			marksData = append(marksData, participants.Mark{id, categoriesList[i].Name, value})
@@ -223,12 +214,10 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) ([]participant
 func getPermissionsAndPost(login string) ([]employees.Permission, string, *conf.ApiResponse) {
 	Query, err := src.CustomConnection.Query("SELECT * FROM employees WHERE login=?", login)
 	if err != nil {
-		log.Print(err)
 		return nil, "", conf.ErrDatabaseQueryFailed
 	}
 	CategoriesIDs, err := Query.Columns()
 	if err != nil {
-		log.Print(err)
 		return nil, "", conf.ErrDatabaseQueryFailed
 	}
 	if len(CategoriesIDs) == 1 {
@@ -247,7 +236,6 @@ func getPermissionsIfNoCategories(rows *sql.Rows) ([]employees.Permission, strin
 	for rows.Next() {
 		err := rows.Scan(&login, &post)
 		if err != nil {
-			log.Print(err)
 			return nil, "", conf.ErrDatabaseQueryFailed
 		}
 		Permissions = make([]employees.Permission, 0)
@@ -274,7 +262,6 @@ func getPermissionsIfCategories(rows *sql.Rows, categoriesIDs []string) ([]emplo
 	for rows.Next() {
 		err := rows.Scan(result...)
 		if err != nil {
-			log.Print(err)
 			return nil, "", conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
@@ -289,7 +276,6 @@ func getPermissionsIfCategories(rows *sql.Rows, categoriesIDs []string) ([]emplo
 		for i := 0; i < len(values); i++ {
 			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
 			if err != nil {
-				log.Print(err)
 				return nil, "", conf.ErrConvertStringToInt
 			}
 			permissions = append(permissions, employees.Permission{id, categoriesList[i].Name, values[i]})

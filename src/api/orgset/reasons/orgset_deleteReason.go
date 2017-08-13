@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"log"
 )
 
 func DeleteReason(token string, id int64, responseWriter http.ResponseWriter) bool{
@@ -27,12 +26,10 @@ func DeleteReason(token string, id int64, responseWriter http.ResponseWriter) bo
 func deleteReason_Request(id int64) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("DELETE FROM reasons WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(id)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

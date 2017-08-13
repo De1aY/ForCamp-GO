@@ -4,7 +4,6 @@ import (
 	"forcamp/src"
 	"forcamp/conf"
 	"net/http"
-	"log"
 	"encoding/json"
 )
 
@@ -56,7 +55,6 @@ func getToken(login string, responseWriter http.ResponseWriter) string {
 func CheckToken(token string, responseWriter http.ResponseWriter) bool {
 	Query, err := src.Connection.Query("SELECT COUNT(login) as count FROM sessions WHERE token=?", token)
 	if err != nil {
-		log.Print(err)
 		return false
 	}
 	Count := getCountVal(Query, responseWriter)
@@ -89,13 +87,11 @@ func checkAdminStatus(token string) (bool, *conf.ApiResponse) {
 	var login string
 	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
 	if err != nil {
-		log.Print(err)
 		return false, conf.ErrDatabaseQueryFailed
 	}
 	var adminStatus bool
 	err = src.Connection.QueryRow("SELECT admin FROM users WHERE login=?", login).Scan(&adminStatus)
 	if err != nil {
-		log.Print(err)
 		return false, conf.ErrDatabaseQueryFailed
 	}
 	return adminStatus, nil

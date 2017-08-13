@@ -5,7 +5,6 @@ import (
 	"forcamp/src/api/orgset"
 	"forcamp/conf"
 	"forcamp/src"
-	"log"
 )
 
 type resetParticipantPassword_Success struct {
@@ -39,23 +38,19 @@ func resetParticipantPassword_Request(login string) (resetParticipantPassword_Su
 	Password, Hash := orgset.GeneratePassword()
 	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(Hash, login)
 	if err != nil {
-		log.Print(err)
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	Query.Close()
 	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
 	if err != nil {
-		log.Print(err)
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(login)
 	if err != nil {
-		log.Print(err)
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
 	return resetParticipantPassword_Success{Password}, nil

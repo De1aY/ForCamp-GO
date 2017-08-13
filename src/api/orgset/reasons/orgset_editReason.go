@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"forcamp/src"
 	"forcamp/conf"
-	"log"
 )
 
 func EditReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{
@@ -29,12 +28,10 @@ func EditReason(token string, reason Reason, responseWriter http.ResponseWriter)
 func editReason_Request(reason Reason) *conf.ApiResponse{
 	Query, err := src.CustomConnection.Prepare("UPDATE reasons SET text=?, modification=?, cat_id=? WHERE id=?")
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	_, err = Query.Exec(reason.Text, reason.Change, reason.Cat_id, reason.Id)
 	if err != nil {
-		log.Print(err)
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
