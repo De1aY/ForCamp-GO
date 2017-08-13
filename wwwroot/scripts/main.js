@@ -43,7 +43,7 @@ function GetTeams() {
     return new Promise ( resolve => {
         $.get(__GetTeamsLink, {token: Token}, function (resp) {
             if (resp.code === 200) {
-                Categories = resp.message.teams;
+                Teams = resp.message.teams;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }

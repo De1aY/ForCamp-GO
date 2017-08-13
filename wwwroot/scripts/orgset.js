@@ -1129,12 +1129,12 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
                             additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
                                 'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
                                 '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input" checked> ' +
-                                '<span class="mdl-checkbox__label">' + GetCategoryNameByID(permission.id) + '</span></label></div></li>';
+                                '<span class="mdl-checkbox__label">' + permission.name[0].toUpperCase() + permission.name.substring(1) + '</span></label></div></li>';
                         } else {
                             additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
                                 'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
                                 '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input"> ' +
-                                '<span class="mdl-checkbox__label">' + GetCategoryNameByID(permission.id) + '</span></label></div></li>';
+                                '<span class="mdl-checkbox__label">' + permission.name[0].toUpperCase() + permission.name.substring(1) + '</span></label></div></li>';
                         }
                     });
                 }
