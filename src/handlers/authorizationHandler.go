@@ -20,7 +20,7 @@ func getAuthorizationData(r *http.Request) authorization.AuthInf{
 }
 
 func LoginAndPasswordAuthHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusOK)
 		authInf := getAuthorizationData(r)

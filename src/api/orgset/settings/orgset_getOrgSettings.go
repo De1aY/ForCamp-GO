@@ -22,9 +22,9 @@ type getOrgSettings_Success struct {
 }
 
 func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, responseWriter){
-		if authorization.CheckToken(token, responseWriter) {
-			Organization, _, apiErr := orgset.GetUserOrganizationAndLoginByToken(token)
+	if authorization.IsTokenNotEmpty(token, responseWriter){
+		if authorization.IsTokenValid(token, responseWriter) {
+			Organization, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
 			if apiErr != nil {
 				return apiErr.Print(responseWriter)
 			}

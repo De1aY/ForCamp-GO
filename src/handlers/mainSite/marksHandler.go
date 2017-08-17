@@ -15,7 +15,7 @@ import (
 
 type marksTemplateData struct {
 	Token string
-	Login string
+	UserID int64
 	UserData users.UserData
 	OrgSettings settings.OrgSettings
 	Categories []categories.Category
@@ -57,11 +57,11 @@ func MarksHandler(w http.ResponseWriter, r *http.Request) {
 func getMarksTemplateData(token string) (marksTemplateData, *conf.ApiResponse) {
 	var mtd marksTemplateData
 	mtd.Token = token
-	organization, login, apiErr := orgset.GetUserOrganizationAndLoginByToken(token); if apiErr != nil {
+	organization, user_id, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
 		return mtd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
-	mtd.Login = login
+	mtd.UserID = user_id
 	apiErr = mtd.GetUserData(); if apiErr != nil {
 		return mtd, apiErr
 	}
@@ -76,7 +76,7 @@ func getMarksTemplateData(token string) (marksTemplateData, *conf.ApiResponse) {
 }
 
 func (mtd *marksTemplateData) GetUserData() *conf.ApiResponse {
-	userData, apiErr := users.GetUserData_Request(mtd.Login)
+	userData, apiErr := users.GetUserData_Request(mtd.UserID)
 	if apiErr != nil {
 		return apiErr
 	}

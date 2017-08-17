@@ -16,7 +16,7 @@ func getAddTeamPostValues(r *http.Request) (string, string){
 }
 
 func AddTeamHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		Name, token := getAddTeamPostValues(r)
 		teams.AddTeam(token, Name, w)

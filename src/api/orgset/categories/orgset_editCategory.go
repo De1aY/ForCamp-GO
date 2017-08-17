@@ -9,15 +9,15 @@ import (
 )
 
 func EditCategory(token string, category Category, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter) && checkCategoryData(category, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+	if orgset.IsUserAdmin(token, responseWriter) && checkCategoryData(category, responseWriter){
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		APIerr = editCategory_Request(category)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		apiErr = editCategory_Request(category)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		conf.RequestSuccess.Print(responseWriter)
 	}
@@ -25,12 +25,12 @@ func EditCategory(token string, category Category, responseWriter http.ResponseW
 }
 
 func editCategory_Request(category Category) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("UPDATE categories SET name=?, negative_marks=? WHERE id=?")
+	query, err := src.CustomConnection.Prepare("UPDATE categories SET name=?, negative_marks=? WHERE id=?")
 	if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(category.Name, category.NegativeMarks, strconv.FormatInt(category.ID, 10))
-	Query.Close()
+	_, err = query.Exec(category.Name, category.NegativeMarks, strconv.FormatInt(category.ID, 10))
+	query.Close()
 	if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}

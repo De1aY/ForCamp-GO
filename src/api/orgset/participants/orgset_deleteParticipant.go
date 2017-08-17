@@ -7,77 +7,72 @@ import (
 	"forcamp/src/api/orgset"
 )
 
-func DeleteParticipant(token string, login string, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+func DeleteParticipant(token string, participant_id int64, responseWriter http.ResponseWriter) bool{
+	if orgset.IsUserAdmin(token, responseWriter){
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		APIerr = deleteParticipant_Request(login)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		participant_organization, participant_login, apiErr := orgset.GetUserOrganizationAndLoginByID(participant_id)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
+		}
+		if participant_organization != organizationName {
+			return conf.ErrUserNotFound.Print(responseWriter)
+		}
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		apiErr = deleteParticipant(participant_id, participant_login)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		return conf.RequestSuccess.Print(responseWriter)
 	}
 	return true
 }
 
-func deleteParticipant_Request(login string) *conf.ApiResponse{
-	APIerr := deleteParticipant_Organization(login)
-	if APIerr != nil{
-		return APIerr
+func deleteParticipant(participant_id int64, participant_login string) *conf.ApiResponse{
+	apiErr := deleteParticipant_Organization(participant_id); if apiErr != nil{
+		return apiErr
 	}
-	APIerr = deleteParticipant_Main(login)
-	if APIerr != nil{
-		return APIerr
+	apiErr = deleteParticipant_Main(participant_id, participant_login); if apiErr != nil{
+		return apiErr
 	}
 	return nil
 }
 
-func deleteParticipant_Main(login string) *conf.ApiResponse{
-	Query, err := src.Connection.Prepare("DELETE FROM users WHERE login=?")
-	if err != nil{
+func deleteParticipant_Main(participant_id int64, participant_login string) *conf.ApiResponse{
+	query, err := src.Connection.Prepare("DELETE FROM users WHERE id=?"); if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(login)
-	if err != nil{
+	_, err = query.Exec(participant_id); if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
-	if err != nil{
+	query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?"); if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(login)
-	if err != nil{
+	_, err = query.Exec(participant_login); if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
 }
 
-func deleteParticipant_Organization(login string) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE login=? AND access='0'")
-	if err != nil {
+func deleteParticipant_Organization(participant_id int64) *conf.ApiResponse{
+	query, err := src.CustomConnection.Prepare("DELETE FROM users WHERE id=? AND access='0'"); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	resp, err := Query.Exec(login)
-	if err != nil {
+	resp, err := query.Exec(participant_id); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query.Close()
-	rowsAffected, err := resp.RowsAffected()
-	if err != nil {
+	query.Close()
+	rowsAffected, err := resp.RowsAffected(); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
 	if rowsAffected == 0{
 		return conf.ErrUserNotFound
 	}
-	Query, err = src.CustomConnection.Prepare("DELETE FROM participants WHERE login=?")
-	if err != nil {
+	query, err = src.CustomConnection.Prepare("DELETE FROM participants WHERE id=?"); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(login)
-	if err != nil {
+	_, err = query.Exec(participant_id); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil

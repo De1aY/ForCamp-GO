@@ -21,7 +21,7 @@ func getSetOrgSettingsValuePostValues(r *http.Request) (string, settings.OrgSett
 }
 
 func SetOrgSettingsValueHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		token, orgSet := getSetOrgSettingsValuePostValues(r)
 		settings.SetOrgSettingsValue(token, orgSet, w)

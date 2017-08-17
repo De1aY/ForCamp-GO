@@ -5,7 +5,7 @@ const __GetUserTokenLink = __SiteDomain + "/token.get";
 const __CheckTokenLink = __SiteDomain + "/token.verify";
 //  API Links: UserData
 const __GetUserDataLink = __SiteDomain + "/user.data.get";
-const __GetUserLoginLink = __SiteDomain + "/user.login.get";
+const __GetUserIDLink = __SiteDomain + "/user.id.get";
 //  API Links: OrgSettings
 const __GetOrgSettingsLink = __SiteDomain + "/orgset.settings.get";
 const __GetCategoriesLink = __SiteDomain + "/orgset.categories.get";
@@ -38,6 +38,7 @@ const __AddReasonLink = __SiteDomain + "/orgset.reason.add";
 const __EditReasonLink = __SiteDomain + "/orgset.reason.edit";
 const __DeleteReasonLink = __SiteDomain + "/orgset.reason.delete";
 //  API Links: Marks
-const __GetMarksChangesLink = __SiteDomain + "/marks.changes.get";
-const __EditMark = __SiteDomain + "/mark.edit";
-const __DeleteMarkChangeLink = __SiteDomain + "/mark.change.delete";
+const __EditMarkLink = __SiteDomain + "/mark.edit";
+//  API Links: Events
+const __GetEventsLink  = __SiteDomain + "/events.get";
+const __DeleteEventLink = __SiteDomain + "/event.delete";

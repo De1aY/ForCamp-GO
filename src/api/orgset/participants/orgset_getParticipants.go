@@ -18,12 +18,12 @@ type Mark struct {
 }
 
 type Participant struct {
-	Login      string `json:"login"`
+	ID         int64  `json:"id"`
 	Name       string `json:"name"`
 	Surname    string `json:"surname"`
 	Middlename string `json:"middlename"`
-	Sex        int `json:"sex"`
-	Team       int64 `json:"team"`
+	Sex        int    `json:"sex"`
+	Team       int64  `json:"team"`
 	Marks      []Mark `json:"marks"`
 }
 
@@ -31,18 +31,15 @@ type getParticipants_Success struct {
 	Participants []Participant `json:"participants"`
 }
 
-
 func GetParticipants(token string, responseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, responseWriter) {
-		if authorization.CheckToken(token, responseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
+	if authorization.IsTokenNotEmpty(token, responseWriter) {
+		if authorization.IsTokenValid(token, responseWriter) {
+			organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
-			src.CustomConnection = src.Connect_Custom(Organization)
-			rawResp, APIerr := getParticipants_Request()
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
+			src.CustomConnection = src.Connect_Custom(organizationName)
+			rawResp, apiErr := getParticipants(); if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
 			resp := conf.ApiResponse{200, "success", rawResp}
 			resp.Print(responseWriter)
@@ -53,31 +50,34 @@ func GetParticipants(token string, responseWriter http.ResponseWriter) bool {
 	return true
 }
 
-func getParticipants_Request() (getParticipants_Success, *conf.ApiResponse) {
-	Query, err := src.CustomConnection.Query("SELECT login,name,surname,middlename,sex,team FROM users WHERE access='0'")
+func getParticipants() (getParticipants_Success, *conf.ApiResponse) {
+	rows, err := src.CustomConnection.Query("SELECT id,name,surname,middlename,sex,team " +
+		"FROM users WHERE access='0'")
 	if err != nil {
 		return getParticipants_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return getParticipantsFromResponse(Query)
+	return getParticipantsFromResponse(rows)
 }
 
 func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf.ApiResponse) {
 	defer rows.Close()
-	marks, APIerr := getMarks()
-	if APIerr != nil {
-		return getParticipants_Success{}, APIerr
+	marks, apiErr := getMarks(); if apiErr != nil {
+		return getParticipants_Success{}, apiErr
 	}
 	var (
 		participants []Participant
-		participant Participant
+		participant  Participant
 	)
 	for rows.Next() {
-		err := rows.Scan(&participant.Login, &participant.Name, &participant.Surname, &participant.Middlename, &participant.Sex, &participant.Team)
+		err := rows.Scan(&participant.ID, &participant.Name, &participant.Surname,
+			&participant.Middlename, &participant.Sex, &participant.Team)
 		if err != nil {
 			return getParticipants_Success{}, conf.ErrDatabaseQueryFailed
 		}
-		participant.Marks = marks[participant.Login]
-		participants = append(participants, Participant{participant.Login, participant.Name, participant.Surname, participant.Middlename, participant.Sex, participant.Team, participant.Marks})
+		participant.Marks = marks[participant.ID]
+		participants = append(participants, Participant{participant.ID, participant.Name,
+			participant.Surname, participant.Middlename, participant.Sex,
+			participant.Team, participant.Marks})
 	}
 	if participants == nil {
 		return getParticipants_Success{make([]Participant, 0)}, nil
@@ -85,56 +85,57 @@ func getParticipantsFromResponse(rows *sql.Rows) (getParticipants_Success, *conf
 	return getParticipants_Success{participants}, nil
 }
 
-func getMarks() (map[string][]Mark, *conf.ApiResponse) {
-	Query, err := src.CustomConnection.Query("SELECT * FROM participants")
+func getMarks() (map[int64][]Mark, *conf.ApiResponse) {
+	rows, err := src.CustomConnection.Query("SELECT * FROM participants")
 	if err != nil {
-		return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
+		return make(map[int64][]Mark), conf.ErrDatabaseQueryFailed
 	}
-	CategoriesIDs, err := Query.Columns()
+	CategoriesIDs, err := rows.Columns()
 	if err != nil {
-		return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
+		return make(map[int64][]Mark), conf.ErrDatabaseQueryFailed
 	}
 	if len(CategoriesIDs) == 1 {
-		return getMarksIfNoCategories(Query)
+		return getMarksIfNoCategories(rows)
 	}
-	return getMarksIfCategories(Query, CategoriesIDs)
+	return getMarksIfCategories(rows, CategoriesIDs)
 }
 
-func getMarksIfNoCategories(rows *sql.Rows) (map[string][]Mark, *conf.ApiResponse) {
+func getMarksIfNoCategories(rows *sql.Rows) (map[int64][]Mark, *conf.ApiResponse) {
 	defer rows.Close()
 	var (
-		login string
-		marks = make(map[string][]Mark)
+		participant_id int64
+		marks = make(map[int64][]Mark)
 	)
 	for rows.Next() {
-		err := rows.Scan(&login)
+		err := rows.Scan(&participant_id)
 		if err != nil {
-			return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
+			return marks, conf.ErrDatabaseQueryFailed
 		}
-		marks[login] = make([]Mark, 0)
+		marks[participant_id] = make([]Mark, 0)
 	}
 	return marks, nil
 }
 
-func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) (map[string][]Mark, *conf.ApiResponse) {
+func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) (map[int64][]Mark, *conf.ApiResponse) {
 	categoriesIDs = categoriesIDs[1:]
 	var (
-		rawResult = make([][]byte, len(categoriesIDs) + 1)
-		result = make([]interface{}, len(categoriesIDs) + 1)
-		marks = make(map[string][]Mark)
-		values = make([]string, len(categoriesIDs) + 1)
+		rawResult = make([][]byte, len(categoriesIDs)+1)
+		result    = make([]interface{}, len(categoriesIDs)+1)
+		marks     = make(map[int64][]Mark)
+		values    = make([]string, len(categoriesIDs)+1)
 	)
 	for i, _ := range result {
 		result[i] = &rawResult[i]
 	}
-	categoriesList, apiErr := categories.GetCategories_Request(); if apiErr != nil {
-		return make(map[string][]Mark), apiErr
+	categoriesList, apiErr := categories.GetCategories_Request();
+	if apiErr != nil {
+		return marks, apiErr
 	}
 	defer rows.Close()
 	for rows.Next() {
 		err := rows.Scan(result...)
 		if err != nil {
-			return make(map[string][]Mark), conf.ErrDatabaseQueryFailed
+			return marks, conf.ErrDatabaseQueryFailed
 		}
 		for i, raw := range rawResult {
 			if raw == nil {
@@ -143,18 +144,18 @@ func getMarksIfCategories(rows *sql.Rows, categoriesIDs []string) (map[string][]
 				values[i] = string(raw)
 			}
 		}
-		login := values[0]
+		participant_id, err := strconv.ParseInt(values[0], 10, 64); if err != nil {
+			return marks, conf.ErrConvertStringToInt
+		}
 		categoriesValues := values[1:]
 		for i := 0; i < len(categoriesValues); i++ {
-			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64)
-			if err != nil {
-				return make(map[string][]Mark), conf.ErrConvertStringToInt
+			id, err := strconv.ParseInt(categoriesIDs[i], 10, 64); if err != nil {
+				return marks, conf.ErrConvertStringToInt
 			}
-			value, err := strconv.ParseInt(categoriesValues[i], 10, 64)
-			if err != nil {
-				return make(map[string][]Mark), conf.ErrConvertStringToInt
+			value, err := strconv.ParseInt(categoriesValues[i], 10, 64); if err != nil {
+				return marks, conf.ErrConvertStringToInt
 			}
-			marks[login] = append(marks[login], Mark{id, categoriesList[i].Name, value})
+			marks[participant_id] = append(marks[participant_id], Mark{id, categoriesList[i].Name, value})
 		}
 	}
 	return marks, nil

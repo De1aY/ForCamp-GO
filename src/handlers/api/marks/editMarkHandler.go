@@ -10,28 +10,32 @@ import (
 	"forcamp/src/api/marks"
 )
 
-func getEditMarkPostValues(r *http.Request) (string, string, int64, int64, *conf.ApiResponse){
+func getEditMarkPostValues(r *http.Request) (string, int64, int64, int64, *conf.ApiResponse){
 	token := strings.TrimSpace(r.PostFormValue("token"))
 	category_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil {
-		return "", "", 0, 0, conf.ErrCategoryIdNotINT
+		return "", 0, 0, 0, conf.ErrCategoryIdNotINT
 	}
 	reason_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("reason_id")), 10, 64)
 	if err != nil {
-		return "", "", 0, 0, conf.ErrReasonIncorrect
+		return "", 0, 0, 0, conf.ErrReasonIncorrect
 	}
-	participant_login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
-	return token, participant_login, category_id, reason_id, nil
+	participant_id, err := strconv.ParseInt(strings.TrimSpace(
+		strings.ToLower(r.PostFormValue("participant_id"))), 10, 64)
+	if err != nil {
+		return "", 0, 0, 0, conf.ErrReasonIncorrect
+	}
+	return token, participant_id, category_id, reason_id, nil
 }
 
 func editMarkHandler(w http.ResponseWriter, r *http.Request) {
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
-		token, participant_login, category_id, reason_id, APIerr := getEditMarkPostValues(r)
-		if APIerr != nil {
-			APIerr.Print(w)
+		token, participant_id, category_id, reason_id, apiErr := getEditMarkPostValues(r)
+		if apiErr != nil {
+			apiErr.Print(w)
 		} else {
-			marks.EditMark(token, participant_login, category_id, reason_id, w)
+			marks.EditMark(token, participant_id, category_id, reason_id, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)

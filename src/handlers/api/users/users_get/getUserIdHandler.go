@@ -10,10 +10,10 @@ import (
 )
 
 
-func GetUserLoginHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+func GetUserIdHandler(w http.ResponseWriter, r *http.Request){
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
-		users.GetUserLogin(handlers.GetToken(r), w)
+		users.GetUserID(handlers.GetToken(r), w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		conf.ErrMethodNotAllowed.Print(w)
@@ -21,5 +21,5 @@ func GetUserLoginHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleGetUserLoginByToken(router *mux.Router)  {
-	router.HandleFunc("/user.login.get", GetUserLoginHandler)
+	router.HandleFunc("/user.id.get", GetUserIdHandler)
 }

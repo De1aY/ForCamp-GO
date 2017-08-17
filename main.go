@@ -67,8 +67,6 @@ func main() {
 	orgset_delete.HandleDeleteReason(APISite)
 	// Marks
 	marks.HandleEditMark(APISite)
-	marks.HandleGetMarksChanges(APISite)
-	marks.HandleDeleteMarkChange(APISite)
 	// Apanel
 	apanel.HandleAddOrganization(APISite)
 

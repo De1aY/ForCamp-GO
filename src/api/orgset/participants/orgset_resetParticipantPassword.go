@@ -11,22 +11,20 @@ type resetParticipantPassword_Success struct {
 	Password string `json:"password"`
 }
 
-func ResetParticipantPassword(token string, login string, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+func ResetParticipantPassword(token string, participant_id int64, responseWriter http.ResponseWriter) bool{
+	if orgset.IsUserAdmin(token, responseWriter){
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
-		ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		participant_organization, participant_login, apiErr := orgset.GetUserOrganizationAndLoginByID(participant_id)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
-		if ParticipantOrganization != Organization{
+		if participant_organization != organizationName {
 			return conf.ErrUserNotFound.Print(responseWriter)
 		}
-		rawResp, APIerr := resetParticipantPassword_Request(login)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		rawResp, apiErr := resetParticipantPassword(participant_id, participant_login); if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		resp := conf.ApiResponse{200, "success", rawResp}
 		resp.Print(responseWriter)
@@ -34,24 +32,20 @@ func ResetParticipantPassword(token string, login string, responseWriter http.Re
 	return true
 }
 
-func resetParticipantPassword_Request(login string) (resetParticipantPassword_Success, *conf.ApiResponse){
-	Password, Hash := orgset.GeneratePassword()
-	Query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE login=?")
-	if err != nil {
+func resetParticipantPassword(participant_id int64, participant_login string) (resetParticipantPassword_Success, *conf.ApiResponse){
+	password, hash := orgset.GeneratePassword()
+	query, err := src.Connection.Prepare("UPDATE users SET password=? WHERE id=?"); if err != nil {
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(Hash, login)
-	if err != nil {
+	_, err = query.Exec(hash, participant_id); if err != nil {
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	Query.Close()
-	Query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
-	if err != nil {
+	query.Close()
+	query, err = src.Connection.Prepare("DELETE FROM sessions WHERE login=?"); if err != nil {
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(login)
-	if err != nil {
+	_, err = query.Exec(participant_login); if err != nil {
 		return resetParticipantPassword_Success{}, conf.ErrDatabaseQueryFailed
 	}
-	return resetParticipantPassword_Success{Password}, nil
+	return resetParticipantPassword_Success{password}, nil
 }

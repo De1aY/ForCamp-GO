@@ -11,12 +11,13 @@ import (
 	"forcamp/conf"
 	"forcamp/src/api/orgset"
 	"strings"
+	"strconv"
 )
 
 type profileTemplateData struct {
 	Token string
-	Login string
-	RequestLogin string
+	UserID int64
+	RequestUserID int64
 	UserData users.UserData
 	RequestData users.UserData
 	OrgSettings settings.OrgSettings
@@ -45,7 +46,7 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 				responseWriter.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			ptd, apiErr := getProfileTemplateData(token.Value, r);
+			ptd, apiErr := getProfileTemplateData(token.Value, r)
 			if apiErr != nil {
 				if apiErr.Code == 618 {
 					http.Redirect(responseWriter, r, "https://forcamp.ga/404", http.StatusTemporaryRedirect)
@@ -54,7 +55,10 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 					return
 				}
 			}
-			profileHTML.ExecuteTemplate(responseWriter, "profile", ptd)
+			err = profileHTML.ExecuteTemplate(responseWriter, "profile", ptd); if err != nil {
+				responseWriter.WriteHeader(http.StatusInternalServerError)
+				return
+			}
 		} else {
 			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
@@ -66,16 +70,26 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 func getProfileTemplateData(token string, r *http.Request) (profileTemplateData, *conf.ApiResponse) {
 	var ptd profileTemplateData
 	ptd.Token = token
-	organization, login, apiErr := orgset.GetUserOrganizationAndLoginByToken(token); if apiErr != nil {
+	organization, login, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
 		return ptd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
-	ptd.Login = login
-	requestLogin := strings.ToLower(strings.TrimSpace(r.FormValue("login")))
-	if len(requestLogin) == 0 {
-		ptd.RequestLogin = ptd.Login
+	ptd.UserID = login
+	rawRequestUserID := strings.ToLower(strings.TrimSpace(r.FormValue("id")))
+	var requestUserID int64
+	var err error
+	if len(rawRequestUserID) < 1 {
+		requestUserID = 0
 	} else {
-		ptd.RequestLogin = requestLogin
+		requestUserID, err = strconv.ParseInt(rawRequestUserID, 10, 64)
+		if err != nil {
+			return ptd, conf.ErrIdIsNotINT
+		}
+	}
+	if requestUserID < 1 {
+		ptd.RequestUserID = ptd.UserID
+	} else {
+		ptd.RequestUserID = requestUserID
 	}
 	apiErr = ptd.GetOrgSettings(); if apiErr != nil {
 		return ptd, apiErr
@@ -91,7 +105,7 @@ func getProfileTemplateData(token string, r *http.Request) (profileTemplateData,
 }
 
 func (ptd *profileTemplateData) GetUserData() *conf.ApiResponse {
-	userData, apiErr := users.GetUserData_Request(ptd.Login)
+	userData, apiErr := users.GetUserData_Request(ptd.UserID)
 	if apiErr != nil {
 		return apiErr
 	}
@@ -109,13 +123,13 @@ func (ptd *profileTemplateData) GetOrgSettings() *conf.ApiResponse {
 }
 
 func (ptd *profileTemplateData) GetRequestData() *conf.ApiResponse {
-	if ptd.Login != ptd.RequestLogin {
-		requestOrganization, apiErr := orgset.GetUserOrganizationByLogin(ptd.RequestLogin)
-		userOrganization, apiErr := orgset.GetUserOrganizationByLogin(ptd.Login)
+	if ptd.UserID != ptd.RequestUserID {
+		requestOrganization, apiErr := orgset.GetUserOrganizationByID(ptd.RequestUserID)
+		userOrganization, apiErr := orgset.GetUserOrganizationByID(ptd.UserID)
 		if requestOrganization != userOrganization {
 			return conf.ErrUserNotFound
 		}
-		requestData, apiErr := users.GetUserData_Request(ptd.RequestLogin)
+		requestData, apiErr := users.GetUserData_Request(ptd.RequestUserID)
 		if apiErr != nil {
 			return apiErr
 		}
@@ -153,7 +167,7 @@ func (ptd *profileTemplateData) setFlag_IsEmployee() {
 }
 
 func (ptd *profileTemplateData) setFlag_IsOwner() {
-	if ptd.Login == ptd.RequestLogin {
+	if ptd.UserID == ptd.RequestUserID {
 		ptd.IsOwner = true
 	}
 }

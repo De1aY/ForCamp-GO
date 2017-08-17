@@ -11,28 +11,33 @@ import (
 )
 
 func getEditParticipantPostValues(r *http.Request) (participants.Participant, string, *conf.ApiResponse){
-	Token := strings.TrimSpace(r.PostFormValue("token"))
-	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
-	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
-	Surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
-	Middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
-	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
+	token := strings.TrimSpace(r.PostFormValue("token"))
+	participant_id, err := strconv.ParseInt(strings.TrimSpace(
+		strings.ToLower(r.PostFormValue("login"))), 10, 64)
+	if err != nil {
+		return participants.Participant{}, "", conf.ErrIdIsNotINT
+	}
+	name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
+	middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
+	sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
 	if err != nil {
 		return participants.Participant{}, "", conf.ErrSexNotINT
 	}
-	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
+	team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
 	if err != nil {
 		return participants.Participant{}, "", conf.ErrTeamNotINT
 	}
-	return participants.Participant{Login, Name, Surname, Middlename, int(Sex), Team, nil}, Token, nil
+	return participants.Participant{participant_id, name, surname,
+		middlename, int(sex), team, nil}, token, nil
 }
 
 func EditParticipantHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
-		participant, token, APIerr := getEditParticipantPostValues(r)
-		if APIerr != nil {
-			APIerr.Print(w)
+		participant, token, apiErr := getEditParticipantPostValues(r)
+		if apiErr != nil {
+			apiErr.Print(w)
 		} else {
 			participants.EditParticipant(token, participant, w)
 		}

@@ -8,9 +8,9 @@ import (
 )
 
 func SetOrgSettingsValue(token string, orgSet OrgSettings, responseWriter http.ResponseWriter) bool {
-	if orgset.CheckUserAccess(token, responseWriter){
+	if orgset.IsUserAdmin(token, responseWriter){
 		if checkSetOrgSettingsValueData(token, orgSet, responseWriter){
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+			Organization, _, APIerr := orgset.GetUserOrganizationAndIdByToken(token)
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}

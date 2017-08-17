@@ -8,21 +8,19 @@ import (
 )
 
 func EditParticipant(token string, participant Participant, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter) {
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil {
-			return APIerr.Print(responseWriter)
+	if orgset.IsUserAdmin(token, responseWriter) {
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		if checkEditParticipantData(participant, responseWriter) {
-			ParticipantOrganization, APIerr := orgset.GetUserOrganizationByLogin(participant.Login)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		if isEditParticipantDataValid(participant, responseWriter) {
+			participant_organization, apiErr := orgset.GetUserOrganizationByID(participant.ID); if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
-			if ParticipantOrganization != Organization {
+			if participant_organization != organizationName {
 				return conf.ErrUserNotFound.Print(responseWriter)
 			}
-			APIerr = editParticipant_Request(participant)
+			apiErr = editParticipant_Request(participant)
 			return conf.RequestSuccess.Print(responseWriter)
 		}
 	}
@@ -30,25 +28,27 @@ func EditParticipant(token string, participant Participant, responseWriter http.
 }
 
 func editParticipant_Request(participant Participant) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, team=?, sex=? WHERE login=? AND access='0'")
+	query, err := src.CustomConnection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, " +
+		"team=?, sex=? WHERE id=? AND access='0'")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(participant.Name, participant.Surname, participant.Middlename, participant.Team, participant.Sex, participant.Login)
+	_, err = query.Exec(participant.Name, participant.Surname, participant.Middlename,
+		participant.Team, participant.Sex, participant.ID)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query.Close()
+	query.Close()
 	return nil
 }
 
-func checkEditParticipantData(participant Participant, w http.ResponseWriter) bool {
-	if len(participant.Login) > 0 {
+func isEditParticipantDataValid(participant Participant, w http.ResponseWriter) bool {
+	if participant.ID > 0 {
 		if len(participant.Name) > 0 {
 			if len(participant.Surname) > 0 {
 				if len(participant.Middlename) > 0 {
 					if participant.Sex == 0 || participant.Sex == 1 {
-						if orgset.CheckTeamID(participant.Team, w) {
+						if orgset.IsTeamExist(participant.Team, w) {
 							return true
 						} else {
 							return false

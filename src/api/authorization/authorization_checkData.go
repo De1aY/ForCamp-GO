@@ -9,7 +9,7 @@ import (
 
 func checkAuthorizationData(inf AuthInf, responseWriter http.ResponseWriter) bool {
 	if checkUserLogin(inf.Login, responseWriter) && checkUserPassword(inf.Password, responseWriter) {
-		if checkAuthorizationData_Request(inf, responseWriter){
+		if isAuthorizationDataCorrect(inf, responseWriter){
 			return true
 		} else {
 			return false
@@ -36,14 +36,16 @@ func checkUserPassword(password string, responseWriter http.ResponseWriter) bool
 }
 
 // select ID by Login and Password
-func checkAuthorizationData_Request(authInf AuthInf, responseWriter http.ResponseWriter) bool {
+func isAuthorizationDataCorrect(authInf AuthInf, responseWriter http.ResponseWriter) bool {
 	authInf.Login = html.EscapeString(authInf.Login)
 	authInf.Password = GeneratePasswordHash(authInf.Password)
-	Query, err := src.Connection.Query("SELECT COUNT(id) as count FROM users WHERE login=? AND password=?", authInf.Login, authInf.Password)
+	var count int
+	err := src.Connection.QueryRow("SELECT COUNT(id) as count FROM users WHERE " +
+		"login=? AND password=?", authInf.Login, authInf.Password).Scan(&count)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 	}
-	if getCountVal(Query, responseWriter) > 0 {
+	if count > 0 {
 		return true
 	} else {
 		return conf.ErrAuthDataIncorrect.Print(responseWriter)

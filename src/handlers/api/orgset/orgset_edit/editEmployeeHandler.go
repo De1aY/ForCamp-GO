@@ -11,29 +11,31 @@ import (
 )
 
 func getEditEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiResponse){
-	Token := strings.TrimSpace(r.PostFormValue("token"))
-	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
-	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
-	Surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
-	Middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
-	Post := strings.TrimSpace(strings.ToLower(r.PostFormValue("post")))
-	Sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64)
+	token := strings.TrimSpace(r.PostFormValue("token"))
+	employee_id, err := strconv.ParseInt(strings.TrimSpace(
+		strings.ToLower(r.PostFormValue("employee_id"))), 10, 64)
 	if err != nil {
+		return employees.Employee{}, "", conf.ErrIdIsNotINT
+	}
+	name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
+	surname := strings.TrimSpace(strings.ToLower(r.PostFormValue("surname")))
+	middlename := strings.TrimSpace(strings.ToLower(r.PostFormValue("middlename")))
+	post := strings.TrimSpace(strings.ToLower(r.PostFormValue("post")))
+	sex, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("sex")), 10, 64); if err != nil {
 		return employees.Employee{}, "", conf.ErrSexNotINT
 	}
-	Team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64)
-	if err != nil {
+	team, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team")), 10, 64); if err != nil {
 		return employees.Employee{}, "", conf.ErrTeamNotINT
 	}
-	return employees.Employee{Login, Name, Surname, Middlename, int(Sex), Team, Post,nil}, Token, nil
+	return employees.Employee{employee_id, name, surname, middlename, int(sex), team, post, nil}, token, nil
 }
 
 func EditEmployeeHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
-		employee, token, APIerr := getEditEmployeePostValues(r)
-		if APIerr != nil {
-			APIerr.Print(w)
+		employee, token, apiErr := getEditEmployeePostValues(r)
+		if apiErr != nil {
+			apiErr.Print(w)
 		} else {
 			employees.EditEmployee(token, employee, w)
 		}

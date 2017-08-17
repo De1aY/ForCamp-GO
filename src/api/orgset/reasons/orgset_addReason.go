@@ -12,13 +12,13 @@ type addReason_Success struct {
 }
 
 func AddReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	if orgset.IsUserAdmin(token, responseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndIdByToken(token)
 		if APIerr != nil {
 			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if orgset.CheckCategoryId(reason.Cat_id, responseWriter){
+		if orgset.IsCategoryExist(reason.Cat_id, responseWriter){
 			rawResp, APIerr := addReason_Request(reason)
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
@@ -31,7 +31,7 @@ func AddReason(token string, reason Reason, responseWriter http.ResponseWriter) 
 }
 
 func addReason_Request(reason Reason) (addReason_Success, *conf.ApiResponse){
-	Query, err := src.CustomConnection.Prepare("INSERT INTO reasons(cat_id,text,modification) VALUES(?,?,?)")
+	Query, err := src.CustomConnection.Prepare("INSERT INTO reasons(category_id,text,modification) VALUES(?,?,?)")
 	if err != nil {
 		return addReason_Success{}, conf.ErrDatabaseQueryFailed
 	}

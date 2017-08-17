@@ -13,23 +13,13 @@ function reloadTables() {
 
 function onTableDraw() {
     componentHandler.upgradeDom();
-    $('.mdl-card__body-table-row_actions--delete').unbind('click').click( function () {
-        let button = $(this);
-        let editInfo = button.data('content').split('-');
-        switch (editInfo[0]){
-            case "action": {
-                deleteMarkChange(editInfo[1], button);
-                break;
-            }
-        }
-    });
 }
 
 // Marks
 
-function editMark(login, category_id, reason_id) {
-    $.post(__EditMark, { token: Token,
-        login: login,
+function editMark(participant_id, category_id, reason_id) {
+    $.post(__EditMarkLink, { token: Token,
+        participant_id: participant_id,
         category_id: category_id,
         reason_id: reason_id}, function (resp) {
         if(resp.code === 200) {
@@ -60,7 +50,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
             data: "surname",
             searchable: true,
             render: function ( surname, type, row, meta ) {
-                return '<a href="https://forcamp.ga/profile?login=' + row.login + '" ' +
+                return '<a href="https://forcamp.ga/profile?id=' + row.id + '" ' +
                     'class="mdl-card__body-table-row__field">'+
                     surname[0].toUpperCase() + surname.substring(1) + ' '
                     + row.name[0].toUpperCase() + row.name.substring(1) + ' '
@@ -88,8 +78,8 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
             render: function ( marks, type, row, meta ) {
                 let mark = marks[meta.col - 2];
                 let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
-                    'id="mdl-card__body-table-participants--mark-'+row.login+'"' +
-                    ' data-content="participant-' + row.login + '-mark-' + mark.id + '">' +
+                    'id="mdl-card__body-table-participants--mark-'+row.id+'"' +
+                    ' data-content="participant-' + row.id + '-mark-' + mark.id + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">' + mark.value +'</div><ul>' +
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>';
                 let reasons = Reasons.filter(function (reason) {
@@ -97,7 +87,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
                 });
                 reasons.forEach(function (reason) {
                     dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-'
-                        + row.login + '-mark-' + mark.id + '-reason-' + reason.id + '">' +
+                        + row.id + '-mark-' + mark.id + '-reason-' + reason.id + '">' +
                         '<span>' + reason.text + '</span></li>';
                 });
                 return dropdown + '</ul></label></div>';
@@ -139,10 +129,10 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
                     return
                 }
                 if (editInfo[0] === "participant") {
-                    let login = editInfo[1];
+                    let participant_id = editInfo[1];
                     let category_id = editInfo[3];
                     let reason_id = editInfo[5];
-                    editMark(login, category_id, reason_id);
+                    editMark(participant_id, category_id, reason_id);
                 }
             });
         });
@@ -152,8 +142,8 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
 
 // Last changes
 
-function deleteMarkChange(id, button) {
-    $.post(__DeleteMarkChangeLink, { token: Token, id: id }, function (resp) {
+function deleteMarkChange(event_id, button) {
+    $.post(__DeleteEventLink, { token: Token, id: event_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             MarksChangesTable.row(button.parents('tr')).remove().draw();
@@ -166,7 +156,7 @@ function deleteMarkChange(id, button) {
 
 let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
     "ajax": {
-        "url": __GetUserDataLink,
+        "url": __GetEvents,
         "type": "GET",
         "data": {
             "token": Token,
@@ -188,12 +178,12 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
         },
         {
             targets: 1,
-            name: "login",
+            name: "fullname",
             className: 'mdl-data-table__cell--non-numeric',
             data: "participant",
             searchable: false,
             render: function ( participant, type, row, meta ) {
-                return '<a href="https://forcamp.ga/profile?login=' + participant.login + '" ' +
+                return '<a href="https://forcamp.ga/profile?login=' + participant.id + '" ' +
                     'class="mdl-card__body-table-row__field">'+
                     participant.surname[0].toUpperCase() + participant.surname.substring(1) + ' '
                     + participant.name[0].toUpperCase() + participant.name.substring(1) + ' '
@@ -245,8 +235,8 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
         "infoFiltered": "",
         "infoPostFix": "",
         "loadingRecords": "Загрузка участников...",
-        "zeroRecords": "Участники отсутствуют.",
-        "emptyTable": "Участники отсутствуют",
+        "zeroRecords": "Изменения отсутствуют.",
+        "emptyTable": "Изменения отсутствуют",
         "paginate": {
             "first": "Первая",
             "previous": "Пред.",
@@ -260,6 +250,16 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
     },
     "drawCallback": function () {
         $('#mdl-card__body-table-actions').css('width', '100%');
+        $('.mdl-card__body-table-row_actions--delete').unbind('click').click( function () {
+            let button = $(this);
+            let editInfo = button.data('content').split('-');
+            switch (editInfo[0]){
+                case "action": {
+                    deleteMarkChange(editInfo[1], button);
+                    break;
+                }
+            }
+        });
         onTableDraw();
     },
 });

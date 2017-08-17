@@ -1,35 +1,34 @@
-/*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
-*/
 package orgset
 
 import (
 	"forcamp/src"
-	"database/sql"
 	"net/http"
 	"forcamp/src/api/authorization"
 	"forcamp/conf"
 	"strconv"
 	"math/rand"
 	"time"
+	"strings"
 )
 
-func CheckUserAccess(token string, responseWriter http.ResponseWriter) bool{
-	if authorization.CheckTokenForEmpty(token, responseWriter) {
-		if (authorization.CheckToken(token, responseWriter)) {
-			Organization, Login, APIerr := GetUserOrganizationAndLoginByToken(token)
-			if APIerr != nil{
-				return APIerr.Print(responseWriter)
+func IsUserAdmin(token string, responseWriter http.ResponseWriter) bool{
+	if authorization.IsTokenNotEmpty(token, responseWriter) {
+		if authorization.IsTokenValid(token, responseWriter) {
+			organizationName, id, apiErr := GetUserOrganizationAndIdByToken(token); if apiErr != nil{
+				return apiErr.Print(responseWriter)
 			}
-			CustomConnection := src.Connect_Custom(Organization)
-			defer CustomConnection.Close()
-			Query, err := CustomConnection.Query("SELECT access FROM users WHERE login=?", Login)
+			customConnection := src.Connect_Custom(organizationName)
+			defer customConnection.Close()
+			var access int
+			err := customConnection.QueryRow("SELECT access FROM users WHERE id=?", id).Scan(&access)
 			if err != nil {
 				return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 			}
-			return checkAccessFromQuery(Query, responseWriter)
+			if access == 2 {
+				return true
+			} else {
+				return conf.ErrInsufficientRights.Print(responseWriter)
+			}
 		} else {
 			return conf.ErrUserTokenIncorrect.Print(responseWriter)
 		}
@@ -37,65 +36,33 @@ func CheckUserAccess(token string, responseWriter http.ResponseWriter) bool{
 	return false
 }
 
-func checkAccessFromQuery(rows *sql.Rows, w http.ResponseWriter) bool{
-	defer rows.Close()
-	for rows.Next(){
-		var access int
-		err := rows.Scan(&access)
-		if err != nil{
-			return conf.ErrDatabaseQueryFailed.Print(w)
-		}
-		if access == 2{
-			return true
-		} else {
-			return conf.ErrInsufficientRights.Print(w)
-		}
+func GetUserOrganizationAndIdByToken(token string) (string, int64, *conf.ApiResponse){
+	id, apiErr := GetUserIdByToken(token); if apiErr != nil {
+		return "", -1, apiErr
 	}
-	return true
+	organizationName, apiErr := GetUserOrganizationByID(id); if apiErr != nil {
+		return "", -1, apiErr
+	}
+	return organizationName, id, nil
 }
 
-func GetUserOrganizationAndLoginByToken(Token string) (string, string, *conf.ApiResponse){
-	Query, err := src.Connection.Query("SELECT login FROM sessions WHERE token=?", Token)
-	if err!= nil{
-		return "", "", conf.ErrDatabaseQueryFailed
+func GetUserOrganizationAndLoginByID(user_id int64) (string, string, *conf.ApiResponse){
+	user_login, apiErr := GetUserLoginByID(user_id); if apiErr != nil {
+		return "", "", apiErr
 	}
-	Login, APIerr := getUserLoginFromQuery(Query)
-	if APIerr != nil {
-		return "", "", APIerr
+	organizationName, apiErr := GetUserOrganizationByID(user_id); if apiErr != nil {
+		return "", "", apiErr
 	}
-	Query, err = src.Connection.Query("SELECT organization FROM users WHERE login=?", Login)
+	return organizationName, user_login, nil
+}
+
+func GetUserLoginByID(user_id int64) (string, *conf.ApiResponse) {
+	var user_login string
+	err := src.Connection.QueryRow("SELECT login FROM users WHERE id=?", user_id).Scan(&user_login)
 	if err != nil {
-		return "", "", conf.ErrDatabaseQueryFailed
+		return user_login, conf.ErrDatabaseQueryFailed
 	}
-	Organization, APIerr := getUserOrganizationFromQuery(Query)
-	if APIerr != nil {
-		return "", "", APIerr
-	}
-	return Organization, Login, nil
-}
-
-func getUserOrganizationFromQuery(rows *sql.Rows) (string, *conf.ApiResponse){
-	defer rows.Close()
-	var organization string
-	for rows.Next(){
-		err := rows.Scan(&organization)
-		if err != nil {
-			return "", conf.ErrDatabaseQueryFailed
-		}
-	}
-	return organization, nil
-}
-
-func getUserLoginFromQuery(rows *sql.Rows) (string, *conf.ApiResponse){
-	var login string
-	defer rows.Close()
-	for rows.Next(){
-		err := rows.Scan(&login)
-		if err != nil {
-			return "", conf.ErrDatabaseQueryFailed
-		}
-	}
-	return login, nil
+	return user_login, nil
 }
 
 func GeneratePassword() (string, string){
@@ -108,7 +75,7 @@ func GeneratePassword() (string, string){
 	return password, authorization.GeneratePasswordHash(password)
 }
 
-func CheckTeamID(id int64, w http.ResponseWriter) bool{
+func IsTeamExist(id int64, w http.ResponseWriter) bool{
 	if id != 0 {
 		var count int
 		err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM teams WHERE id=?", id).Scan(&count)
@@ -125,9 +92,9 @@ func CheckTeamID(id int64, w http.ResponseWriter) bool{
 	}
 }
 
-func CheckReasonID(id int64, category_id int64, w http.ResponseWriter) bool {
+func IsReasonExist(id int64, category_id int64, w http.ResponseWriter) bool {
 	var count int
-	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM reasons WHERE id=? AND cat_id=?", id, category_id).Scan(&count)
+	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM reasons WHERE id=? AND category_id=?", id, category_id).Scan(&count)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed.Print(w)
 	}
@@ -138,23 +105,43 @@ func CheckReasonID(id int64, category_id int64, w http.ResponseWriter) bool {
 	}
 }
 
-func GetUserOrganizationByLogin(login string) (string, *conf.ApiResponse){
-	Query, err := src.Connection.Query("SELECT organization FROM users WHERE login=?", login)
+func GetUserIdByToken(token string) (int64, *conf.ApiResponse) {
+	var id int64
+	var login string
+	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
 	if err != nil {
-		return "", conf.ErrDatabaseQueryFailed
+		return id, conf.ErrDatabaseQueryFailed
 	}
-	defer Query.Close()
-	var organization string
-	for Query.Next(){
-		err := Query.Scan(&organization)
-		if err != nil {
-			return "", conf.ErrDatabaseQueryFailed
-		}
+	loginData := strings.Split(login, "_")
+	id, err = strconv.ParseInt(loginData[1], 10, 64); if err != nil {
+		return id, conf.ErrDatabaseQueryFailed
 	}
-	return organization, nil
+	return id, nil
 }
 
-func CheckCategoryId(id int64, w http.ResponseWriter) bool{
+func GetUserOrganizationByToken(token string) (string, *conf.ApiResponse) {
+	var organizationName, login string
+	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
+	if err != nil {
+		return organizationName, conf.ErrDatabaseQueryFailed
+	}
+	err = src.Connection.QueryRow("SELECT organization FROM users WHERE login=?", login).Scan(&organizationName)
+	if err != nil {
+		return organizationName, conf.ErrDatabaseQueryFailed
+	}
+	return organizationName, nil
+}
+
+func GetUserOrganizationByID(id int64) (string, *conf.ApiResponse){
+	var organizationName string
+	err := src.Connection.QueryRow("SELECT organization FROM users WHERE id=?", id).Scan(&organizationName)
+	if err != nil {
+		return organizationName, conf.ErrDatabaseQueryFailed
+	}
+	return organizationName, nil
+}
+
+func IsCategoryExist(id int64, w http.ResponseWriter) bool{
 	var count int
 	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM categories WHERE id=?", id).Scan(&count)
 	if err != nil {

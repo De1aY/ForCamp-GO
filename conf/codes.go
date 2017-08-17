@@ -1,8 +1,3 @@
-/*
-	Copyright: "NullTeam", 2016 - 2017
-	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/openqr_golang/wiki/Home
-*/
 package conf
 
 import (
@@ -54,7 +49,7 @@ var ErrSelfMarksIncorrect = &ApiResponse{607, "error", ErrorMessage{"Невер�
 var ErrCategoryNameEmpty = &ApiResponse{608, "error", ErrorMessage{"Название категории отсутствует", "Category name is empty"}}
 var ErrCategoryNegativeMarksEmpty = &ApiResponse{609, "error", ErrorMessage{"Поле 'отрицательные оценки' отсутствует", "Field 'negative marks' is empty"}}
 var ErrCategoryNegativeMarksIncorrect = &ApiResponse{610, "error", ErrorMessage{"Неверное значение поля 'отрицательные оценки'", "'negative marks' is incorrect"}}
-var ErrIDisNotINT = &ApiResponse{611, "error", ErrorMessage{"ID должен быть числом", "ID must be a number"}}
+var ErrIdIsNotINT = &ApiResponse{611, "error", ErrorMessage{"ID должен быть числом", "ID must be a number"}}
 var ErrNameEmpty = &ApiResponse{612, "error", ErrorMessage{"Имя отсутсвует", "Name is empty"}}
 var ErrSurnameEmpty = &ApiResponse{613, "error", ErrorMessage{"Фамилия отсутсвует", "Surname is empty"}}
 var ErrMiddlenameEmpty = &ApiResponse{614, "error", ErrorMessage{"Отчество отсутсвует", "Middlename is empty"}}
@@ -66,8 +61,21 @@ var ErrTeamIncorrect = &ApiResponse{619, "error", ErrorMessage{"Некоррек
 var ErrPostEmpty = &ApiResponse{620, "error", ErrorMessage{"Должность отсутствует", "Post is empty"}}
 var ErrCategoryIdIncorrect = &ApiResponse{621, "error", ErrorMessage{"Неверный ID категории", "Category ID is incorrect"}}
 var ErrPermissionValueIncorrect = &ApiResponse{622, "error", ErrorMessage{"Разрешение должно быть boolean", "Permission must be a boolean"}}
-var ErrCategoryIdNotINT = &ApiResponse{623, "error", ErrorMessage{"ID категории должно быть числом", "Category id must be a number"}}
+var ErrCategoryIdNotINT = &ApiResponse{623, "error", ErrorMessage{"ID категории должно быть числом", "Category ID must be a number"}}
 var ErrReasonIncorrect = &ApiResponse{624, "error", ErrorMessage{"Некорректная причина", "Reason is incorrect"}}
-var ErrLoginIncorrect = &ApiResponse{625, "error", ErrorMessage{"Неверный логин", "Partcipant login incorrect"}}
+var ErrIdIncorrect = &ApiResponse{625, "error", ErrorMessage{"Неверный ID", "ID incorrect"}}
 var ErrOrganizationNameEmpty = &ApiResponse{626, "error", ErrorMessage{"Название организации отсутствует", "Oranization name is empty"}}
 var ErrTeamNameEmpty = &ApiResponse{627, "error", ErrorMessage{"Название команды отсутствует", "Team name is empty"}}
+var ErrEventTypeIncorrect = &ApiResponse{628, "error", ErrorMessage{"Неверный тип события", "Event type incorrect"}}
+
+// Event types
+var EVENT_TYPES = [3]int{
+	-1, // All events
+	1,  // Mark change    (Employee and Participant)
+	2,  // Emotional mark (Participant)
+}
+
+const (
+	EVENT_TYPE_MARK_CHANGE = 1
+	EVENT_TYPE_EMOTIONAL_MARK = 2
+)

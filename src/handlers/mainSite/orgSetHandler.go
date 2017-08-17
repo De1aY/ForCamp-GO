@@ -14,7 +14,7 @@ import (
 
 type orgSetTemplateData struct {
 	Token string
-	Login string
+	UserID int64
 	UserData users.UserData
 	OrgSettings settings.OrgSettings
 	// Flags
@@ -55,11 +55,11 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 func getOrgSetTemplateData (token string) (orgSetTemplateData, *conf.ApiResponse) {
 	var ostd orgSetTemplateData
 	ostd.Token = token
-	organization, login, apiErr := orgset.GetUserOrganizationAndLoginByToken(token); if apiErr != nil {
+	organization, user_id, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
 		return ostd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
-	ostd.Login = login
+	ostd.UserID = user_id
 	apiErr = ostd.GetUserData(); if apiErr != nil {
 		return ostd, apiErr
 	}
@@ -71,7 +71,7 @@ func getOrgSetTemplateData (token string) (orgSetTemplateData, *conf.ApiResponse
 }
 
 func (ostd *orgSetTemplateData) GetUserData() *conf.ApiResponse {
-	userData, apiErr := users.GetUserData_Request(ostd.Login)
+	userData, apiErr := users.GetUserData_Request(ostd.UserID)
 	if apiErr != nil {
 		return apiErr
 	}
