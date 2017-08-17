@@ -50,15 +50,13 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			if apiErr != nil {
 				if apiErr.Code == 618 {
 					http.Redirect(responseWriter, r, "https://forcamp.ga/404", http.StatusTemporaryRedirect)
+					return
 				} else {
 					responseWriter.WriteHeader(http.StatusInternalServerError)
 					return
 				}
 			}
-			err = profileHTML.ExecuteTemplate(responseWriter, "profile", ptd); if err != nil {
-				responseWriter.WriteHeader(http.StatusInternalServerError)
-				return
-			}
+			profileHTML.ExecuteTemplate(responseWriter, "profile", ptd)
 		} else {
 			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}

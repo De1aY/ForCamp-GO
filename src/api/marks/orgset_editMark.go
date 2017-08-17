@@ -18,8 +18,8 @@ func EditMark(token string, participant_id int64, category_id int64, reason_id i
 				return apiErr.Print(responseWriter)
 			}
 			src.CustomConnection = src.Connect_Custom(organizationName)
-			if checkData(participant_id, category_id, reason_id, employee_id, responseWriter) {
-				apiErr = editMark_Request(participant_id, employee_id, category_id, reason_id)
+			if isEditMarkDataValid(participant_id, category_id, reason_id, employee_id, responseWriter) {
+				apiErr = editMark(participant_id, employee_id, category_id, reason_id)
 				if apiErr != nil {
 					return apiErr.Print(responseWriter)
 				}
@@ -32,7 +32,7 @@ func EditMark(token string, participant_id int64, category_id int64, reason_id i
 	return true
 }
 
-func editMark_Request(participant_id int64, employee_id int64, category_id int64, reason_id int64) *conf.ApiResponse{
+func editMark(participant_id int64, employee_id int64, category_id int64, reason_id int64) *conf.ApiResponse{
 	reasonData, apiErr := getReasonData(reason_id)
 	if apiErr != nil {
 		return apiErr
@@ -98,14 +98,14 @@ func getReasonData(reason_id int64) (reasons.Reason, *conf.ApiResponse) {
 	var reasonData reasons.Reason
 	reasonData.Id = reason_id
 	err := src.CustomConnection.QueryRow("SELECT category_id, text, modification FROM reasons " +
-		"WHERE id=?", reason_id).Scan(&reasonData.Text, &reasonData.Change)
+		"WHERE id=?", reason_id).Scan(&reasonData.Cat_id, &reasonData.Text, &reasonData.Change)
 	if err != nil {
 		return reasonData, conf.ErrDatabaseQueryFailed
 	}
 	return reasonData, nil
 }
 
-func checkData(participant_id int64, category_id int64, reason_id int64, employee_id int64, w http.ResponseWriter) bool {
+func isEditMarkDataValid(participant_id int64, category_id int64, reason_id int64, employee_id int64, w http.ResponseWriter) bool {
 	if !isUserEmployee(employee_id, w){
 		return false
 	}
@@ -126,8 +126,8 @@ func checkData(participant_id int64, category_id int64, reason_id int64, employe
 
 func isEditingAllowed(employee_id int64, category_id int64, responseWriter http.ResponseWriter) bool {
 	var permission string
-	err := src.CustomConnection.QueryRow("SELECT " + strconv.FormatInt(category_id, 10) +
-		" FROM employees WHERE id=?", employee_id).Scan(&permission)
+	err := src.CustomConnection.QueryRow("SELECT `" + strconv.FormatInt(category_id, 10) +
+		"` FROM employees WHERE id=?", employee_id).Scan(&permission)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 	}

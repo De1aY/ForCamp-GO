@@ -143,7 +143,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
 // Last changes
 
 function deleteMarkChange(event_id, button) {
-    $.post(__DeleteEventLink, { token: Token, id: event_id }, function (resp) {
+    $.post(__DeleteEventLink, { token: Token, event_id: event_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             MarksChangesTable.row(button.parents('tr')).remove().draw();
@@ -155,14 +155,17 @@ function deleteMarkChange(event_id, button) {
 }
 
 let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
+    "ordering": false,
     "ajax": {
-        "url": __GetEvents,
+        "url": __GetEventsLink,
         "type": "GET",
         "data": {
             "token": Token,
+            "type": 1,
+            "rows_per_page": -1,
         },
         "dataSrc": function (data) {
-            return data.message.data.actions;
+            return data.message.events;
         },
     },
     columnDefs: [
@@ -170,7 +173,7 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
             targets: 0,
             name: "change",
             className: 'mdl-data-table__cell--non-numeric',
-            data: "change",
+            data: "event_data.change",
             searchable: true,
             render: function ( change, type, row, meta ) {
                 return '<span>' + change +'</span>';
@@ -180,10 +183,10 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
             targets: 1,
             name: "fullname",
             className: 'mdl-data-table__cell--non-numeric',
-            data: "participant",
+            data: "event_data.participant",
             searchable: false,
             render: function ( participant, type, row, meta ) {
-                return '<a href="https://forcamp.ga/profile?login=' + participant.id + '" ' +
+                return '<a href="https://forcamp.ga/profile?id=' + participant.id + '" ' +
                     'class="mdl-card__body-table-row__field">'+
                     participant.surname[0].toUpperCase() + participant.surname.substring(1) + ' '
                     + participant.name[0].toUpperCase() + participant.name.substring(1) + ' '
@@ -194,7 +197,7 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
             targets: 2,
             name: "text",
             className: 'mdl-data-table__cell--non-numeric',
-            data: "text",
+            data: "event_data.text",
             orderable: true,
             render: function ( text, type, row, meta ) {
                 return '<span>' + text[0].toUpperCase() + text.substring(1) + '</span>';
@@ -234,7 +237,7 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
         "infoEmpty": "",
         "infoFiltered": "",
         "infoPostFix": "",
-        "loadingRecords": "Загрузка участников...",
+        "loadingRecords": "Загрузка изменений...",
         "zeroRecords": "Изменения отсутствуют.",
         "emptyTable": "Изменения отсутствуют",
         "paginate": {

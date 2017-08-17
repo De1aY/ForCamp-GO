@@ -12,7 +12,7 @@ import (
 	"forcamp/src/api/orgset/employees"
 	"forcamp/src/api/orgset/categories"
 	"forcamp/src/api/orgset/teams"
-	"forcamp/src/api/orgset/events"
+	"forcamp/src/api/events"
 )
 
 func GetUserData(token string, responseWriter http.ResponseWriter, user_id int64) bool {

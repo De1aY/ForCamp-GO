@@ -12,7 +12,7 @@ import (
 
 func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
-	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("reason_id")), 10, 64)
 	if err != nil{
 		return "", reasons.Reason{}, conf.ErrIdIsNotINT
 	}

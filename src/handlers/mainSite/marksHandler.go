@@ -36,10 +36,12 @@ func MarksHandler(w http.ResponseWriter, r *http.Request) {
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
 			marksHTML, err := template.New(conf.FILE_MARKS).Funcs(marksTemplateFuncMap).ParseFiles(conf.FILE_MARKS); if err != nil {
-				w.WriteHeader(http.StatusInternalServerError);
+				w.WriteHeader(http.StatusInternalServerError)
+				return
 			}
 			mtd, apiErr := getMarksTemplateData(token.Value); if apiErr != nil {
 				w.WriteHeader(http.StatusInternalServerError)
+				return
 			}
 			if mtd.UserData.Access > 1 {
 				marksHTML.ExecuteTemplate(w, "marks", mtd)

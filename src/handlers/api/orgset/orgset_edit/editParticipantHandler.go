@@ -13,7 +13,7 @@ import (
 func getEditParticipantPostValues(r *http.Request) (participants.Participant, string, *conf.ApiResponse){
 	token := strings.TrimSpace(r.PostFormValue("token"))
 	participant_id, err := strconv.ParseInt(strings.TrimSpace(
-		strings.ToLower(r.PostFormValue("login"))), 10, 64)
+		strings.ToLower(r.PostFormValue("participant_id"))), 10, 64)
 	if err != nil {
 		return participants.Participant{}, "", conf.ErrIdIsNotINT
 	}

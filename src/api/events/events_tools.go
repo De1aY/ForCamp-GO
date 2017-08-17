@@ -48,7 +48,7 @@ func getRawEvent(event_id int64) (Event_Raw, *conf.ApiResponse){
 	var rawEvent Event_Raw
 	rawEvent.ID = event_id
 	err := src.CustomConnection.QueryRow("SELECT type, participant_id, employee_id, time FROM events " +
-		"WHERE id=?", event_id).Scan(&rawEvent.Type, rawEvent.Participant_ID, rawEvent.Employee_ID, rawEvent.Time)
+		"WHERE id=?", event_id).Scan(&rawEvent.Type, &rawEvent.Participant_ID, &rawEvent.Employee_ID, &rawEvent.Time)
 	if err != nil {
 		return rawEvent, conf.ErrDatabaseQueryFailed
 	}

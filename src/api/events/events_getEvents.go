@@ -8,7 +8,6 @@ import (
 	"database/sql"
 	"forcamp/src/api/marks"
 	"forcamp/src/api/orgset"
-	"log"
 )
 
 type getEvents_Success struct {
@@ -86,7 +85,6 @@ func GetEvents_Request(user_id int64, limit int64, offset int64,
 		}
 	}
 	if err != nil {
-		log.Print(err)
 		return nil, conf.ErrDatabaseQueryFailed
 	}
 	var rawEvent Event_Raw

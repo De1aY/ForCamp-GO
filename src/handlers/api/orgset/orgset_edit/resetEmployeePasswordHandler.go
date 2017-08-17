@@ -13,7 +13,7 @@ import (
 func getResetEmployeePasswordPostValues(r *http.Request) (string, int64, *conf.ApiResponse){
 	token := strings.TrimSpace(r.PostFormValue("token"))
 	employee_id, err := strconv.ParseInt(strings.TrimSpace(
-		strings.ToLower(r.PostFormValue("login"))), 10, 64)
+		strings.ToLower(r.PostFormValue("employee_id"))), 10, 64)
 	if err != nil {
 		return "", 0, conf.ErrIdIsNotINT
 	}

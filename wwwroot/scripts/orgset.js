@@ -12,7 +12,7 @@ function reloadTables() {
 function getDefaultPermissions() {
     let permissions = [];
     Categories.forEach(category => {
-       permissions.push({id: category.id, value: "true"});
+       permissions.push({id: category.id, name: category.name, value: "true"});
     });
     return permissions;
 }
@@ -30,13 +30,13 @@ $(document).ready(function(){
                 break;
             }
             case "team": {
-                TeamsTable.row.add({id: "000", name: "Новая команда", leader: {login: ""}, participants: []}).search("Новая команда").draw();
+                TeamsTable.row.add({id: "000", name: "Новая команда", leader: {id: ""}, participants: []}).search("Новая команда").draw();
                 $('.mdl-card__body-table-row__field#mdl-card__body-table-teams--name-000').dblclick();
                 break;
             }
             case "participant": {
                 ParticipantsTable.row.add({
-                    login: "000",
+                    id: "000",
                     name: "Имя",
                     surname: "Фамилия",
                     middlename: "Отчество",
@@ -48,7 +48,7 @@ $(document).ready(function(){
             }
             case "employee": {
                 EmployeesTable.row.add({
-                    login: "000",
+                    id: "000",
                     name: "Имя",
                     surname: "Фамилия",
                     middlename: "Отчество",
@@ -215,10 +215,10 @@ function onTableDraw() {
                let name = $('#mdl-card__body-table-teams--name-'+creationInfo[1]).text();
                let id = await addTeam(name);
                if (id === -1) {
-                   TeamsTable.row(button.parents('tr')).remove().draw();
+                   TeamsTable.row(button.parents('tr')).remove().search("").draw();
                } else {
                    TeamsTable.row(button.parents('tr')).remove();
-                   TeamsTable.row.add({id: id, name: name, leader: {login: ""}, participants: []}).search("").draw();
+                   TeamsTable.row.add({id: id, name: name, leader: {id: ""}, participants: []}).search("").draw();
                }
                break;
            }
@@ -227,7 +227,7 @@ function onTableDraw() {
                let negative_marks = $('#mdl-card__body-table-categories--negative_marks-' + creationInfo[1]).prop('checked').toString();
                let id = await addCategory(name, negative_marks);
                if (id === -1) {
-                   CategoriesTable.row(button.parents('tr')).remove().draw();
+                   CategoriesTable.row(button.parents('tr')).remove().search("").draw();
                } else {
                    CategoriesTable.row(button.parents('tr')).remove();
                    CategoriesTable.row.add({id: id, name: name, negative_marks: negative_marks}).search("").draw();
@@ -240,13 +240,13 @@ function onTableDraw() {
                let middlename = $('#mdl-card__body-table-participants--middlename-'+creationInfo[1]).text();
                let sex = $('#mdl-card__body-table-participants--sex-'+creationInfo[1]).data('content').split('-')[3];
                let team = $('#mdl-card__body-table-participants--team-'+creationInfo[1]).data('content').split('-')[3];
-               let login = await addParticipant(name, surname, middlename, sex, team);
-               if (login === -1) {
-                   ParticipantsTable.row(button.parents('tr')).remove().draw();
+               let id = await addParticipant(name, surname, middlename, sex, team);
+               if (id === -1) {
+                   ParticipantsTable.row(button.parents('tr')).remove().search("").draw();
                } else {
                    ParticipantsTable.row(button.parents('tr')).remove();
                    ParticipantsTable.row.add({
-                       login: login,
+                       id: id,
                        name: name,
                        surname: surname,
                        middlename: middlename,
@@ -263,13 +263,13 @@ function onTableDraw() {
                let post = $('#mdl-card__body-table-employees--post-'+creationInfo[1]).text();
                let sex = $('#mdl-card__body-table-employees--sex-'+creationInfo[1]).data('content').split('-')[3];
                let team = $('#mdl-card__body-table-employees--team-'+creationInfo[1]).data('content').split('-')[3];
-               let login = await addEmployee(name, surname, middlename, post,sex, team);
-               if (login === -1) {
-                   EmployeesTable.row(button.parents('tr')).remove().draw();
+               let id = await addEmployee(name, surname, middlename, post,sex, team);
+               if (id === -1) {
+                   EmployeesTable.row(button.parents('tr')).remove().search("").draw();
                } else {
                    EmployeesTable.row(button.parents('tr')).remove();
                    EmployeesTable.row.add({
-                       login: login,
+                       id: id,
                        name: name,
                        surname: surname,
                        middlename: middlename,
@@ -286,9 +286,9 @@ function onTableDraw() {
                let category_id = $('#mdl-card__body-table-reasons--category-'+creationInfo[1]).data('content').split('-')[3];
                let id = await addReason(text, change, category_id);
                if (id === -1) {
-                   TeamsTable.row(button.parents('tr')).remove().draw();
+                   ReasonsTable.row(button.parents('tr')).remove().search("").draw();
                } else {
-                   TeamsTable.row(button.parents('tr')).remove();
+                   ReasonsTable.row(button.parents('tr')).remove();
                    ReasonsTable.row.add({
                        id: id,
                        category_id: category_id,
@@ -321,8 +321,8 @@ function onTableDraw() {
                 EmployeesTable.row(button.parents('tr')).remove().search("").draw();
                 break;
             }
-            case "reasons": {
-                TeamsTable.row(button.parents('tr')).remove().search("").draw();
+            case "reason": {
+                ReasonsTable.row(button.parents('tr')).remove().search("").draw();
                 break;
             }
         }
@@ -370,8 +370,8 @@ function onTableDraw() {
     });
     $('.mdl-card__body-table-row_actions--profile').unbind('click').click( function () {
        let button = $(this);
-       let login = button.data('content').split('-')[1];
-       window.location.href = "https://forcamp.ga/profile?login=" + login;
+       let id = button.data('content').split('-')[1];
+       window.location.href = "https://forcamp.ga/profile?id=" + id;
     });
     ActivateWavesEffect();
 }
@@ -393,8 +393,8 @@ function addTeam(name) {
     });
 }
 
-function editTeam(name, id) {
-    $.post(__EditTeamLink, { token: Token, name: name, id: id}, function (resp) {
+function editTeam(name, team_id) {
+    $.post(__EditTeamLink, { token: Token, name: name, team_id: team_id}, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             reloadTables();
@@ -404,8 +404,8 @@ function editTeam(name, id) {
     });
 }
 
-function deleteTeam(id, button) {
-    $.post(__DeleteTeamLink, { token: Token, id: id }, function (resp) {
+function deleteTeam(team_id, button) {
+    $.post(__DeleteTeamLink, { token: Token, team_id: team_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             TeamsTable.row(button.parents('tr')).remove().draw();
@@ -448,10 +448,10 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
             searchable: false,
             orderable: false,
             render: function ( leader, type, row, meta ) {
-                if (leader.login.length > 0) {
+                if (leader.id > 0) {
                     return '<a class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
                         'id="mdl-card__body-table-teams--leader-' + row.id + '"' +
-                        ' data-content="team-' + row.id + '-leader" href="https://forcamp.ga/profile?login=' + leader.login + '">' +
+                        ' data-content="team-' + row.id + '-leader" href="https://forcamp.ga/profile?id=' + leader.id + '">' +
                         leader.surname + ' ' + leader.name + ' ' + leader.middlename + '</a>';
                 } else {
                     return '<div class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
@@ -628,8 +628,9 @@ function addCategory(name, negative_marks) {
     });
 }
 
-function editCategory(name, negative_marks, id) {
-    $.post(__EditCategoryLink, { token: Token, name: name, negative_marks: negative_marks, id: id}, function (resp) {
+function editCategory(name, negative_marks, category_id) {
+    $.post(__EditCategoryLink, { token: Token, name: name,
+        negative_marks: negative_marks, category_id: category_id}, function (resp) {
        if(resp.code === 200) {
            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
            reloadTables();
@@ -639,8 +640,8 @@ function editCategory(name, negative_marks, id) {
     });
 }
 
-function deleteCategory(id, button) {
-    $.post(__DeleteCategoryLink, { token: Token, id: id }, function (resp) {
+function deleteCategory(category_id, button) {
+    $.post(__DeleteCategoryLink, { token: Token, category_id: category_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             CategoriesTable.row(button.parents('td')).remove().draw();
@@ -769,14 +770,14 @@ function addParticipant(name, surname, middlename, sex, team) {
     });
 }
 
-function editParticipant(name, surname, middlename, sex, team, login) {
+function editParticipant(name, surname, middlename, sex, team, participant_id) {
     $.post(__EditParticipantLink, { token: Token,
         name: name,
         surname: surname,
         middlename: middlename,
         sex: sex,
         team: team,
-        login: login}, function (resp) {
+        participant_id: participant_id}, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             reloadTables();
@@ -786,8 +787,8 @@ function editParticipant(name, surname, middlename, sex, team, login) {
     });
 }
 
-function deleteParticipant(login, button) {
-    $.post(__DeleteParticipantLink, { token: Token, login: login }, function (resp) {
+function deleteParticipant(participant_id, button) {
+    $.post(__DeleteParticipantLink, { token: Token, participant_id: participant_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             ParticipantsTable.row(button.parents('td')).remove().draw();
@@ -798,8 +799,8 @@ function deleteParticipant(login, button) {
     });
 }
 
-function resetParticipantPassword(login) {
-    $.post(__ResetParticipantPasswordLink, { token: Token, login: login }, function (resp) {
+function resetParticipantPassword(participant_id) {
+    $.post(__ResetParticipantPasswordLink, { token: Token, participant_id: participant_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
         } else {
@@ -826,8 +827,8 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             className: 'mdl-data-table__cell--non-numeric',
             data: "surname",
             render: function ( surname, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-participants--surname-'+row.login+'"' +
-                    ' data-content="participant-'+row.login+'-surname">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-participants--surname-'+row.id+'"' +
+                    ' data-content="participant-'+row.id+'-surname">'+
                     surname[0].toUpperCase()+surname.substring(1)+'</div>';
             },
         },
@@ -837,8 +838,8 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             className: 'mdl-data-table__cell--non-numeric',
             data: "name",
             render: function ( name, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-participants--name-'+row.login+'"' +
-                    ' data-content="participant-'+row.login+'-name">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-participants--name-'+row.id+'"' +
+                    ' data-content="participant-'+row.id+'-name">'+
                     name[0].toUpperCase()+name.substring(1)+'</div>';
             },
         },
@@ -848,8 +849,8 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             className: 'mdl-data-table__cell--non-numeric',
             data: "middlename",
             render: function ( middlename, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-participants--middlename-'+row.login+'"' +
-                    ' data-content="participant-'+row.login+'-middlename">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-participants--middlename-'+row.id+'"' +
+                    ' data-content="participant-'+row.id+'-middlename">'+
                     middlename[0].toUpperCase()+middlename.substring(1)+'</div>';
             },
         },
@@ -862,12 +863,12 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             orderable: false,
             render: function ( sex, type, row, meta ) {
                 return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
-                    'id="mdl-card__body-table-participants--sex-'+row.login+'"' +
-                    ' data-content="participant-' + row.login + '-sex-' + sex + '">' +
+                    'id="mdl-card__body-table-participants--sex-'+row.id+'"' +
+                    ' data-content="participant-' + row.id + '-sex-' + sex + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">'+GetSexByID(sex)+'</div><ul>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-sex-0"><span>мужской</span></li>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-sex-1"><span>женский</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.id + '-sex-0"><span>мужской</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.id + '-sex-1"><span>женский</span></li>'+
                     '</ul></label></div>';
             },
         },
@@ -880,14 +881,14 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             orderable: true,
             render: function ( team_id, type, row, meta ) {
                 let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
-                'id="mdl-card__body-table-participants--team-'+row.login+'"' +
-                ' data-content="participant-' + row.login + '-team-' + team_id + '">' +
+                'id="mdl-card__body-table-participants--team-'+row.id+'"' +
+                ' data-content="participant-' + row.id + '-team-' + team_id + '">' +
                 '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>'+
                 '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
-                '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-team-0">' +
+                '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.id + '-team-0">' +
                     '<span>отсутствует</span></li>';
                 Teams.forEach(function (team) {
-                    dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.login + '-team-' + team.id + '">' +
+                    dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.id + '-team-' + team.id + '">' +
                         '<span>' + team.name + '</span></li>';
                 });
                 return dropdown + '</ul></label></div>';
@@ -897,26 +898,26 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
             targets: -1,
             name: "actions",
             className: 'mdl-card__body-table-row_actions',
-            data: "login",
+            data: "id",
             searchable: false,
             orderable: false,
-            render: function ( login, type, row, meta ) {
-                if (login === "000") {
+            render: function ( id, type, row, meta ) {
+                if (id === "000") {
                     return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--create"' +
-                        ' data-content="participant-' + login + '"> ' +
+                        ' data-content="participant-' + id + '"> ' +
                         '<i class="material-icons">done</i></button>' +
                         '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--decline"' +
-                        ' data-content="participant-' + login + '"> ' +
+                        ' data-content="participant-' + id + '"> ' +
                         '<i class="material-icons">close</i></button>';
                 } else {
                     return '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--profile"' +
-                        ' data-content="participant-' + login + '"> ' +
+                        ' data-content="participant-' + id + '"> ' +
                         '<i class="material-icons">person</i></button>' +
                         '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--reset_password"' +
-                        ' data-content="participant-' + login + '"> ' +
+                        ' data-content="participant-' + id + '"> ' +
                         '<i class="material-icons">refresh</i></button>' +
                         '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
-                        ' data-content="participant-' + login + '"> ' +
+                        ' data-content="participant-' + id + '"> ' +
                         '<i class="material-icons">delete_forever</i></button>';
                 }
             }
@@ -973,7 +974,7 @@ function addEmployee(name, surname, middlename, post, sex, team) {
     });
 }
 
-function editEmployee(name, surname, middlename, post, sex, team, login) {
+function editEmployee(name, surname, middlename, post, sex, team, employee_id) {
     $.post(__EditEmployeeLink, { token: Token,
         name: name,
         surname: surname,
@@ -981,7 +982,7 @@ function editEmployee(name, surname, middlename, post, sex, team, login) {
         sex: sex,
         team: team,
         post: post,
-        login: login}, function (resp) {
+        employee_id: employee_id}, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             reloadTables();
@@ -991,8 +992,8 @@ function editEmployee(name, surname, middlename, post, sex, team, login) {
     });
 }
 
-function deleteEmployee(login, button) {
-    $.post(__DeleteEmployeeLink, { token: Token, login: login }, function (resp) {
+function deleteEmployee(employee_id, button) {
+    $.post(__DeleteEmployeeLink, { token: Token, employee_id: employee_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             EmployeesTable.row(button.parents('td')).remove().draw();
@@ -1003,8 +1004,9 @@ function deleteEmployee(login, button) {
     });
 }
 
-function editEmployeePermission(login, category_id, value) {
-    $.post(__EditEmployeePermissionLink, { token: Token, login: login, id: category_id, value: value }, function (resp) {
+function editEmployeePermission(employee_id, category_id, value) {
+    $.post(__EditEmployeePermissionLink, { token: Token, employee_id: employee_id,
+        category_id: category_id, value: value }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
         } else {
@@ -1013,8 +1015,8 @@ function editEmployeePermission(login, category_id, value) {
     });
 }
 
-function resetEmployeePassword(login) {
-    $.post(__ResetEmployeePasswordLink, { token: Token, login: login }, function (resp) {
+function resetEmployeePassword(employee_id) {
+    $.post(__ResetEmployeePasswordLink, { token: Token, employee_id: employee_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
         } else {
@@ -1041,8 +1043,8 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             className: 'mdl-data-table__cell--non-numeric',
             data: "surname",
             render: function ( surname, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--surname-'+row.login+'"' +
-                    ' data-content="employee-'+row.login+'-surname">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--surname-'+row.id+'"' +
+                    ' data-content="employee-'+row.id+'-surname">'+
                     surname[0].toUpperCase()+surname.substring(1)+'</div>';
             },
         },
@@ -1052,8 +1054,8 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             className: 'mdl-data-table__cell--non-numeric',
             data: "name",
             render: function ( name, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--name-'+row.login+'"' +
-                    ' data-content="employee-'+row.login+'-name">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--name-'+row.id+'"' +
+                    ' data-content="employee-'+row.id+'-name">'+
                     name[0].toUpperCase()+name.substring(1)+'</div>';
             },
         },
@@ -1063,8 +1065,8 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             className: 'mdl-data-table__cell--non-numeric',
             data: "middlename",
             render: function ( middlename, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--middlename-'+row.login+'"' +
-                    ' data-content="employee-'+row.login+'-middlename">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--middlename-'+row.id+'"' +
+                    ' data-content="employee-'+row.id+'-middlename">'+
                     middlename[0].toUpperCase()+middlename.substring(1)+'</div>';
             },
         },
@@ -1075,8 +1077,8 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             data: "post",
             orderable: false,
             render: function ( post, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--post-'+row.login+'"' +
-                    ' data-content="employee-'+row.login+'-post">'+
+                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-employees--post-'+row.id+'"' +
+                    ' data-content="employee-'+row.id+'-post">'+
                     post[0].toUpperCase()+post.substring(1)+'</div>';
             },
         },
@@ -1089,12 +1091,12 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             orderable: false,
             render: function ( sex, type, row, meta ) {
                 return '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
-                    'id="mdl-card__body-table-employees--sex-'+row.login+'"' +
-                    ' data-content="employee-' + row.login + '-sex-' + sex + '">' +
+                    'id="mdl-card__body-table-employees--sex-'+row.id+'"' +
+                    ' data-content="employee-' + row.id + '-sex-' + sex + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">'+GetSexByID(sex)+'</div><ul>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-sex-0"><span>мужской</span></li>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-sex-1"><span>женский</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.id + '-sex-0"><span>мужской</span></li>'+
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.id + '-sex-1"><span>женский</span></li>'+
                     '</ul></label></div>';
             },
         },
@@ -1107,14 +1109,14 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             orderable: true,
             render: function ( team_id, type, row, meta ) {
                 let dropdown = '<div class="mdl-card__body-table-row__dropdown mdl-card__body-table-row__field--capitalize user-select--none" ' +
-                    'id="mdl-card__body-table-employees--team-'+row.login+'"' +
-                    ' data-content="employee-' + row.login + '-team-' + team_id + '">' +
+                    'id="mdl-card__body-table-employees--team-'+row.id+'"' +
+                    ' data-content="employee-' + row.id + '-team-' + team_id + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetTeamNameByID(team_id) +'</div><ul>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
-                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-team-0">' +
+                    '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.id + '-team-0">' +
                     '<span>отсутствует</span></li>';
                 Teams.forEach(function (team) {
-                    dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.login + '-team-' + team.id + '">' +
+                    dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.id + '-team-' + team.id + '">' +
                         '<span>' + team.name + '</span></li>';
                 });
                 return dropdown + '</ul></label></div>';
@@ -1130,17 +1132,17 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             render: function ( permissions, type, row, meta ) {
                 let additionalContent = '<div class="mdl-card__body-table-row__switch-dropdown"><div class="mdl-card__body-table-row__switch-dropdown-ttl"></div><ul>'+
                     '<li><div class="mdl-card__body-table-row__switch-dropdown-button">Закрыть</div></li>';
-                if (permissions !==undefined) {
+                if (permissions !== undefined) {
                     permissions.forEach(permission => {
                         if(permission.value === "true") {
                             additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
-                                'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
-                                '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input" checked> ' +
+                                'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.id + '">' +
+                                '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.id + '" class="mdl-checkbox__input" checked> ' +
                                 '<span class="mdl-checkbox__label">' + permission.name[0].toUpperCase() + permission.name.substring(1) + '</span></label></div></li>';
                         } else {
                             additionalContent += '<li><div><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" ' +
-                                'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '">' +
-                                '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.login + '" class="mdl-checkbox__input"> ' +
+                                'for="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.id + '">' +
+                                '<input type="checkbox" id="mdl-card__body-table-employees--permission-' + permission.id + '-' + row.id + '" class="mdl-checkbox__input"> ' +
                                 '<span class="mdl-checkbox__label">' + permission.name[0].toUpperCase() + permission.name.substring(1) + '</span></label></div></li>';
                         }
                     });
@@ -1152,29 +1154,29 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
             targets: -1,
             name: "actions",
             className: 'mdl-card__body-table-row_actions',
-            data: "login",
+            data: "id",
             searchable: false,
             orderable: false,
-            render: function ( login, type, row, meta ) {
-                if (login === "000") {
+            render: function ( id, type, row, meta ) {
+                if (id === "000") {
                     return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--create"' +
-                        ' data-content="employee-' + login + '"> ' +
+                        ' data-content="employee-' + id + '"> ' +
                         '<i class="material-icons">done</i></button>' +
                         '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--decline"' +
-                        ' data-content="employee-' + login + '"> ' +
+                        ' data-content="employee-' + id + '"> ' +
                         '<i class="material-icons">close</i></button>';
                 } else {
                     return '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--profile"' +
-                        ' data-content="employee-' + login + '"> ' +
+                        ' data-content="employee-' + id + '"> ' +
                         '<i class="material-icons">person</i></button>' +
                         '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--permissions"' +
-                        ' data-content="employee-' + login + '"> ' +
+                        ' data-content="employee-' + id + '"> ' +
                         '<i class="material-icons">vpn_key</i></button>' +
                         '<button class="mdl-button mdl-button--primary mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--reset_password"' +
-                        ' data-content="employee-' + login + '"> ' +
+                        ' data-content="employee-' + id + '"> ' +
                         '<i class="material-icons">refresh</i></button>' +
                         '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
-                        ' data-content="employee-' + login + '"> ' +
+                        ' data-content="employee-' + id + '"> ' +
                         '<i class="material-icons">delete_forever</i></button>';
                 }
             }
@@ -1244,8 +1246,9 @@ function addReason(text, change, category_id) {
     });
 }
 
-function editReason(id, text, change, category_id) {
-    $.post(__EditReasonLink, { token: Token, text: text, change: change, category_id: category_id, id: id }, function (resp) {
+function editReason(reason_id, text, change, category_id) {
+    $.post(__EditReasonLink, { token: Token, text: text,
+        change: change, category_id: category_id, reason_id: reason_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             reloadTables();
@@ -1255,8 +1258,8 @@ function editReason(id, text, change, category_id) {
     });
 }
 
-function deleteReason(id, button) {
-    $.post(__DeleteReasonLink, { token: Token, id: id }, function (resp) {
+function deleteReason(reason_id, button) {
+    $.post(__DeleteReasonLink, { token: Token, reason_id: reason_id }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             ReasonsTable.row(button.parents('td')).remove().draw();

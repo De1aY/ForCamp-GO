@@ -85,6 +85,9 @@ function GetSexByID(id) {
 }
 
 function GetCategoryNameByID(category_id) {
+    if (category_id === "000") {
+        return "Выберите категорию";
+    }
     try {
         let name = Categories.filter(category => {
             return category.id === category_id;

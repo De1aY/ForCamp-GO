@@ -71,7 +71,7 @@ func getRawMarkChange(eventId int64) (markChange_Raw, *conf.ApiResponse) {
 		err := src.CustomConnection.QueryRow("SELECT employee_id, category_id, participant_id, text, "+
 			"initial_value, final_value FROM marks_changes WHERE id=?", eventId).Scan(&markChangeRaw.Employee_ID,
 			&markChangeRaw.Category_ID, &markChangeRaw.Participant_ID,
-			&markChangeRaw.Text, markChangeRaw.Initial_Value, markChangeRaw.Final_Value)
+			&markChangeRaw.Text, &markChangeRaw.Initial_Value, &markChangeRaw.Final_Value)
 		if err != nil {
 			return markChangeRaw, conf.ErrDatabaseQueryFailed
 		}

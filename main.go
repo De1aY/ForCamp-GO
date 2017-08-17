@@ -18,6 +18,7 @@ import (
 	"forcamp/src/handlers/api/orgset/orgset_delete"
 	"forcamp/src/handlers/api/marks"
 	"forcamp/src/handlers/api/apanel"
+	"forcamp/src/handlers/api/events"
 )
 
 func main() {
@@ -67,6 +68,9 @@ func main() {
 	orgset_delete.HandleDeleteReason(APISite)
 	// Marks
 	marks.HandleEditMark(APISite)
+	// Events
+	events.HandleGetEvents(APISite)
+	events.HandleDeleteEvent(APISite)
 	// Apanel
 	apanel.HandleAddOrganization(APISite)
 

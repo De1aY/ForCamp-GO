@@ -2,7 +2,7 @@ package users
 
 import (
 	"forcamp/src/api/orgset/teams"
-	"forcamp/src/api/orgset/events"
+	"forcamp/src/api/events"
 )
 
 type getUserLogin_Success struct {

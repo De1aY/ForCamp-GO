@@ -172,7 +172,7 @@
                                     {{else}}
                                     <span>Изменила балл </span>
                                     {{end}}
-                                    <a href="https://forcamp.ga/profile?login={{.Participant.Login}}">
+                                    <a href="https://forcamp.ga/profile?id={{.EventData.Participant.ID}}">
                                         {{.EventData.Participant.Surname | toTitleCase}}
                                         {{.EventData.Participant.Name | toTitleCase}}
                                         {{.EventData.Participant.Middlename | toTitleCase}}</a> на
