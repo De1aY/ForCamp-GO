@@ -218,5 +218,15 @@ body {
         margin-top: -50px; }
     body .mdl-card .mdl-card__body--nopad {
       padding: 0; }
+  body .emotional_mark--very_dissatisfied {
+    color: #e1515b; }
+  body .emotional_mark--dissatisfied {
+    color: #f5656f; }
+  body .emotional_mark--neutral {
+    color: #d6a14d; }
+  body .emotional_mark--satisfied {
+    color: #6bd36b; }
+  body .emotional_mark--very_satisfied {
+    color: #57bf57; }
 
 /*# sourceMappingURL=marks.css.map */

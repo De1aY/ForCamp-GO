@@ -30,17 +30,20 @@ func IsLatinLetter (r rune) bool{
 }
 
 func ToTitleCase(data string) string {
-	if strings.IndexFunc(data[:1], IsLatinLetter) != -1 {
-		return strings.ToUpper(data[:2])+data[2:]
-	} else {
-		return strings.ToUpper(data[:1])+data[1:]
+	if len(data) > 2 {
+		if strings.IndexFunc(data[:1], IsLatinLetter) != -1 {
+			return strings.ToUpper(data[:2]) + data[2:]
+		} else {
+			return strings.ToUpper(data[:1]) + data[1:]
+		}
 	}
+	return data
 }
 
 func TimestampToDate(t string) string {
 	date := strings.Split(t, " ")
 	ymd := strings.Split(date[0], "-")
-	return ymd[2] + "." + ymd[1] + "." +ymd[0]
+	return ymd[2] + "." + ymd[1] + "." + ymd[0]
 }
 
 func IsNegative (val int64) bool {

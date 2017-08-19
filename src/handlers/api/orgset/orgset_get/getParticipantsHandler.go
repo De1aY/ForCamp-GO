@@ -11,7 +11,7 @@ import (
 
 
 func GetParticipantsHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
 		participants.GetParticipants(handlers.GetToken(r), w)
 	} else {

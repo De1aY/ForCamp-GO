@@ -8,8 +8,8 @@ import (
 )
 
 func DeleteReason(token string, id int64, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	if orgset.IsUserAdmin(token, responseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndIdByToken(token)
 		if APIerr != nil {
 			return APIerr.Print(responseWriter)
 		}

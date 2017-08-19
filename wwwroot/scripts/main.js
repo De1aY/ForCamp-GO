@@ -4,7 +4,8 @@ let OrgSettings = {
     period: "",
     organization: "",
     self_marks: "",
-    team: ""
+    team: "",
+    emotional_mark_period: ""
 };
 let Categories = [];
 let Teams = [];
@@ -19,6 +20,7 @@ function GetOrganizationSettings() {
                 OrgSettings.organization = resp.message.settings.organization;
                 OrgSettings.self_marks = resp.message.settings.self_marks;
                 OrgSettings.team = resp.message.settings.team;
+                OrgSettings.emotional_mark_period = resp.message.settings.emotional_mark_period;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }
@@ -85,6 +87,9 @@ function GetSexByID(id) {
 }
 
 function GetCategoryNameByID(category_id) {
+    if (category_id === "000") {
+        return "Выберите категорию";
+    }
     try {
         let name = Categories.filter(category => {
             return category.id === category_id;

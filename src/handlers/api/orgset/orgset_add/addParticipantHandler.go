@@ -23,11 +23,11 @@ func getAddParticipantPostValues(r *http.Request) (participants.Participant, str
 	if err != nil {
 		return participants.Participant{}, "", conf.ErrTeamNotINT
 	}
-	return participants.Participant{"", Name, Surname, Middlename, int(Sex), Team, nil}, Token, nil
+	return participants.Participant{0, Name, Surname, Middlename, int(Sex), Team, nil}, Token, nil
 }
 
 func AddParticipantHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		participant, token, APIerr := getAddParticipantPostValues(r)
 		if APIerr != nil {

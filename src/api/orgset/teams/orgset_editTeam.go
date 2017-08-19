@@ -8,15 +8,15 @@ import (
 )
 
 func EditTeam(token string, name string, id int64, responseWriter http.ResponseWriter) bool{
-	if checkTeamData(name, responseWriter) && orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+	if checkTeamData(name, responseWriter) && orgset.IsUserAdmin(token, responseWriter){
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		APIerr = editTeam_Request(name, id)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		apiErr = editTeam_Request(name, id)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		conf.RequestSuccess.Print(responseWriter)
 	}
@@ -24,12 +24,12 @@ func EditTeam(token string, name string, id int64, responseWriter http.ResponseW
 }
 
 func editTeam_Request(name string, id int64) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("UPDATE teams SET name=? WHERE id=?")
+	query, err := src.CustomConnection.Prepare("UPDATE teams SET name=? WHERE id=?")
 	if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(name, id)
-	Query.Close()
+	_, err = query.Exec(name, id)
+	query.Close()
 	if err != nil{
 		return conf.ErrDatabaseQueryFailed
 	}

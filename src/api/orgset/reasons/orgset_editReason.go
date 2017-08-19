@@ -8,13 +8,13 @@ import (
 )
 
 func EditReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	if orgset.IsUserAdmin(token, responseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndIdByToken(token)
 		if APIerr != nil {
 			return APIerr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		if orgset.CheckCategoryId(reason.Cat_id, responseWriter){
+		if orgset.IsCategoryExist(reason.Cat_id, responseWriter){
 			APIerr = editReason_Request(reason)
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
@@ -26,7 +26,7 @@ func EditReason(token string, reason Reason, responseWriter http.ResponseWriter)
 }
 
 func editReason_Request(reason Reason) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("UPDATE reasons SET text=?, modification=?, cat_id=? WHERE id=?")
+	Query, err := src.CustomConnection.Prepare("UPDATE reasons SET text=?, modification=?, category_id=? WHERE id=?")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}

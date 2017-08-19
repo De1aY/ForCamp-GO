@@ -11,7 +11,7 @@ import (
 
 
 func GetEmployeesHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
 		employees.GetEmployees(handlers.GetToken(r), w)
 	} else {

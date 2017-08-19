@@ -1,126 +1,74 @@
 package marks
 
 import (
-	"net/http"
-	"forcamp/src/api/authorization"
 	"forcamp/conf"
-	"forcamp/src/api/orgset"
 	"forcamp/src"
 	"strconv"
 )
 
-func DeleteMarkChange(token string, id int64, responseWriter http.ResponseWriter) bool {
-	if authorization.CheckTokenForEmpty(token, responseWriter) {
-		if authorization.CheckToken(token, responseWriter) {
-			organization, login, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
-			}
-			src.CustomConnection = src.Connect_Custom(organization)
-			checkAdminPerm, APIerr := checkAdminPermissions(login)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
-			}
-			if checkAdminPerm {
-				APIerr = deleteMarkChange(id)
-				if APIerr != nil {
-					return APIerr.Print(responseWriter)
-				}
-			} else {
-				APIerr = checkMarkChangeEmployee(login, id)
-				if APIerr != nil {
-					return APIerr.Print(responseWriter)
-				}
-				APIerr = deleteMarkChange(id)
-				if APIerr != nil {
-					return APIerr.Print(responseWriter)
-				}
-			}
-			return conf.RequestSuccess.Print(responseWriter)
-		} else {
-			return conf.ErrUserTokenIncorrect.Print(responseWriter)
+func DeleteMarkChange(eventID int64, user_id int64, isAdmin bool) *conf.ApiResponse {
+	if isAdmin {
+		return deleteMarkChange(eventID)
+	} else {
+		access := isEmployee(user_id); if access != nil {
+			return access
 		}
+		return deleteMarkChange(eventID)
 	}
-	return true
 }
 
-func checkAdminPermissions(login string) (bool, *conf.ApiResponse) {
+func isEmployee(user_id int64) *conf.ApiResponse {
 	var access int
-	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE login=?", login).Scan(&access)
-	if err != nil {
-		return false, conf.ErrDatabaseQueryFailed
-	}
-	if access == 2 {
-		return true, nil
-	} else {
-		return false, nil
-	}
-}
-
-func checkMarkChangeEmployee(employee_login string, id int64) *conf.ApiResponse {
-	var count int
-	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM marks_changes WHERE employee_login=? AND id=?", employee_login, id).Scan(&count)
+	err := src.CustomConnection.QueryRow("SELECT access FROM users WHERE id=?", user_id).Scan(&access)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	if count == 1 {
-		return nil
-	} else {
+	if access == 0 {
 		return conf.ErrInsufficientRights
+	} else {
+		return nil
 	}
 }
 
-func deleteMarkChange(id int64) *conf.ApiResponse {
-	var (
-		reason_id int64
-		participant_login string
-	)
-	err := src.CustomConnection.QueryRow("SELECT reason_id, participant_login FROM marks_changes WHERE id=?", id).Scan(&reason_id, &participant_login)
+func deleteMarkChange(eventID int64) *conf.ApiResponse {
+	apiErr := undoMarkChange(eventID); if apiErr != nil {
+		return apiErr
+	}
+	query, err := src.CustomConnection.Prepare("DELETE FROM marks_changes WHERE id=?");
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	reason_change, APIerr := getReasonChange(reason_id)
-	if APIerr != nil {
-		return APIerr
-	}
-	category_id, APIerr := getReasonCategoryID(reason_id)
-	if APIerr != nil {
-		return APIerr
-	}
-	current_mark, APIerr := getCurrentMarkValue(participant_login, category_id)
-	APIerr = updateParticipantMark(participant_login, category_id, current_mark-reason_change)
-	if APIerr != nil {
-		return APIerr
-	}
-	query, err := src.CustomConnection.Prepare("DELETE FROM marks_changes WHERE id=?")
-	if err != nil {
-		return conf.ErrDatabaseQueryFailed
-	}
-	_, err = query.Exec(id)
+	_, err = query.Exec(eventID);
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
 }
 
-func updateParticipantMark(login string, category_id int64, newMark int64) *conf.ApiResponse {
-	query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+strconv.FormatInt(category_id, 10)+"`=? WHERE login=?")
-	if err != nil {
+func undoMarkChange(eventID int64) *conf.ApiResponse {
+	markChange, apiErr := getRawMarkChange(eventID); if apiErr != nil {
+		return apiErr
+	}
+	currentMark, apiErr := getCurrentMarkValue(markChange.Participant_ID, markChange.Category_ID); if apiErr != nil {
+		return apiErr
+	}
+	negativeMarks, apiErr := isNegativeMarksAllowed(markChange.Category_ID); if apiErr != nil {
+		return apiErr
+	}
+	change := (markChange.Final_Value - markChange.Initial_Value) * -1
+	var newMark int64
+	if !negativeMarks && currentMark + change < 0 {
+		newMark = 0
+	} else {
+		newMark = currentMark + change
+	}
+	query, err := src.CustomConnection.Prepare("UPDATE participants SET `"+
+		strconv.FormatInt(markChange.Category_ID, 10)+"`=? WHERE id=?"); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = query.Exec(newMark, login)
-	if err != nil {
+	_, err = query.Exec(newMark, markChange.Participant_ID); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
-}
-
-func getReasonCategoryID(reason_id int64) (int64, *conf.ApiResponse) {
-	var category_id int64
-	err := src.CustomConnection.QueryRow("SELECT cat_id FROM reasons WHERE id=?", reason_id).Scan(&category_id)
-	if err != nil {
-		return 0, conf.ErrDatabaseQueryFailed
-	}
-	return category_id, nil
 }
 

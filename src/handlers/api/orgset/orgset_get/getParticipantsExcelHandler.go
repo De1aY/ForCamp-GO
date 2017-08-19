@@ -15,16 +15,16 @@ import (
 
 func GetParticipantsExcelHandler(w http.ResponseWriter, r *http.Request){
 	if r.Method == http.MethodGet {
-		Token := handlers.GetToken(r)
-		if orgset.CheckUserAccess(Token, w){
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(Token);
-			if APIerr != nil {
-				src.SetHeaders_API(w)
-				APIerr.Print(w)
+		token := handlers.GetToken(r)
+		if orgset.IsUserAdmin(token, w){
+			organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token);
+			if apiErr != nil {
+				src.SetHeaders_API_GET(w)
+				apiErr.Print(w)
 			} else {
-				file, err := ioutil.ReadFile(conf.FOLDER_PARTICIPANTS+"/"+Organization+".xlsx")
+				file, err := ioutil.ReadFile(conf.FOLDER_PARTICIPANTS+"/"+ organizationName +".xlsx")
 				if err != nil {
-					src.SetHeaders_API(w)
+					src.SetHeaders_API_GET(w)
 					conf.ErrOpenExcelFile.Print(w)
 				} else {
 					src.SetHeaders_API_Download(w, "участники.xlsx", r)

@@ -10,25 +10,29 @@ import (
 	"forcamp/src/api/orgset/employees"
 )
 
-func getEditEmployeePermissionPostValues(r *http.Request) (string, int64, string, string, *conf.ApiResponse){
-	Token := strings.TrimSpace(r.PostFormValue("token"))
-	Login := strings.TrimSpace(strings.ToLower(r.PostFormValue("login")))
-	Value := strings.TrimSpace(strings.ToLower(r.PostFormValue("value")))
-	CatId, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
+func getEditEmployeePermissionPostValues(r *http.Request) (int64, int64, string, string, *conf.ApiResponse){
+	token := strings.TrimSpace(r.PostFormValue("token"))
+	employee_id, err := strconv.ParseInt(strings.TrimSpace(
+		strings.ToLower(r.PostFormValue("employee_id"))), 10, 64)
 	if err != nil {
-		return "", 0, "", "", conf.ErrCategoryIdNotINT
+		return 0, 0, "", "", conf.ErrIdIsNotINT
 	}
-	return Login, CatId, Value, Token, nil
+	value := strings.TrimSpace(strings.ToLower(r.PostFormValue("value")))
+	category_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
+	if err != nil {
+		return 0, 0, "", "", conf.ErrCategoryIdNotINT
+	}
+	return employee_id, category_id, value, token, nil
 }
 
 func EditEmployeePermissionHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
-		login, catId, value, token, APIerr := getEditEmployeePermissionPostValues(r)
-		if APIerr != nil {
-			APIerr.Print(w)
+		employee_id, category_id, value, token, apiErr := getEditEmployeePermissionPostValues(r)
+		if apiErr != nil {
+			apiErr.Print(w)
 		} else {
-			employees.EditEmployeePermission(token, login, catId, value, w)
+			employees.EditEmployeePermission(token, employee_id, category_id, value, w)
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)

@@ -17,7 +17,7 @@ func getAddCategoryPostValues(r *http.Request) (categories.Category, string){
 }
 
 func AddCategoryHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		category, token := getAddCategoryPostValues(r)
 		categories.AddCategory(token, category, w)

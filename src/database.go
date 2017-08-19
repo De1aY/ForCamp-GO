@@ -58,8 +58,8 @@ func Connect() *sql.DB{
 /*
 Function opens an MySQL connection for Database: %name
  */
-func Connect_Custom(name string) *sql.DB{
-	newConn, err := sql.Open("mysql", getMysqlSource_Custom(name))
+func Connect_Custom(organizationName string) *sql.DB{
+	newConn, err := sql.Open("mysql", getMysqlSource_Custom(organizationName))
 	if err != nil{
 		log.Print(err)
 	}

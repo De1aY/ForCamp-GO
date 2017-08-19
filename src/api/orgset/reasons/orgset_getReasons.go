@@ -21,9 +21,9 @@ type getReasons_Success struct {
 }
 
 func GetReasons(token string, responseWriter http.ResponseWriter) bool{
-	if authorization.CheckTokenForEmpty(token, responseWriter) {
-		if authorization.CheckToken(token, responseWriter) {
-			Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	if authorization.IsTokenNotEmpty(token, responseWriter) {
+		if authorization.IsTokenValid(token, responseWriter) {
+			Organization, _, APIerr := orgset.GetUserOrganizationAndIdByToken(token)
 			if APIerr != nil {
 				return APIerr.Print(responseWriter)
 			}
@@ -42,7 +42,7 @@ func GetReasons(token string, responseWriter http.ResponseWriter) bool{
 }
 
 func GetReasons_Request() ([]Reason, *conf.ApiResponse){
-	Query, err := src.CustomConnection.Query("SELECT id,cat_id,text,modification FROM reasons")
+	Query, err := src.CustomConnection.Query("SELECT id,category_id,text,modification FROM reasons")
 	if err != nil {
 		return nil, conf.ErrDatabaseQueryFailed
 	}

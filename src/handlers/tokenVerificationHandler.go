@@ -17,7 +17,7 @@ func GetToken(r *http.Request) string{
 }
 
 func TokenVerificationHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
 		w.WriteHeader(http.StatusOK)
 		authorization.VerifyToken(GetToken(r), w)
