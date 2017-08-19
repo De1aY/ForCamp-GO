@@ -8,6 +8,7 @@ import (
 	"database/sql"
 	"forcamp/src/api/marks"
 	"forcamp/src/api/orgset"
+	"forcamp/src/api/emotional_marks"
 )
 
 type getEvents_Success struct {
@@ -116,7 +117,7 @@ func getEventData(rawEvent Event_Raw) (interface{}, *conf.ApiResponse) {
 		case conf.EVENT_TYPE_MARK_CHANGE:
 			return marks.GetMarkChange(rawEvent.ID)
 		case conf.EVENT_TYPE_EMOTIONAL_MARK:
-			break
+			return emotional_marks.GetEmotionalMark(rawEvent.ID, rawEvent.Time)
 		default:
 			return nil, conf.ErrEventTypeIncorrect
 	}

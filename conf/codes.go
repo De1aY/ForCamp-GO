@@ -44,8 +44,8 @@ var ErrUserLoginEmpty = &ApiResponse{602, "error", ErrorMessage{"Логин от
 var ErrUserTokenEmpty = &ApiResponse{603, "error", ErrorMessage{"Токен отсутствует", "Token is empty"}}
 var ErrAuthDataIncorrect = &ApiResponse{604, "error", ErrorMessage{"Неправильный логин или пароль", "Login or password is wrong"}}
 var ErrUserTokenIncorrect = &ApiResponse{605, "error", ErrorMessage{"Неверный токен", "Token is invalid"}}
-var ErrOrgSettingValueEmpty = &ApiResponse{606, "error", ErrorMessage{"Значение настройки отсутствует", "Setting value is empty"}}
-var ErrSelfMarksIncorrect = &ApiResponse{607, "error", ErrorMessage{"Неверное значение настройки 'оценки своей команде'", "'self_marks' is incorrect"}}
+var ErrOrgSettingNameIncorrect = &ApiResponse{606, "error", ErrorMessage{"Некорректное название настройки", "Setting name is incorrect"}}
+var ErrOrgSettingValueIncorrect = &ApiResponse{607, "error", ErrorMessage{"Некорректное значение настройки", "Setting value is incorrect"}}
 var ErrCategoryNameEmpty = &ApiResponse{608, "error", ErrorMessage{"Название категории отсутствует", "Category name is empty"}}
 var ErrCategoryNegativeMarksEmpty = &ApiResponse{609, "error", ErrorMessage{"Поле 'отрицательные оценки' отсутствует", "Field 'negative marks' is empty"}}
 var ErrCategoryNegativeMarksIncorrect = &ApiResponse{610, "error", ErrorMessage{"Неверное значение поля 'отрицательные оценки'", "'negative marks' is incorrect"}}
@@ -67,6 +67,7 @@ var ErrIdIncorrect = &ApiResponse{625, "error", ErrorMessage{"Неверный I
 var ErrOrganizationNameEmpty = &ApiResponse{626, "error", ErrorMessage{"Название организации отсутствует", "Oranization name is empty"}}
 var ErrTeamNameEmpty = &ApiResponse{627, "error", ErrorMessage{"Название команды отсутствует", "Team name is empty"}}
 var ErrEventTypeIncorrect = &ApiResponse{628, "error", ErrorMessage{"Неверный тип события", "Event type incorrect"}}
+var ErrEmotionalMarkValueIncorrect = &ApiResponse{629, "error", ErrorMessage{"Неверное значение эмоциональной оценки", "Emotional mark value incorrect"}}
 
 // Event types
 var EVENT_TYPES = [3]int{

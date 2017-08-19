@@ -39,7 +39,13 @@ SetHeaders_Main writes security HTTP-headers (X-XSS-Protection, Content-Security
 */
 func SetHeaders_Main(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Method", "GET")
-	w.Header().Set("Content-Security-Policy", "default-src 'self' https://api.forcamp.ga https://mc.yandex.ru/; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com/; img-src 'self' https://stats.g.doubleclick.net/ https://www.google-analytics.com/ https://mc.yandex.ru/ data:; script-src 'self' https://www.google-analytics.com/analytics.js https://mc.yandex.ru/ https://cdnjs.cloudflare.com ; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com")
+	w.Header().Set("Content-Security-Policy",
+		"default-src 'self' https://api.forcamp.ga https://mc.yandex.ru/ https://googleads.g.doubleclick.net; " +
+			"font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com/; " +
+			"img-src 'self' https://stats.g.doubleclick.net/ https://www.google-analytics.com/ https://mc.yandex.ru/ data:; " +
+			"script-src 'unsafe-inline' 'self' https://www.google-analytics.com/analytics.js " +
+				"https://mc.yandex.ru/ https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com ; " +
+			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com")
 	w.Header().Set("X-XSS-Protection", "1; mode=block")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")

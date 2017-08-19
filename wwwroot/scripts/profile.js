@@ -1,65 +1,38 @@
-let MarksTable = $('#mdl-card__body-table-marks').DataTable({
-    "searching": false,
-    "paging": false,
-    "lengthChange": false,
-    "ajax": {
-        "url": __GetUserDataLink,
-        "type": "GET",
-        "data": {
-            "token": Token,
-            "login": "participant_11",
-        },
-        "dataSrc": function (data) {
-            return data.message.data.additional_data;
-        },
-    },
-    columnDefs: [
-        {
-            targets: 0,
-            name: "name",
-            className: 'mdl-data-table__cell--non-numeric',
-            data: "name",
-            render: function ( name, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-teams--name-'+row.id+'"' +
-                    ' data-content="team-'+row.id+'-name">'+
-                    name[0].toUpperCase()+name.substring(1)+'</div>';
-            },
-        },
-        {
-            targets: 1,
-            name: "value",
-            className: 'mdl-data-table__cell--non-numeric',
-            data: "value",
-            render: function ( name, type, row, meta ) {
-                return '<div class="mdl-card__body-table-row__field" id="mdl-card__body-table-teams--name-'+row.id+'"' +
-                    ' data-content="team-'+row.id+'-name">'+
-                    row.value+'</div>';
-            },
-        },
-    ],
-    language: {
-        "processing": "Подождите...",
-        "search": "Поиск:",
-        "lengthMenu": "Показать _MENU_ записей",
-        "info": "",
-        "infoEmpty": "",
-        "infoFiltered": "",
-        "infoPostFix": "",
-        "loadingRecords": "Загрузка баллов...",
-        "zeroRecords": "Категории отсутствуют.",
-        "emptyTable": "Категории отсутствуют",
-        "paginate": {
-            "first": "Первая",
-            "previous": "Пред.",
-            "next": "След.",
-            "last": "Последняя"
-        },
-        "aria": {
-            "sortAscending": ": отсортировать по возрастанию",
-            "sortDescending": ": отсортировать по убыванию"
-        }
-    },
-    "drawCallback": function () {
-        $('#mdl-card__body-table-marks').css('width', '100%');
-    },
+$('document').ready(function() {
+   $('.mdl-card__body-row-emotional_mark').mousedown(function () {
+       let emotionalMark_value = $(this).data('content');
+       let sentiment = $(this).text();
+       $.post(__SetEmotionalMarkLink, {token: Token, value: emotionalMark_value}, function (resp) {
+           if(resp.code === 200) {
+               notie.alert({type: 1, text: "Успешно", time: 2});
+               $('#card-emotional_mark').fadeOut();
+               let oldEmotionalMark = $('.mdl-card__title-photo-emotional_mark');
+               oldEmotionalMark.text(sentiment);
+               oldEmotionalMark.removeClass('emotional_mark--very_dissatisfied emotional_mark--dissatisfied' +
+                   'emotional_mark--neutral emotional_mark--satisfied emotional_mark--very_satisfied');
+               switch (sentiment) {
+                   case "mood":
+                       oldEmotionalMark.addClass('emotional_mark--very_satisfied');
+                       break;
+                   case "sentiment_satisfied":
+                       oldEmotionalMark.addClass('emotional_mark--satisfied');
+                       break;
+                   case "sentiment_neutral":
+                       oldEmotionalMark.addClass('emotional_mark--neutral');
+                       break;
+                   case "sentiment_dissatisfied":
+                       oldEmotionalMark.addClass('emotional_mark--dissatisfied');
+                       break;
+                   case "mood_bad":
+                       oldEmotionalMark.addClass('emotional_mark--very_dissatisfied');
+                       break;
+                   default:
+                       oldEmotionalMark.addClass('emotional_mark--very_satisfied');
+                       break;
+               }
+           } else {
+               notie.alert({type: 3, text: resp.message.ru, time: 2});
+           }
+       });
+   });
 });

@@ -1,4 +1,5 @@
 {{define "profile"}}
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -44,6 +45,32 @@
                         <div class="mdl-card__title mdl-card--border mdl-card__title--photo">
                             <img src="images/{{.RequestData.Avatar}}" width="180px" height="180px"
                                  class="mdl-card__title-photo--round"/>
+                            {{if not .IsRequestEmployee}}
+                            {{range $i, $emotionalMark := .RequestData.AdditionalData.EmotionalMarks}}
+                            {{if eq $i 0}}
+                            {{if eq $emotionalMark.EventData.Value 1}}
+                            <span class="material-icons mdl-card__title-photo-emotional_mark
+                             emotional_mark--very_dissatisfied">mood_bad</span>
+                            {{end}}
+                            {{if eq $emotionalMark.EventData.Value 2}}
+                            <span class="material-icons mdl-card__title-photo-emotional_mark
+                             emotional_mark--dissatisfied">sentiment_dissatisfied</span>
+                            {{end}}
+                            {{if eq $emotionalMark.EventData.Value 3}}
+                            <span class="material-icons mdl-card__title-photo-emotional_mark
+                             emotional_mark--neutral">sentiment_neutral</span>
+                            {{end}}
+                            {{if eq $emotionalMark.EventData.Value 4}}
+                            <span class="material-icons mdl-card__title-photo-emotional_mark
+                             emotional_mark--satisfied">sentiment_satisfied</span>
+                            {{end}}
+                            {{if eq $emotionalMark.EventData.Value 5}}
+                            <span class="material-icons mdl-card__title-photo-emotional_mark
+                             emotional_mark--very_satisfied">mood</span>
+                            {{end}}
+                            {{end}}
+                            {{end}}
+                            {{end}}
                         </div>
                         <div class="mdl-card__body">
                             {{if not .IsOwner}}
@@ -58,6 +85,66 @@
                         </div>
                     </div>
                 </div>
+                {{if .IsOwner}}
+                {{if not .IsRequestEmployee}}
+                {{$emotionalMarksLength := len .RequestData.AdditionalData.EmotionalMarks}}
+                {{if eq $emotionalMarksLength 0 }}
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100" id="card-emotional_mark">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">
+                                Какое у тебя настроение?
+                            </div>
+                        </div>
+                        <div class="mdl-card__body">
+                            <div class="mdl-card__body-row mdl-card__body-row--32px">
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--very_dissatisfied" data-content="1">mood_bad</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--dissatisfied" data-content="2">sentiment_dissatisfied</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--neutral" data-content="3">sentiment_neutral</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--satisfied" data-content="4">sentiment_satisfied</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--very_satisfied" data-content="5">mood</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                {{range $i, $emotionalMark := .RequestData.AdditionalData.EmotionalMarks}}
+                {{if eq $i 0}}
+                {{if not $emotionalMark.EventData.IsNew}}
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100" id="card-emotional_mark">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">
+                                Какое у тебя настроение?
+                            </div>
+                        </div>
+                        <div class="mdl-card__body">
+                            <div class="mdl-card__body-row mdl-card__body-row--32px">
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--very_dissatisfied" data-content="1">mood_bad</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--dissatisfied" data-content="2">sentiment_dissatisfied</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--neutral" data-content="3">sentiment_neutral</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--satisfied" data-content="4">sentiment_satisfied</span>
+                                <span class="material-icons mdl-card__body-row-emotional_mark
+                                emotional_mark--very_satisfied" data-content="5">mood</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+                {{end}}
+                {{end}}
+                {{end}}
+                {{end}}
+                {{end}}
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp">
                         <div class="mdl-card__title mdl-card--border">
@@ -93,10 +180,9 @@
                             <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
                                 <div class="mdl-card__body-row-text">
                                     <span class="mdl-card__body-row-text--bold">{{.OrgSettings.Team | toTitleCase}}:</span>
-                                    {{.UserData.Team.Name}}
                                 </div>
                                 <div class="mdl-card__body-row-text">
-                                    <span>{{.UserData.Team.Name}}</span>
+                                    <span>{{.UserData.Team.Name | toTitleCase}}</span>
                                 </div>
                             </div>
                             <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
@@ -117,7 +203,7 @@
                             <div class="mdl-card__title-text">Баллы</div>
                         </div>
                         <div class="mdl-card__body">
-                            {{range $mark := .RequestData.AdditionalData}}
+                            {{range $mark := .RequestData.AdditionalData.Marks}}
                             <div class="mdl-card__body-row mdl-card__body-row--table mdl-card__body-row--16px">
                                 <div class="mdl-card__body-row-text">
                                     <span>{{$mark.Name | toTitleCase}}</span>

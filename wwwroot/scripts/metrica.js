@@ -32,3 +32,8 @@
 
 ga('create', 'UA-98349941-1', 'auto');
 ga('send', 'pageview');
+
+(adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2448372146343013",
+    enable_page_level_ads: true
+});

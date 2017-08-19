@@ -118,6 +118,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
     },
     "drawCallback": function () {
         $('#mdl-card__body-table-marks').css('width', '100%');
+        onTableDraw();
         $('.mdl-card__body-table-row__dropdown').unbind('dblclick').dblclick( function () {
             let dropdownWrapper = $(this);
             dropdownWrapper.addClass('mdl-card__body-table-row__dropdown--editing');
@@ -136,7 +137,6 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
                 }
             });
         });
-        onTableDraw();
     },
 });
 
@@ -253,6 +253,7 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
     },
     "drawCallback": function () {
         $('#mdl-card__body-table-actions').css('width', '100%');
+        onTableDraw();
         $('.mdl-card__body-table-row_actions--delete').unbind('click').click( function () {
             let button = $(this);
             let editInfo = button.data('content').split('-');
@@ -263,6 +264,5 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
                 }
             }
         });
-        onTableDraw();
     },
 });

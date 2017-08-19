@@ -15,6 +15,11 @@ import (
 	"forcamp/src/api/events"
 )
 
+type participantAdditionalData struct {
+	Marks []participants.Mark `json:"marks"`
+	EmotionalMarks []events.Event `json:"emotional_marks"`
+}
+
 func GetUserData(token string, responseWriter http.ResponseWriter, user_id int64) bool {
 	if authorization.IsTokenValid(token, responseWriter) {
 		organizationName, userLogin, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
@@ -78,14 +83,18 @@ func getUserDataFromQuery(rows *sql.Rows, user_id int64) (UserData, *conf.ApiRes
 		return userData, apiErr
 	}
 	if userData.Access == 0 {
+		emotionalMarks, apiErr := events.GetEvents_Request(user_id, 10, 0, false, 2)
+		if apiErr != nil {
+			return userData, apiErr
+		}
 		marksData, apiErr := getMarks(user_id)
 		if apiErr != nil {
-			return UserData{}, apiErr
+			return userData, apiErr
 		}
 		var orgSettings_Participant string
 		err := src.CustomConnection.QueryRow("SELECT value FROM settings WHERE name='participant'").Scan(&orgSettings_Participant)
 		if err != nil {
-			return UserData{}, conf.ErrDatabaseQueryFailed
+			return userData, conf.ErrDatabaseQueryFailed
 		}
 		return UserData{Name: userData.Name,
 			Surname:          userData.Surname,
@@ -96,11 +105,11 @@ func getUserDataFromQuery(rows *sql.Rows, user_id int64) (UserData, *conf.ApiRes
 			Avatar:           userData.Avatar,
 			Post:             orgSettings_Participant,
 			Events:           user_events,
-			AdditionalData:   marksData}, nil
+			AdditionalData:   participantAdditionalData{marksData, emotionalMarks}}, nil
 	} else {
-		permissions, post, APIerr := getPermissionsAndPost(user_id)
-		if APIerr != nil {
-			return UserData{}, APIerr
+		permissions, post, apiErr := getPermissionsAndPost(user_id)
+		if apiErr != nil {
+			return userData, apiErr
 		}
 		return UserData{Name: userData.Name,
 			Surname: userData.Surname,

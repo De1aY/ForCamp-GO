@@ -15,6 +15,7 @@ type OrgSettings struct {
 	Organization string `json:"organization"`
 	Period string `json:"period"`
 	SelfMarks string `json:"self_marks"`
+	EmotionalMarkPeriod string `json:"emotional_mark_period"`
 }
 
 type getOrgSettings_Success struct {
@@ -44,13 +45,13 @@ func GetOrgSettings(token string, responseWriter http.ResponseWriter) bool {
 }
 
 func GetOrgSettings_Request() (OrgSettings, *conf.ApiResponse) {
-	query, err := src.CustomConnection.Query("SELECT * FROM settings")
+	rows, err := src.CustomConnection.Query("SELECT * FROM settings")
 	if err != nil {
 		return OrgSettings{}, conf.ErrDatabaseQueryFailed
 	}
-	data, APIerr := getOrgSettingFromQuery(query)
-	if APIerr != nil {
-		return OrgSettings{}, APIerr
+	data, apiErr := getOrgSettingFromQuery(rows)
+	if apiErr != nil {
+		return OrgSettings{}, apiErr
 	}
 	return data, nil
 }
@@ -70,6 +71,7 @@ func getOrgSettingFromQuery(rows *sql.Rows) (OrgSettings, *conf.ApiResponse) {
 		Team: OrgSettingsRaw["team"],
 		Participant: OrgSettingsRaw["participant"],
 		Period: OrgSettingsRaw["period"],
-		SelfMarks: OrgSettingsRaw["self_marks"]}
+		SelfMarks: OrgSettingsRaw["self_marks"],
+		EmotionalMarkPeriod: OrgSettingsRaw["emotional_mark_period"]}
 	return OrgSettings, nil
 }

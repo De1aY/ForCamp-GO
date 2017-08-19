@@ -19,6 +19,7 @@ import (
 	"forcamp/src/handlers/api/marks"
 	"forcamp/src/handlers/api/apanel"
 	"forcamp/src/handlers/api/events"
+	"forcamp/src/handlers/api/emotional_marks"
 )
 
 func main() {
@@ -68,6 +69,8 @@ func main() {
 	orgset_delete.HandleDeleteReason(APISite)
 	// Marks
 	marks.HandleEditMark(APISite)
+	// Emotional marks
+	emotional_marks.HandleSetEmotionalMark(APISite)
 	// Events
 	events.HandleGetEvents(APISite)
 	events.HandleDeleteEvent(APISite)

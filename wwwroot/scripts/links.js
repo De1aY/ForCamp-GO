@@ -39,6 +39,7 @@ const __EditReasonLink = __SiteDomain + "/orgset.reason.edit";
 const __DeleteReasonLink = __SiteDomain + "/orgset.reason.delete";
 //  API Links: Marks
 const __EditMarkLink = __SiteDomain + "/mark.edit";
+const __SetEmotionalMarkLink = __SiteDomain +"/emotional_mark.set";
 //  API Links: Events
 const __GetEventsLink  = __SiteDomain + "/events.get";
 const __DeleteEventLink = __SiteDomain + "/event.delete";

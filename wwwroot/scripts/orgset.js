@@ -1,5 +1,4 @@
 updateSettings();
-setInterval(updateSettings, 10000);
 
 function reloadTables() {
     TeamsTable.ajax.reload(null, false);
@@ -532,21 +531,20 @@ async function updateSettings() {
     $('.mdl-card__body-row-text[data-content=period]').text(OrgSettings.period);
     $('.mdl-card__body-row-text[data-content=organization]').text(OrgSettings.organization);
     $('.mdl-card__body-row-text[data-content=team]').text(OrgSettings.team);
+    $('.mdl-card__body-row-text[data-content=emotional_mark_period]').text(OrgSettings.emotional_mark_period);
     $('#fc-orgset__main-self_marks').prop('checked', OrgSettings.self_marks);
 }
 
-function editOrganizationSettings() {
+function editOrganizationSetting(setting_name) {
     $.post(__SetOrgSettingValueLink, { token: Token,
-        participant: OrgSettings.participant,
-        team: OrgSettings.team,
-        organization: OrgSettings.organization,
-        period: OrgSettings.period,
-        self_marks: !OrgSettings.self_marks
+        setting_value: OrgSettings[setting_name],
+        setting_name: setting_name,
     }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены!", time: 2})
         } else {
             notie.alert({type: 3, text: resp.message.ru, time: 2});
+            updateSettings();
         }
     });
 }
@@ -555,7 +553,7 @@ $('.mdl-card__body-row-switch').children('label').children('input').change(funct
     let toggle = $(this);
     let content = toggle.data('content');
     OrgSettings[content] = $('#fc-orgset__main-'+content).prop('checked');
-    editOrganizationSettings();
+    editOrganizationSetting([content]);
 });
 
 function submitSettingEdit(textField, editButton, acceptButton, declineButton, content, baseText) {
@@ -569,7 +567,7 @@ function submitSettingEdit(textField, editButton, acceptButton, declineButton, c
     declineButton.addClass('mdl-card__body-row-button--off');
     OrgSettings[content] = textField.text();
     if (OrgSettings[content] !== baseText) {
-        editOrganizationSettings();
+        editOrganizationSetting(content);
     }
 }
 
