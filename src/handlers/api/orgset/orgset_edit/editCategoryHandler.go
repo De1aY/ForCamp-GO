@@ -11,18 +11,18 @@ import (
 )
 
 func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiResponse){
-	Token := r.PostFormValue("token")
-	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
+	token := r.PostFormValue("token")
+	category_id, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil{
-		return categories.Category{}, "", conf.ErrIDisNotINT
+		return categories.Category{}, "", conf.ErrIdIsNotINT
 	}
 	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
 	NegativeMarks := strings.TrimSpace(strings.ToLower(r.PostFormValue("negative_marks")))
-	return categories.Category{ID: ID, Name: Name, NegativeMarks: NegativeMarks}, Token, nil
+	return categories.Category{ID: category_id, Name: Name, NegativeMarks: NegativeMarks}, token, nil
 }
 
 func EditCategoryHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		category, token, APIerr := getEditCategoryPostValues(r)
 		if APIerr != nil{

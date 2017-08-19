@@ -9,22 +9,18 @@ import (
 	"forcamp/src/api/orgset/settings"
 )
 
-func getSetOrgSettingsValuePostValues(r *http.Request) (string, settings.OrgSettings){
+func getSetOrgSettingValuePostValues(r *http.Request) (string, string, string){
 	token := strings.TrimSpace(r.PostFormValue("token"))
-	var orgSet settings.OrgSettings
-	orgSet.Participant = strings.TrimSpace(strings.ToLower(r.PostFormValue("participant")))
-	orgSet.Period = strings.TrimSpace(strings.ToLower(r.PostFormValue("period")))
-	orgSet.Team = strings.TrimSpace(strings.ToLower(r.PostFormValue("team")))
-	orgSet.Organization = strings.TrimSpace(strings.ToLower(r.PostFormValue("organization")))
-	orgSet.SelfMarks = strings.TrimSpace(strings.ToLower(r.PostFormValue("self_marks")))
-	return token, orgSet
+	setting_name := strings.TrimSpace(r.PostFormValue("setting_name"))
+	setting_value := strings.TrimSpace(r.PostFormValue("setting_value"))
+	return token, setting_name, setting_value
 }
 
-func SetOrgSettingsValueHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+func SetOrgSettingValueHandler(w http.ResponseWriter, r *http.Request){
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
-		token, orgSet := getSetOrgSettingsValuePostValues(r)
-		settings.SetOrgSettingsValue(token, orgSet, w)
+		token, setting_name, setting_value := getSetOrgSettingValuePostValues(r)
+		settings.SetOrgSettingValue(token, setting_name, setting_value, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		conf.ErrMethodNotAllowed.Print(w)
@@ -32,5 +28,5 @@ func SetOrgSettingsValueHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func HandleSetOrgSettingsValue(router *mux.Router)  {
-	router.HandleFunc("/orgset.settings.edit", SetOrgSettingsValueHandler)
+	router.HandleFunc("/orgset.setting.edit", SetOrgSettingValueHandler)
 }

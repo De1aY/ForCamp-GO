@@ -153,37 +153,37 @@ func createOrganizationDB(orgname string) *conf.ApiResponse {
 
 func createOrganizationDBTables(orgname string, user_login string) *conf.ApiResponse{
 	src.CustomConnection = src.Connect_Custom(orgname)
-	APIerr := createOrganizationDBTable_Users(user_login)
-	if APIerr != nil {
-		return APIerr
+	apiErr := createOrganizationDBTable_Users(user_login)
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_Employees(user_login)
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_Employees(user_login)
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_Participants()
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_Participants()
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_Settings()
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_Settings()
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_Teams()
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_Teams()
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_Categories()
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_Categories()
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_MarksChanges()
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_MarksChanges()
+	if apiErr != nil {
+		return apiErr
 	}
-	APIerr = createOrganizationDBTable_Reasons()
-	if APIerr != nil {
-		return APIerr
+	apiErr = createOrganizationDBTable_Reasons()
+	if apiErr != nil {
+		return apiErr
 	}
 	return nil
 }

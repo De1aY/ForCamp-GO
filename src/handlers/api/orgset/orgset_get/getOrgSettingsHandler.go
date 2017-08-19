@@ -9,9 +9,8 @@ import (
 	"forcamp/src/handlers"
 )
 
-
 func GetOrgSettingsHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
 		settings.GetOrgSettings(handlers.GetToken(r), w)
 	} else {

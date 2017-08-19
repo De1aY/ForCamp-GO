@@ -12,8 +12,8 @@ type addTeam_Success struct {
 }
 
 func AddTeam(token string, name string, responseWriter http.ResponseWriter) bool{
-	if checkTeamData(name, responseWriter) && orgset.CheckUserAccess(token, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
+	if checkTeamData(name, responseWriter) && orgset.IsUserAdmin(token, responseWriter){
+		Organization, _, APIerr := orgset.GetUserOrganizationAndIdByToken(token)
 		if APIerr != nil {
 			return APIerr.Print(responseWriter)
 		}

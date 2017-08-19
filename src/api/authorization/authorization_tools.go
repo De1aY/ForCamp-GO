@@ -3,7 +3,6 @@ package authorization
 import (
 	"crypto/sha512"
 	"encoding/base64"
-	"database/sql"
 	"forcamp/conf"
 	"net/http"
 	"time"
@@ -40,24 +39,13 @@ func generateTokenHash(login string) string {
 	return base64.URLEncoding.EncodeToString(Result)
 }
 
-func getCountVal(rows *sql.Rows, responseWriter http.ResponseWriter) (count int) {
-	defer rows.Close()
-	for rows.Next() {
-		err := rows.Scan(&count)
-		if err != nil {
-			conf.ErrDatabaseQueryFailed.Print(responseWriter)
-		}
-	}
-	return count
-}
-
 func printToken(token string, responseWriter http.ResponseWriter) bool {
 	resp := conf.ApiResponse{200, "success", authorizationSuccess{token}}
 	resp.Print(responseWriter)
 	return true
 }
 
-func CheckTokenForEmpty(token string, responseWriter http.ResponseWriter) bool{
+func IsTokenNotEmpty(token string, responseWriter http.ResponseWriter) bool{
 	if len(token) > 0{
 		return true
 	} else {

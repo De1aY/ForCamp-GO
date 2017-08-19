@@ -8,64 +8,61 @@ import (
 )
 
 func EditEmployee(token string, employee Employee, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter) {
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil {
-			return APIerr.Print(responseWriter)
+	if orgset.IsUserAdmin(token, responseWriter) {
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		if checkEditEmployeeData(employee, responseWriter) {
-			EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(employee.Login)
-			if APIerr != nil {
-				return APIerr.Print(responseWriter)
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		if isEditEmployeeDataCorrect(employee, responseWriter) {
+			employeeOrganization, apiErr := orgset.GetUserOrganizationByID(employee.ID); if apiErr != nil {
+				return apiErr.Print(responseWriter)
 			}
-			if EmployeeOrganization != Organization {
+			if employeeOrganization != organizationName {
 				return conf.ErrUserNotFound.Print(responseWriter)
 			}
-			APIerr = editEmployee_Request(employee)
+			apiErr = editEmployee(employee)
 			return conf.RequestSuccess.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func editEmployee_Request(employee Employee) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
+func editEmployee(employee Employee) *conf.ApiResponse{
+	query, err := src.CustomConnection.Prepare("UPDATE users SET team='0' WHERE team=? AND access='1'")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(employee.Team)
+	_, err = query.Exec(employee.Team); if err != nil {
+		return conf.ErrDatabaseQueryFailed
+	}
+	query, err = src.CustomConnection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, " +
+		"team=?, sex=? WHERE id=? AND access='1'")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query, err = src.CustomConnection.Prepare("UPDATE users SET name=?, surname=?, middlename=?, team=?, sex=? WHERE login=? AND access='1'")
+	_, err = query.Exec(employee.Name, employee.Surname, employee.Middlename, employee.Team, employee.Sex, employee.ID)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(employee.Name, employee.Surname, employee.Middlename, employee.Team, employee.Sex, employee.Login)
-	if err != nil {
+	query.Close()
+	query, err = src.CustomConnection.Prepare("UPDATE employees SET post=? WHERE id=?"); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query.Close()
-	Query, err = src.CustomConnection.Prepare("UPDATE employees SET post=? WHERE login=?")
-	if err != nil {
-		return conf.ErrDatabaseQueryFailed
-	}
-	_, err = Query.Exec(employee.Post, employee.Login)
+	_, err = query.Exec(employee.Post, employee.ID)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
 }
 
-func checkEditEmployeeData(employee Employee, w http.ResponseWriter) bool {
-	if len(employee.Login) > 0 {
+func isEditEmployeeDataCorrect(employee Employee, w http.ResponseWriter) bool {
+	if employee.ID > 0 {
 		if len(employee.Name) > 0 {
 			if len(employee.Surname) > 0 {
 				if len(employee.Middlename) > 0 {
 					if len(employee.Post) > 0 {
 						if employee.Sex == 0 || employee.Sex == 1 {
-							if orgset.CheckTeamID(employee.Team, w) {
+							if orgset.IsTeamExist(employee.Team, w) {
 								return true
 							} else {
 								return false

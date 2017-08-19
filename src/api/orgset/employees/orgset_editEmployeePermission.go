@@ -8,41 +8,40 @@ import (
 	"strconv"
 )
 
-func EditEmployeePermission(token string, login string, catId int64, value string, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter) {
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil {
-			return APIerr.Print(responseWriter)
+func EditEmployeePermission(token string, employee_id int64, category_id int64,
+	value string, responseWriter http.ResponseWriter) bool{
+	if orgset.IsUserAdmin(token, responseWriter) {
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		EmployeeOrganization, APIerr := orgset.GetUserOrganizationByLogin(login)
-		if APIerr != nil {
-			return APIerr.Print(responseWriter)
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		employee_organization, apiErr := orgset.GetUserOrganizationByID(employee_id); if apiErr != nil {
+			return apiErr.Print(responseWriter)
 		}
-		if EmployeeOrganization != Organization {
+		if employee_organization != organizationName {
 			return conf.ErrUserNotFound.Print(responseWriter)
 		}
-		if orgset.CheckCategoryId(catId, responseWriter) && checkPermissionValue(value, responseWriter){
-			APIerr = editEmployeePermission_Request(login, catId, value)
+		if orgset.IsCategoryExist(category_id, responseWriter) && isPermissionValueCorrect(value, responseWriter){
+			apiErr = editEmployeePermission(employee_id, category_id, value)
 			return conf.RequestSuccess.Print(responseWriter)
 		}
 	}
 	return true
 }
 
-func editEmployeePermission_Request(login string, catId int64, value string) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("UPDATE employees SET `"+strconv.FormatInt(catId, 10)+"`=? WHERE login=?")
+func editEmployeePermission(employee_id int64, category_id int64, permission_value string) *conf.ApiResponse{
+	query, err := src.CustomConnection.Prepare("UPDATE employees SET `"+strconv.FormatInt(category_id, 10)+
+		"`=? WHERE id=?")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(value, login)
-	if err != nil {
+	_, err = query.Exec(permission_value, employee_id); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
 	return nil
 }
 
-func checkPermissionValue(value string, w http.ResponseWriter) bool{
+func isPermissionValueCorrect(value string, w http.ResponseWriter) bool{
 	if value == "false" || value == "true"{
 		return true
 	} else {

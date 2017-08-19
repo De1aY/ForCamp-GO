@@ -12,24 +12,24 @@ import (
 
 func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
-	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("reason_id")), 10, 64)
 	if err != nil{
-		return "", reasons.Reason{}, conf.ErrIDisNotINT
+		return "", reasons.Reason{}, conf.ErrIdIsNotINT
 	}
 	CatID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("category_id")), 10, 64)
 	if err != nil{
-		return "", reasons.Reason{}, conf.ErrIDisNotINT
+		return "", reasons.Reason{}, conf.ErrIdIsNotINT
 	}
 	Text := strings.TrimSpace(r.PostFormValue("text"))
 	Change, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("change")), 10, 64)
 	if err != nil{
-		return "", reasons.Reason{}, conf.ErrIDisNotINT
+		return "", reasons.Reason{}, conf.ErrIdIsNotINT
 	}
 	return Token, reasons.Reason{Id: ID, Cat_id: CatID, Text: Text, Change: Change}, nil
 }
 
 func EditReasonHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		token, reason, APIerr := getEditReasonPostValues(r)
 		if APIerr != nil{

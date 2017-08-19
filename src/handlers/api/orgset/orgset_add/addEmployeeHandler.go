@@ -24,11 +24,11 @@ func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *con
 	if err != nil {
 		return employees.Employee{}, "", conf.ErrTeamNotINT
 	}
-	return employees.Employee{"", Name, Surname, Middlename, int(Sex), Team, Post, nil}, Token, nil
+	return employees.Employee{0, Name, Surname, Middlename, int(Sex), Team, Post, nil}, Token, nil
 }
 
 func AddEmployeeHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		employee, token, APIerr := getAddEmployeePostValues(r)
 		if APIerr != nil {

@@ -14,15 +14,15 @@ type addCategory_Success struct {
 
 
 func AddCategory(token string, category Category, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token, responseWriter) && checkCategoryData(category, responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+	if orgset.IsUserAdmin(token, responseWriter) && checkCategoryData(category, responseWriter){
+		Organization, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		src.CustomConnection = src.Connect_Custom(Organization)
-		CatID, APIerr := addCategory_Request(category)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		CatID, apiErr := addCategory_Request(category)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		resp := conf.ApiResponse{200, "success", addCategory_Success{CatID}}
 		resp.Print(responseWriter)
@@ -31,12 +31,12 @@ func AddCategory(token string, category Category, responseWriter http.ResponseWr
 }
 
 func addCategory_Request(category Category) (int64, *conf.ApiResponse){
-	Query, err := src.CustomConnection.Prepare("INSERT INTO categories(name, negative_marks) VALUES(?, ?)")
+	query, err := src.CustomConnection.Prepare("INSERT INTO categories(name, negative_marks) VALUES(?, ?)")
 	if err != nil{
 		return 0, conf.ErrDatabaseQueryFailed
 	}
-	Resp, err := Query.Exec(category.Name, category.NegativeMarks)
-	Query.Close()
+	Resp, err := query.Exec(category.Name, category.NegativeMarks)
+	query.Close()
 	if err != nil{
 		return 0, conf.ErrDatabaseQueryFailed
 	}
@@ -44,13 +44,13 @@ func addCategory_Request(category Category) (int64, *conf.ApiResponse){
 	if err != nil{
 		return 0, conf.ErrDatabaseQueryFailed
 	}
-	APIerr := addCategory_Participants(CatID)
-	if APIerr != nil {
-		return 0, APIerr
+	apiErr := addCategory_Participants(CatID)
+	if apiErr != nil {
+		return 0, apiErr
 	}
-	APIerr = addCategory_Employees(CatID)
-	if APIerr != nil {
-		return 0, APIerr
+	apiErr = addCategory_Employees(CatID)
+	if apiErr != nil {
+		return 0, apiErr
 	}
 	return CatID, nil
 }

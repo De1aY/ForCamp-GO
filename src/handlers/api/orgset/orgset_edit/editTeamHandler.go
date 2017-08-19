@@ -12,16 +12,16 @@ import (
 
 func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiResponse){
 	Token := strings.TrimSpace(r.PostFormValue("token"))
-	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("id")), 10, 64)
+	ID, err := strconv.ParseInt(strings.TrimSpace(r.PostFormValue("team_id")), 10, 64)
 	if err != nil{
-		return "", "", 0, conf.ErrIDisNotINT
+		return "", "", 0, conf.ErrIdIsNotINT
 	}
 	Name := strings.TrimSpace(strings.ToLower(r.PostFormValue("name")))
 	return Token, Name, ID, nil
 }
 
 func EditTeamHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_POST(w)
 	if r.Method == http.MethodPost {
 		token, name, id, APIerr := getEditTeamPostValues(r)
 		if APIerr != nil{

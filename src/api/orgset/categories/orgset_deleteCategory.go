@@ -9,15 +9,15 @@ import (
 )
 
 func DeleteCategory(token string, id int64, responseWriter http.ResponseWriter) bool{
-	if orgset.CheckUserAccess(token ,responseWriter){
-		Organization, _, APIerr := orgset.GetUserOrganizationAndLoginByToken(token)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+	if orgset.IsUserAdmin(token ,responseWriter){
+		organizationName, _, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
-		src.CustomConnection = src.Connect_Custom(Organization)
-		APIerr = deleteCategory_Request(id)
-		if APIerr != nil{
-			return APIerr.Print(responseWriter)
+		src.CustomConnection = src.Connect_Custom(organizationName)
+		apiErr = deleteCategory_Request(id)
+		if apiErr != nil{
+			return apiErr.Print(responseWriter)
 		}
 		return conf.RequestSuccess.Print(responseWriter)
 	}
@@ -25,15 +25,15 @@ func DeleteCategory(token string, id int64, responseWriter http.ResponseWriter) 
 }
 
 func deleteCategory_Request(id int64) *conf.ApiResponse{
-	Query, err := src.CustomConnection.Prepare("DELETE FROM categories WHERE id=?")
+	query, err := src.CustomConnection.Prepare("DELETE FROM categories WHERE id=?")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	_, err = Query.Exec(id)
+	_, err = query.Exec(id)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	Query.Close()
+	query.Close()
 	APIerr := deleteCategory_Participants(id)
 	if APIerr != nil{
 		return APIerr
@@ -50,7 +50,7 @@ func deleteCategory_Request(id int64) *conf.ApiResponse{
 }
 
 func deleteCategory_Reasons(id int64) *conf.ApiResponse {
-	query, err := src.CustomConnection.Prepare("DELETE FROM reasons WHERE cat_id=?")
+	query, err := src.CustomConnection.Prepare("DELETE FROM reasons WHERE category_id=?")
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}

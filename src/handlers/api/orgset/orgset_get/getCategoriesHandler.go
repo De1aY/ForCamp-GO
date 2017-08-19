@@ -10,7 +10,7 @@ import (
 )
 
 func GetCategoriesHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API(w)
+	src.SetHeaders_API_GET(w)
 	if r.Method == http.MethodGet {
 		categories.GetCategories(handlers.GetToken(r), w)
 	} else {

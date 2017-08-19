@@ -335,4 +335,10 @@ body {
 
   }
 
+  .emotional_mark--very_dissatisfied { color: $ErrorColor        }
+  .emotional_mark--dissatisfied      { color: $ErrorColor + 20   }
+  .emotional_mark--neutral           { color: $WarnColor         }
+  .emotional_mark--satisfied         { color: $SuccessColor + 20 }
+  .emotional_mark--very_satisfied    { color: $SuccessColor      }
+
 }
