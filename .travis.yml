@@ -1,0 +1,13 @@
+language: go
+
+branches:
+  only:
+    - master
+    - develop
+
+go:
+  - 1.8
+  - release
+
+
+

@@ -43,7 +43,7 @@ func SetHeaders_Main(w http.ResponseWriter) {
 		"default-src 'self' https://api.forcamp.ga https://mc.yandex.ru/ https://googleads.g.doubleclick.net; " +
 			"font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com/; " +
 			"img-src 'self' https://stats.g.doubleclick.net/ https://www.google-analytics.com/ https://mc.yandex.ru/ data:; " +
-			"script-src 'unsafe-inline' 'self' https://www.google-analytics.com/analytics.js " +
+			"script-src 'unsafe-inline' 'self' https://yastatic.net/ https://www.google-analytics.com/analytics.js " +
 				"https://mc.yandex.ru/ https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com ; " +
 			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com")
 	w.Header().Set("X-XSS-Protection", "1; mode=block")
