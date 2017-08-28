@@ -223,6 +223,15 @@
                 {{end}}
             </div>
             <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                {{if not .IsRequestEmployee}}
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__body">
+                            <canvas id="marks_changes-chart--combo_bar_line"></canvas>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp width100">
                         <div class="mdl-card__title mdl-card--border">
@@ -286,7 +295,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.js"></script>
 <script type="text/javascript" src="scripts/libs/datatables.min.js"></script>
 <script type="text/javascript" src="scripts/libs/datatables.material.min.js"></script>
 <script type="text/javascript" src="scripts/libs/material.min.js"></script>

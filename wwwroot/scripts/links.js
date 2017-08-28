@@ -9,7 +9,7 @@ const __GetUserIDLink = __SiteDomain + "/user.id.get";
 //  API Links: OrgSettings
 const __GetOrgSettingsLink = __SiteDomain + "/orgset.settings.get";
 const __GetCategoriesLink = __SiteDomain + "/orgset.categories.get";
-const __SetOrgSettingValueLink = __SiteDomain + "/orgset.settings.edit";
+const __SetOrgSettingValueLink = __SiteDomain + "/orgset.setting.edit";
 //  API Links: Categories
 const __AddCategoryLink = __SiteDomain + "/orgset.category.add";
 const __DeleteCategoryLink = __SiteDomain + "/orgset.category.delete";

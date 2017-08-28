@@ -55,7 +55,7 @@ func setOrgSettingValue_Participant(setting_value string) *conf.ApiResponse {
 	_, err = query.Exec(setting_value); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	return nil
+	return conf.RequestSuccess
 }
 
 func setOrgSettingValue_Team(setting_value string) *conf.ApiResponse {
@@ -67,7 +67,7 @@ func setOrgSettingValue_Team(setting_value string) *conf.ApiResponse {
 	_, err = query.Exec(setting_value); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	return nil
+	return conf.RequestSuccess
 }
 
 func setOrgSettingValue_Organization(setting_value string) *conf.ApiResponse {
@@ -79,7 +79,7 @@ func setOrgSettingValue_Organization(setting_value string) *conf.ApiResponse {
 	_, err = query.Exec(setting_value); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	return nil
+	return conf.RequestSuccess
 }
 
 func setOrgSettingValue_Period(setting_value string) *conf.ApiResponse {
@@ -91,7 +91,7 @@ func setOrgSettingValue_Period(setting_value string) *conf.ApiResponse {
 	_, err = query.Exec(setting_value); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	return nil
+	return conf.RequestSuccess
 }
 
 func setOrgSettingValue_SelfMarks(setting_value string) *conf.ApiResponse {
@@ -107,7 +107,7 @@ func setOrgSettingValue_SelfMarks(setting_value string) *conf.ApiResponse {
 	_, err = query.Exec(setting_value); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	return nil
+	return conf.RequestSuccess
 }
 
 func setOrgSettingValue_EmotionalMarkPeriod(setting_value string) *conf.ApiResponse {
@@ -125,5 +125,5 @@ func setOrgSettingValue_EmotionalMarkPeriod(setting_value string) *conf.ApiRespo
 	_, err = query.Exec(setting_value); if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
-	return nil
+	return conf.RequestSuccess
 }
