@@ -131,6 +131,14 @@
     .fc-content__logo {
       margin-top: 100px;
       align-self: flex-start;
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      
+      @media (max-width: 839px) {
+        margin-top: auto;
+        justify-content: center;
+      }
 
       img {
         height: 70px;
@@ -140,6 +148,9 @@
         color: $SecondaryColor;
         font-size: 64px;
         font-weight: 700;
+
+        @media (max-width: 479px) { font-size: 36px; }
+
       }
 
     }
@@ -148,10 +159,25 @@
       margin-top: 25px;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       align-items: flex-start;
       align-self: flex-start;
       color: $SecondaryColor;
       font-size: 48px;
+
+      @media (max-width: 839px) and (min-width: 480px) {
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        font-size: 36px;
+      }
+
+      @media (max-width: 479px) {
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        font-size: 26px;
+      }
 
       .fc-content__teaser-button {
         margin-top: 40px;

@@ -64,9 +64,6 @@ async function drawCharts() {
             scales: {
                 xAxes: [{
                     display: false,
-                    ticks: {
-                        autoSkip: true,
-                    }
                 }]
             }
         }
@@ -87,8 +84,8 @@ async function getMarksChangesLineChartData() {
         };
         events.forEach(event => {
            chartData.labels.push(event.time);
-           marksSum -= event.event_data.change;
            chartData.data.push(marksSum);
+           marksSum -= event.event_data.change;
         });
         chartData.labels.reverse();
         chartData.data.reverse();

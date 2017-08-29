@@ -39,10 +39,12 @@
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga">главная</a>
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/profile">профиль</a>
+            {{if .IsAdmin}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/orgset">управление</a>{{end}}
             {{if .IsEmployee}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/marks">баллы</a>{{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/general">статистика</a>
-            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/team">{{.OrgSettings.Team}}</a>
-            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/achievements">достижения</a>
+            {{if not .IsEmployee}}
+            <a class="mdl-navigation__link wave-effect" href="#">достижения (В разработке)</a>
+            {{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/exit">выйти</a>
         </nav>
     </div>
@@ -380,9 +382,10 @@
                 </div>
             </div>
         </section>
-        <section class="mdl-layout__tab-panel" id="orgset_achievements"></section>
-        <section class="mdl-layout__tab-panel" id="orgset_actions"></section>
-        <section class="mdl-layout__tab-panel" id="orgset_help"></section>
+        <section class="mdl-layout__tab-panel" id="orgset_achievements">В разработке</section>
+        <section class="mdl-layout__tab-panel" id="orgset_actions">В разработке</section>
+        <section class="mdl-layout__tab-panel" id="orgset_help">В разработке.
+            За помощью обращаться либо в Telegram - @de1ay, либо на почту - forcamp@nullteam.info</section>
     </main>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
