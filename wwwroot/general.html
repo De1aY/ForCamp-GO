@@ -1,4 +1,4 @@
-{{define "marks"}}
+{{define "general"}}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -14,7 +14,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.15/css/dataTables.material.min.css">
     <link rel="stylesheet" href="css/libs/font-awesome.min.css">
     <link rel="stylesheet" href="css/libs/material.min.css">
-    <link rel="stylesheet" href="css/marks.css">
+    <link rel="stylesheet" href="css/general.css">
     <noscript><div><img src="https://mc.yandex.ru/watch/45602721" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
 <body>
@@ -23,9 +23,16 @@
         <div class="mdl-layout__header-row">
             <span class="mdl-layout-title">{{.OrgSettings.Organization}}</span>
         </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            <a href="#general_main" class="mdl-layout__tab is-active">Общая</a>
+            {{if eq .UserData.Team.Id 0}}{{else}}
+            <a href="#general_team" class="mdl-layout__tab">{{.OrgSettings.Team}}</a>
+            {{end}}
+            <a href="#general_personal" class="mdl-layout__tab">Личная</a>
+        </div>
     </header>
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">баллы</span>
+        <span class="mdl-layout-title">профиль</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga">главная</a>
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/profile">профиль</a>
@@ -39,59 +46,57 @@
         </nav>
     </div>
     <main class="mdl-layout__content">
-        <div class="page-content mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-                <div class="mdl-card mdl-shadow--6dp width100">
-                    <div class="mdl-card__title mdl-card--border">
-                        <div class="mdl-card__title-text" style="text-transform: none">
-                            Баллы
+        <section class="mdl-layout__tab-panel is-active" id="general_main">
+            <div class="page-content mdl-grid mdl-cell--top">
+                <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">5 лучших (табл.)</div>
+                        </div>
+                        <div class="mdl-card__body mdl-card__body--nopad">
+                            <table id="mdl-card__body-table-top5" class="mdl-card__body-table mdl-data-table">
+                                <thead>
+                                <tr>
+                                    <th>ФИО</th>
+                                    <th>{{.OrgSettings.Team | toTitleCase}}</th>
+                                    <th>Сумма баллов</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="mdl-card__body mdl-card__body--nopad">
-                        <table id="mdl-card__body-table-marks" class="mdl-card__body-table mdl-data-table">
-                            <thead>
-                            <tr>
-                                <th>ФИО</th>
-                                <th>{{.OrgSettings.Team | toTitleCase}}</th>
-                                {{range $category := .Categories}}
-                                <th>{{$category.Name | toTitleCase}}</th>
-                                {{end}}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                </div>
+                <div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">5 лучших (граф.)</div>
+                        </div>
+                        <div class="mdl-card__body">
+                            <canvas id="general-chart--top5" height="346px"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="mdl-cell mdl-cell--12-col">
-                <div class="mdl-card mdl-shadow--6dp width100">
-                    <div class="mdl-card__title mdl-card--border">
-                        <div class="mdl-card__title-text" style="text-transform: none">
-                            Ваши последние изменения
-                        </div>
-                    </div>
-                    <div class="mdl-card__body mdl-card__body--nopad">
-                        <table id="mdl-card__body-table-actions" class="mdl-card__body-table mdl-data-table">
-                            <thead>
-                            <tr>
-                                <th>Изменение</th>
-                                <th>ФИО</th>
-                                <th>Причина изменения</th>
-                                <th>Дата</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        </section>
+        {{if eq .UserData.Team.Id 0}}{{else}}
+        <section class="mdl-layout__tab-panel is-active" id="general_team">
+            <div class="page-content mdl-grid mdl-cell--top">
+                В разработке
             </div>
-        </div>
+        </section>
+        {{end}}
+        <section class="mdl-layout__tab-panel is-active" id="general_personal">
+            <div class="page-content mdl-grid mdl-cell--top">
+                В разработке
+            </div>
+        </section>
     </main>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.js"></script>
@@ -102,7 +107,7 @@
 <script type="text/javascript" src="scripts/metrica.js"></script>
 <script type="text/javascript" src="scripts/links.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
-<script type="text/javascript" src="scripts/marks.js"></script>
+<script type="text/javascript" src="scripts/general.js"></script>
 </body>
 </html>
 {{end}}

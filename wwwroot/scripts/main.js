@@ -7,6 +7,7 @@ let OrgSettings = {
     team: "",
     emotional_mark_period: ""
 };
+let Participants = [];
 let Categories = [];
 let Teams = [];
 let Reasons = [];
@@ -21,6 +22,29 @@ function GetOrganizationSettings() {
                 OrgSettings.self_marks = resp.message.settings.self_marks;
                 OrgSettings.team = resp.message.settings.team;
                 OrgSettings.emotional_mark_period = resp.message.settings.emotional_mark_period;
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
+            resolve();
+        });
+    });
+}
+
+function GetParticipants() {
+    return new Promise ( resolve => {
+        $.get(__GetParticipantsLink, {token: Token}, function (resp) {
+            if (resp.code === 200) {
+                resp.message.participants.forEach( participant => {
+                    let sum = 0;
+                    participant.marks.forEach( mark => {
+                        sum += mark.value;
+                    });
+                    participant['sum'] = sum
+                });
+                Participants = resp.message.participants;
+                Participants = Participants.sort( (a, b) => {
+                    return b.sum - a.sum
+                });
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }

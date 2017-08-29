@@ -18,8 +18,18 @@ body {
     align-items: center; }
   body .mdl-navigation__link, body .mdl-layout-title {
     text-transform: capitalize; }
+  @media (max-width: 489px) {
+    body .dataTables_wrapper .dataTables_filter label {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center; } }
   body .dataTables_wrapper .dataTables_filter label input {
     border: none; }
+  @media (max-width: 489px) {
+    body .dataTables_wrapper .dataTables_filter label span {
+      position: absolute;
+      margin-top: 10px;
+      margin-left: 57px; } }
   body .dataTables_wrapper .dataTables_filter label span:after {
     content: ' ';
     display: block;
@@ -209,9 +219,9 @@ body {
         body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--delete {
           color: #e1515b; }
       body .mdl-card .mdl-card__body .dt-table .mdl-cell {
-        overflow-x: scroll;
         -ms-overflow-style: none;
-        padding-bottom: 65px; }
+        padding-bottom: 65px;
+        overflow-x: scroll; }
       body .mdl-card .mdl-card__body .dt-table .mdl-cell::-webkit-scrollbar {
         display: none; }
       body .mdl-card .mdl-card__body .dt-table ~ .mdl-grid {

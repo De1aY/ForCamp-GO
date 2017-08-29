@@ -66,7 +66,7 @@ func HandleMainSite(router *mux.Router) {
 	router.HandleFunc("/main", indexHandler)
 	router.HandleFunc("/orgset", mainSite.OrgSetHandler)
 	router.HandleFunc("/marks", mainSite.MarksHandler)
-	router.HandleFunc("/general", indexHandler)
+	router.HandleFunc("/general", mainSite.GeneralHandler)
 	router.HandleFunc("/profile", mainSite.ProfileHandler)
 	router.HandleFunc("/team", indexHandler)
 	router.HandleFunc("/achievements", indexHandler)

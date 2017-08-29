@@ -34,7 +34,23 @@ body {
 
       label {
 
+        @media (max-width: 489px) {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
         input { border: none; }
+
+        span {
+
+          @media (max-width: 489px) {
+            position: absolute;
+            margin-top: 10px;
+            margin-left: 57px;
+          }
+
+        }
 
         span:after {
           content: ' ';
@@ -314,9 +330,9 @@ body {
       .dt-table {
 
         .mdl-cell {
-          overflow-x: scroll;
           -ms-overflow-style: none;
           padding-bottom: 65px;
+          overflow-x: scroll;
         }
 
         .mdl-cell::-webkit-scrollbar {
