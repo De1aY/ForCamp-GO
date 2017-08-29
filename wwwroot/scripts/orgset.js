@@ -535,10 +535,10 @@ async function updateSettings() {
     $('#fc-orgset__main-self_marks').prop('checked', OrgSettings.self_marks);
 }
 
-function editOrganizationSetting(setting_name) {
+function editOrganizationSetting(settingName) {
     $.post(__SetOrgSettingValueLink, { token: Token,
-        setting_value: OrgSettings[setting_name],
-        setting_name: setting_name,
+        setting_value: OrgSettings[settingName],
+        setting_name: settingName,
     }, function (resp) {
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены!", time: 2})
@@ -550,10 +550,10 @@ function editOrganizationSetting(setting_name) {
 }
 
 $('.mdl-card__body-row-switch').children('label').children('input').change(function () {
-    let toggle = $(this);
+    let toggle = $(this).parents('label').parents('.mdl-card__body-row-switch');
     let content = toggle.data('content');
     OrgSettings[content] = $('#fc-orgset__main-'+content).prop('checked');
-    editOrganizationSetting([content]);
+    editOrganizationSetting(content);
 });
 
 function submitSettingEdit(textField, editButton, acceptButton, declineButton, content, baseText) {

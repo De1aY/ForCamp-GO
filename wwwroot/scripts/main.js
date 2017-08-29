@@ -42,6 +42,21 @@ function GetCategories() {
     });
 }
 
+function GetLastMarkChanges(participant_id = "") {
+    return new Promise( resolve => {
+       $.get(__GetEventsLink, {token: Token,
+           user_id: participant_id,
+           rows_per_page: 20,
+           event_type: 1,}, function (resp) {
+          if (resp.code === 200) {
+              resolve(resp.message.events);
+          } else {
+              resolve(null);
+          }
+       });
+    });
+}
+
 function GetReasons() {
     return new Promise ( resolve => {
         $.get(__GetReasonsLink, {token: Token}, function (resp) {
@@ -98,4 +113,17 @@ function GetCategoryNameByID(category_id) {
     } catch (e) {
         return "Произошла ошибка";
     }
+}
+
+function GetUserData(user_id = "") {
+    return new Promise( resolve => {
+        $.get(__GetUserDataLink, { token: Token, user_id: user_id}, function(resp) {
+           if (resp.code === 200) {
+               resolve(resp.message.data);
+           } else {
+               notie.alert({type: 3, text: resp.message.ru, time: 2});
+               resolve(null);
+           }
+        });
+    });
 }
