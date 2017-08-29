@@ -230,7 +230,6 @@ body {
     color: #57bf57; }
 
 header.fc-header {
-  margin-top: -10vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -240,11 +239,17 @@ header.fc-header {
   color: #fff; }
   header.fc-header .fc-header__brand .fc-header__brand-text {
     font-size: 48px; }
+    @media (max-width: 479px) {
+      header.fc-header .fc-header__brand .fc-header__brand-text {
+        font-size: 36px; } }
   header.fc-header .fc-header__action .fc-header__action-button {
     color: #fff;
     font-size: 28px;
     text-transform: capitalize;
     text-decoration: none; }
+    @media (max-width: 479px) {
+      header.fc-header .fc-header__action .fc-header__action-button {
+        font-size: 16px; } }
   header.fc-header .fc-header__action .fc-header__action-button::after {
     content: ' ';
     display: block;
@@ -360,21 +365,44 @@ header.fc-header {
     align-items: center; }
     .fc-content .fc-content__top .fc-content__logo {
       margin-top: 100px;
-      align-self: flex-start; }
+      align-self: flex-start;
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start; }
+      @media (max-width: 839px) {
+        .fc-content .fc-content__top .fc-content__logo {
+          margin-top: auto;
+          justify-content: center; } }
       .fc-content .fc-content__top .fc-content__logo img {
         height: 70px; }
       .fc-content .fc-content__top .fc-content__logo .fc-content__logo-text {
         color: #fff;
         font-size: 64px;
         font-weight: 700; }
+        @media (max-width: 479px) {
+          .fc-content .fc-content__top .fc-content__logo .fc-content__logo-text {
+            font-size: 36px; } }
     .fc-content .fc-content__top .fc-content__teaser {
       margin-top: 25px;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       align-items: flex-start;
       align-self: flex-start;
       color: #fff;
       font-size: 48px; }
+      @media (max-width: 839px) and (min-width: 480px) {
+        .fc-content .fc-content__top .fc-content__teaser {
+          align-items: center;
+          justify-content: flex-start;
+          text-align: center;
+          font-size: 36px; } }
+      @media (max-width: 479px) {
+        .fc-content .fc-content__top .fc-content__teaser {
+          align-items: center;
+          justify-content: flex-start;
+          text-align: center;
+          font-size: 26px; } }
       .fc-content .fc-content__top .fc-content__teaser .fc-content__teaser-button {
         margin-top: 40px;
         width: 266px;

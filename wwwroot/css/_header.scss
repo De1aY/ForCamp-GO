@@ -1,7 +1,6 @@
 @import "colors";
 
 header.fc-header {
-  margin-top: -10vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -14,6 +13,9 @@ header.fc-header {
 
     .fc-header__brand-text {
       font-size: 48px;
+
+      @media (max-width: 479px) { font-size: 36px; }
+
     }
 
   }
@@ -25,6 +27,9 @@ header.fc-header {
       font-size: 28px;
       text-transform: capitalize;
       text-decoration: none;
+
+      @media (max-width: 479px) { font-size: 16px; }
+
     }
 
     .fc-header__action-button::after {
