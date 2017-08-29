@@ -11,8 +11,8 @@ import (
 
 func getSetOrgSettingValuePostValues(r *http.Request) (string, string, string){
 	token := strings.TrimSpace(r.PostFormValue("token"))
-	setting_name := strings.TrimSpace(r.PostFormValue("setting_name"))
-	setting_value := strings.TrimSpace(r.PostFormValue("setting_value"))
+	setting_name := strings.ToLower(strings.TrimSpace(r.PostFormValue("setting_name")))
+	setting_value := strings.ToLower(strings.TrimSpace(r.PostFormValue("setting_value")))
 	return token, setting_name, setting_value
 }
 

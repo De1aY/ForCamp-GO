@@ -43,7 +43,7 @@ func MarksHandler(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			if mtd.UserData.Access > 1 {
+			if mtd.UserData.Access > 0 {
 				marksHTML.ExecuteTemplate(w, "marks", mtd)
 			} else {
 				http.Redirect(w, r, "https://forcamp.ga/general", http.StatusTemporaryRedirect)

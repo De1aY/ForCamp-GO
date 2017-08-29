@@ -109,7 +109,7 @@ func isEditMarkDataValid(participant_id int64, category_id int64, reason_id int6
 	if !isUserEmployee(employee_id, w){
 		return false
 	}
-	if !isEditingAllowed(employee_id, category_id, w) {
+	if !isEditingAllowed(employee_id, participant_id, category_id, w) {
 		return false
 	}
 	if !orgset.IsCategoryExist(category_id, w) {
@@ -124,18 +124,35 @@ func isEditMarkDataValid(participant_id int64, category_id int64, reason_id int6
 	return true
 }
 
-func isEditingAllowed(employee_id int64, category_id int64, responseWriter http.ResponseWriter) bool {
+func isEditingAllowed(employee_id int64, participant_id int64, category_id int64, responseWriter http.ResponseWriter) bool {
 	var permission string
 	err := src.CustomConnection.QueryRow("SELECT `" + strconv.FormatInt(category_id, 10) +
 		"` FROM employees WHERE id=?", employee_id).Scan(&permission)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 	}
-	if permission == "true" {
-		return true
-	} else {
+	if permission == "false" {
 		return conf.ErrInsufficientRights.Print(responseWriter)
 	}
+	var participant_team, employee_team int64
+	err = src.CustomConnection.QueryRow("SELECT team FROM users WHERE id=?", participant_id).Scan(&participant_team)
+	if err != nil {
+		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
+	}
+	err = src.CustomConnection.QueryRow("SELECT team FROM users WHERE id=?", employee_id).Scan(&employee_team)
+	if err != nil {
+		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
+	}
+	var isSelfMarksAllowed string
+	err = src.CustomConnection.QueryRow("SELECT value FROM " +
+		"settings WHERE name=?", "self_marks").Scan(&isSelfMarksAllowed)
+	if err != nil {
+		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
+	}
+	if isSelfMarksAllowed == "false" && participant_team == employee_team {
+		return conf.ErrInsufficientRights.Print(responseWriter)
+	}
+	return true
 }
 
 func isNegativeMarksAllowed(category_id int64) (bool, *conf.ApiResponse) {
