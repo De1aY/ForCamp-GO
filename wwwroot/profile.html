@@ -38,7 +38,7 @@
         </nav>
     </div>
     <main class="mdl-layout__content">
-        <div class="page-content mdl-grid">
+        <div class="page-content mdl-grid mdl-cell--top">
             <div class="mdl-grid mdl-cell mdl-cell--top mdl-cell--3-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp">
@@ -222,12 +222,17 @@
                 </div>
                 {{end}}
             </div>
-            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+            <div class="mdl-grid mdl-cell mdl-cell--top mdl-cell--9-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 {{if not .IsRequestEmployee}}
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-card mdl-shadow--6dp width100">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">
+                                Изменение балла
+                            </div>
+                        </div>
                         <div class="mdl-card__body">
-                            <canvas id="marks_changes-chart--combo_bar_line"></canvas>
+                            <canvas id="marks_changes-chart--line" height="187px"></canvas>
                         </div>
                     </div>
                 </div>
@@ -293,6 +298,7 @@
     </main>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.js"></script>
@@ -304,6 +310,9 @@
 <script type="text/javascript" src="scripts/links.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <script type="text/javascript" src="scripts/profile.js"></script>
+{{if not .IsRequestEmployee}}
+<script type="text/javascript" src="scripts/profile_participant.js"></script>
+{{end}}
 </body>
 </html>
 {{end}}
