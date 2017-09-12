@@ -1,0 +1,63 @@
+@import "main";
+
+body {
+
+  .mdl-card {
+
+    .mdl-card__title {
+
+      .mdl-card__title-photo-emotional_mark {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 56px;
+      }
+
+    }
+
+    .mdl-card__body {
+
+        .mdl-card__body-row-text {
+
+          .mdl-card__body-row-text--positive {
+            color: $SuccessColor;
+            font-weight: 700;
+          }
+
+          .mdl-card__body-row-text--positive--plus::before { content: '+'; }
+
+          .mdl-card__body-row-text--negative {
+            color: $ErrorColor;
+            font-weight: 700;
+          }
+
+        }
+
+    }
+
+  }
+
+  #card-emotional_mark {
+      min-height: 50px;
+
+      .mdl-card__body-row {
+        justify-content: space-around;
+
+        span {
+          transition: opacity 200ms ease-in-out;
+          opacity: 0.8;
+          font-size: 56px
+        }
+
+        span:hover {
+          opacity: 1;
+          cursor: pointer;
+        }
+
+      }
+
+      .mdl-card__body-row~span { display: none }
+
+  }
+
+}
