@@ -165,3 +165,7 @@ function GetUserData(user_id = "") {
 function GetURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
+
+function ToTitleCase(str) {
+    return str[0].toUpperCase() + str.substring(1); 
+}

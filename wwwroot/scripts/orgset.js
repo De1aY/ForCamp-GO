@@ -6,6 +6,7 @@ function reloadTables() {
     ParticipantsTable.ajax.reload(null, false);
     EmployeesTable.ajax.reload(null ,false);
     ReasonsTable.ajax.reload(null, false);
+    EventsTable.ajax.reload(null, false);
 }
 
 function getDefaultPermissions() {
@@ -349,6 +350,10 @@ function onTableDraw() {
             }
             case "reason": {
                 deleteReason(editInfo[1], button);
+                break;
+            }
+            case "event": {
+                deleteEvent(editInfo[1], button);
                 break;
             }
         }
@@ -1410,6 +1415,130 @@ let ReasonsTable = $('#mdl-card__body-table-reasons').DataTable({
     },
     "drawCallback": function () {
         $('#mdl-card__body-table-reasons').css('width', '100%');
+        onTableDraw();
+    },
+});
+
+// Events
+
+function deleteEvent(event_id, button) {
+    Preloader.on();
+    $.post(__DeleteEventLink, { token: Token, event_id: event_id }, function (resp) {
+        Preloader.off();
+        if(resp.code === 200) {
+            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            EventsTable.row(button.parents('tr')).remove().draw();
+            reloadTables();
+        } else {
+            notie.alert({type: 3, text: resp.message.ru, time: 2});
+        }
+    });
+}
+
+let EventsTable = $('#mdl-card__body-table-events').DataTable({
+    "ordering": false,
+    "ajax": {
+        "url": __GetEventsLink,
+        "type": "GET",
+        "data": {
+            "token": Token,
+            "type": 0,
+            "rows_per_page": -1,
+            "user_id": 0,
+        },
+        "dataSrc": function (data) {
+            return data.message.events;
+        },
+    },
+    columnDefs: [
+        {
+            targets: 0,
+            name: "event",
+            className: 'mdl-data-table__cell--non-numeric',
+            data: "event_data",
+            searchable: true,
+            render: function ( event_data, type, row, meta ) {
+                switch (row.type){
+                    case 1:
+                        let resultStr = '<a href="https://forcamp.ga/profile?id=' + row.employee_id + '">' + 
+                            ToTitleCase(event_data.employee.surname) + " " +
+                            ToTitleCase(event_data.employee.name) + '</a>';
+                        if (event_data.employee.sex === 1) {
+                            resultStr += " изменила балл ";
+                        } else {
+                            resultStr += " изменилл балл ";
+                        }
+                        resultStr += '<a href="https://forcamp.ga/profile?id=' + row.participant_id + '">' + 
+                            ToTitleCase(event_data.participant.surname) + " " +
+                            ToTitleCase(event_data.participant.name) + '</a> на ';
+                        resultStr += event_data.change + ' по причине "' + event_data.text + '"';
+                        return resultStr;
+                    case 2:
+                        let resultStr_Type2 = '<a href="https://forcamp.ga/profile?id=' + row.participant_id + '">' + 
+                            ToTitleCase(event_data.participant.surname) + " " +
+                            ToTitleCase(event_data.participant.name) + '</a>';
+                        if (event_data.participant.sex === 1) {
+                            resultStr_Type2 += " оценила своё настроение на ";
+                        } else {
+                            resultStr_Type2 += " оценил своё настроение на ";
+                        }
+                        resultStr_Type2 += '"' + event_data.value + '"';
+                        return resultStr_Type2;
+                    default:
+                        return '<span>Произошла ошибка</span>' 
+                }
+            },
+        },
+        {
+            targets: 1,
+            name: "date",
+            className: 'mdl-card__body-table-row_actions',
+            data: "time",
+            searchable: true,
+            orderable: true,
+            render: function ( time, type, row, meta ) {
+                let date = new Date(time);
+                return '<span>' + date.toLocaleDateString() + '</span>';
+            }
+        },
+        {
+            targets: 2,
+            name: "actions",
+            className: 'mdl-card__body-table-row_actions',
+            data: "id",
+            searchable: false,
+            orderable: false,
+            render: function ( id, type, row, meta ) {
+                return '<button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-card__body-table-row_actions--delete"' +
+                    ' data-content="event-' + id + '"> ' +
+                    '<i class="material-icons">delete_forever</i></button>';
+            }
+        },
+    ],
+    language: {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка изменений...",
+        "zeroRecords": "События отсутствуют.",
+        "emptyTable": "События отсутствуют",
+        "paginate": {
+            "first": "Первая",
+            "previous": "Пред.",
+            "next": "След.",
+            "last": "Последняя"
+        },
+        "aria": {
+            "sortAscending": ": отсортировать по возрастанию",
+            "sortDescending": ": отсортировать по убыванию"
+        }
+    },
+    "drawCallback": function () {
+        $('#mdl-card__body-table-events').css('width', '100%');
         onTableDraw();
     },
 });

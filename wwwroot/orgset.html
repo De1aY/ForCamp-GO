@@ -30,7 +30,6 @@
             <a href="#orgset_participants" class="mdl-layout__tab">Участники</a>
             <a href="#orgset_employees" class="mdl-layout__tab">Сотрудники</a>
             <a href="#orgset_reasons" class="mdl-layout__tab">Причины</a>
-            <a href="#orgset_achievements" class="mdl-layout__tab">Достижения</a>
             <a href="#orgset_actions" class="mdl-layout__tab">События</a>
             <a href="#orgset_help" class="mdl-layout__tab">Помощь</a>
         </div>
@@ -43,9 +42,6 @@
             {{if .IsAdmin}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/orgset">управление</a>{{end}}
             {{if .IsEmployee}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/marks">баллы</a>{{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/general">статистика</a>
-            {{if not .IsEmployee}}
-            <a class="mdl-navigation__link wave-effect" href="#">достижения (В разработке)</a>
-            {{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/exit">выйти</a>
         </nav>
     </div>
@@ -384,9 +380,32 @@
             </div>
         </section>
         <section class="mdl-layout__tab-panel" id="orgset_achievements">В разработке</section>
-        <section class="mdl-layout__tab-panel" id="orgset_actions">В разработке</section>
+        <section class="mdl-layout__tab-panel" id="orgset_actions">
+            <div class="page-content mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-card mdl-shadow--6dp">
+                        <div class="mdl-card__title mdl-card--border">
+                            <div class="mdl-card__title-text">События</div>
+                        </div>
+                        <div class="mdl-card__body mdl-card__body--nopad">
+                            <table id="mdl-card__body-table-events" class="mdl-card__body-table mdl-data-table">
+                                <thead>
+                                <tr>
+                                    <th>Событие</th>
+                                    <th>Дата</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="mdl-layout__tab-panel" id="orgset_help">В разработке.
-            За помощью обращаться либо в Telegram - @de1ay, либо на почту - forcamp@nullteam.info</section>
+            За помощью обращаться либо в Telegram - <a href="https://t.me/de1ay">@de1ay</a>, либо на почту - <a href="mailto:forcamp@nullteam.info">forcamp@nullteam.info</a></section>
     </main>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
