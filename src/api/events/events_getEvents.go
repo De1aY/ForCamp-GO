@@ -78,11 +78,21 @@ func GetEvents_Request(user_id int64, limit int64, offset int64,
 		}
 	} else {
 		if event_type > 0 {
-			rows, err = src.CustomConnection.Query("SELECT id,type,participant_id,employee_id,time FROM events "+
-				"WHERE type=? ORDER BY time ? LIMIT ? OFFSET ?", event_type, limit, offset)
+			if ascending {
+				rows, err = src.CustomConnection.Query("SELECT id,type,participant_id,employee_id,time FROM events "+
+					"WHERE type=? ORDER BY time ASC LIMIT ? OFFSET ?", event_type, limit, offset)
+			} else {
+				rows, err = src.CustomConnection.Query("SELECT id,type,participant_id,employee_id,time FROM events "+
+					"WHERE type=? ORDER BY time DESC LIMIT ? OFFSET ?", event_type, limit, offset)
+			}
 		} else {
-			rows, err = src.CustomConnection.Query("SELECT id,type,participant_id,employee_id,time FROM events "+
-				"ORDER BY time ? LIMIT ? OFFSET ?", limit, offset)
+			if ascending {
+				rows, err = src.CustomConnection.Query("SELECT id,type,participant_id,employee_id,time FROM events "+
+					"ORDER BY time ASC LIMIT ? OFFSET ?", limit, offset)
+			} else {
+				rows, err = src.CustomConnection.Query("SELECT id,type,participant_id,employee_id,time FROM events "+
+					"ORDER BY time DESC LIMIT ? OFFSET ?", limit, offset)
+			}
 		}
 	}
 	if err != nil {
