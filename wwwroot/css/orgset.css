@@ -5,6 +5,8 @@
 
 body {
   margin: 0; }
+  body #materialPreloader {
+    z-index: 1000; }
   body .user-select--none {
     -webkit-user-select: none;
     -moz-user-select: none;

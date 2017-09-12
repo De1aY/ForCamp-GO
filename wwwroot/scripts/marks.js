@@ -18,16 +18,18 @@ function onTableDraw() {
 // Marks
 
 function editMark(participant_id, category_id, reason_id) {
+    Preloader.on();
     $.post(__EditMarkLink, { token: Token,
         participant_id: participant_id,
         category_id: category_id,
         reason_id: reason_id}, function (resp) {
-        if(resp.code === 200) {
-            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-            reloadTables();
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 2});
-        }
+            Preloader.off();
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
     });
 }
 
@@ -143,7 +145,9 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
 // Last changes
 
 function deleteMarkChange(event_id, button) {
+    Preloader.on();
     $.post(__DeleteEventLink, { token: Token, event_id: event_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             MarksChangesTable.row(button.parents('tr')).remove().draw();

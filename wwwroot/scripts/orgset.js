@@ -379,7 +379,9 @@ function onTableDraw() {
 
 function addTeam(name) {
     return new Promise(resolve => {
+        Preloader.on();
         $.post(__AddTeamLink, { token: Token, name: name }, function (resp) {
+            Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
                 reloadTables();
@@ -393,7 +395,9 @@ function addTeam(name) {
 }
 
 function editTeam(name, team_id) {
+    Preloader.on();
     $.post(__EditTeamLink, { token: Token, name: name, team_id: team_id}, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             reloadTables();
@@ -404,7 +408,9 @@ function editTeam(name, team_id) {
 }
 
 function deleteTeam(team_id, button) {
+    Preloader.on();
     $.post(__DeleteTeamLink, { token: Token, team_id: team_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             TeamsTable.row(button.parents('tr')).remove().draw();
@@ -536,10 +542,12 @@ async function updateSettings() {
 }
 
 function editOrganizationSetting(settingName) {
+    Preloader.on();
     $.post(__SetOrgSettingValueLink, { token: Token,
         setting_value: OrgSettings[settingName],
         setting_name: settingName,
     }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены!", time: 2})
         } else {
@@ -613,7 +621,9 @@ $('.mdl-card__body-row-button--edit').click(function () {
 
 function addCategory(name, negative_marks) {
     return new Promise(resolve => {
+        Preloader.on();
         $.post(__AddCategoryLink, { token: Token, name: name, negative_marks: negative_marks }, function (resp) {
+            Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
                 reloadTables();
@@ -627,19 +637,23 @@ function addCategory(name, negative_marks) {
 }
 
 function editCategory(name, negative_marks, category_id) {
+    Preloader.on();
     $.post(__EditCategoryLink, { token: Token, name: name,
         negative_marks: negative_marks, category_id: category_id}, function (resp) {
-       if(resp.code === 200) {
-           notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-           reloadTables();
-       } else {
-           notie.alert({type: 3, text: resp.message.ru, time: 2});
+            Preloader.off();
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
        }
     });
 }
 
 function deleteCategory(category_id, button) {
+    Preloader.on();
     $.post(__DeleteCategoryLink, { token: Token, category_id: category_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             CategoriesTable.row(button.parents('td')).remove().draw();
@@ -750,25 +764,28 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
 
 function addParticipant(name, surname, middlename, sex, team) {
     return new Promise(resolve => {
+        Preloader.on();
         $.post(__AddParticipantLink, { token: Token,
             name: name,
             surname: surname,
             middlename: middlename,
             sex: sex,
             team: team}, function (resp) {
-            if(resp.code === 200) {
-                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-                reloadTables();
-                resolve(resp.message.id);
-            } else {
-                notie.alert({type: 3, text: resp.message.ru, time: 2});
-                resolve(-1);
-            }
+                Preloader.off();
+                if(resp.code === 200) {
+                    notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                    reloadTables();
+                    resolve(resp.message.id);
+                } else {
+                    notie.alert({type: 3, text: resp.message.ru, time: 2});
+                    resolve(-1);
+               }
         });
     });
 }
 
 function editParticipant(name, surname, middlename, sex, team, participant_id) {
+    Preloader.on();
     $.post(__EditParticipantLink, { token: Token,
         name: name,
         surname: surname,
@@ -776,17 +793,20 @@ function editParticipant(name, surname, middlename, sex, team, participant_id) {
         sex: sex,
         team: team,
         participant_id: participant_id}, function (resp) {
-        if(resp.code === 200) {
-            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-            reloadTables();
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 2});
-        }
+            Preloader.off();
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
     });
 }
 
 function deleteParticipant(participant_id, button) {
+    Preloader.on();
     $.post(__DeleteParticipantLink, { token: Token, participant_id: participant_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             ParticipantsTable.row(button.parents('td')).remove().draw();
@@ -798,7 +818,9 @@ function deleteParticipant(participant_id, button) {
 }
 
 function resetParticipantPassword(participant_id) {
+    Preloader.on();
     $.post(__ResetParticipantPasswordLink, { token: Token, participant_id: participant_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
         } else {
@@ -953,6 +975,7 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
 
 function addEmployee(name, surname, middlename, post, sex, team) {
     return new Promise(resolve => {
+        Preloader.on();
         $.post(__AddEmployeeLink, { token: Token,
             name: name,
             surname: surname,
@@ -960,19 +983,21 @@ function addEmployee(name, surname, middlename, post, sex, team) {
             post: post,
             sex: sex,
             team: team}, function (resp) {
-            if(resp.code === 200) {
-                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-                reloadTables();
-                resolve(resp.message.id);
-            } else {
-                notie.alert({type: 3, text: resp.message.ru, time: 2});
-                resolve(-1);
-            }
+                Preloader.off();
+                if(resp.code === 200) {
+                    notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                    reloadTables();
+                    resolve(resp.message.id);
+                } else {
+                    notie.alert({type: 3, text: resp.message.ru, time: 2});
+                    resolve(-1);
+                }
         });
     });
 }
 
 function editEmployee(name, surname, middlename, post, sex, team, employee_id) {
+    Preloader.on();
     $.post(__EditEmployeeLink, { token: Token,
         name: name,
         surname: surname,
@@ -981,17 +1006,20 @@ function editEmployee(name, surname, middlename, post, sex, team, employee_id) {
         team: team,
         post: post,
         employee_id: employee_id}, function (resp) {
-        if(resp.code === 200) {
-            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-            reloadTables();
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 2});
-        }
+            Preloader.off();
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
     });
 }
 
 function deleteEmployee(employee_id, button) {
+    Preloader.on();
     $.post(__DeleteEmployeeLink, { token: Token, employee_id: employee_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             EmployeesTable.row(button.parents('td')).remove().draw();
@@ -1003,18 +1031,22 @@ function deleteEmployee(employee_id, button) {
 }
 
 function editEmployeePermission(employee_id, category_id, value) {
+    Preloader.on();
     $.post(__EditEmployeePermissionLink, { token: Token, employee_id: employee_id,
         category_id: category_id, value: value }, function (resp) {
-        if(resp.code === 200) {
-            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 2});
-        }
+            Preloader.off();
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
     });
 }
 
 function resetEmployeePassword(employee_id) {
+    Preloader.on();
     $.post(__ResetEmployeePasswordLink, { token: Token, employee_id: employee_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
         } else {
@@ -1231,7 +1263,9 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
 
 function addReason(text, change, category_id) {
     return new Promise(resolve => {
+        Preloader.on();
         $.post(__AddReasonLink, { token: Token, text: text, change: change, category_id: category_id }, function (resp) {
+            Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
                 reloadTables();
@@ -1245,19 +1279,23 @@ function addReason(text, change, category_id) {
 }
 
 function editReason(reason_id, text, change, category_id) {
+    Preloader.on();
     $.post(__EditReasonLink, { token: Token, text: text,
         change: change, category_id: category_id, reason_id: reason_id }, function (resp) {
-        if(resp.code === 200) {
-            notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
-            reloadTables();
-        } else {
-            notie.alert({type: 3, text: resp.message.ru, time: 2});
-        }
+            Preloader.off();
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
+                reloadTables();
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
     });
 }
 
 function deleteReason(reason_id, button) {
+    Preloader.on();
     $.post(__DeleteReasonLink, { token: Token, reason_id: reason_id }, function (resp) {
+        Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
             ReasonsTable.row(button.parents('td')).remove().draw();

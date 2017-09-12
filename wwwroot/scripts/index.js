@@ -1,8 +1,21 @@
+let preloader = new $.materialPreloader({
+    position: 'top',
+    height: '5px',
+    col_1: '#159756',
+    col_2: '#da4733',
+    col_3: '#3b78e7',
+    col_4: '#fdba2c',
+    fadeIn: 200,
+    fadeOut: 200
+});
+
 $('#submit').click(function () {
+    preloader.on();
     $.get(__GetUserTokenLink, {
         login: $('#login').val(),
         password: $('#password').val()
     }, function (data) {
+        preloader.off();
         if (data.code === 200) {
             $.cookie('token', data.message.token.replace('%3D', '='), {expires: 366, path: '/', secure: true});
             window.location.href = "https://forcamp.ga";

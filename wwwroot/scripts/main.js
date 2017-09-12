@@ -11,6 +11,16 @@ let Participants = [];
 let Categories = [];
 let Teams = [];
 let Reasons = [];
+let Preloader = new $.materialPreloader({
+    position: 'top',
+    height: '5px',
+    col_1: '#159756',
+    col_2: '#da4733',
+    col_3: '#3b78e7',
+    col_4: '#fdba2c',
+    fadeIn: 200,
+    fadeOut: 200
+});
 
 function GetOrganizationSettings() {
     return new Promise ( resolve => {
@@ -150,4 +160,8 @@ function GetUserData(user_id = "") {
            }
         });
     });
+}
+
+function GetURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
