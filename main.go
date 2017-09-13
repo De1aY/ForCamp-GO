@@ -6,20 +6,22 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"forcamp/src/handlers"
-	"forcamp/src"
 	"forcamp/conf"
-	"net/http"
-	"forcamp/src/handlers/api/orgset/orgset_get"
-	"forcamp/src/handlers/api/users/users_get"
-	"forcamp/src/handlers/api/orgset/orgset_add"
-	"forcamp/src/handlers/api/orgset/orgset_edit"
-	"forcamp/src/handlers/api/orgset/orgset_delete"
-	"forcamp/src/handlers/api/marks"
+	"forcamp/src"
+	"forcamp/src/handlers"
 	"forcamp/src/handlers/api/apanel"
-	"forcamp/src/handlers/api/events"
 	"forcamp/src/handlers/api/emotional_marks"
+	"forcamp/src/handlers/api/events"
+	"forcamp/src/handlers/api/marks"
+	"forcamp/src/handlers/api/orgset/orgset_add"
+	"forcamp/src/handlers/api/orgset/orgset_delete"
+	"forcamp/src/handlers/api/orgset/orgset_edit"
+	"forcamp/src/handlers/api/orgset/orgset_get"
+	"forcamp/src/handlers/api/users/users_edit"
+	"forcamp/src/handlers/api/users/users_get"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -36,6 +38,8 @@ func main() {
 	// Users: GET
 	users_get.HandleGetUserLoginByToken(APISite)
 	users_get.HandleGetUserData(APISite)
+	// Users: EDIT
+	users_edit.HandleChangeUserPassword(APISite)
 	// OrgSet: GET
 	orgset_get.HandleGetTeams(APISite)
 	orgset_get.HandleGetOrgSettings(APISite)
