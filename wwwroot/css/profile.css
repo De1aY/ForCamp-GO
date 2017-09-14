@@ -16,13 +16,18 @@ body {
     z-index: 1000; }
   body .fc-modal {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
-    display: none;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    z-index: 1000; }
+    z-index: 900; }
+    body .fc-modal .mdl-card {
+      width: auto;
+      min-width: 400px; }
+  body .fc-modal:not(.mdl-card) {
+    background: rgba(0, 0, 0, 0.6); }
   body .mdl-layout__drawer-button {
     display: flex;
     justify-content: center;
@@ -250,6 +255,47 @@ body {
   body .emotional_mark--very_satisfied {
     color: #57bf57; }
 
+body .fc-modal {
+  position: absolute;
+  flex-direction: column;
+  justify-content: flex-start; }
+  body .fc-modal .mdl-card {
+    margin-top: 64px;
+    min-width: 200px;
+    width: 250px; }
+    body .fc-modal .mdl-card .fc-password {
+      border-top: 1px solid rgba(0, 0, 0, 0.1); }
+      body .fc-modal .mdl-card .fc-password .mdl-card__body-row {
+        max-height: 35px; }
+    body .fc-modal .mdl-card .fc-avatar {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center; }
+      body .fc-modal .mdl-card .fc-avatar .fc-imageBox {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        background: #fff;
+        border-radius: 200px;
+        cursor: move;
+        overflow: hidden; }
+        body .fc-modal .mdl-card .fc-avatar .fc-imageBox .fc-imageBox__thumbBox {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 180px;
+          height: 180px;
+          margin-top: -90px;
+          margin-left: -90px;
+          box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+          background: none repeat scroll 0% 0% transparent;
+          border-radius: 100px; }
+      body .fc-modal .mdl-card .fc-avatar .fc-avatar__crop-settings {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center; }
 body .mdl-card .mdl-card__title .mdl-card__title-photo-emotional_mark {
   position: absolute;
   top: 10px;

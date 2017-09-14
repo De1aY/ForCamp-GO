@@ -40,6 +40,7 @@ func changeUserPassword(user_id int64, token string, oldPassword string, newPass
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}
+	request.Close()
 	user_login, apiErr := orgset.GetUserLoginByID(user_id)
 	if apiErr != nil {
 		return conf.RequestSuccess
@@ -48,6 +49,7 @@ func changeUserPassword(user_id int64, token string, oldPassword string, newPass
 	if err != nil {
 		return conf.RequestSuccess
 	}
+	defer request.Close()
 	_, err = request.Exec(&user_login, &token)
 	return conf.RequestSuccess
 }

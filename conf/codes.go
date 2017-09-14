@@ -73,6 +73,7 @@ var ErrTeamNameEmpty = &ApiResponse{627, "error", ErrorMessage{"Название
 var ErrEventTypeIncorrect = &ApiResponse{628, "error", ErrorMessage{"Неверный тип события", "Event type incorrect"}}
 var ErrEmotionalMarkValueIncorrect = &ApiResponse{629, "error", ErrorMessage{"Неверное значение эмоциональной оценки", "Emotional mark value incorrect"}}
 var ErrCurrentPasswordIsWrong = &ApiResponse{630, "error", ErrorMessage{"Неверно указан текущий пароль", "Emotional current password is wrong"}}
+var ErrFileUpload = &ApiResponse{631, "error", ErrorMessage{"Ошибка загрузки файла", "File upload error"}}
 
 // Event types
 var EVENT_TYPES = [3]int{
