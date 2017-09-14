@@ -18,7 +18,10 @@ $(document).ready(function() {
     $('.fc-avatar__save').on('click', function(){
         var img = cropper.getDataURL();
         $('.fc-avatar').hide();
-        console.log(img);
+        UploadFile({url: __ChangeUserAvatar, method: "POST", params: {token: Token}, file: img, 
+        callback: function(data) {
+            console.log(data);
+        }});
     })
     $('.fc-avatar__crop--inc').on('click', function(){
         cropper.zoomIn();

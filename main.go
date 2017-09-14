@@ -40,6 +40,7 @@ func main() {
 	users_get.HandleGetUserData(APISite)
 	// Users: EDIT
 	users_edit.HandleChangeUserPassword(APISite)
+	users_edit.HandleChangeUserAvatar(APISite)
 	// OrgSet: GET
 	orgset_get.HandleGetTeams(APISite)
 	orgset_get.HandleGetOrgSettings(APISite)

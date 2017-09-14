@@ -25,16 +25,17 @@ func ChangeAvatar(token string, request *http.Request, responseWriter http.Respo
 }
 
 func changeAvatar(user_id int64, request *http.Request) *conf.ApiResponse {
-	err := request.ParseMultipartForm(2048)
+	var err error
+	err = request.ParseMultipartForm(2048)
 	if err != nil {
 		return conf.ErrFileUpload
 	}
-	file, _, err := request.FormFile("avatar")
+	file, _, err := request.FormFile("file")
 	if err != nil {
 		return conf.ErrFileUpload
 	}
 	defer file.Close()
-	fileName := "user_" + strconv.FormatInt(user_id, 10)
+	fileName := "user_" + strconv.FormatInt(user_id, 10) + ".png"
 	f, err := os.OpenFile(conf.FOLDER_IMAGES+"/"+fileName,
 		os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
