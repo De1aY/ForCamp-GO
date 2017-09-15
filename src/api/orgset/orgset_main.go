@@ -1,20 +1,21 @@
 package orgset
 
 import (
-	"forcamp/src"
-	"net/http"
-	"forcamp/src/api/authorization"
 	"forcamp/conf"
-	"strconv"
+	"forcamp/src"
+	"forcamp/src/api/authorization"
 	"math/rand"
-	"time"
+	"net/http"
+	"strconv"
 	"strings"
+	"time"
 )
 
-func IsUserAdmin(token string, responseWriter http.ResponseWriter) bool{
+func IsUserAdmin(token string, responseWriter http.ResponseWriter) bool {
 	if authorization.IsTokenNotEmpty(token, responseWriter) {
 		if authorization.IsTokenValid(token, responseWriter) {
-			organizationName, id, apiErr := GetUserOrganizationAndIdByToken(token); if apiErr != nil{
+			organizationName, id, apiErr := GetUserOrganizationAndIdByToken(token)
+			if apiErr != nil {
 				return apiErr.Print(responseWriter)
 			}
 			customConnection := src.Connect_Custom(organizationName)
@@ -36,21 +37,25 @@ func IsUserAdmin(token string, responseWriter http.ResponseWriter) bool{
 	return false
 }
 
-func GetUserOrganizationAndIdByToken(token string) (string, int64, *conf.ApiResponse){
-	id, apiErr := GetUserIdByToken(token); if apiErr != nil {
+func GetUserOrganizationAndIdByToken(token string) (string, int64, *conf.ApiResponse) {
+	id, apiErr := GetUserIdByToken(token)
+	if apiErr != nil {
 		return "", -1, apiErr
 	}
-	organizationName, apiErr := GetUserOrganizationByID(id); if apiErr != nil {
+	organizationName, apiErr := GetUserOrganizationByID(id)
+	if apiErr != nil {
 		return "", -1, apiErr
 	}
 	return organizationName, id, nil
 }
 
-func GetUserOrganizationAndLoginByID(user_id int64) (string, string, *conf.ApiResponse){
-	user_login, apiErr := GetUserLoginByID(user_id); if apiErr != nil {
+func GetUserOrganizationAndLoginByID(user_id int64) (string, string, *conf.ApiResponse) {
+	user_login, apiErr := GetUserLoginByID(user_id)
+	if apiErr != nil {
 		return "", "", apiErr
 	}
-	organizationName, apiErr := GetUserOrganizationByID(user_id); if apiErr != nil {
+	organizationName, apiErr := GetUserOrganizationByID(user_id)
+	if apiErr != nil {
 		return "", "", apiErr
 	}
 	return organizationName, user_login, nil
@@ -65,9 +70,9 @@ func GetUserLoginByID(user_id int64) (string, *conf.ApiResponse) {
 	return user_login, nil
 }
 
-func GeneratePassword() (string, string){
+func GeneratePassword() (string, string) {
 	password := ""
-	for len(password) < 7{
+	for len(password) < 7 {
 		rand.Seed(time.Now().UnixNano())
 		password = strconv.FormatInt(rand.Int63n(1000000000)+rand.Int63n(1000000000)+rand.Int63n(1000000000)+rand.Int63n(100000), 10)
 	}
@@ -75,7 +80,7 @@ func GeneratePassword() (string, string){
 	return password, authorization.GeneratePasswordHash(password)
 }
 
-func IsTeamExist(id int64, w http.ResponseWriter) bool{
+func IsTeamExist(id int64, w http.ResponseWriter) bool {
 	if id != 0 {
 		var count int
 		err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM teams WHERE id=?", id).Scan(&count)
@@ -113,8 +118,16 @@ func GetUserIdByToken(token string) (int64, *conf.ApiResponse) {
 		return id, conf.ErrDatabaseQueryFailed
 	}
 	loginData := strings.Split(login, "_")
-	id, err = strconv.ParseInt(loginData[1], 10, 64); if err != nil {
-		return id, conf.ErrDatabaseQueryFailed
+	if len(loginData) > 1 {
+		id, err = strconv.ParseInt(loginData[1], 10, 64)
+		if err != nil {
+			return id, conf.ErrDatabaseQueryFailed
+		}
+	} else {
+		err := src.Connection.QueryRow("SELECT id FROM users WHERE login=?", login).Scan(&id)
+		if err != nil {
+			return id, conf.ErrDatabaseQueryFailed
+		}
 	}
 	return id, nil
 }
@@ -132,7 +145,7 @@ func GetUserOrganizationByToken(token string) (string, *conf.ApiResponse) {
 	return organizationName, nil
 }
 
-func GetUserOrganizationByID(id int64) (string, *conf.ApiResponse){
+func GetUserOrganizationByID(id int64) (string, *conf.ApiResponse) {
 	var organizationName string
 	err := src.Connection.QueryRow("SELECT organization FROM users WHERE id=?", id).Scan(&organizationName)
 	if err != nil {
@@ -141,7 +154,7 @@ func GetUserOrganizationByID(id int64) (string, *conf.ApiResponse){
 	return organizationName, nil
 }
 
-func IsCategoryExist(id int64, w http.ResponseWriter) bool{
+func IsCategoryExist(id int64, w http.ResponseWriter) bool {
 	var count int
 	err := src.CustomConnection.QueryRow("SELECT COUNT(id) FROM categories WHERE id=?", id).Scan(&count)
 	if err != nil {
