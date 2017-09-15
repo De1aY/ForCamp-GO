@@ -19,6 +19,72 @@
     <noscript><div><img src="https://mc.yandex.ru/watch/45602721" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
 <body>
+<div class="fc-modal">
+    <div class="mdl-card mdl-shadow--6dp">
+        <div class="mdl-card__title mdl-card--border">
+            <div class="mdl-card__title-text">Настройки</div>
+        </div>
+        <div class="mdl-card__body user-select--none fc-avatar">
+            <div class="fc-imageBox">
+                <div class="fc-imageBox__thumbBox"></div>
+                <div class="fc-imageBox__spinner" style="display: none">Загрузка...</div>
+            </div>
+            <div class="fc-avatar__crop-settings">
+                <button class="fc-avatar__crop--inc mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect" >
+                        <i class="material-icons">zoom_in</i>
+                </button>
+                <button class="fc-avatar__crop--dec mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect" >
+                        <i class="material-icons">zoom_out</i>
+                </button>
+                <button class="fc-avatar__save mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect" >
+                        <i class="material-icons">save</i>
+                </button>
+            </div>
+        </div>
+        <div class="mdl-card__body">
+            <div class="mdl-card__body-row">
+                <div class="mdl-card__body-row-icon">
+                        Сменить аватар:
+                </div>
+            </div>
+            <div class="mdl-card__body-row">
+                <div class="mdl-card__body-row-text">
+                    <input id="fc-avatar__file--new" type="file" accept=".png, .jpg, .jpeg"/>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-card__body fc-password">
+            <div class="mdl-card__body-row">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="password" id="fc-password_old">
+                    <label class="mdl-textfield__label" for="fc-password_old">Текущий пароль...</label>
+                </div>
+            </div>
+            <div class="mdl-card__body-row">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="password" id="fc-password_new">
+                    <label class="mdl-textfield__label" for="fc-password_new">Новый пароль...</label>
+                </div>
+            </div>
+            <div class="mdl-card__body-row">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="password" id="fc-password_new_repeated">
+                    <label class="mdl-textfield__label" for="fc-password_new_repeated">Повторите пароль...</label>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <button class="fc-password__save mdl-button mdl-button--raised mdl-button--primary mdl-js-button mdl-js-ripple-effect" >
+                    Сменить пароль
+            </button>
+        </div>
+        <div class="mdl-card__menu">
+            <button class="mdl-button mdl-button--primary mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-modal__button--close" >
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+    </div>
+</div>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
@@ -77,7 +143,8 @@
                                     disabled>отправить сообщение
                             </button>
                             {{else}}
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary 
+                            mdl-button--modal">
                                 настройки
                             </button>
                             {{end}}
@@ -301,6 +368,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.js"></script>
+<script type="text/javascript" src="scripts/libs/cropbox.min.js"></script>
 <script type="text/javascript" src="scripts/libs/materialPreloader.min.js"></script>
 <script type="text/javascript" src="scripts/libs/datatables.min.js"></script>
 <script type="text/javascript" src="scripts/libs/datatables.material.min.js"></script>
@@ -310,6 +378,9 @@
 <script type="text/javascript" src="scripts/links.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <script type="text/javascript" src="scripts/profile.js"></script>
+{{if .IsOwner}}
+<script type="text/javascript" src="scripts/profile_settings.js"></script>
+{{end}}
 {{if not .IsRequestEmployee}}
 <script type="text/javascript" src="scripts/profile_participant.js"></script>
 {{end}}

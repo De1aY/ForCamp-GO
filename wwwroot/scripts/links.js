@@ -3,9 +3,11 @@ const __ImagesLink = __SiteDomain + "/images/";
 //  API Links: Auth
 const __GetUserTokenLink = __SiteDomain + "/token.get";
 const __CheckTokenLink = __SiteDomain + "/token.verify";
-//  API Links: UserData
+//  API Links: Users
 const __GetUserDataLink = __SiteDomain + "/user.data.get";
 const __GetUserIDLink = __SiteDomain + "/user.id.get";
+const __ChangeUserPassword = __SiteDomain + "/user.password.edit";
+const __ChangeUserAvatar = __SiteDomain + "/user.avatar.edit";
 //  API Links: OrgSettings
 const __GetOrgSettingsLink = __SiteDomain + "/orgset.settings.get";
 const __GetCategoriesLink = __SiteDomain + "/orgset.categories.get";

@@ -1,38 +1,38 @@
 package mainSite
 
 import (
-	"forcamp/src/api/users"
-	"forcamp/src/api/orgset/settings"
-	"net/http"
+	"forcamp/conf"
 	"forcamp/src"
-	"net/url"
+	"forcamp/src/api/orgset"
+	"forcamp/src/api/orgset/settings"
+	"forcamp/src/api/users"
 	"forcamp/src/tools"
 	"html/template"
-	"forcamp/conf"
-	"forcamp/src/api/orgset"
-	"strings"
+	"net/http"
+	"net/url"
 	"strconv"
+	"strings"
 )
 
 type profileTemplateData struct {
-	Token string
-	UserID int64
+	Token         string
+	UserID        int64
 	RequestUserID int64
-	UserData users.UserData
-	RequestData users.UserData
-	OrgSettings settings.OrgSettings
+	UserData      users.UserData
+	RequestData   users.UserData
+	OrgSettings   settings.OrgSettings
 	// Flags
-	IsRequestAdmin bool
+	IsRequestAdmin    bool
 	IsRequestEmployee bool
-	IsAdmin bool
-	IsEmployee bool
-	IsOwner bool
+	IsAdmin           bool
+	IsEmployee        bool
+	IsOwner           bool
 }
 
 var profileTemplateFuncMap = template.FuncMap{
 	"stringToBoolean": tools.StringToBoolean,
-	"toTitleCase": tools.ToTitleCase,
-	"isNegative": tools.IsNegative,
+	"toTitleCase":     tools.ToTitleCase,
+	"isNegative":      tools.IsNegative,
 	"timestampToDate": tools.TimestampToDate,
 }
 
@@ -40,9 +40,14 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(responseWriter)
 		token, err := r.Cookie("token")
+		if err != nil {
+			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			return
+		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
-			profileHTML, err := template.New(conf.FILE_PROFILE).Funcs(profileTemplateFuncMap).ParseFiles(conf.FILE_PROFILE); if err != nil {
+			profileHTML, err := template.New(conf.FILE_PROFILE).Funcs(profileTemplateFuncMap).ParseFiles(conf.FILE_PROFILE)
+			if err != nil {
 				responseWriter.WriteHeader(http.StatusInternalServerError)
 				return
 			}
@@ -61,14 +66,15 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
-		http.Redirect(responseWriter, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
+		http.Redirect(responseWriter, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
 	}
 }
 
 func getProfileTemplateData(token string, r *http.Request) (profileTemplateData, *conf.ApiResponse) {
 	var ptd profileTemplateData
 	ptd.Token = token
-	organization, login, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+	organization, login, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+	if apiErr != nil {
 		return ptd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
@@ -89,13 +95,16 @@ func getProfileTemplateData(token string, r *http.Request) (profileTemplateData,
 	} else {
 		ptd.RequestUserID = requestUserID
 	}
-	apiErr = ptd.GetOrgSettings(); if apiErr != nil {
+	apiErr = ptd.GetOrgSettings()
+	if apiErr != nil {
 		return ptd, apiErr
 	}
-	apiErr = ptd.GetUserData(); if apiErr != nil {
+	apiErr = ptd.GetUserData()
+	if apiErr != nil {
 		return ptd, apiErr
 	}
-	apiErr = ptd.GetRequestData(); if apiErr != nil {
+	apiErr = ptd.GetRequestData()
+	if apiErr != nil {
 		return ptd, apiErr
 	}
 	ptd.SetFlags()
