@@ -2,13 +2,13 @@ package conf
 
 import (
 	"encoding/json"
-	"net/http"
 	"fmt"
+	"net/http"
 )
 
 type ApiResponse struct {
-	Code int `json:"code"`
-	Status string `json:"status"`
+	Code    int         `json:"code"`
+	Status  string      `json:"status"`
 	Message interface{} `json:"message"`
 }
 
@@ -26,11 +26,14 @@ func (response *ApiResponse) Print(writer http.ResponseWriter) bool {
 	fmt.Fprintf(writer, response.toJSON())
 	return false
 }
+
 // 200
 var RequestSuccess = &ApiResponse{200, "success", nil}
+
 // 400
 var ErrMethodNotAllowed = &ApiResponse{400, "error", ErrorMessage{"Метод запрещён", "Metod not allowed"}}
 var ErrInsufficientRights = &ApiResponse{401, "error", ErrorMessage{"Недостаточно прав", "Insufficient rights"}}
+
 // 500
 var ErrDatabaseQueryFailed = &ApiResponse{501, "error", ErrorMessage{"Ошибка соединения с базой данных", "Database connection failed"}}
 var ErrConvertStringToInt = &ApiResponse{502, "error", ErrorMessage{"Невозможно перевести строку в число", "Cannot convert string to int"}}
@@ -38,6 +41,7 @@ var ErrOpenExcelFile = &ApiResponse{503, "error", ErrorMessage{"Ошибка о�
 var ErrSaveExcelFile = &ApiResponse{504, "error", ErrorMessage{"Ошибка сохранения файла", "Cannot save file"}}
 var ErrCreateExcelFile = &ApiResponse{505, "error", ErrorMessage{"Ошибка создания файла", "Cannot create file"}}
 var ErrCreateSheetOnExcelFile = &ApiResponse{506, "error", ErrorMessage{"Ошибка создания листа Excel", "Cannot create excel sheet"}}
+
 // 600
 var ErrUserPasswordEmpty = &ApiResponse{601, "error", ErrorMessage{"Пароль отсутствует", "Password is empty"}}
 var ErrUserLoginEmpty = &ApiResponse{602, "error", ErrorMessage{"Логин отсутствует", "Login is empty"}}
@@ -68,6 +72,8 @@ var ErrOrganizationNameEmpty = &ApiResponse{626, "error", ErrorMessage{"Назв
 var ErrTeamNameEmpty = &ApiResponse{627, "error", ErrorMessage{"Название команды отсутствует", "Team name is empty"}}
 var ErrEventTypeIncorrect = &ApiResponse{628, "error", ErrorMessage{"Неверный тип события", "Event type incorrect"}}
 var ErrEmotionalMarkValueIncorrect = &ApiResponse{629, "error", ErrorMessage{"Неверное значение эмоциональной оценки", "Emotional mark value incorrect"}}
+var ErrCurrentPasswordIsWrong = &ApiResponse{630, "error", ErrorMessage{"Неверно указан текущий пароль", "Emotional current password is wrong"}}
+var ErrFileUpload = &ApiResponse{631, "error", ErrorMessage{"Ошибка загрузки файла", "File upload error"}}
 
 // Event types
 var EVENT_TYPES = [3]int{
@@ -77,6 +83,6 @@ var EVENT_TYPES = [3]int{
 }
 
 const (
-	EVENT_TYPE_MARK_CHANGE = 1
+	EVENT_TYPE_MARK_CHANGE    = 1
 	EVENT_TYPE_EMOTIONAL_MARK = 2
 )

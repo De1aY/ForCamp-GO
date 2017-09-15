@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ForCamp</title>
+    <title>ForCamp (v0.4.0 pre-alpha)</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.css">
@@ -14,6 +14,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.15/css/dataTables.material.min.css">
     <link rel="stylesheet" href="css/libs/font-awesome.min.css">
     <link rel="stylesheet" href="css/libs/material.min.css">
+    <link rel="stylesheet" href="css/libs/materialPreloader.min.css">
     <link rel="stylesheet" href="css/general.css">
     <noscript><div><img src="https://mc.yandex.ru/watch/45602721" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
@@ -39,9 +40,6 @@
             {{if .IsAdmin}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/orgset">управление</a>{{end}}
             {{if .IsEmployee}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/marks">баллы</a>{{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/general">статистика</a>
-            {{if not .IsEmployee}}
-            <a class="mdl-navigation__link wave-effect" href="#">достижения (В разработке)</a>
-            {{end}}
             <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/exit">выйти</a>
         </nav>
     </div>
@@ -100,6 +98,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.js"></script>
+<script type="text/javascript" src="scripts/libs/materialPreloader.min.js"></script>
 <script type="text/javascript" src="scripts/libs/datatables.min.js"></script>
 <script type="text/javascript" src="scripts/libs/datatables.material.min.js"></script>
 <script type="text/javascript" src="scripts/libs/material.min.js"></script>

@@ -11,6 +11,16 @@ let Participants = [];
 let Categories = [];
 let Teams = [];
 let Reasons = [];
+let Preloader = new $.materialPreloader({
+    position: 'top',
+    height: '5px',
+    col_1: '#159756',
+    col_2: '#da4733',
+    col_3: '#3b78e7',
+    col_4: '#fdba2c',
+    fadeIn: 200,
+    fadeOut: 200
+});
 
 function GetOrganizationSettings() {
     return new Promise ( resolve => {
@@ -150,4 +160,59 @@ function GetUserData(user_id = "") {
            }
         });
     });
+}
+
+function GetURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+
+function ToTitleCase(str) {
+    return str[0].toUpperCase() + str.substring(1); 
+}
+
+function UploadFile() {
+    try{
+      var xml = new XMLHttpRequest();
+      var args = arguments;
+      var context = this;
+      var multipart = "";
+      xml.open(args[0].method,args[0].url,true);
+      if(args[0].method.search(/post/i)!=-1){
+        var boundary=Math.random().toString().substr(2);
+        xml.setRequestHeader("content-type",
+                    "multipart/form-data; charset=utf-8; boundary=" + boundary);
+        for(var key in args[0].params){
+          multipart += "--" + boundary
+                     + "\r\nContent-Disposition: form-data; name=" + key
+                     + "\r\nContent-type: application/octet-stream"
+                     + "\r\n\r\n" + args[0].params[key] + "\r\n";
+        }
+        multipart += "--" + boundary
+                    + '\r\nContent-Disposition: form-data; name="file"; filename="file"'
+                    + "\r\nContent-type: image/png"
+                    + "\r\n\r\n" + args[0].file + "\r\n";
+        multipart += "--"+boundary+"--\r\n";
+      }
+      xml.onreadystatechange=function(){
+        try{
+          if(xml.readyState==4){
+            context.txt = xml.responseText;
+            context.xml = xml.responseXML;
+            args[0].callback(JSON.parse(context.txt));
+          }
+        }
+        catch(e){}
+      }
+      xml.send(multipart);
+    }
+    catch(e){}
+}
+
+function ShowModal(modal, display) {
+    modal.fadeIn();
+    modal.css('display', display);
+}
+
+function HideModal(modal) {
+    modal.fadeOut();
 }

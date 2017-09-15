@@ -1,34 +1,34 @@
 package mainSite
 
 import (
-	"forcamp/src/api/users"
-	"forcamp/src/api/orgset/settings"
-	"net/http"
-	"forcamp/src"
-	"net/url"
-	"forcamp/src/tools"
-	"html/template"
 	"forcamp/conf"
+	"forcamp/src"
 	"forcamp/src/api/orgset"
 	"forcamp/src/api/orgset/categories"
+	"forcamp/src/api/orgset/settings"
+	"forcamp/src/api/users"
+	"forcamp/src/tools"
+	"html/template"
+	"net/http"
+	"net/url"
 )
 
 type generalTemplateData struct {
-	Token string
-	UserID int64
-	UserData users.UserData
+	Token       string
+	UserID      int64
+	UserData    users.UserData
 	OrgSettings settings.OrgSettings
-	Categories []categories.Category
+	Categories  []categories.Category
 	// Flags
-	IsAdmin bool
+	IsAdmin    bool
 	IsEmployee bool
-	IsOwner bool
+	IsOwner    bool
 }
 
 var generalTemplateFuncMap = template.FuncMap{
 	"stringToBoolean": tools.StringToBoolean,
-	"toTitleCase": tools.ToTitleCase,
-	"isNegative": tools.IsNegative,
+	"toTitleCase":     tools.ToTitleCase,
+	"isNegative":      tools.IsNegative,
 	"timestampToDate": tools.TimestampToDate,
 }
 
@@ -36,6 +36,9 @@ func GeneralHandler(responseWriter http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(responseWriter)
 		token, err := r.Cookie("token")
+		if err != nil {
+			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
 			generalHTML, err := template.New(conf.FILE_GENERAL).Funcs(generalTemplateFuncMap).ParseFiles(conf.FILE_GENERAL)
@@ -53,25 +56,29 @@ func GeneralHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
-		http.Redirect(responseWriter, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
+		http.Redirect(responseWriter, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
 	}
 }
 
 func getGeneralTemplateData(token string, r *http.Request) (generalTemplateData, *conf.ApiResponse) {
 	var gtd generalTemplateData
 	gtd.Token = token
-	organization, login, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+	organization, login, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+	if apiErr != nil {
 		return gtd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
 	gtd.UserID = login
-	apiErr = gtd.GetOrgSettings(); if apiErr != nil {
+	apiErr = gtd.GetOrgSettings()
+	if apiErr != nil {
 		return gtd, apiErr
 	}
-	apiErr = gtd.GetUserData(); if apiErr != nil {
+	apiErr = gtd.GetUserData()
+	if apiErr != nil {
 		return gtd, apiErr
 	}
-	apiErr = gtd.GetCategories(); if apiErr != nil {
+	apiErr = gtd.GetCategories()
+	if apiErr != nil {
 		return gtd, apiErr
 	}
 	gtd.SetFlags()

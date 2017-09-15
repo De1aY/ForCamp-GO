@@ -1,42 +1,47 @@
 package mainSite
 
 import (
-	"net/http"
-	"forcamp/src"
 	"forcamp/conf"
-	"forcamp/src/tools"
-	"text/template"
-	"forcamp/src/api/users"
+	"forcamp/src"
 	"forcamp/src/api/orgset"
 	"forcamp/src/api/orgset/settings"
+	"forcamp/src/api/users"
+	"forcamp/src/tools"
+	"net/http"
 	"net/url"
+	"text/template"
 )
 
 type orgSetTemplateData struct {
-	Token string
-	UserID int64
-	UserData users.UserData
+	Token       string
+	UserID      int64
+	UserData    users.UserData
 	OrgSettings settings.OrgSettings
 	// Flags
-	IsAdmin bool
+	IsAdmin    bool
 	IsEmployee bool
 }
 
 var orgSetTemplateFuncMap = template.FuncMap{
 	"stringToBoolean": tools.StringToBoolean,
-	"toTitleCase": tools.ToTitleCase,
+	"toTitleCase":     tools.ToTitleCase,
 }
 
 func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
-		token, err := r.Cookie("token");
+		token, err := r.Cookie("token")
+		if err != nil {
+			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
-			orgSetHTML, err := template.New(conf.FILE_ORGSET).Funcs(orgSetTemplateFuncMap).ParseFiles(conf.FILE_ORGSET); if err != nil {
-				w.WriteHeader(http.StatusInternalServerError);
+			orgSetHTML, err := template.New(conf.FILE_ORGSET).Funcs(orgSetTemplateFuncMap).ParseFiles(conf.FILE_ORGSET)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
 			}
-			ostd, apiErr := getOrgSetTemplateData(token.Value); if apiErr != nil {
+			ostd, apiErr := getOrgSetTemplateData(token.Value)
+			if apiErr != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 			if ostd.UserData.Access == 2 {
@@ -48,22 +53,25 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
-		http.Redirect(w, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
 	}
 }
 
-func getOrgSetTemplateData (token string) (orgSetTemplateData, *conf.ApiResponse) {
+func getOrgSetTemplateData(token string) (orgSetTemplateData, *conf.ApiResponse) {
 	var ostd orgSetTemplateData
 	ostd.Token = token
-	organization, user_id, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+	organization, user_id, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+	if apiErr != nil {
 		return ostd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
 	ostd.UserID = user_id
-	apiErr = ostd.GetUserData(); if apiErr != nil {
+	apiErr = ostd.GetUserData()
+	if apiErr != nil {
 		return ostd, apiErr
 	}
-	apiErr = ostd.GetOrgSettings(); if apiErr != nil {
+	apiErr = ostd.GetOrgSettings()
+	if apiErr != nil {
 		return ostd, apiErr
 	}
 	ostd.SetFlags()
@@ -91,11 +99,11 @@ func (ostd *orgSetTemplateData) GetOrgSettings() *conf.ApiResponse {
 // Flags
 
 func (ostd *orgSetTemplateData) SetFlags() {
-	ostd.setFlag_IsAdmin();
-	ostd.setFlag_IsEmployee();
+	ostd.setFlag_IsAdmin()
+	ostd.setFlag_IsEmployee()
 }
 
-func (ostd *orgSetTemplateData) setFlag_IsAdmin(){
+func (ostd *orgSetTemplateData) setFlag_IsAdmin() {
 	if ostd.UserData.Access == 2 {
 		ostd.IsAdmin = true
 		ostd.IsEmployee = true

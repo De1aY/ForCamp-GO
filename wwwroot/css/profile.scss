@@ -2,6 +2,68 @@
 
 body {
 
+  .fc-modal {
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .mdl-card {
+      margin-top: 64px;
+      min-width: 200px;
+      width: 270px;
+
+      .fc-password {
+        border-top: 1px solid rgba(0,0,0,.1);
+
+        .mdl-card__body-row {
+          max-height: 35px;
+        }
+
+      }
+
+      .fc-avatar {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      
+        .fc-imageBox {
+          position: relative;
+          width: 250px;
+          height: 250px;
+          background: #fff;
+          border-radius: 200px;
+          cursor: move;
+          overflow: hidden;
+
+          .fc-imageBox__thumbBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            margin-top: -90px;
+            margin-left: -90px;
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            background: none repeat scroll 0% 0% transparent;
+            border-radius: 100px;
+          }
+
+        }
+
+        .fc-avatar__crop-settings {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+        }
+
+      }
+
+    }
+
+  }
+
   .mdl-card {
 
     .mdl-card__title {
@@ -10,7 +72,7 @@ body {
         position: absolute;
         top: 10px;
         right: 10px;
-        font-size: 64px;
+        font-size: 56px;
       }
 
     }

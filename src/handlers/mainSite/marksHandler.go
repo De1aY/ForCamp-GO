@@ -1,45 +1,50 @@
 package mainSite
 
 import (
-	"net/http"
-	"forcamp/src"
 	"forcamp/conf"
-	"forcamp/src/tools"
-	"text/template"
-	"forcamp/src/api/users"
+	"forcamp/src"
 	"forcamp/src/api/orgset"
-	"forcamp/src/api/orgset/settings"
-	"net/url"
 	"forcamp/src/api/orgset/categories"
+	"forcamp/src/api/orgset/settings"
+	"forcamp/src/api/users"
+	"forcamp/src/tools"
+	"net/http"
+	"net/url"
+	"text/template"
 )
 
 type marksTemplateData struct {
-	Token string
-	UserID int64
-	UserData users.UserData
+	Token       string
+	UserID      int64
+	UserData    users.UserData
 	OrgSettings settings.OrgSettings
-	Categories []categories.Category
+	Categories  []categories.Category
 	// Flags
-	IsAdmin bool
+	IsAdmin    bool
 	IsEmployee bool
 }
 
 var marksTemplateFuncMap = template.FuncMap{
 	"stringToBoolean": tools.StringToBoolean,
-	"toTitleCase": tools.ToTitleCase,
+	"toTitleCase":     tools.ToTitleCase,
 }
 
 func MarksHandler(w http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
-		token, err := r.Cookie("token");
+		token, err := r.Cookie("token")
+		if err != nil {
+			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
-			marksHTML, err := template.New(conf.FILE_MARKS).Funcs(marksTemplateFuncMap).ParseFiles(conf.FILE_MARKS); if err != nil {
+			marksHTML, err := template.New(conf.FILE_MARKS).Funcs(marksTemplateFuncMap).ParseFiles(conf.FILE_MARKS)
+			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			mtd, apiErr := getMarksTemplateData(token.Value); if apiErr != nil {
+			mtd, apiErr := getMarksTemplateData(token.Value)
+			if apiErr != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
@@ -52,25 +57,29 @@ func MarksHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
-		http.Redirect(w, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
 	}
 }
 
 func getMarksTemplateData(token string) (marksTemplateData, *conf.ApiResponse) {
 	var mtd marksTemplateData
 	mtd.Token = token
-	organization, user_id, apiErr := orgset.GetUserOrganizationAndIdByToken(token); if apiErr != nil {
+	organization, user_id, apiErr := orgset.GetUserOrganizationAndIdByToken(token)
+	if apiErr != nil {
 		return mtd, apiErr
 	}
 	src.CustomConnection = src.Connect_Custom(organization)
 	mtd.UserID = user_id
-	apiErr = mtd.GetUserData(); if apiErr != nil {
+	apiErr = mtd.GetUserData()
+	if apiErr != nil {
 		return mtd, apiErr
 	}
-	apiErr = mtd.GetOrgSettings(); if apiErr != nil {
+	apiErr = mtd.GetOrgSettings()
+	if apiErr != nil {
 		return mtd, apiErr
 	}
-	apiErr = mtd.GetCategories(); if apiErr != nil {
+	apiErr = mtd.GetCategories()
+	if apiErr != nil {
 		return mtd, apiErr
 	}
 	mtd.SetFlags()
@@ -107,11 +116,11 @@ func (mtd *marksTemplateData) GetCategories() *conf.ApiResponse {
 // Flags
 
 func (mtd *marksTemplateData) SetFlags() {
-	mtd.setFlag_IsAdmin();
-	mtd.setFlag_IsEmployee();
+	mtd.setFlag_IsAdmin()
+	mtd.setFlag_IsEmployee()
 }
 
-func (mtd *marksTemplateData) setFlag_IsAdmin(){
+func (mtd *marksTemplateData) setFlag_IsAdmin() {
 	if mtd.UserData.Access == 2 {
 		mtd.IsAdmin = true
 		mtd.IsEmployee = true
