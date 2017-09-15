@@ -256,6 +256,7 @@ body {
     color: #57bf57; }
 
 body .fc-modal {
+  display: none;
   position: absolute;
   flex-direction: column;
   justify-content: flex-start; }
