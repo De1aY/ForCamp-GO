@@ -1,11 +1,14 @@
 package users
 
 import (
+	"bytes"
+	"encoding/base64"
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/api/authorization"
 	"forcamp/src/api/orgset"
-	"io"
+	"image/png"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -30,11 +33,16 @@ func changeAvatar(user_id int64, request *http.Request) *conf.ApiResponse {
 	if err != nil {
 		return conf.ErrFileUpload
 	}
-	file, _, err := request.FormFile("file")
-	if err != nil {
+	file, fileHeader, err := request.FormFile("file")
+	if err != nil || fileHeader.Header.Get("Content-Type") != "image/png" {
 		return conf.ErrFileUpload
 	}
 	defer file.Close()
+	fileData, err := ioutil.ReadAll(file)
+	rawAvatarImage := make([]byte, len(fileData))
+	_, err = base64.StdEncoding.Decode(rawAvatarImage, fileData)
+	rawAvatarImageReader := bytes.NewReader(rawAvatarImage)
+	avatarImage, err := png.Decode(rawAvatarImageReader)
 	fileName := "user_" + strconv.FormatInt(user_id, 10) + ".png"
 	f, err := os.OpenFile(conf.FOLDER_IMAGES+"/"+fileName,
 		os.O_WRONLY|os.O_CREATE, 0666)
@@ -42,7 +50,7 @@ func changeAvatar(user_id int64, request *http.Request) *conf.ApiResponse {
 		return conf.ErrFileUpload
 	}
 	defer f.Close()
-	_, err = io.Copy(f, file)
+	err = png.Encode(f, avatarImage)
 	if err != nil {
 		return conf.ErrFileUpload
 	}
@@ -51,7 +59,7 @@ func changeAvatar(user_id int64, request *http.Request) *conf.ApiResponse {
 		return conf.ErrDatabaseQueryFailed
 	}
 	defer req.Close()
-	_, err = req.Exec(&fileName)
+	_, err = req.Exec(&fileName, &user_id)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}

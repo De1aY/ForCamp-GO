@@ -16,11 +16,17 @@ $(document).ready(function() {
         reader.readAsDataURL(this.files[0]);
     })
     $('.fc-avatar__save').on('click', function(){
-        var img = cropper.getDataURL();
+        let rawImg = cropper.getDataURL();
         $('.fc-avatar').hide();
+        let img = rawImg.replace(/^data:image\/(png|jpg);base64,/, "");
         UploadFile({url: __ChangeUserAvatar, method: "POST", params: {token: Token}, file: img, 
-        callback: function(data) {
-            console.log(data);
+        callback: function(resp) {
+            if(resp.code === 200) {
+                notie.alert({type: 1, text: "Аватар успешно изменён", time: 2});
+                $('.mdl-card__title-photo--round').attr('src', rawImg)
+            } else {
+                notie.alert({type: 3, text: resp.message.ru, time: 2});
+            }
         }});
     })
     $('.fc-avatar__crop--inc').on('click', function(){
@@ -72,3 +78,11 @@ function changePassword(oldPassword, newPassword,
             }
         });
 }
+
+$('.mdl-button--modal').click(function(){
+    ShowModal($('.fc-modal'), 'flex');
+});
+
+$('.mdl-modal__button--close').click(function(){
+    HideModal($('.fc-modal'));
+});

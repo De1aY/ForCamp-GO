@@ -188,7 +188,7 @@ function UploadFile() {
                      + "\r\n\r\n" + args[0].params[key] + "\r\n";
         }
         multipart += "--" + boundary
-                    + "\r\nContent-Disposition: form-data; name=file filename=file"
+                    + '\r\nContent-Disposition: form-data; name="file"; filename="file"'
                     + "\r\nContent-type: image/png"
                     + "\r\n\r\n" + args[0].file + "\r\n";
         multipart += "--"+boundary+"--\r\n";
@@ -196,9 +196,9 @@ function UploadFile() {
       xml.onreadystatechange=function(){
         try{
           if(xml.readyState==4){
-            context.txt=xml.responseText;
-            context.xml=xml.responseXML;
-            args[0].callback();
+            context.txt = xml.responseText;
+            context.xml = xml.responseXML;
+            args[0].callback(JSON.parse(context.txt));
           }
         }
         catch(e){}
@@ -206,4 +206,13 @@ function UploadFile() {
       xml.send(multipart);
     }
     catch(e){}
+}
+
+function ShowModal(modal, display) {
+    modal.fadeIn();
+    modal.css('display', display);
+}
+
+function HideModal(modal) {
+    modal.fadeOut();
 }
