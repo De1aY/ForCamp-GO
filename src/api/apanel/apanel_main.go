@@ -3,35 +3,21 @@ package apanel
 import (
 	"forcamp/conf"
 	"forcamp/src"
+	"forcamp/src/api/orgset"
 )
 
 type createOrganization_Success struct {
-	AdminLogin string `json:"admin_login"`
+	AdminLogin    string `json:"admin_login"`
 	AdminPassword string `json:"admin_password"`
 }
 
-func getLoginByToken(token string) (string, *conf.ApiResponse) {
-	if len(token) == 0{
-		return "", conf.ErrUserTokenEmpty
-	}
-	var login string
-	err := src.Connection.QueryRow("SELECT login FROM sessions WHERE token=?", token).Scan(&login)
-	if err != nil {
-		return "", conf.ErrDatabaseQueryFailed
-	}
-	if len(login) == 0 {
-		return "", conf.ErrUserTokenIncorrect
-	}
-	return login, nil
-}
-
-func checkPermissions(token string) *conf.ApiResponse{
-	login, APIerr := getLoginByToken(token)
-	if APIerr != nil {
-		return APIerr
+func isUserAdmin(token string) *conf.ApiResponse {
+	user_id, apiErr := orgset.GetUserIdByToken(token)
+	if apiErr != nil {
+		return apiErr
 	}
 	var admin_status bool
-	err := src.Connection.QueryRow("SELECT admin FROM users WHERE login=?", login).Scan(&admin_status)
+	err := src.Connection.QueryRow("SELECT admin FROM users WHERE id=?", user_id).Scan(&admin_status)
 	if err != nil {
 		return conf.ErrDatabaseQueryFailed
 	}

@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"github.com/gorilla/mux"
-	"net/http"
 	"forcamp/conf"
 	"forcamp/src"
 	"forcamp/src/handlers/mainSite"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func getFolder_Scripts() http.Dir {
@@ -44,7 +45,7 @@ func folderHandler_Images() http.Handler {
 	return ImagesHandler
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request){
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.TLS != nil {
 		src.SetHeaders_Main(w)
 		http.ServeFile(w, r, conf.FILE_INDEX)
@@ -63,13 +64,9 @@ func HandleMainSite(router *mux.Router) {
 	router.PathPrefix("/images").Handler(ImagesHandler)
 	// Pages
 	router.HandleFunc("/", mainSite.IndexHandler)
-	router.HandleFunc("/main", indexHandler)
 	router.HandleFunc("/orgset", mainSite.OrgSetHandler)
 	router.HandleFunc("/marks", mainSite.MarksHandler)
 	router.HandleFunc("/general", mainSite.GeneralHandler)
 	router.HandleFunc("/profile", mainSite.ProfileHandler)
-	router.HandleFunc("/team", indexHandler)
-	router.HandleFunc("/achievements", indexHandler)
-	router.HandleFunc("/profile/{login}", indexHandler)
-	router.HandleFunc("/apanel", indexHandler)
+	router.HandleFunc("/apanel", mainSite.ApanelHandler)
 }
