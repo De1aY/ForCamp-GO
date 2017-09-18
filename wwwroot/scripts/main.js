@@ -162,6 +162,30 @@ function GetUserData(user_id = "") {
     });
 }
 
+function SetTeamsMarks() {
+    Teams.forEach(team => {
+        team.marks = [];
+        team.mark = 0;
+        Participants[0].marks.forEach( mark => {
+            team.marks.push(0)
+        });
+    });
+    Participants.forEach( participant => {
+        if (participant.team !== 0) {
+            let team = Teams.filter(team => {
+                return team.id === participant.team;
+            })[0];
+            participant.marks.forEach( (mark, i) => {
+                team.mark += mark.value;
+                team.marks[i] += mark.value;
+            });
+        }
+    });
+    Teams = Teams.sort( (a, b) => {
+        return b.mark - a.mark
+    });
+}
+
 function GetURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
@@ -172,16 +196,16 @@ function ToTitleCase(str) {
 
 function UploadFile() {
     try{
-      var xml = new XMLHttpRequest();
-      var args = arguments;
-      var context = this;
-      var multipart = "";
+      let xml = new XMLHttpRequest();
+      let args = arguments;
+      let context = this;
+      let multipart = "";
       xml.open(args[0].method,args[0].url,true);
       if(args[0].method.search(/post/i)!=-1){
-        var boundary=Math.random().toString().substr(2);
+        let boundary=Math.random().toString().substr(2);
         xml.setRequestHeader("content-type",
                     "multipart/form-data; charset=utf-8; boundary=" + boundary);
-        for(var key in args[0].params){
+        for(let key in args[0].params){
           multipart += "--" + boundary
                      + "\r\nContent-Disposition: form-data; name=" + key
                      + "\r\nContent-type: application/octet-stream"

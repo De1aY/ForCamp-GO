@@ -48,7 +48,7 @@ $('#fc-header__action-button--auth').click(function () {
 });
 
 $(document).ready(function() {
-    $('#fullpage').fullpage({
+    /*$('#fullpage').fullpage({
         //Navigation
         menu: '#menu',
         lockAnchors: false,
@@ -118,5 +118,5 @@ $(document).ready(function() {
         afterResponsive: function(isResponsive){},
         afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
         onSlideLeave: function(anchorLink, index, slideIndex, direction, nextSlideIndex){}
-    });
+    });*/
 });
