@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ForCamp (v0.4.2 alpha)</title>
+    <title>ForCamp (v0.4.3 alpha)</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.css">
@@ -224,7 +224,7 @@
                                     <span class="mdl-card__body-row-text--bold">Фамилия:</span>
                                 </div>
                                 <div class="mdl-card__body-row-text">
-                                    <span>{{.UserData.Surname | toTitleCase}}</span>
+                                    <span>{{.RequestData.Surname | toTitleCase}}</span>
                                 </div>
                             </div>
                             <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
@@ -232,7 +232,7 @@
                                     <span class="mdl-card__body-row-text--bold">Имя:</span>
                                 </div>
                                 <div class="mdl-card__body-row-text">
-                                    <span>{{.UserData.Name | toTitleCase}}</span>
+                                    <span>{{.RequestData.Name | toTitleCase}}</span>
                                 </div>
                             </div>
                             <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
@@ -240,7 +240,7 @@
                                     <span class="mdl-card__body-row-text--bold">Отчество:</span>
                                 </div>
                                 <div class="mdl-card__body-row-text">
-                                    <span>{{.UserData.Middlename | toTitleCase}}</span>
+                                    <span>{{.RequestData.Middlename | toTitleCase}}</span>
                                 </div>
                             </div>
                             <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">
@@ -248,7 +248,7 @@
                                     <span class="mdl-card__body-row-text--bold">{{.OrgSettings.Team | toTitleCase}}:</span>
                                 </div>
                                 <div class="mdl-card__body-row-text">
-                                    <span>{{.UserData.Team.Name | toTitleCase}}</span>
+                                    <span>{{.RequestData.Team.Name | toTitleCase}}</span>
                                 </div>
                             </div>
                             <div class="mdl-card__body-row mdl-card__body-row--16px mdl-card__body-row--table">

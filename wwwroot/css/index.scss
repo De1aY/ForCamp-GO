@@ -7,8 +7,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
   background: linear-gradient(to right, $MainColor 0%, $AccentColor 100%);
 
   .fc-auth {
@@ -136,9 +136,11 @@
       justify-content: flex-start;
       
       @media (max-width: 839px) {
-        margin-top: auto;
+        align-self: center;
         justify-content: center;
       }
+
+      @media (max-width: 479px) { margin-top: auto }
 
       img {
         height: 70px;

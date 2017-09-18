@@ -166,6 +166,7 @@ body {
           max-height: 0;
           position: absolute;
           top: 0;
+          right: 70px;
           background: #FFF;
           font-weight: 400;
           text-align: center;
@@ -254,5 +255,19 @@ body {
     color: #6bd36b; }
   body .emotional_mark--very_satisfied {
     color: #57bf57; }
+
+body .page-content .mdl-cell .mdl-card .mdl-card__body .dataTables_wrapper .mdl-grid:first-child {
+  display: none; }
+body .page-content .mdl-cell .mdl-card .mdl-card__body .dataTables_wrapper .mdl-grid:last-child {
+  display: none; }
+body .page-content .mdl-cell .mdl-card .mdl-card__body .dataTables_wrapper .dt-table {
+  padding: 0; }
+  body .page-content .mdl-cell .mdl-card .mdl-card__body .dataTables_wrapper .dt-table .mdl-cell {
+    padding-bottom: 0;
+    margin: 0;
+    width: 100%; }
+    body .page-content .mdl-cell .mdl-card .mdl-card__body .dataTables_wrapper .dt-table .mdl-cell table {
+      width: 100%;
+      border: none; }
 
 /*# sourceMappingURL=general.css.map */

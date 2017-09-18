@@ -1,7 +1,8 @@
 GetTeams();
 
 function reloadTables() {
-    Top5Table.ajax.reload(null, false);
+    Top5ParticipantsTable.ajax.reload(null, false);
+    Top5TeamsTable.ajax.reload(null, false);
 }
 
 $(document).ready(function() {
@@ -12,9 +13,9 @@ function onTableDraw() {
     componentHandler.upgradeDom();
 }
 
-// General - Top5
+// General - Top5 participants
 
-let Top5Table = $('#mdl-card__body-table-top5').DataTable({
+let Top5ParticipantsTable = $('#mdl-card__body-table-top5--participants').DataTable({
     "lengthChange": false,
     "paging": false,
     "searching": false,
@@ -37,6 +38,7 @@ let Top5Table = $('#mdl-card__body-table-top5').DataTable({
             Participants = Participants.sort( (a, b) => {
                return b.sum - a.sum
             });
+            SetTeamsMarks();
             return Participants.slice(0, 6);
         },
     },
@@ -99,25 +101,103 @@ let Top5Table = $('#mdl-card__body-table-top5').DataTable({
         }
     },
     "drawCallback": function () {
-        $('#mdl-card__body-table-marks').css('width', '100%');
         onTableDraw();
     },
     "initComplete": function() {
         drawCharts();
+        let Top5TeamsTable = $('#mdl-card__body-table-top5--teams').DataTable({
+            "lengthChange": false,
+            "paging": false,
+            "searching": false,
+            "ordering": false,
+            "data": Teams,
+            columnDefs: [
+                {
+                    targets: 0,
+                    name: "name",
+                    className: 'mdl-data-table__cell--non-numeric',
+                    data: "name",
+                    orderable: false,
+                    render: function ( name, type, row, meta ) {
+                        return name;
+                    },
+                },
+                {
+                    targets: 1,
+                    name: "participants_value",
+                    data: "participants",
+                    type: 'num',
+                    orderable: false,
+                    render: function ( participants, type, row, meta ) {
+                        return participants.length;
+                    }
+                },
+                {
+                    targets: 2,
+                    name: "mark",
+                    data: "mark",
+                    type: "num",
+                    render: function ( mark, type, row, meta ) {
+                        return mark
+                    }
+                },
+            ],
+            language: {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать _MENU_ записей",
+                "info": "",
+                "infoEmpty": "",
+                "infoFiltered": "",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка участников...",
+                "zeroRecords": "Команды отсутствуют.",
+                "emptyTable": "Команды отсутствуют",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Пред.",
+                    "next": "След.",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": отсортировать по возрастанию",
+                    "sortDescending": ": отсортировать по убыванию"
+                }
+            },
+            "drawCallback": function () {
+                onTableDraw();
+            },
+        });
     }
 });
 
-// General - BubbleChart
+let general_chart_top5_participants_bar_ctx = document
+    .getElementById('general-chart--top5--participants').getContext('2d');
 
-let general_chart_bubble_ctx = document.getElementById('general-chart--top5').getContext('2d');
+let general_chart_top5_teams_bar_ctx = document
+    .getElementById('general-chart--top5--teams').getContext('2d');
 
-async function drawCharts() {
-    let general_chart_top5_data = getGeneralTop5ChartData();
-    let general_chart_top5 = new Chart(general_chart_bubble_ctx, {
+function drawCharts() {
+    let general_chart_top5_participants_data = getGeneralTop5ParticipantsChartData();
+    let general_chart_top5_participants = new Chart(general_chart_top5_participants_bar_ctx, {
         type: 'bar',
         data: {
-            labels: general_chart_top5_data.labels,
-            datasets: general_chart_top5_data.datasets
+            labels: general_chart_top5_participants_data.labels,
+            datasets: general_chart_top5_participants_data.datasets
+        },
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+        }
+    });
+    let general_chart_top5_teams_data = getGeneralTop5TeamsChartData();
+    let general_chart_top5_teams = new Chart(general_chart_top5_teams_bar_ctx, {
+        type: 'bar',
+        data: {
+            labels: general_chart_top5_teams_data.labels,
+            datasets: general_chart_top5_teams_data.datasets
         },
         options: {
             responsive: true,
@@ -128,7 +208,7 @@ async function drawCharts() {
     });
 }
 
-function getGeneralTop5ChartData() {
+function getGeneralTop5ParticipantsChartData() {
     let chartData = {
         datasets: [],
         labels: [],
@@ -147,6 +227,36 @@ function getGeneralTop5ChartData() {
         };
         participant.marks.forEach( mark => {
             dataset.data.push(mark.value);
+        });
+        let rColor = randomColor({
+            luminosity: 'bright',
+        });
+        dataset.borderColor = rColor;
+        dataset.backgroundColor = rColor;
+        chartData.datasets.push(dataset);
+    });
+    return chartData
+}
+
+// General - Top5 teams
+
+function getGeneralTop5TeamsChartData() {
+    let chartData = {
+        datasets: [],
+        labels: [],
+    };
+    Participants[0].marks.forEach( mark => {
+        chartData.labels.push(ToTitleCase(mark.name));
+    });
+    Teams.slice(0, 6).forEach( team => {
+        let dataset = {
+            label: team.name,
+            data: [],
+            borderColor: "",
+            backgroundColor: "",
+        };
+        team.marks.forEach( mark => {
+            dataset.data.push(mark);
         });
         let rColor = randomColor({
             luminosity: 'bright',
