@@ -145,7 +145,7 @@ func createOrganizationDB(orgname string, name string,
 	_, err = connection.Exec("CREATE TABLE " + orgname + ".emotional_marks LIKE starter.emotional_marks")
 	_, err = connection.Exec("CREATE TABLE " + orgname + ".teams LIKE starter.teams")
 	_, err = connection.Exec("CREATE TABLE " + orgname + ".settings LIKE starter.settings")
-	_, err = connection.Exec("INSERT INTO " + orgname + ".settings SELECT * FROM starter.settings")
+	_, err = connection.Exec("INSERT INTO "  + orgname + ".settings SELECT * FROM starter.settings")
 	_, err = connection.Exec("CREATE TABLE " + orgname + ".marks_changes LIKE starter.marks_changes")
 	_, err = connection.Exec("CREATE TABLE " + orgname + ".categories LIKE starter.categories")
 	if err != nil {
