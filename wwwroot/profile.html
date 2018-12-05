@@ -94,12 +94,12 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">профиль</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga">главная</a>
-            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/profile">профиль</a>
-            {{if .IsAdmin}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/orgset">управление</a>{{end}}
-            {{if .IsEmployee}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/marks">баллы</a>{{end}}
-            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/general">статистика</a>
-            <a class="mdl-navigation__link wave-effect" href="https://forcamp.ga/exit">выйти</a>
+            <a class="mdl-navigation__link wave-effect" href="https://forcamp.nullteam.info">главная</a>
+            <a class="mdl-navigation__link wave-effect" href="https://forcamp.nullteam.info/profile">профиль</a>
+            {{if .IsAdmin}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.nullteam.info/orgset">управление</a>{{end}}
+            {{if .IsEmployee}}<a class="mdl-navigation__link wave-effect" href="https://forcamp.nullteam.info/marks">баллы</a>{{end}}
+            <a class="mdl-navigation__link wave-effect" href="https://forcamp.nullteam.info/general">статистика</a>
+            <a class="mdl-navigation__link wave-effect" href="https://forcamp.nullteam.info/exit">выйти</a>
         </nav>
     </div>
     <main class="mdl-layout__content">
@@ -338,7 +338,7 @@
                                     {{else}}
                                     <span>Изменила балл </span>
                                     {{end}}
-                                    <a href="https://forcamp.ga/profile?id={{.EventData.Participant.ID}}">
+                                    <a href="https://forcamp.nullteam.info/profile?id={{.EventData.Participant.ID}}">
                                         {{.EventData.Participant.Surname | toTitleCase}}
                                         {{.EventData.Participant.Name | toTitleCase}}
                                         {{.EventData.Participant.Middlename | toTitleCase}}</a> на
