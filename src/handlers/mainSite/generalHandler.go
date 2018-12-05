@@ -37,7 +37,7 @@ func GeneralHandler(responseWriter http.ResponseWriter, r *http.Request) {
 		src.SetHeaders_Main(responseWriter)
 		token, err := r.Cookie("token")
 		if err != nil {
-			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
 		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
@@ -53,7 +53,7 @@ func GeneralHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			}
 			generalHTML.ExecuteTemplate(responseWriter, "general", gtd)
 		} else {
-			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
 		http.Redirect(responseWriter, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)

@@ -41,7 +41,7 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 		src.SetHeaders_Main(responseWriter)
 		token, err := r.Cookie("token")
 		if err != nil {
-			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
 			return
 		}
 		token.Value, err = url.QueryUnescape(token.Value)
@@ -54,7 +54,7 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			ptd, apiErr := getProfileTemplateData(token.Value, r)
 			if apiErr != nil {
 				if apiErr.Code == 618 {
-					http.Redirect(responseWriter, r, "https://forcamp.ga/404", http.StatusTemporaryRedirect)
+					http.Redirect(responseWriter, r, conf.MAIN_SITE_DOMAIN + "/404", http.StatusTemporaryRedirect)
 					return
 				} else {
 					responseWriter.WriteHeader(http.StatusInternalServerError)
@@ -63,7 +63,7 @@ func ProfileHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			}
 			profileHTML.ExecuteTemplate(responseWriter, "profile", ptd)
 		} else {
-			http.Redirect(responseWriter, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
 		http.Redirect(responseWriter, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)
