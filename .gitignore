@@ -2,9 +2,5 @@
 *.iml
 out
 gen
-/wwwroot/data/
-.sass-cache
-/.sass-cache/
-/.sass-cache
-.sass-cache/
+data
 debug

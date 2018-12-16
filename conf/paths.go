@@ -15,4 +15,5 @@ const (
 	FILE_PROFILE = "./wwwroot/profile.html"
 	FILE_MARKS   = "./wwwroot/marks.html"
 	FILE_APANEL  = "./wwwroot/apanel.html"
+	FILE_CALENDAR = "./wwwroot/calendar.html"
 )
