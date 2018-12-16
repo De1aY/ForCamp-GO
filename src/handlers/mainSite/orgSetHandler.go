@@ -32,7 +32,7 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 		src.SetHeaders_Main(w)
 		token, err := r.Cookie("token")
 		if err != nil {
-			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "https://" + conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
 		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
@@ -47,10 +47,10 @@ func OrgSetHandler(w http.ResponseWriter, r *http.Request) {
 			if ostd.UserData.Access == 2 {
 				orgSetHTML.ExecuteTemplate(w, "orgset", ostd)
 			} else {
-				http.Redirect(w, r, "https://forcamp.ga/general", http.StatusTemporaryRedirect)
+				http.Redirect(w, r, "https://" + conf.MAIN_SITE_DOMAIN + "/general", http.StatusTemporaryRedirect)
 			}
 		} else {
-			http.Redirect(w, r, "https://forcamp.ga/exit", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "https://" + conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
 		http.Redirect(w, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)

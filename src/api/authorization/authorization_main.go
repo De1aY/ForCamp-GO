@@ -1,10 +1,10 @@
 package authorization
 
 import (
-	"forcamp/src"
-	"forcamp/conf"
-	"net/http"
 	"encoding/json"
+	"forcamp/conf"
+	"forcamp/src"
+	"net/http"
 )
 
 type checkToken_Success struct {
@@ -19,7 +19,8 @@ func (success *checkToken_Success) toJSON() string {
 
 func Authorize(inf AuthInf, responseWriter http.ResponseWriter) {
 	if checkAuthorizationData(inf, responseWriter) {
-		if checkCurrentSessionsVal(inf.Login, responseWriter) {
+		//if checkCurrentSessionsVal(inf.Login, responseWriter) {
+		if deleteOldestSession(inf.Login, responseWriter) {
 			setUserToken(inf.Login, responseWriter)
 		}
 	}
@@ -42,7 +43,7 @@ func setUserToken(login string, responseWriter http.ResponseWriter) bool {
 func getToken(login string, responseWriter http.ResponseWriter) string {
 	for true {
 		Token := generateTokenHash(login)
-		if IsTokenValid(Token, responseWriter){
+		if IsTokenValid(Token, responseWriter) {
 			continue
 		} else {
 			return Token
@@ -61,7 +62,7 @@ func IsTokenValid(token string, responseWriter http.ResponseWriter) bool {
 	return count != 0
 }
 
-func VerifyToken(token string, responseWriter http.ResponseWriter) bool{
+func VerifyToken(token string, responseWriter http.ResponseWriter) bool {
 	if len(token) > 0 {
 		if IsTokenValid(token, responseWriter) {
 			adminStatus, apiErr := isUserAdmin(token)
@@ -93,7 +94,7 @@ func isUserAdmin(token string) (bool, *conf.ApiResponse) {
 	return adminStatus, nil
 }
 
-func checkCurrentSessionsVal(login string, responseWriter http.ResponseWriter) bool {
+/* func checkCurrentSessionsVal(login string, responseWriter http.ResponseWriter) bool {
 	var count int
 	err := src.Connection.QueryRow("SELECT COUNT(token) as count FROM sessions WHERE login=?", login).Scan(&count)
 	if err != nil {
@@ -104,10 +105,11 @@ func checkCurrentSessionsVal(login string, responseWriter http.ResponseWriter) b
 	} else {
 		return true
 	}
-}
+} */
 
 func deleteOldestSession(login string, responseWriter http.ResponseWriter) bool {
-	query, err := src.Connection.Prepare("DELETE FROM sessions WHERE login=? LIMIT 1"); if err != nil {
+	query, err := src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
+	if err != nil { // TODO: Add 'LIMIT 1' if sessions > 1
 		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 	}
 	defer query.Close()

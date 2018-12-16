@@ -1,4 +1,4 @@
-const __SiteDomain = "https://api.forcamp.ga";
+const __SiteDomain = "https://api.forcamp.nullteam.info";
 const __ImagesLink = __SiteDomain + "/images/";
 //  API Links: Auth
 const __GetUserTokenLink = __SiteDomain + "/token.get";

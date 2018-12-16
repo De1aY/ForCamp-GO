@@ -76,11 +76,11 @@ $(document).ready(function(){
         let info = button.data('content');
         switch (info) {
             case "participants": {
-                window.location.href = "https://api.forcamp.ga/orgset.participants.password.get?token="+Token;
+                window.location.href = "https://api.forcamp.nullteam.info/orgset.participants.password.get?token="+Token;
                 break;
             }
             case "employees": {
-                window.location.href = "https://api.forcamp.ga/orgset.employees.password.get?token="+Token;
+                window.location.href = "https://api.forcamp.nullteam.info/orgset.employees.password.get?token="+Token;
                 break;
             }
         }
@@ -375,7 +375,7 @@ function onTableDraw() {
     $('.mdl-card__body-table-row_actions--profile').unbind('click').click( function () {
        let button = $(this);
        let id = button.data('content').split('-')[1];
-       window.location.href = "https://forcamp.ga/profile?id=" + id;
+       window.location.href = "https://forcamp.nullteam.info/profile?id=" + id;
     });
     ActivateWavesEffect();
 }
@@ -461,7 +461,7 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
                 if (leader.id > 0) {
                     return '<a class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
                         'id="mdl-card__body-table-teams--leader-' + row.id + '"' +
-                        ' data-content="team-' + row.id + '-leader" href="https://forcamp.ga/profile?id=' + leader.id + '">' +
+                        ' data-content="team-' + row.id + '-leader" href="https://forcamp.nullteam.info/profile?id=' + leader.id + '">' +
                         leader.surname + ' ' + leader.name + ' ' + leader.middlename + '</a>';
                 } else {
                     return '<div class="mdl-card__body-table-row__field mdl-card__body-table-row__field--noteditable mdl-card__body-table-row__field--capitalize" ' +
@@ -1460,7 +1460,7 @@ let EventsTable = $('#mdl-card__body-table-events').DataTable({
             render: function ( event_data, type, row, meta ) {
                 switch (row.type){
                     case 1:
-                        let resultStr = '<a href="https://forcamp.ga/profile?id=' + row.employee_id + '">' + 
+                        let resultStr = '<a href="https://forcamp.nullteam.info/profile?id=' + row.employee_id + '">' +
                             ToTitleCase(event_data.employee.surname) + " " +
                             ToTitleCase(event_data.employee.name) + '</a>';
                         if (event_data.employee.sex === 1) {
@@ -1468,13 +1468,13 @@ let EventsTable = $('#mdl-card__body-table-events').DataTable({
                         } else {
                             resultStr += " изменилл балл ";
                         }
-                        resultStr += '<a href="https://forcamp.ga/profile?id=' + row.participant_id + '">' + 
+                        resultStr += '<a href="https://forcamp.nullteam.info/profile?id=' + row.participant_id + '">' +
                             ToTitleCase(event_data.participant.surname) + " " +
                             ToTitleCase(event_data.participant.name) + '</a> на ';
                         resultStr += event_data.change + ' по причине "' + event_data.text + '"';
                         return resultStr;
                     case 2:
-                        let resultStr_Type2 = '<a href="https://forcamp.ga/profile?id=' + row.participant_id + '">' + 
+                        let resultStr_Type2 = '<a href="https://forcamp.nullteam.info/profile?id=' + row.participant_id + '">' +
                             ToTitleCase(event_data.participant.surname) + " " +
                             ToTitleCase(event_data.participant.name) + '</a>';
                         if (event_data.participant.sex === 1) {
