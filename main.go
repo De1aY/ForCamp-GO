@@ -1,5 +1,5 @@
 /*
-	Copyright: "Null team", 2016 - 2017
+	Copyright: "Null team", 2016 - 2018
 	Author: "De1aY"
 	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
 */
