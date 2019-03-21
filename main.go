@@ -1,6 +1,6 @@
 /*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
+	Copyright: "Null team", 2016 - 2019
+	Author: Nikita Ivanov <de1ay@nullteam.info>
 	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
 */
 package main
@@ -27,7 +27,7 @@ import (
 func main() {
 	// Domains routing
 	Router := mux.NewRouter()
-	WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
+	// WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
 	MainSite := Router.Host(conf.MAIN_SITE_DOMAIN).Subrouter()
 	APISite := Router.Host(conf.API_SITE_DOMAIN).Subrouter()
 
@@ -83,9 +83,9 @@ func main() {
 	apanel.HandleAddOrganization(APISite)
 
 	// Handlers: Main site
-	handlers.HandleMainSite(WWWSite)
+	// handlers.HandleMainSite(WWWSite)
 	handlers.HandleMainSite(MainSite)
-	handlers.HandleExit(WWWSite)
+	// handlers.HandleExit(WWWSite)
 	handlers.HandleExit(MainSite)
 
 	// Database: "forcamp"

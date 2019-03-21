@@ -8,3 +8,6 @@ gen
 /.sass-cache
 .sass-cache/
 debug
+/wwwroot/node_modules
+/wwwroot/dist
+/data

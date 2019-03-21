@@ -50,7 +50,7 @@ let Top5ParticipantsTable = $('#mdl-card__body-table-top5--participants').DataTa
             data: "surname",
             orderable: false,
             render: function ( surname, type, row, meta ) {
-                return '<a href="https://forcamp.nullteam.info/profile?id=' + row.id + '" ' +
+                return '<a href="' + __MainSiteDomain + '/profile?id=' + row.id + '" ' +
                     'class="mdl-card__body-table-row__field">'+
                     surname[0].toUpperCase() + surname.substring(1) + ' '
                     + row.name[0].toUpperCase() + row.name.substring(1) + ' '

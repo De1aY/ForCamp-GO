@@ -1,10 +1,10 @@
 package authorization
 
 import (
-	"net/http"
 	"forcamp/conf"
-	"html"
 	"forcamp/src"
+	"html"
+	"net/http"
 )
 
 func checkAuthorizationData(inf AuthInf, responseWriter http.ResponseWriter) bool {

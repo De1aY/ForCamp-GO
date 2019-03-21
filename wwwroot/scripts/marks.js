@@ -52,7 +52,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
             data: "surname",
             searchable: true,
             render: function ( surname, type, row, meta ) {
-                return '<a href="https://forcamp.nullteam.info/profile?id=' + row.id + '" ' +
+                return '<a href="' + __MainSiteDomain + '/profile?id=' + row.id + '" ' +
                     'class="mdl-card__body-table-row__field">'+
                     surname[0].toUpperCase() + surname.substring(1) + ' '
                     + row.name[0].toUpperCase() + row.name.substring(1) + ' '
@@ -190,7 +190,7 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
             data: "event_data.participant",
             searchable: false,
             render: function ( participant, type, row, meta ) {
-                return '<a href="https://forcamp.nullteam.info/profile?id=' + participant.id + '" ' +
+                return '<a href="' + __MainSiteDomain + '/profile?id=' + participant.id + '" ' +
                     'class="mdl-card__body-table-row__field">'+
                     participant.surname[0].toUpperCase() + participant.surname.substring(1) + ' '
                     + participant.name[0].toUpperCase() + participant.name.substring(1) + ' '
