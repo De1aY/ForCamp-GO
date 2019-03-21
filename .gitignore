@@ -4,3 +4,4 @@ out
 gen
 data
 debug
+conf/database.go
