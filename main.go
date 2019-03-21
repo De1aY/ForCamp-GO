@@ -1,6 +1,6 @@
 /*
-	Copyright: "Null team", 2016 - 2018
-	Author: "De1aY"
+	Copyright: "NullTeam", 2016 - 2019
+	Author: Nikita Ivanov <de1ay@nullteam.info>
 	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
 */
 package main
