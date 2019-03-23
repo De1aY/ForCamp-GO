@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"forcamp/conf"
+	"wplay/conf"
 	"crypto/tls"
 	"github.com/gorilla/mux"
 	"net/http"

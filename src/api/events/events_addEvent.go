@@ -1,8 +1,8 @@
 package events
 
 import (
-	"forcamp/src"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/conf"
 )
 
 func AddEvent(eventType int, participant_id int64, employee_id int64) (int64, *conf.ApiResponse) {

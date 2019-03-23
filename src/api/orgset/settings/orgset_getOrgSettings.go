@@ -2,11 +2,11 @@ package settings
 
 import (
 	"net/http"
-	"forcamp/conf"
+	"wplay/conf"
 	"database/sql"
-	"forcamp/src/api/authorization"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/authorization"
+	"wplay/src"
+	"wplay/src/api/orgset"
 )
 
 type OrgSettings struct {

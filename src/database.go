@@ -3,17 +3,17 @@ package src
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"forcamp/conf"
+	"wplay/conf"
 	"log"
 )
 
 var(
-	Connection *sql.DB // DataBase: "forcamp"
+	Connection *sql.DB // DataBase: "wplay"
 	CustomConnection *sql.DB // DataBase: custom
 )
 
 /*
-Function builds MySQL source link for Database: "forcamp"
+Function builds MySQL source link for Database: "wplay"
  */
 func getMysqlSource() string{
 	MysqlSource := conf.MYSQL_LOGIN + ":"
@@ -42,7 +42,7 @@ func getMysqlSource_Admin() string{
 }
 
 /*
-Function opens an MySQL connection for Database: "ForCamp"
+Function opens an MySQL connection for Database: "wplay"
  */
 func Connect() *sql.DB{
 	Source := getMysqlSource()

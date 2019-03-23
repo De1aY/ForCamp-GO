@@ -2,9 +2,9 @@ package authorization
 
 import (
 	"net/http"
-	"forcamp/conf"
+	"wplay/conf"
 	"html"
-	"forcamp/src"
+	"wplay/src"
 )
 
 func checkAuthorizationData(inf AuthInf, responseWriter http.ResponseWriter) bool {

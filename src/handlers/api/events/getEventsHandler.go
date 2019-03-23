@@ -3,13 +3,13 @@ package events
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/events"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/events"
 	"strconv"
 	"strings"
-	"forcamp/src/tools"
-	"forcamp/src/api/orgset"
+	"wplay/src/tools"
+	"wplay/src/api/orgset"
 )
 
 func getRequestData(r *http.Request) (string, int64, int64, int64, int, bool, *conf.ApiResponse) {

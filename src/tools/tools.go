@@ -1,7 +1,7 @@
 package tools
 
 import (
-	"forcamp/src"
+	"wplay/src"
 	"strings"
 )
 

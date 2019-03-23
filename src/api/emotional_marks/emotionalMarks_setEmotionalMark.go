@@ -2,10 +2,10 @@ package emotional_marks
 
 import (
 	"net/http"
-	"forcamp/src/api/authorization"
-	"forcamp/src"
-	"forcamp/conf"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/authorization"
+	"wplay/src"
+	"wplay/conf"
+	"wplay/src/api/orgset"
 )
 
 func SetEmotionalMark(token string, emotional_mark int64, responseWriter http.ResponseWriter) bool {

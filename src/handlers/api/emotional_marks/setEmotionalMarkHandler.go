@@ -2,9 +2,9 @@ package emotional_marks
 
 import (
 	"net/http"
-	"forcamp/src"
-	"forcamp/src/api/emotional_marks"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/src/api/emotional_marks"
+	"wplay/conf"
 	"strconv"
 	"strings"
 	"github.com/gorilla/mux"

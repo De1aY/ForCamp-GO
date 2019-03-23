@@ -1,9 +1,9 @@
 package users_edit
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/users"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/users"
 	"net/http"
 	"strings"
 

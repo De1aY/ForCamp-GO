@@ -1,8 +1,8 @@
 package marks
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strconv"
 )
 

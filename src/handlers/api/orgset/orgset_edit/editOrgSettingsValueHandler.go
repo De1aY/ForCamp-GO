@@ -3,10 +3,10 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
-	"forcamp/src/api/orgset/settings"
+	"wplay/src/api/orgset/settings"
 )
 
 func getSetOrgSettingValuePostValues(r *http.Request) (string, string, string){

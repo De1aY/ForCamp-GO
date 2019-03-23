@@ -1,8 +1,8 @@
 package mainSite
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"net/http"
 )
 

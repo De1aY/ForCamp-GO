@@ -1,8 +1,8 @@
 package events
 
 import (
-	"forcamp/src"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/conf"
 )
 
 type Event struct {

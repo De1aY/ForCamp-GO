@@ -1,12 +1,12 @@
 package emotional_marks
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"time"
-	"forcamp/src/api/orgset/settings"
+	"wplay/src/api/orgset/settings"
 	"strconv"
-	"forcamp/src/api/orgset/teams"
+	"wplay/src/api/orgset/teams"
 )
 
 

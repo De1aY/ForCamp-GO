@@ -1,8 +1,8 @@
 package users
 
 import (
-	"forcamp/src/api/orgset/teams"
-	"forcamp/src/api/events"
+	"wplay/src/api/orgset/teams"
+	"wplay/src/api/events"
 )
 
 type getUserLogin_Success struct {

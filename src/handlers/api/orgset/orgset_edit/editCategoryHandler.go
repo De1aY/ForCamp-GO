@@ -3,11 +3,11 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 	"strconv"
-	"forcamp/src/api/orgset/categories"
+	"wplay/src/api/orgset/categories"
 )
 
 func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiResponse){

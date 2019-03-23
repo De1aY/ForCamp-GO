@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/authorization"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/authorization"
 	"net/http"
 	"net/url"
 	"strings"

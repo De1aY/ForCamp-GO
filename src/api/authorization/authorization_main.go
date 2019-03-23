@@ -2,8 +2,8 @@ package authorization
 
 import (
 	"encoding/json"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"net/http"
 )
 

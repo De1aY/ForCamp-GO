@@ -2,9 +2,9 @@ package employees
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset"
 )
 
 func DeleteEmployee(token string, employee_id int64, responseWriter http.ResponseWriter) bool {

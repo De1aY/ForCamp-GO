@@ -3,11 +3,11 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 	"strconv"
-	"forcamp/src/api/orgset/reasons"
+	"wplay/src/api/orgset/reasons"
 )
 
 func getEditReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiResponse){

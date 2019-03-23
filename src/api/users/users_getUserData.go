@@ -1,18 +1,18 @@
 package users
 
 import (
-	"forcamp/src/api/authorization"
-	"forcamp/src"
+	"wplay/src/api/authorization"
+	"wplay/src"
 	"net/http"
-	"forcamp/conf"
+	"wplay/conf"
 	"database/sql"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/orgset"
 	"strconv"
-	"forcamp/src/api/orgset/participants"
-	"forcamp/src/api/orgset/employees"
-	"forcamp/src/api/orgset/categories"
-	"forcamp/src/api/orgset/teams"
-	"forcamp/src/api/events"
+	"wplay/src/api/orgset/participants"
+	"wplay/src/api/orgset/employees"
+	"wplay/src/api/orgset/categories"
+	"wplay/src/api/orgset/teams"
+	"wplay/src/api/events"
 )
 
 type participantAdditionalData struct {

@@ -2,7 +2,7 @@ package conf
 
 const (
 	MYSQL_SERVER_ADDR = "127.0.0.1"
-	MYSQL_DB_MAIN = "forcamp"
+	MYSQL_DB_MAIN = "wplay"
 	MYSQL_SERVER_PORT = ":3306"
 	MYSQL_LOGIN = "root"
 	MYSQL_PASSWORD = ""

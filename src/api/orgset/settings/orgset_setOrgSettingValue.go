@@ -2,9 +2,9 @@ package settings
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src/api/orgset"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src/api/orgset"
+	"wplay/src"
 	"strconv"
 	"strings"
 )
