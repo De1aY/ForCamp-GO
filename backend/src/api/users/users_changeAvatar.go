@@ -44,7 +44,7 @@ func changeAvatar(user_id int64, request *http.Request) *conf.ApiResponse {
 	rawAvatarImageReader := bytes.NewReader(rawAvatarImage)
 	avatarImage, err := png.Decode(rawAvatarImageReader)
 	fileName := "user_" + strconv.FormatInt(user_id, 10) + ".png"
-	f, err := os.OpenFile(conf.FOLDER_IMAGES+"/"+fileName,
+	f, err := os.OpenFile("/"+fileName,
 		os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return conf.ErrFileUpload

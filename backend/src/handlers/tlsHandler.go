@@ -11,9 +11,9 @@ import (
 // Read TLS certificates to TlsConfig
 func getTlsConfig() *tls.Config {
 	TlsConfig := &tls.Config{}
-	TlsConfig.Certificates = make([]tls.Certificate, 2)
+	TlsConfig.Certificates = make([]tls.Certificate, 1)
 	TlsConfig.Certificates[0], _ = tls.LoadX509KeyPair(conf.API_SITE_TLS, conf.API_SITE_TLS_KEY)
-	TlsConfig.Certificates[1], _ = tls.LoadX509KeyPair(conf.MAIN_SITE_TLS, conf.MAIN_SITE_TLS_KEY)
+	// TlsConfig.Certificates[1], _ = tls.LoadX509KeyPair(conf.MAIN_SITE_TLS, conf.MAIN_SITE_TLS_KEY)
 	// TlsConfig.Certificates[2], _ = tls.LoadX509KeyPair(conf.WWW_MAIN_SITE_TLS, conf.WWW_MAIN_SITE_TLS_KEY)
 	TlsConfig.BuildNameToCertificate()
 	return TlsConfig
