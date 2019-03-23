@@ -2,9 +2,9 @@ package employees
 
 import (
 	"net/http"
-	"forcamp/src/api/orgset"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
 )
 
 type resetEmployeePassword_Success struct {

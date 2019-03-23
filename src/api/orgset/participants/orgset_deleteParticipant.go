@@ -2,9 +2,9 @@ package participants
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset"
 )
 
 func DeleteParticipant(token string, participant_id int64, responseWriter http.ResponseWriter) bool{

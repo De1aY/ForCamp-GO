@@ -3,10 +3,10 @@ package orgset_add
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
-	"forcamp/src/api/orgset/teams"
+	"wplay/src/api/orgset/teams"
 )
 
 func getAddTeamPostValues(r *http.Request) (string, string){

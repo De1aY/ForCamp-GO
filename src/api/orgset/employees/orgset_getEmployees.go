@@ -2,13 +2,13 @@ package employees
 
 import (
 	"net/http"
-	"forcamp/src/api/authorization"
-	"forcamp/src/api/orgset"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/src/api/authorization"
+	"wplay/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
 	"database/sql"
 	"strconv"
-	"forcamp/src/api/orgset/categories"
+	"wplay/src/api/orgset/categories"
 )
 
 type Permission struct {

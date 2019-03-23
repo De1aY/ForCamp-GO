@@ -3,11 +3,11 @@ package orgset_add
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 	"strconv"
-	"forcamp/src/api/orgset/employees"
+	"wplay/src/api/orgset/employees"
 )
 
 func getAddEmployeePostValues(r *http.Request) (employees.Employee, string, *conf.ApiResponse){

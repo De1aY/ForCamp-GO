@@ -1,18 +1,17 @@
 package handlers
 
 import (
-	"forcamp/src/api/authorization"
+	"wplay/src/api/authorization"
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 )
 
-// Parse 'GET' data to AuthInf
 func getAuthorizationData(r *http.Request) authorization.AuthInf{
-	UserLogin := strings.TrimSpace(r.FormValue("login"))
-	UserPassword := strings.TrimSpace(r.FormValue("password"))
+	UserLogin := strings.TrimSpace(r.PostFormValue("login"))
+	UserPassword := strings.TrimSpace(r.PostFormValue("password"))
 	authInf := authorization.AuthInf{}
 	authInf.Login = UserLogin
 	authInf.Password = UserPassword
@@ -20,8 +19,8 @@ func getAuthorizationData(r *http.Request) authorization.AuthInf{
 }
 
 func LoginAndPasswordAuthHandler(w http.ResponseWriter, r *http.Request){
-	src.SetHeaders_API_GET(w)
-	if r.Method == http.MethodGet {
+	src.SetHeaders_API_POST(w)
+	if r.Method == http.MethodPost {
 		w.WriteHeader(http.StatusOK)
 		authInf := getAuthorizationData(r)
 		authorization.Authorize(authInf, w)

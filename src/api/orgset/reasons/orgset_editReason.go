@@ -1,10 +1,10 @@
 package reasons
 
 import (
-	"forcamp/src/api/orgset"
+	"wplay/src/api/orgset"
 	"net/http"
-	"forcamp/src"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/conf"
 )
 
 func EditReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{

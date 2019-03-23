@@ -3,10 +3,10 @@ package orgset_get
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/handlers"
-	"forcamp/src/api/orgset/reasons"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/handlers"
+	"wplay/src/api/orgset/reasons"
 )
 
 

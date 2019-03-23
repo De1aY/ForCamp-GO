@@ -2,11 +2,11 @@ package teams
 
 import (
 	"net/http"
-	"forcamp/src/api/authorization"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/src/api/authorization"
+	"wplay/conf"
+	"wplay/src"
 	"database/sql"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/orgset"
 )
 
 type TeamLeader struct {

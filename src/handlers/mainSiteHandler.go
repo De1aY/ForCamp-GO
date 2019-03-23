@@ -1,47 +1,47 @@
 package handlers
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/handlers/mainSite"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/handlers/mainSite"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-func getFolder_Scripts() http.Dir {
+func getFolderScripts() http.Dir {
 	ScriptsFolder := http.Dir(conf.FOLDER_SCRIPTS)
 	return ScriptsFolder
 }
 
-func getFolder_Css() http.Dir {
-	CssFolder := http.Dir(conf.FOLDER_CSS)
-	return CssFolder
+func getFolderCSS() http.Dir {
+	CSSFolder := http.Dir(conf.FOLDER_CSS)
+	return CSSFolder
 }
 
-func getFolder_Images() http.Dir {
+func getFolderImages() http.Dir {
 	ImagesFolder := http.Dir(conf.FOLDER_IMAGES)
 	return ImagesFolder
 }
 
-func folderHandler_Scripts() http.Handler {
-	ScriptsFolder := getFolder_Scripts()
+func folderHandlerScripts() http.Handler {
+	ScriptsFolder := getFolderScripts()
 	ScriptsFileServer := http.FileServer(ScriptsFolder)
-	ScriptsHandler := http.StripPrefix("/scripts", ScriptsFileServer)
+	ScriptsHandler := http.StripPrefix("/js", ScriptsFileServer)
 	return ScriptsHandler
 }
 
-func folderHandler_css() http.Handler {
-	CssFolder := getFolder_Css()
-	CssFileServer := http.FileServer(CssFolder)
-	CssHandler := http.StripPrefix("/css", CssFileServer)
-	return CssHandler
+func folderHandlerCSS() http.Handler {
+	CSSFolder := getFolderCSS()
+	CSSFileServer := http.FileServer(CSSFolder)
+	CSSHandler := http.StripPrefix("/css", CSSFileServer)
+	return CSSHandler
 }
 
-func folderHandler_Images() http.Handler {
-	ImagesFolder := getFolder_Images()
+func folderHandlerImages() http.Handler {
+	ImagesFolder := getFolderImages()
 	ImagesFolderServer := http.FileServer(ImagesFolder)
-	ImagesHandler := http.StripPrefix("/images", ImagesFolderServer)
+	ImagesHandler := http.StripPrefix("/img", ImagesFolderServer)
 	return ImagesHandler
 }
 
@@ -56,17 +56,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 func HandleMainSite(router *mux.Router) {
 	// Folders
-	ScriptsHandler := folderHandler_Scripts()
-	CssHandler := folderHandler_css()
-	ImagesHandler := folderHandler_Images()
-	router.PathPrefix("/scripts").Handler(ScriptsHandler)
-	router.PathPrefix("/css").Handler(CssHandler)
-	router.PathPrefix("/images").Handler(ImagesHandler)
+	ScriptsHandler := folderHandlerScripts()
+	CSSHandler := folderHandlerCSS()
+	ImagesHandler := folderHandlerImages()
+	router.PathPrefix("/js").Handler(ScriptsHandler)
+	router.PathPrefix("/css").Handler(CSSHandler)
+	router.PathPrefix("/img").Handler(ImagesHandler)
 	// Pages
 	router.HandleFunc("/", mainSite.IndexHandler)
-	router.HandleFunc("/orgset", mainSite.OrgSetHandler)
-	router.HandleFunc("/marks", mainSite.MarksHandler)
-	router.HandleFunc("/general", mainSite.GeneralHandler)
-	router.HandleFunc("/profile", mainSite.ProfileHandler)
-	router.HandleFunc("/apanel", mainSite.ApanelHandler)
 }

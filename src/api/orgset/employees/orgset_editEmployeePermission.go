@@ -2,9 +2,9 @@ package employees
 
 import (
 	"net/http"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/src/api/orgset"
+	"wplay/conf"
 	"strconv"
 )
 

@@ -2,10 +2,10 @@ package categories
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strconv"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/orgset"
 )
 
 func EditCategory(token string, category Category, responseWriter http.ResponseWriter) bool{

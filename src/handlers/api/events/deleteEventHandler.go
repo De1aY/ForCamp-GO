@@ -3,11 +3,11 @@ package events
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 	"strconv"
-	"forcamp/src/api/events"
+	"wplay/src/api/events"
 )
 
 func getDeleteEventPostValues(r *http.Request) (string, int64, *conf.ApiResponse){

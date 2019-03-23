@@ -1,14 +1,14 @@
 package events
 
 import (
-	"forcamp/src/api/authorization"
+	"wplay/src/api/authorization"
 	"net/http"
-	"forcamp/src"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/conf"
 	"database/sql"
-	"forcamp/src/api/marks"
-	"forcamp/src/api/orgset"
-	"forcamp/src/api/emotional_marks"
+	"wplay/src/api/marks"
+	"wplay/src/api/orgset"
+	"wplay/src/api/emotional_marks"
 )
 
 type getEvents_Success struct {

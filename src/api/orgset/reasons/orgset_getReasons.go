@@ -1,11 +1,11 @@
 package reasons
 
 import (
-	"forcamp/src"
-	"forcamp/src/api/authorization"
+	"wplay/src"
+	"wplay/src/api/authorization"
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src/api/orgset"
+	"wplay/conf"
+	"wplay/src/api/orgset"
 	"database/sql"
 )
 

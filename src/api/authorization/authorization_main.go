@@ -2,8 +2,8 @@ package authorization
 
 import (
 	"encoding/json"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"net/http"
 )
 
@@ -19,8 +19,7 @@ func (success *checkToken_Success) toJSON() string {
 
 func Authorize(inf AuthInf, responseWriter http.ResponseWriter) {
 	if checkAuthorizationData(inf, responseWriter) {
-		//if checkCurrentSessionsVal(inf.Login, responseWriter) {
-		if deleteOldestSession(inf.Login, responseWriter) {
+		if checkCurrentSessionsVal(inf.Login, responseWriter) {
 			setUserToken(inf.Login, responseWriter)
 		}
 	}
@@ -94,7 +93,7 @@ func isUserAdmin(token string) (bool, *conf.ApiResponse) {
 	return adminStatus, nil
 }
 
-/* func checkCurrentSessionsVal(login string, responseWriter http.ResponseWriter) bool {
+func checkCurrentSessionsVal(login string, responseWriter http.ResponseWriter) bool {
 	var count int
 	err := src.Connection.QueryRow("SELECT COUNT(token) as count FROM sessions WHERE login=?", login).Scan(&count)
 	if err != nil {
@@ -105,11 +104,10 @@ func isUserAdmin(token string) (bool, *conf.ApiResponse) {
 	} else {
 		return true
 	}
-} */
+}
 
 func deleteOldestSession(login string, responseWriter http.ResponseWriter) bool {
-	query, err := src.Connection.Prepare("DELETE FROM sessions WHERE login=?")
-	if err != nil { // TODO: Add 'LIMIT 1' if sessions > 1
+	query, err := src.Connection.Prepare("DELETE FROM sessions WHERE login=? LIMIT 1"); if err != nil {
 		return conf.ErrDatabaseQueryFailed.Print(responseWriter)
 	}
 	defer query.Close()

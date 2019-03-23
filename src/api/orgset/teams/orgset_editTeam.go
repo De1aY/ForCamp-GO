@@ -2,9 +2,9 @@ package teams
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset"
 )
 
 func EditTeam(token string, name string, id int64, responseWriter http.ResponseWriter) bool{

@@ -1,12 +1,12 @@
 package users_get
 
 import (
-	"forcamp/src/api/users"
+	"wplay/src/api/users"
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/handlers"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/handlers"
 )
 
 

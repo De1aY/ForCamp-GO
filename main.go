@@ -1,24 +1,24 @@
 /*
-	Copyright: "Null team", 2016 - 2017
-	Author: "De1aY"
+	Copyright: "NullTeam", 2016 - 2019
+	Author: Nikita Ivanov <de1ay@nullteam.info>
 	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
 */
 package main
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/handlers"
-	"forcamp/src/handlers/api/apanel"
-	"forcamp/src/handlers/api/emotional_marks"
-	"forcamp/src/handlers/api/events"
-	"forcamp/src/handlers/api/marks"
-	"forcamp/src/handlers/api/orgset/orgset_add"
-	"forcamp/src/handlers/api/orgset/orgset_delete"
-	"forcamp/src/handlers/api/orgset/orgset_edit"
-	"forcamp/src/handlers/api/orgset/orgset_get"
-	"forcamp/src/handlers/api/users/users_edit"
-	"forcamp/src/handlers/api/users/users_get"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/handlers"
+	"wplay/src/handlers/api/apanel"
+	"wplay/src/handlers/api/emotional_marks"
+	"wplay/src/handlers/api/events"
+	"wplay/src/handlers/api/marks"
+	"wplay/src/handlers/api/orgset/orgset_add"
+	"wplay/src/handlers/api/orgset/orgset_delete"
+	"wplay/src/handlers/api/orgset/orgset_edit"
+	"wplay/src/handlers/api/orgset/orgset_get"
+	"wplay/src/handlers/api/users/users_edit"
+	"wplay/src/handlers/api/users/users_get"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -27,7 +27,7 @@ import (
 func main() {
 	// Domains routing
 	Router := mux.NewRouter()
-	WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
+	// WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
 	MainSite := Router.Host(conf.MAIN_SITE_DOMAIN).Subrouter()
 	APISite := Router.Host(conf.API_SITE_DOMAIN).Subrouter()
 
@@ -83,12 +83,12 @@ func main() {
 	apanel.HandleAddOrganization(APISite)
 
 	// Handlers: Main site
-	handlers.HandleMainSite(WWWSite)
+	// handlers.HandleMainSite(WWWSite)
 	handlers.HandleMainSite(MainSite)
-	handlers.HandleExit(WWWSite)
+	// handlers.HandleExit(WWWSite)
 	handlers.HandleExit(MainSite)
 
-	// Database: "forcamp"
+	// Database: "wplay"
 	src.Connection = src.Connect()
 
 	// Server

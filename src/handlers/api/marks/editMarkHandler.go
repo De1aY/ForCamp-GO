@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 	"strconv"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/marks"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/marks"
 )
 
 func getEditMarkPostValues(r *http.Request) (string, int64, int64, int64, *conf.ApiResponse){

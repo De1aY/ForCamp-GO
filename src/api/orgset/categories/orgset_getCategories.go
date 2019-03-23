@@ -2,11 +2,11 @@ package categories
 
 import (
 	"net/http"
-	"forcamp/src/api/authorization"
-	"forcamp/src"
-	"forcamp/conf"
+	"wplay/src/api/authorization"
+	"wplay/src"
+	"wplay/conf"
 	"database/sql"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/orgset"
 )
 
 type Category struct {

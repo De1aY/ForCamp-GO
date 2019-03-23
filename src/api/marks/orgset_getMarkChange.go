@@ -1,9 +1,9 @@
 package marks
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset/teams"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset/teams"
 )
 
 type MarkChange struct {

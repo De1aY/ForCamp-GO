@@ -3,10 +3,10 @@ package orgset_get
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset/categories"
-	"forcamp/src/handlers"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset/categories"
+	"wplay/src/handlers"
 )
 
 func GetCategoriesHandler(w http.ResponseWriter, r *http.Request){

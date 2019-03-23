@@ -1,7 +1,7 @@
 package src
 
 import (
-	"forcamp/conf"
+	"wplay/conf"
 	"net/http"
 )
 

@@ -1,10 +1,10 @@
 package users
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/authorization"
-	"forcamp/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/authorization"
+	"wplay/src/api/orgset"
 	"net/http"
 )
 

@@ -2,11 +2,11 @@ package events
 
 import (
 	"net/http"
-	"forcamp/src/api/authorization"
-	"forcamp/src/api/orgset"
-	"forcamp/src"
-	"forcamp/conf"
-	"forcamp/src/api/marks"
+	"wplay/src/api/authorization"
+	"wplay/src/api/orgset"
+	"wplay/src"
+	"wplay/conf"
+	"wplay/src/api/marks"
 )
 
 func DeleteEvent(token string, event_id int64, responseWriter http.ResponseWriter) bool {
