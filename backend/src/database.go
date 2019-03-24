@@ -16,10 +16,10 @@ var(
 Function builds MySQL source link for Database: "wplay"
  */
 func getMysqlSource() string{
-	MysqlSource := conf.MYSQL_LOGIN + ":"
-	MysqlSource += conf.MYSQL_PASSWORD + "@tcp("
-	MysqlSource += conf.MYSQL_SERVER_ADDR + conf.MYSQL_SERVER_PORT + ")/"
-	MysqlSource += conf.MYSQL_DB_MAIN
+	MysqlSource := conf.MysqlLogin + ":"
+	MysqlSource += conf.MysqlPassword + "@tcp("
+	MysqlSource += conf.MysqlServerAddr + conf.MysqlServerPort + ")/"
+	MysqlSource += conf.MysqlDbMain
 	return MysqlSource
 }
 
@@ -27,17 +27,17 @@ func getMysqlSource() string{
 Function builds MySQL source link for Database: %name
  */
 func getMysqlSource_Custom(name string) string{
-	MysqlSource := conf.MYSQL_LOGIN + ":"
-	MysqlSource += conf.MYSQL_PASSWORD + "@tcp("
-	MysqlSource += conf.MYSQL_SERVER_ADDR + conf.MYSQL_SERVER_PORT + ")/"
+	MysqlSource := conf.MysqlLogin + ":"
+	MysqlSource += conf.MysqlPassword + "@tcp("
+	MysqlSource += conf.MysqlServerAddr + conf.MysqlServerPort + ")/"
 	MysqlSource += name
 	return MysqlSource
 }
 
 func getMysqlSource_Admin() string{
-	MysqlSource := conf.MYSQL_LOGIN + ":"
-	MysqlSource += conf.MYSQL_PASSWORD + "@tcp("
-	MysqlSource += conf.MYSQL_SERVER_ADDR + conf.MYSQL_SERVER_PORT + ")/"
+	MysqlSource := conf.MysqlLogin + ":"
+	MysqlSource += conf.MysqlPassword + "@tcp("
+	MysqlSource += conf.MysqlServerAddr + conf.MysqlServerPort + ")/"
 	return MysqlSource
 }
 
@@ -50,7 +50,7 @@ func Connect() *sql.DB{
 	if err != nil{
 		log.Print(err)
 	}
-	Connection.SetMaxOpenConns(conf.MYSQL_MAX_USER_CONNECTIONS)
+	Connection.SetMaxOpenConns(conf.MysqlMaxUserConnections)
 	Connection.SetMaxIdleConns(0)
 	return Connection
 }
@@ -63,7 +63,7 @@ func Connect_Custom(organizationName string) *sql.DB{
 	if err != nil{
 		log.Print(err)
 	}
-	newConn.SetMaxOpenConns(conf.MYSQL_MAX_USER_CONNECTIONS)
+	newConn.SetMaxOpenConns(conf.MysqlMaxUserConnections)
 	newConn.SetMaxIdleConns(0)
 	return newConn
 }
@@ -73,7 +73,7 @@ func Connect_Admin() *sql.DB{
 	if err != nil{
 		log.Print(err)
 	}
-	newConn.SetMaxOpenConns(conf.MYSQL_MAX_USER_CONNECTIONS)
+	newConn.SetMaxOpenConns(conf.MysqlMaxUserConnections)
 	newConn.SetMaxIdleConns(0)
 	return newConn
 }
