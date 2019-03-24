@@ -1,7 +1,7 @@
 package conf
 
 import (
-	"github.com/labstack/gommon/log"
+	"log"
 	"os"
 	"strconv"
 )
