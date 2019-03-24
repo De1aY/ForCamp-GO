@@ -1,7 +1,9 @@
 .idea
+.DS_Store
 *.iml
 out
 gen
 data
 debug
-conf/database.go
+backend/conf/database.go
+database

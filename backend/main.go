@@ -25,11 +25,12 @@ import (
 )
 
 func main() {
+	conf.GetEnvVars()
 	// Domains routing
 	Router := mux.NewRouter()
 	// WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
-	MainSite := Router.Host(conf.MAIN_SITE_DOMAIN).Subrouter()
-	APISite := Router.Host(conf.API_SITE_DOMAIN).Subrouter()
+	// MainSite := Router.Host(conf.MAIN_SITE_DOMAIN).Subrouter()
+	APISite := Router.NewRoute().Subrouter();
 
 	// Handlers: API site
 	// Authorization
@@ -84,9 +85,9 @@ func main() {
 
 	// Handlers: Main site
 	// handlers.HandleMainSite(WWWSite)
-	handlers.HandleMainSite(MainSite)
+	// handlers.HandleMainSite(MainSite)
 	// handlers.HandleExit(WWWSite)
-	handlers.HandleExit(MainSite)
+	// handlers.HandleExit(MainSite)
 
 	// Database: "wplay"
 	src.Connection = src.Connect()

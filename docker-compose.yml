@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  database:
+    image: mysql:5.7
+    container_name: wplay_db
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/:/home
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: forcamp
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+  backend:
+    container_name: wplay_backend
+    build: ./backend/
+    depends_on:
+      - database
+    ports:
+      - "5000:5000"
+    environment:
+      VUE_APP_ENDPOINT: "database"
+  frontend:
+    container_name: wplay_frontend
+    build: ./frontend/
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    environment:
+      VUE_APP_ENDPOINT: "database"
+
+volumes:
+  db_data:
