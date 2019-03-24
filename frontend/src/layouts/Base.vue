@@ -3,7 +3,7 @@
     <header class="navbar"></header>
     <div class="menu"></div>
     <div class="content">
-      <slot/>
+      <router-view/>
     </div>
   </div>
 </template>

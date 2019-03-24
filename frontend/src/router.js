@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Layout from '@/layouts/Base.vue';
+
 Vue.use(Router);
 
 export default new Router({
@@ -9,7 +11,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'index'
+      name: 'index',
+    },
+    {
+      path: '/portal',
+      name: 'base',
+      component: Layout,
+      children: [
+
+      ],
     },
   ],
 });
