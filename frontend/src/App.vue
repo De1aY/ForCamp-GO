@@ -5,9 +5,14 @@
 </template>
 
 <script>
-  export default {}
+export default {};
 </script>
 
 <style lang="scss">
-  @import "assets/scss/colors";
+@import "assets/scss/colors";
+
+body {
+  margin: 0;
+  padding: 0;
+}
 </style>
