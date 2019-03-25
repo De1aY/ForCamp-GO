@@ -5,6 +5,10 @@
       <div class="menu-action">
         <font-awesome-icon icon="bars" class="menu-icon" />
       </div>
+      <router-link to="orgadmin" class="menu-item"
+                   v-bind:class="{'menu-item--active': $router.currentRoute.name === 'orgadmin'}">
+        <font-awesome-icon icon="sliders-h" class="menu-icon" />
+      </router-link>
       <router-link to="profile" class="menu-item"
                    v-bind:class="{'menu-item--active': $router.currentRoute.name === 'profile'}">
         <font-awesome-icon icon="user-alt" class="menu-icon" />
@@ -68,7 +72,6 @@ export default {
 
     &-item {
       @extend .menu-action;
-      border-right: 4px solid #fff;
       border-left: 4px solid #fff;
       transition: border 0.2s ease-in-out;
 
@@ -90,10 +93,7 @@ export default {
 
   }
 
-  .content {
-    padding: 60px 0 0 60px;
-    background: $neutralLightest;
-  }
+  .content { background: $neutralLightest; }
 
 }
 </style>
