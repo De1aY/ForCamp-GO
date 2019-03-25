@@ -3,6 +3,9 @@ import Router from 'vue-router';
 
 import Layout from '@/layouts/Base.vue';
 
+import Profile from '@/views/portal/Profile.vue';
+import Statistics from '@/views/portal/Statistics.vue';
+
 Vue.use(Router);
 
 export default new Router({
@@ -18,7 +21,16 @@ export default new Router({
       name: 'base',
       component: Layout,
       children: [
-
+        {
+          path: 'profile',
+          name: 'profile',
+          component: Profile,
+        },
+        {
+          path: 'statistics',
+          name: 'statistics',
+          component: Statistics,
+        },
       ],
     },
   ],
