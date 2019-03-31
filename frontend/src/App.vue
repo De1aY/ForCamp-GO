@@ -22,5 +22,8 @@ body {
   padding: 0;
 }
 
-h1 { font-family: "Fira Sans Condensed", sans-serif; }
+* {
+  outline: none;
+}
+
 </style>

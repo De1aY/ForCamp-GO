@@ -3,6 +3,7 @@ import {
   faBars,
   faUsers,
   faListUl,
+  faSadTear,
   faHistory,
   faVoteYea,
   faUserAlt,
@@ -33,6 +34,9 @@ library.add(faVoteYea);
 library.add(faArrowLeft);
 library.add(faUniversity);
 library.add(faUserGraduate);
+
+// OrgAdmin/Dashboard
+library.add(faSadTear);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

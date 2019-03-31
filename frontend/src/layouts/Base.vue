@@ -7,17 +7,14 @@
       </div>
       <div class="menu-content menu-content--main"
         v-if="activeMenu === 'main'">
-        <router-link to="orgadmin" class="menu-item"
-          v-bind:class="{'menu-item--active': $router.currentRoute.name === 'orgadmin'}"
-          v-on:click.native="setActiveMenu('orgadmin')">
+        <router-link :to="{name: 'orgadmin'}" class="menu-item" active-class="menu-item--active"
+          @click.native="setActiveMenu('orgadmin')">
           <font-awesome-icon icon="sliders-h" class="menu-icon" />
         </router-link>
-        <router-link to="profile" class="menu-item"
-          v-bind:class="{'menu-item--active': $router.currentRoute.name === 'profile'}">
+        <router-link :to="{name: 'profile'}" class="menu-item" active-class="menu-item--active">
           <font-awesome-icon icon="user-alt" class="menu-icon" />
         </router-link>
-        <router-link to="statistics" class="menu-item"
-          v-bind:class="{ 'menu-item--active':$router.currentRoute.name === 'statistics'}">
+        <router-link :to="{name: 'statistics'}" class="menu-item" active-class="menu-item--active">
           <font-awesome-icon icon="chart-bar" class="menu-icon" />
         </router-link>
       </div>
@@ -26,31 +23,38 @@
         <div class="menu-item" @click="setActiveMenu('main')">
           <font-awesome-icon icon="arrow-left" class="menu-icon" />
         </div>
-        <div class="menu-item">
+        <router-link :to="{name: 'orgadmin/dashboard'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="university" class="menu-icon" />
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link :to="{name: 'orgadmin/categories'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="list-ul" class="menu-icon" />
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link :to="{name: 'orgadmin/teams'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="users" class="menu-icon" />
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link :to="{name: 'orgadmin/participants'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="user-graduate" class="menu-icon" />
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link :to="{name: 'orgadmin/employees'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="user-alt" class="menu-icon" />
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link :to="{name: 'orgadmin/reasons'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="vote-yea" class="menu-icon" />
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link :to="{name: 'orgadmin/actions'}" class="menu-item"
+                     active-class="menu-item--active">
           <font-awesome-icon icon="history" class="menu-icon" />
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="content">
-      <router-view/>
+     <router-view/>
     </div>
   </div>
 </template>
@@ -61,12 +65,17 @@ export default {
   name: 'Base',
   data() {
     return {
-      activeMenu: this.$router.currentRoute.name === 'orgadmin' ? 'orgadmin' : 'main',
+      activeMenu: this.$router.currentRoute.name.indexOf('orgadmin') !== -1 ? 'orgadmin' : 'main',
     };
   },
   methods: {
     setActiveMenu(menuName) {
       this.activeMenu = menuName;
+    },
+    setOrgAdminCurrentComponent(componentName) {
+      if (this.$store.state.orgadmin.currentComponent !== componentName) {
+        this.$store.commit('orgadmin/setOrgadminCurrentComponent', componentName);
+      }
     },
   },
 };
