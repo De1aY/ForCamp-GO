@@ -4,6 +4,7 @@ const state = {
     periodName: '4 четверть',
     organizationName: 'Школа №1',
     participantsName: 'Ученик',
+    selfMarks: false,
   },
 };
 
@@ -23,6 +24,9 @@ const mutations = {
   },
   setOrgsetPeriodName(state, change) {
     state.organizationInfo.periodName = change;
+  },
+  switchOrgsetSelfMarks(state) {
+    state.organizationInfo.selfMarks = !state.organizationInfo.selfMarks;
   },
 };
 

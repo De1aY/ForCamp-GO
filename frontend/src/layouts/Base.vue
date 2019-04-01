@@ -91,6 +91,7 @@ export default {
   grid-template-columns: 70px auto;
 
   .navbar {
+    display: none;
     grid-row-start: 1;
     grid-column-start: 2;
     background: #fff;
@@ -154,7 +155,8 @@ export default {
   }
 
   .content {
-    grid-row-start: 2;
+    grid-row-start: 1;
+    grid-row-end: span 2;
     grid-column-start: 2;
     background: $neutralLightest;
   }
