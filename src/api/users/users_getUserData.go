@@ -83,7 +83,7 @@ func getUserDataFromQuery(rows *sql.Rows, user_id int64) (UserData, *conf.ApiRes
 		return userData, apiErr
 	}
 	if userData.Access == 0 {
-		emotionalMarks, apiErr := events.GetEvents_Request(user_id, 10, 0, false, 2)
+		emotionalMarks, apiErr := events.GetEvents_Request(user_id, 10, 0, false, conf.EVENT_TYPE_EMOTIONAL_MARK)
 		if apiErr != nil {
 			return userData, apiErr
 		}
