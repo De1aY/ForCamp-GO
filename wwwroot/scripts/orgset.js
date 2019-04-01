@@ -565,7 +565,7 @@ function editOrganizationSetting(settingName) {
 $('.mdl-card__body-row-switch').children('label').children('input').change(function () {
     let toggle = $(this).parents('label').parents('.mdl-card__body-row-switch');
     let content = toggle.data('content');
-    OrgSettings[content] = $('#fc-orgset__main-'+content).prop('checked');
+    window.global.OrgSettings[content] = $('#fc-orgset__main-'+content).prop('checked');
     editOrganizationSetting(content);
 });
 
