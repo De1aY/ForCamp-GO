@@ -3,10 +3,10 @@ package orgset_delete
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
-	"forcamp/src/api/orgset/employees"
+	"wplay/src/api/orgset/employees"
 	"strconv"
 )
 

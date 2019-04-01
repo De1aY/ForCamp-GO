@@ -3,11 +3,11 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 	"strconv"
-	"forcamp/src/api/orgset/teams"
+	"wplay/src/api/orgset/teams"
 )
 
 func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiResponse){

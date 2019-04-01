@@ -3,7 +3,7 @@ package src
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"forcamp/conf"
+	"wplay/conf"
 	"log"
 )
 

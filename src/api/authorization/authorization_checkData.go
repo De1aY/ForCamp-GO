@@ -1,8 +1,8 @@
 package authorization
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"html"
 	"net/http"
 )

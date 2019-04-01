@@ -3,11 +3,11 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 	"strconv"
-	"forcamp/src/api/orgset/employees"
+	"wplay/src/api/orgset/employees"
 )
 
 func getEditEmployeePermissionPostValues(r *http.Request) (int64, int64, string, string, *conf.ApiResponse){

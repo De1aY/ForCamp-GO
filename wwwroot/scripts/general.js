@@ -110,7 +110,7 @@ let Top5ParticipantsTable = $('#mdl-card__body-table-top5--participants').DataTa
             "paging": false,
             "searching": false,
             "ordering": false,
-            "data": Teams,
+            "data": Teams.slice(0, 6),
             columnDefs: [
                 {
                     targets: 0,

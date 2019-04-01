@@ -2,10 +2,10 @@ package categories
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strconv"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/orgset"
 )
 
 func DeleteCategory(token string, id int64, responseWriter http.ResponseWriter) bool{

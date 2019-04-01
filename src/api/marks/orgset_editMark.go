@@ -1,13 +1,13 @@
 package marks
 
 import (
-	"forcamp/src"
+	"wplay/src"
 	"net/http"
-	"forcamp/src/api/authorization"
-	"forcamp/conf"
-	"forcamp/src/api/orgset"
+	"wplay/src/api/authorization"
+	"wplay/conf"
+	"wplay/src/api/orgset"
 	"strconv"
-	"forcamp/src/api/orgset/reasons"
+	"wplay/src/api/orgset/reasons"
 )
 
 func EditMark(token string, participant_id int64, category_id int64, reason_id int64, responseWriter http.ResponseWriter) bool {

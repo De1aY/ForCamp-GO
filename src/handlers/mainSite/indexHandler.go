@@ -2,9 +2,9 @@ package mainSite
 
 import (
 	"net/http"
-	"forcamp/src"
+	"wplay/src"
 	"html/template"
-	"forcamp/conf"
+	"wplay/conf"
 )
 
 type indexTemplateData struct {

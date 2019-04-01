@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"net/http"
-	"forcamp/src"
-	"forcamp/conf"
+	"wplay/src"
+	"wplay/conf"
 	"github.com/gorilla/mux"
 )
 

@@ -1,9 +1,9 @@
 package orgset
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/authorization"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/authorization"
 	"math/rand"
 	"net/http"
 	"strconv"

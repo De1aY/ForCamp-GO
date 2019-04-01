@@ -2,9 +2,9 @@ package users
 
 import (
 	"net/http"
-	"forcamp/conf"
-	"forcamp/src/api/authorization"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src/api/authorization"
+	"wplay/src"
 	"strings"
 	"strconv"
 )

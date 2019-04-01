@@ -3,10 +3,10 @@ package orgset_get
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset/settings"
-	"forcamp/src/handlers"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset/settings"
+	"wplay/src/handlers"
 )
 
 func GetOrgSettingsHandler(w http.ResponseWriter, r *http.Request){

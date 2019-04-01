@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"forcamp/src/api/authorization"
+	"wplay/src/api/authorization"
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
+	"wplay/conf"
+	"wplay/src"
 	"strings"
 )
 

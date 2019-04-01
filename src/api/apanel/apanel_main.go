@@ -1,9 +1,9 @@
 package apanel
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset"
 )
 
 type createOrganization_Success struct {

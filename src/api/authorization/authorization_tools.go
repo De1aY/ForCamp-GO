@@ -3,7 +3,7 @@ package authorization
 import (
 	"crypto/sha512"
 	"encoding/base64"
-	"forcamp/conf"
+	"wplay/conf"
 	"net/http"
 	"time"
 	"math/rand"

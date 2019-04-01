@@ -1,13 +1,13 @@
 package mainSite
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset"
-	"forcamp/src/api/orgset/categories"
-	"forcamp/src/api/orgset/settings"
-	"forcamp/src/api/users"
-	"forcamp/src/tools"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset"
+	"wplay/src/api/orgset/categories"
+	"wplay/src/api/orgset/settings"
+	"wplay/src/api/users"
+	"wplay/src/tools"
 	"net/http"
 	"net/url"
 	"text/template"

@@ -3,10 +3,10 @@ package orgset_get
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/orgset/teams"
-	"forcamp/src/handlers"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/orgset/teams"
+	"wplay/src/handlers"
 )
 
 func GetTeamsHandler(w http.ResponseWriter, r *http.Request){

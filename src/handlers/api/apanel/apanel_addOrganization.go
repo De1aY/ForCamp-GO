@@ -1,9 +1,9 @@
 package apanel
 
 import (
-	"forcamp/conf"
-	"forcamp/src"
-	"forcamp/src/api/apanel"
+	"wplay/conf"
+	"wplay/src"
+	"wplay/src/api/apanel"
 	"net/http"
 	"strings"
 
