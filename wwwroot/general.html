@@ -26,12 +26,6 @@
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
             <a href="#general_main" class="mdl-layout__tab is-active">Общая</a>
-            {{if eq .UserData.Team.Id 0}}{{else}}
-            <a href="#general_team" class="mdl-layout__tab">{{.OrgSettings.Team}}</a>
-            {{end}}
-            {{if not .IsEmployee}}
-            <a href="#general_personal" class="mdl-layout__tab">Личная</a>
-            {{end}}
         </div>
     </header>
     <div class="mdl-layout__drawer">
@@ -112,20 +106,6 @@
                 </div>
             </div>
         </section>
-        {{if eq .UserData.Team.Id 0}}{{else}}
-        <section class="mdl-layout__tab-panel is-active" id="general_team">
-            <div class="page-content mdl-grid mdl-cell--top">
-                В разработке
-            </div>
-        </section>
-        {{end}}
-        {{if not .IsEmployee}}
-        <section class="mdl-layout__tab-panel is-active" id="general_personal">
-            <div class="page-content mdl-grid mdl-cell--top">
-                В разработке
-            </div>
-        </section>
-        {{end}}
     </main>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
