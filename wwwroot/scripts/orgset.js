@@ -1,8 +1,8 @@
 updateSettings();
 
 function reloadTables() {
-    TeamsTable.ajax.reload(null, false);
     CategoriesTable.ajax.reload(null, false);
+    TeamsTable.ajax.reload(null, false);
     ParticipantsTable.ajax.reload(null, false);
     EmployeesTable.ajax.reload(null ,false);
     ReasonsTable.ajax.reload(null, false);
@@ -11,7 +11,7 @@ function reloadTables() {
 
 function getDefaultPermissions() {
     let permissions = [];
-    Categories.forEach(category => {
+    window.global.Categories.forEach(category => {
        permissions.push({id: category.id, name: category.name, value: "true"});
     });
     return permissions;
@@ -434,7 +434,7 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
             "token": window.global.Token,
         },
         "dataSrc": function (data) {
-            Teams = data.message.teams;
+            window.global.Teams = data.message.teams;
             return data.message.teams;
         },
     },
@@ -677,7 +677,7 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
             "token": window.global.Token,
         },
         "dataSrc": function (data) {
-            Categories = data.message.categories;
+            window.global.Categories = data.message.categories;
             return data.message.categories;
         },
     },
@@ -1150,7 +1150,7 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.id + '-team-0">' +
                     '<span>отсутствует</span></li>';
-                Teams.forEach(function (team) {
+                window.global.Teams.forEach(function (team) {
                     dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="employee-' + row.id + '-team-' + team.id + '">' +
                         '<span>' + team.name + '</span></li>';
                 });
@@ -1336,7 +1336,7 @@ let ReasonsTable = $('#mdl-card__body-table-reasons').DataTable({
                     ' data-content="reason-' + row.id + '-category-' + category_id + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">' + GetCategoryNameByID(category_id) +'</div><ul>' +
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>';
-                Categories.forEach(function (category) {
+                window.global.Categories.forEach(function (category) {
                     dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="reason-' + row.id + '-category-' + category.id + '">' +
                         '<span>' + category.name[0].toUpperCase() + category.name.substring(1) + '</span></li>';
                 });
