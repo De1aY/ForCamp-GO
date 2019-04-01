@@ -172,9 +172,10 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 
-  > div:not(:first-of-type) { margin-left: 60px; }
+  > div { margin-bottom: 30px; }
 
   &-title {
     font-size: 24px;
@@ -219,6 +220,7 @@ export default {
       color: $neutralDarker;
       font-size: 15px;
       font-family: "Fira Sans Condensed", sans-serif;
+      user-select: none;
     }
 
     &-input {
@@ -266,7 +268,7 @@ export default {
             height: 28px;
             border-radius: 15px;
             background: red + 150;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.2s ease-in-out;
           }
 
           &:before {
@@ -279,7 +281,7 @@ export default {
             height: 28px;
             border-radius: 15px;
             background: red + 25;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.2s ease-in-out;
           }
 
         }
@@ -288,9 +290,7 @@ export default {
 
           + .settings-label {
 
-            &:after {
-              background: $primary + 100;
-            }
+            &:after { background: $primary + 100; }
 
             &:before {
               left: 30px;

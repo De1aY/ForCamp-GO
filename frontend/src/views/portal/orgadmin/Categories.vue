@@ -14,7 +14,14 @@ export default {
   @import "../../../assets/scss/colors";
 
   .categories {
-    padding: 40px 60px 0 60px;
+    margin: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    > div { margin-bottom: 30px; }
 
     &-title {
       font-size: 24px;
