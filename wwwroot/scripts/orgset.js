@@ -76,11 +76,11 @@ $(document).ready(function(){
         let info = button.data('content');
         switch (info) {
             case "participants": {
-                window.location.href = __ApiSiteDomain + "/orgset.participants.password.get?token="+Token;
+                window.location.href = __ApiSiteDomain + "/orgset.participants.password.get?token="+window.global.Token;
                 break;
             }
             case "employees": {
-                window.location.href = __ApiSiteDomain + "/orgset.employees.password.get?token="+Token;
+                window.location.href = __ApiSiteDomain + "/orgset.employees.password.get?token="+window.global.Token;
                 break;
             }
         }
@@ -385,7 +385,7 @@ function onTableDraw() {
 function addTeam(name) {
     return new Promise(resolve => {
         Preloader.on();
-        $.post(__AddTeamLink, { token: Token, name: name }, function (resp) {
+        $.post(__AddTeamLink, { token: window.global.Token, name: name }, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -401,7 +401,7 @@ function addTeam(name) {
 
 function editTeam(name, team_id) {
     Preloader.on();
-    $.post(__EditTeamLink, { token: Token, name: name, team_id: team_id}, function (resp) {
+    $.post(__EditTeamLink, { token: window.global.Token, name: name, team_id: team_id}, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -414,7 +414,7 @@ function editTeam(name, team_id) {
 
 function deleteTeam(team_id, button) {
     Preloader.on();
-    $.post(__DeleteTeamLink, { token: Token, team_id: team_id }, function (resp) {
+    $.post(__DeleteTeamLink, { token: window.global.Token, team_id: team_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -431,7 +431,7 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
         "url": __GetTeamsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             Teams = data.message.teams;
@@ -538,18 +538,18 @@ let TeamsTable = $('#mdl-card__body-table-teams').DataTable({
 
 async function updateSettings() {
     await GetOrganizationSettings();
-    $('.mdl-card__body-row-text[data-content=participant]').text(OrgSettings.participant);
-    $('.mdl-card__body-row-text[data-content=period]').text(OrgSettings.period);
-    $('.mdl-card__body-row-text[data-content=organization]').text(OrgSettings.organization);
-    $('.mdl-card__body-row-text[data-content=team]').text(OrgSettings.team);
-    $('.mdl-card__body-row-text[data-content=emotional_mark_period]').text(OrgSettings.emotional_mark_period);
-    $('#fc-orgset__main-self_marks').prop('checked', OrgSettings.self_marks);
+    $('.mdl-card__body-row-text[data-content=participant]').text(window.global.OrgSettings.participant);
+    $('.mdl-card__body-row-text[data-content=period]').text(window.global.OrgSettings.period);
+    $('.mdl-card__body-row-text[data-content=organization]').text(window.global.OrgSettings.organization);
+    $('.mdl-card__body-row-text[data-content=team]').text(window.global.OrgSettings.team);
+    $('.mdl-card__body-row-text[data-content=emotional_mark_period]').text(window.global.OrgSettings.emotional_mark_period);
+    $('#fc-orgset__main-self_marks').prop('checked', window.global.OrgSettings.self_marks);
 }
 
 function editOrganizationSetting(settingName) {
     Preloader.on();
-    $.post(__SetOrgSettingValueLink, { token: Token,
-        setting_value: OrgSettings[settingName],
+    $.post(__SetOrgSettingValueLink, { token: window.global.Token,
+        setting_value: window.global.OrgSettings[settingName],
         setting_name: settingName,
     }, function (resp) {
         Preloader.off();
@@ -578,8 +578,8 @@ function submitSettingEdit(textField, editButton, acceptButton, declineButton, c
     editButton.removeClass('mdl-card__body-row-button--off');
     acceptButton.addClass('mdl-card__body-row-button--off');
     declineButton.addClass('mdl-card__body-row-button--off');
-    OrgSettings[content] = textField.text();
-    if (OrgSettings[content] !== baseText) {
+    window.global.OrgSettings[content] = textField.text();
+    if (window.global.OrgSettings[content] !== baseText) {
         editOrganizationSetting(content);
     }
 }
@@ -627,7 +627,7 @@ $('.mdl-card__body-row-button--edit').click(function () {
 function addCategory(name, negative_marks) {
     return new Promise(resolve => {
         Preloader.on();
-        $.post(__AddCategoryLink, { token: Token, name: name, negative_marks: negative_marks }, function (resp) {
+        $.post(__AddCategoryLink, { token: window.global.Token, name: name, negative_marks: negative_marks }, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -643,7 +643,7 @@ function addCategory(name, negative_marks) {
 
 function editCategory(name, negative_marks, category_id) {
     Preloader.on();
-    $.post(__EditCategoryLink, { token: Token, name: name,
+    $.post(__EditCategoryLink, { token: window.global.Token, name: name,
         negative_marks: negative_marks, category_id: category_id}, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
@@ -657,7 +657,7 @@ function editCategory(name, negative_marks, category_id) {
 
 function deleteCategory(category_id, button) {
     Preloader.on();
-    $.post(__DeleteCategoryLink, { token: Token, category_id: category_id }, function (resp) {
+    $.post(__DeleteCategoryLink, { token: window.global.Token, category_id: category_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -674,7 +674,7 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
         "url": __GetCategoriesLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             Categories = data.message.categories;
@@ -770,7 +770,7 @@ let CategoriesTable = $('#mdl-card__body-table-categories').DataTable({
 function addParticipant(name, surname, middlename, sex, team) {
     return new Promise(resolve => {
         Preloader.on();
-        $.post(__AddParticipantLink, { token: Token,
+        $.post(__AddParticipantLink, { token: window.global.Token,
             name: name,
             surname: surname,
             middlename: middlename,
@@ -791,7 +791,7 @@ function addParticipant(name, surname, middlename, sex, team) {
 
 function editParticipant(name, surname, middlename, sex, team, participant_id) {
     Preloader.on();
-    $.post(__EditParticipantLink, { token: Token,
+    $.post(__EditParticipantLink, { token: window.global.Token,
         name: name,
         surname: surname,
         middlename: middlename,
@@ -810,7 +810,7 @@ function editParticipant(name, surname, middlename, sex, team, participant_id) {
 
 function deleteParticipant(participant_id, button) {
     Preloader.on();
-    $.post(__DeleteParticipantLink, { token: Token, participant_id: participant_id }, function (resp) {
+    $.post(__DeleteParticipantLink, { token: window.global.Token, participant_id: participant_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -824,7 +824,7 @@ function deleteParticipant(participant_id, button) {
 
 function resetParticipantPassword(participant_id) {
     Preloader.on();
-    $.post(__ResetParticipantPasswordLink, { token: Token, participant_id: participant_id }, function (resp) {
+    $.post(__ResetParticipantPasswordLink, { token: window.global.Token, participant_id: participant_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
@@ -839,7 +839,7 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
         "url": __GetParticipantsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             return data.message.participants;
@@ -912,7 +912,7 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
                 '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>'+
                 '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.id + '-team-0">' +
                     '<span>отсутствует</span></li>';
-                Teams.forEach(function (team) {
+                window.global.Teams.forEach(function (team) {
                     dropdown += '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="participant-' + row.id + '-team-' + team.id + '">' +
                         '<span>' + team.name + '</span></li>';
                 });
@@ -981,7 +981,7 @@ let ParticipantsTable = $('#mdl-card__body-table-participants').DataTable({
 function addEmployee(name, surname, middlename, post, sex, team) {
     return new Promise(resolve => {
         Preloader.on();
-        $.post(__AddEmployeeLink, { token: Token,
+        $.post(__AddEmployeeLink, { token: window.global.Token,
             name: name,
             surname: surname,
             middlename: middlename,
@@ -1003,7 +1003,7 @@ function addEmployee(name, surname, middlename, post, sex, team) {
 
 function editEmployee(name, surname, middlename, post, sex, team, employee_id) {
     Preloader.on();
-    $.post(__EditEmployeeLink, { token: Token,
+    $.post(__EditEmployeeLink, { token: window.global.Token,
         name: name,
         surname: surname,
         middlename: middlename,
@@ -1023,7 +1023,7 @@ function editEmployee(name, surname, middlename, post, sex, team, employee_id) {
 
 function deleteEmployee(employee_id, button) {
     Preloader.on();
-    $.post(__DeleteEmployeeLink, { token: Token, employee_id: employee_id }, function (resp) {
+    $.post(__DeleteEmployeeLink, { token: window.global.Token, employee_id: employee_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -1037,7 +1037,7 @@ function deleteEmployee(employee_id, button) {
 
 function editEmployeePermission(employee_id, category_id, value) {
     Preloader.on();
-    $.post(__EditEmployeePermissionLink, { token: Token, employee_id: employee_id,
+    $.post(__EditEmployeePermissionLink, { token: window.global.Token, employee_id: employee_id,
         category_id: category_id, value: value }, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
@@ -1050,7 +1050,7 @@ function editEmployeePermission(employee_id, category_id, value) {
 
 function resetEmployeePassword(employee_id) {
     Preloader.on();
-    $.post(__ResetEmployeePasswordLink, { token: Token, employee_id: employee_id }, function (resp) {
+    $.post(__ResetEmployeePasswordLink, { token: window.global.Token, employee_id: employee_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Новый пароль: " + resp.message.password, time: 0});
@@ -1065,7 +1065,7 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
         "url": __GetEmployeesLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             return data.message.employees;
@@ -1269,7 +1269,7 @@ let EmployeesTable = $('#mdl-card__body-table-employees').DataTable({
 function addReason(text, change, category_id) {
     return new Promise(resolve => {
         Preloader.on();
-        $.post(__AddReasonLink, { token: Token, text: text, change: change, category_id: category_id }, function (resp) {
+        $.post(__AddReasonLink, { token: window.global.Token, text: text, change: change, category_id: category_id }, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -1285,7 +1285,7 @@ function addReason(text, change, category_id) {
 
 function editReason(reason_id, text, change, category_id) {
     Preloader.on();
-    $.post(__EditReasonLink, { token: Token, text: text,
+    $.post(__EditReasonLink, { token: window.global.Token, text: text,
         change: change, category_id: category_id, reason_id: reason_id }, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
@@ -1299,7 +1299,7 @@ function editReason(reason_id, text, change, category_id) {
 
 function deleteReason(reason_id, button) {
     Preloader.on();
-    $.post(__DeleteReasonLink, { token: Token, reason_id: reason_id }, function (resp) {
+    $.post(__DeleteReasonLink, { token: window.global.Token, reason_id: reason_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -1316,7 +1316,7 @@ let ReasonsTable = $('#mdl-card__body-table-reasons').DataTable({
         "url": __GetReasonsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             return data.message.reasons;
@@ -1423,7 +1423,7 @@ let ReasonsTable = $('#mdl-card__body-table-reasons').DataTable({
 
 function deleteEvent(event_id, button) {
     Preloader.on();
-    $.post(__DeleteEventLink, { token: Token, event_id: event_id }, function (resp) {
+    $.post(__DeleteEventLink, { token: window.global.Token, event_id: event_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -1441,7 +1441,7 @@ let EventsTable = $('#mdl-card__body-table-events').DataTable({
         "url": __GetEventsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
             "type": 0,
             "rows_per_page": -1,
             "user_id": 0,
@@ -1485,7 +1485,7 @@ let EventsTable = $('#mdl-card__body-table-events').DataTable({
                         resultStr_Type2 += '"' + event_data.value + '"';
                         return resultStr_Type2;
                     default:
-                        return '<span>Произошла ошибка</span>' 
+                        return '<span>Произошла ошибка</span>'
                 }
             },
         },

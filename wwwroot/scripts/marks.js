@@ -19,7 +19,7 @@ function onTableDraw() {
 
 function editMark(participant_id, category_id, reason_id) {
     Preloader.on();
-    $.post(__EditMarkLink, { token: Token,
+    $.post(__EditMarkLink, { token: window.global.Token,
         participant_id: participant_id,
         category_id: category_id,
         reason_id: reason_id}, function (resp) {
@@ -38,7 +38,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
         "url": __GetParticipantsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             return data.message.participants;
@@ -84,7 +84,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
                     ' data-content="participant-' + row.id + '-mark-' + mark.id + '">' +
                     '<div class="mdl-card__body-table-row__dropdown-ttl">' + mark.value +'</div><ul>' +
                     '<li class="mdl-card__body-table-row__dropdown-field wave-effect" data-content="close-0"><span>Закрыть</span></li>';
-                let reasons = Reasons.filter(function (reason) {
+                let reasons = window.global.Reasons.filter(function (reason) {
                     return reason.category_id === mark.id;
                 });
                 reasons.forEach(function (reason) {
@@ -146,7 +146,7 @@ let MarksTable = $('#mdl-card__body-table-marks').DataTable({
 
 function deleteMarkChange(event_id, button) {
     Preloader.on();
-    $.post(__DeleteEventLink, { token: Token, event_id: event_id }, function (resp) {
+    $.post(__DeleteEventLink, { token: window.global.Token, event_id: event_id }, function (resp) {
         Preloader.off();
         if(resp.code === 200) {
             notie.alert({type: 1, text: "Данные успешно изменены", time: 2});
@@ -164,7 +164,7 @@ let MarksChangesTable = $('#mdl-card__body-table-actions').DataTable({
         "url": __GetEventsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
             "type": 1,
             "rows_per_page": -1,
         },

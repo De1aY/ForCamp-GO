@@ -19,7 +19,7 @@ $(document).ready(function() {
         let rawImg = cropper.getDataURL();
         $('.fc-avatar').hide();
         let img = rawImg.replace(/^data:image\/(png|jpg);base64,/, "");
-        UploadFile({url: __ChangeUserAvatar, method: "POST", params: {token: Token}, file: img, 
+        UploadFile({url: __ChangeUserAvatar, method: "POST", params: {token: Token}, file: img,
         callback: function(resp) {
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Аватар успешно изменён", time: 2});
@@ -54,15 +54,15 @@ $('.fc-password__save').click(function(){
         notie.alert({type: 3, text: "Введённые пароли не совпадают", time: 2});
         return
     }
-    changePassword(currentPassword, newPassword, 
+    changePassword(currentPassword, newPassword,
     currentPasswordField, newPasswordField, newPasswordRepeatField);
 });
 
-function changePassword(oldPassword, newPassword, 
+function changePassword(oldPassword, newPassword,
     currentPasswordField, newPasswordField, newPasswordRepeatField) {
     Preloader.on();
-    $.post(__ChangeUserPassword, 
-        {token: Token, password_new: newPassword, password_current: oldPassword},
+    $.post(__ChangeUserPassword,
+        {token: window.global.Token, password_new: newPassword, password_current: oldPassword},
         function(resp){
             Preloader.off();
             if(resp.code === 200) {

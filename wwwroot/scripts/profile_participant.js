@@ -5,7 +5,7 @@ $('document').ready(function() {
         Preloader.on();
         let emotionalMark_value = $(this).data('content');
         let sentiment = $(this).text();
-        $.post(__SetEmotionalMarkLink, {token: Token, value: emotionalMark_value}, function (resp) {
+        $.post(__SetEmotionalMarkLink, {token: window.global.Token, value: emotionalMark_value}, function (resp) {
             Preloader.off();
             if(resp.code === 200) {
                 notie.alert({type: 1, text: "Успешно", time: 2});

@@ -1,5 +1,6 @@
-Token = $.cookie("token");
-let OrgSettings = {
+window.global = {};
+window.global.Token = $.cookie("token");
+window.global.OrgSettings = {
     participant: "",
     period: "",
     organization: "",
@@ -7,11 +8,11 @@ let OrgSettings = {
     team: "",
     emotional_mark_period: ""
 };
-let Participants = [];
-let Categories = [];
-let Teams = [];
-let Reasons = [];
-let Preloader = new $.materialPreloader({
+window.global.Participants = [];
+window.global.Categories = [];
+window.global.Teams = [];
+window.global.Reasons = [];
+Preloader = new $.materialPreloader({
     position: 'top',
     height: '5px',
     col_1: '#159756',
@@ -24,14 +25,14 @@ let Preloader = new $.materialPreloader({
 
 function GetOrganizationSettings() {
     return new Promise ( resolve => {
-        $.get(__GetOrgSettingsLink, {token: Token}, function (resp) {
+        $.get(__GetOrgSettingsLink, {token: window.global.Token}, function (resp) {
             if (resp.code === 200) {
-                OrgSettings.participant = resp.message.settings.participant;
-                OrgSettings.period = resp.message.settings.period;
-                OrgSettings.organization = resp.message.settings.organization;
-                OrgSettings.self_marks = resp.message.settings.self_marks;
-                OrgSettings.team = resp.message.settings.team;
-                OrgSettings.emotional_mark_period = resp.message.settings.emotional_mark_period;
+                window.global.OrgSettings.participant = resp.message.settings.participant;
+                window.global.OrgSettings.period = resp.message.settings.period;
+                window.global.OrgSettings.organization = resp.message.settings.organization;
+                window.global.OrgSettings.self_marks = resp.message.settings.self_marks;
+                window.global.OrgSettings.team = resp.message.settings.team;
+                window.global.OrgSettings.emotional_mark_period = resp.message.settings.emotional_mark_period;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }
@@ -42,7 +43,7 @@ function GetOrganizationSettings() {
 
 function GetParticipants() {
     return new Promise ( resolve => {
-        $.get(__GetParticipantsLink, {token: Token}, function (resp) {
+        $.get(__GetParticipantsLink, {token: window.global.Token}, function (resp) {
             if (resp.code === 200) {
                 resp.message.participants.forEach( participant => {
                     let sum = 0;
@@ -51,8 +52,8 @@ function GetParticipants() {
                     });
                     participant['sum'] = sum
                 });
-                Participants = resp.message.participants;
-                Participants = Participants.sort( (a, b) => {
+                window.global.Participants = resp.message.participants;
+                window.global.Participants = window.global.Participants.sort( (a, b) => {
                     return b.sum - a.sum
                 });
             } else {
@@ -65,9 +66,9 @@ function GetParticipants() {
 
 function GetCategories() {
     return new Promise ( resolve => {
-        $.get(__GetCategoriesLink, {token: Token}, function (resp) {
+        $.get(__GetCategoriesLink, {token: window.global.Token}, function (resp) {
             if (resp.code === 200) {
-                Categories = resp.message.categories;
+                window.global.Categories = resp.message.categories;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }
@@ -78,7 +79,7 @@ function GetCategories() {
 
 function GetLastMarkChanges(participant_id = "") {
     return new Promise( resolve => {
-       $.get(__GetEventsLink, {token: Token,
+       $.get(__GetEventsLink, {token: window.global.Token,
            user_id: participant_id,
            rows_per_page: 20,
            event_type: 1,}, function (resp) {
@@ -93,9 +94,9 @@ function GetLastMarkChanges(participant_id = "") {
 
 function GetReasons() {
     return new Promise ( resolve => {
-        $.get(__GetReasonsLink, {token: Token}, function (resp) {
+        $.get(__GetReasonsLink, {token: window.global.Token}, function (resp) {
             if (resp.code === 200) {
-                Reasons = resp.message.reasons;
+                window.global.Reasons = resp.message.reasons;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }
@@ -106,9 +107,9 @@ function GetReasons() {
 
 function GetTeams() {
     return new Promise ( resolve => {
-        $.get(__GetTeamsLink, {token: Token}, function (resp) {
+        $.get(__GetTeamsLink, {token: window.global.Token}, function (resp) {
             if (resp.code === 200) {
-                Teams = resp.message.teams;
+                window.global.Teams = resp.message.teams;
             } else {
                 notie.alert({type: 3, text: resp.message.ru, time: 2});
             }
@@ -119,7 +120,7 @@ function GetTeams() {
 
 function GetTeamNameByID(team_id) {
     try {
-        return Teams.filter(team => {
+        return window.global.Teams.filter(team => {
             return team.id === team_id;
         })[0].name;
     } catch (e) {
@@ -140,7 +141,7 @@ function GetCategoryNameByID(category_id) {
         return "Выберите категорию";
     }
     try {
-        let name = Categories.filter(category => {
+        let name = window.global.Categories.filter(category => {
             return category.id === category_id;
         })[0].name;
         return name[0].toUpperCase() + name.substring(1);
@@ -151,7 +152,7 @@ function GetCategoryNameByID(category_id) {
 
 function GetUserData(user_id = "") {
     return new Promise( resolve => {
-        $.get(__GetUserDataLink, { token: Token, user_id: user_id}, function(resp) {
+        $.get(__GetUserDataLink, { token: window.global.Token, user_id: user_id}, function(resp) {
            if (resp.code === 200) {
                resolve(resp.message.data);
            } else {
@@ -163,25 +164,27 @@ function GetUserData(user_id = "") {
 }
 
 function SetTeamsMarks() {
-    Teams.forEach(team => {
+    window.global.Teams.forEach(team => {
         team.marks = [];
         team.mark = 0;
-        Participants[0].marks.forEach( mark => {
+        window.global.Participants[0].marks.forEach( mark => {
             team.marks.push(0)
         });
     });
-    Participants.forEach( participant => {
+    window.global.Participants.forEach( participant => {
         if (participant.team !== 0) {
-            let team = Teams.filter(team => {
+            let team = window.global.Teams.filter(team => {
                 return team.id === participant.team;
             })[0];
-            participant.marks.forEach( (mark, i) => {
-                team.mark += mark.value;
-                team.marks[i] += mark.value;
-            });
+            if (team !== undefined) {
+                participant.marks.forEach((mark, i) => {
+                    team.mark += mark.value;
+                    team.marks[i] += mark.value;
+                });
+            }
         }
     });
-    Teams = Teams.sort( (a, b) => {
+    window.global.Teams = window.global.Teams.sort( (a, b) => {
         return b.mark - a.mark
     });
 }
@@ -191,7 +194,7 @@ function GetURLParameter(name) {
 }
 
 function ToTitleCase(str) {
-    return str[0].toUpperCase() + str.substring(1); 
+    return str[0].toUpperCase() + str.substring(1);
 }
 
 function UploadFile() {

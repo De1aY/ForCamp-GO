@@ -24,7 +24,7 @@ let Top5ParticipantsTable = $('#mdl-card__body-table-top5--participants').DataTa
         "url": __GetParticipantsLink,
         "type": "GET",
         "data": {
-            "token": Token,
+            "token": window.global.Token,
         },
         "dataSrc": function (data) {
             data.message.participants.forEach( participant => {
@@ -34,12 +34,12 @@ let Top5ParticipantsTable = $('#mdl-card__body-table-top5--participants').DataTa
                 });
                 participant['sum'] = sum
             });
-            Participants = data.message.participants;
-            Participants = Participants.sort( (a, b) => {
+            window.global.Participants = data.message.participants;
+            window.global.Participants = window.global.Participants.sort( (a, b) => {
                return b.sum - a.sum
             });
             SetTeamsMarks();
-            return Participants.slice(0, 6);
+            return window.global.Participants.slice(0, 5);
         },
     },
     columnDefs: [
@@ -110,7 +110,7 @@ let Top5ParticipantsTable = $('#mdl-card__body-table-top5--participants').DataTa
             "paging": false,
             "searching": false,
             "ordering": false,
-            "data": Teams.slice(0, 6),
+            "data": window.global.Teams.slice(0, 5),
             columnDefs: [
                 {
                     targets: 0,
@@ -213,10 +213,10 @@ function getGeneralTop5ParticipantsChartData() {
         datasets: [],
         labels: [],
     };
-    Participants[0].marks.forEach( mark => {
+    window.global.Participants[0].marks.forEach( mark => {
        chartData.labels.push(mark.name[0].toUpperCase()+mark.name.substring(1));
     });
-    Participants.slice(0, 6).forEach( participant => {
+    window.global.Participants.slice(0, 6).forEach( participant => {
         let dataset = {
             label:  participant.surname[0].toUpperCase() + participant.surname.substring(1) + ' '
             + participant.name[0].toUpperCase() + participant.name.substring(1) + ' '
@@ -245,10 +245,10 @@ function getGeneralTop5TeamsChartData() {
         datasets: [],
         labels: [],
     };
-    Participants[0].marks.forEach( mark => {
+    window.global.Participants[0].marks.forEach( mark => {
         chartData.labels.push(ToTitleCase(mark.name));
     });
-    Teams.slice(0, 6).forEach( team => {
+    window.global.Teams.slice(0, 6).forEach( team => {
         let dataset = {
             label: team.name,
             data: [],
