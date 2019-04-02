@@ -1,7 +1,6 @@
 /*
-	Copyright: "Null team", 2016 - 2017
+	Copyright: "NullTeam", 2016 - 2019
 	Author: "De1aY"
-	Documentation: https://bitbucket.org/lyceumdevelopers/golang/wiki/Home
 */
 package employees
 

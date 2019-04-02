@@ -1,3 +1,7 @@
+/*
+	Copyright: "NullTeam", 2016 - 2019
+	Author: Nikita Ivanov <de1ay@nullteam.info>
+*/
 package src
 
 import (
