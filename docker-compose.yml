@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  database:
+    image: mysql:5.7
+    container_name: wplay_db
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/:/home
+    restart: always
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: forcamp
+      MYSQL_ROOT_PASSWORD: root
+
+  backend:
+    container_name: wplay_prod_back
+    build: .
+    volumes:
+      - ./wwwroot/data:/go/src/wplay/wwwroot/data
+    depends_on:
+      - database
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      GO_APP_MYSQL_LOGIN: user
+      GO_APP_MYSQL_DB_MAIN: database
+      GO_APP_MYSQL_PASSWORD: root
+
+volumes:
+  db_data:

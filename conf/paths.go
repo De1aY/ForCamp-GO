@@ -11,7 +11,6 @@ const (
 	FOLDER_CSS          = "./wwwroot/css"
 	FOLDER_IMAGES       = "./wwwroot/data/images"
 	FOLDER_SCRIPTS      = "./wwwroot/scripts"
-	FOLDER_FONTS        = "./wwwroot/data/fonts"
 	// Files
 	FILE_INDEX   = "./wwwroot/index.html"
 	FILE_GENERAL = "./wwwroot/general.html"

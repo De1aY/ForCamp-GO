@@ -4,13 +4,38 @@
 */
 package conf
 
-const (
-	MYSQL_SERVER_ADDR = "127.0.0.1"
-	MYSQL_LOGIN = "remoteRoot"
-	MYSQL_PASSWORD = "=7n/4Z%"
-	MYSQL_DB_MAIN = "forcamp"
-	MYSQL_SERVER_PORT = ":3306"
-	MYSQL_LOCAL_LOGIN = "root"
-	MYSQL_LOCAL_PASSWORD = "61dab3755188f4c53a4c0c25db4023284ec214d61d9a446564717f7d17eb152d"
-	MYSQL_MAX_USER_CONNECTIONS = 151
+import (
+	"log"
+	"os"
+	"strconv"
 )
+
+var (
+	MysqlServerAddr string = "database"
+	MySqlDbMain = "forcamp"
+	MysqlServerPort = ""
+	MysqlLogin = "root"
+	MysqlPassword = "root"
+	MysqlMaxUserConnections = 151
+)
+
+func GetEnvVars() {
+	MysqlServerAddr = parseEnvVar(os.Getenv("GO_APP_MYSQL_SERVER_ADDR"),"database")
+	MySqlDbMain = parseEnvVar(os.Getenv("GO_APP_MYSQL_DB_MAIN"), "forcamp")
+	MysqlServerPort = ":" + parseEnvVar(os.Getenv("GO_APP_MYSQL_SERVER_PORT"), "3306")
+	MysqlLogin = parseEnvVar(os.Getenv("GO_APP_MYSQL_LOGIN"), "root")
+	MysqlPassword = parseEnvVar(os.Getenv("GO_APP_MYSQL_PASSWORD"), "root")
+	var err error
+	MysqlMaxUserConnections, err = strconv.Atoi(parseEnvVar(os.Getenv("GO_APP_MYSQL_MAX_USER_CONNECTIONS"), "151"))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func parseEnvVar(envVar string, defaultVal string) string {
+	if len(envVar) == 0 {
+		return defaultVal
+	} else {
+		return envVar
+	}
+}
