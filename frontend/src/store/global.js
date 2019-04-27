@@ -5,6 +5,7 @@ const state = {
     organizationName: 'Школа №1',
     participantsName: 'Ученик',
     selfMarks: false,
+    statisticsAnonymization: true,
   },
 };
 
@@ -27,6 +28,10 @@ const mutations = {
   },
   switchOrgsetSelfMarks(state) {
     state.organizationInfo.selfMarks = !state.organizationInfo.selfMarks;
+  },
+  switchOrgsetStatisticsAnonymization(state) {
+    // eslint-disable-next-line max-len
+    state.organizationInfo.statisticsAnonymization = !state.organizationInfo.statisticsAnonymization;
   },
 };
 

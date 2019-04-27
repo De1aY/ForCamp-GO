@@ -47,6 +47,13 @@
                  v-model="selfMarks">
           <label for="input-self_marks" class="settings-label">Оценки своей команде</label>
         </div>
+        <div class="settings-field">
+          <input type="checkbox" id="input-statistics_anonymization"
+                 class="settings-input settings-input--switch"
+                 placeholder="Анонимизация"
+                 v-model="statisticsAnonymization">
+          <label for="input-statistics_anonymization" class="settings-label">Анонимизация</label>
+        </div>
       </div>
     </div>
   </div>
@@ -74,6 +81,14 @@ export default {
       },
       set(value) {
         this.$store.commit('setOrgsetTeamName', value);
+      },
+    },
+    statisticsAnonymization: {
+      get() {
+        return this.$store.state.global.organizationInfo.statisticsAnonymization;
+      },
+      set() {
+        this.$store.commit('switchOrgsetStatisticsAnonymization');
       },
     },
     selfMarks: {
@@ -174,7 +189,7 @@ export default {
   align-items: flex-start;
   justify-content: flex-start;
 
-  > div:not(:first-of-type) { margin-left: 60px; }
+  > div { margin-right: 60px; }
 
   &-title {
     font-size: 24px;
