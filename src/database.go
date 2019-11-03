@@ -6,20 +6,21 @@ package src
 
 import (
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	"wplay/conf"
 	"log"
+
+	_ "github.com/go-sql-driver/mysql"
+	"nullteam.info/wplay/demo/conf"
 )
 
-var(
-	Connection *sql.DB // DataBase: "forcamp"
+var (
+	Connection       *sql.DB // DataBase: "forcamp"
 	CustomConnection *sql.DB // DataBase: custom
 )
 
 /*
 Function builds MySQL source link for Database: "forcamp"
- */
-func getMysqlSource() string{
+*/
+func getMysqlSource() string {
 	MysqlSource := conf.MysqlLogin + ":"
 	MysqlSource += conf.MysqlPassword + "@tcp("
 	MysqlSource += conf.MysqlServerAddr + conf.MysqlServerPort + ")/"
@@ -29,8 +30,8 @@ func getMysqlSource() string{
 
 /*
 Function builds MySQL source link for Database: %name
- */
-func getMysqlSource_Custom(name string) string{
+*/
+func getMysqlSource_Custom(name string) string {
 	MysqlSource := conf.MysqlLogin + ":"
 	MysqlSource += conf.MysqlPassword + "@tcp("
 	MysqlSource += conf.MysqlServerAddr + conf.MysqlServerPort + ")/"
@@ -38,7 +39,7 @@ func getMysqlSource_Custom(name string) string{
 	return MysqlSource
 }
 
-func getMysqlSource_Admin() string{
+func getMysqlSource_Admin() string {
 	MysqlSource := conf.MysqlLogin + ":"
 	MysqlSource += conf.MysqlPassword + "@tcp("
 	MysqlSource += conf.MysqlServerAddr + conf.MysqlServerPort + ")/"
@@ -47,11 +48,11 @@ func getMysqlSource_Admin() string{
 
 /*
 Function opens an MySQL connection for Database: "ForCamp"
- */
-func Connect() *sql.DB{
+*/
+func Connect() *sql.DB {
 	Source := getMysqlSource()
 	Connection, err := sql.Open("mysql", Source)
-	if err != nil{
+	if err != nil {
 		log.Print(err)
 	}
 	Connection.SetMaxOpenConns(conf.MysqlMaxUserConnections)
@@ -61,10 +62,10 @@ func Connect() *sql.DB{
 
 /*
 Function opens an MySQL connection for Database: %name
- */
-func Connect_Custom(organizationName string) *sql.DB{
+*/
+func Connect_Custom(organizationName string) *sql.DB {
 	newConn, err := sql.Open("mysql", getMysqlSource_Custom(organizationName))
-	if err != nil{
+	if err != nil {
 		log.Print(err)
 	}
 	newConn.SetMaxOpenConns(conf.MysqlMaxUserConnections)
@@ -72,9 +73,9 @@ func Connect_Custom(organizationName string) *sql.DB{
 	return newConn
 }
 
-func Connect_Admin() *sql.DB{
+func Connect_Admin() *sql.DB {
 	newConn, err := sql.Open("mysql", getMysqlSource_Admin())
-	if err != nil{
+	if err != nil {
 		log.Print(err)
 	}
 	newConn.SetMaxOpenConns(conf.MysqlMaxUserConnections)

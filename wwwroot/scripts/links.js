@@ -1,5 +1,5 @@
-const __MainSiteDomain = "https://wplay.nullteam.info";
-const __ApiSiteDomain = "https://api.wplay.nullteam.info";
+const __MainSiteDomain = "https://demo.wplay.nullteam.info";
+const __ApiSiteDomain = "https://api.demo.wplay.nullteam.info";
 const __ImagesLink = __ApiSiteDomain + "/images/";
 //  API Links: Auth
 const __GetUserTokenLink = __ApiSiteDomain + "/token.get";

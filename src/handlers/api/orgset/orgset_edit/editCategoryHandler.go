@@ -7,11 +7,11 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strings"
 	"strconv"
-	"wplay/src/api/orgset/categories"
+	"nullteam.info/wplay/demo/src/api/orgset/categories"
 )
 
 func getEditCategoryPostValues(r *http.Request) (categories.Category, string, *conf.ApiResponse){

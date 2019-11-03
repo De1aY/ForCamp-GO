@@ -5,8 +5,8 @@
 package events
 
 import (
-	"wplay/src"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
 )
 
 func AddEvent(eventType int, participant_id int64, employee_id int64) (int64, *conf.ApiResponse) {

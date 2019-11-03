@@ -5,16 +5,17 @@
 package mainSite
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset"
-	"wplay/src/api/orgset/categories"
-	"wplay/src/api/orgset/settings"
-	"wplay/src/api/users"
-	"wplay/src/tools"
 	"html/template"
 	"net/http"
 	"net/url"
+
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/orgset/categories"
+	"nullteam.info/wplay/demo/src/api/orgset/settings"
+	"nullteam.info/wplay/demo/src/api/users"
+	"nullteam.info/wplay/demo/src/tools"
 )
 
 type generalTemplateData struct {
@@ -41,7 +42,7 @@ func GeneralHandler(responseWriter http.ResponseWriter, r *http.Request) {
 		src.SetHeaders_Main(responseWriter)
 		token, err := r.Cookie("token")
 		if err != nil {
-			http.Redirect(responseWriter, r, "https://" + conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, "https://"+conf.MAIN_SITE_DOMAIN+"/exit", http.StatusTemporaryRedirect)
 		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
@@ -57,7 +58,7 @@ func GeneralHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			}
 			generalHTML.ExecuteTemplate(responseWriter, "general", gtd)
 		} else {
-			http.Redirect(responseWriter, r, "https://" + conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, "https://"+conf.MAIN_SITE_DOMAIN+"/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
 		http.Redirect(responseWriter, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)

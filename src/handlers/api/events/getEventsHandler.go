@@ -7,13 +7,13 @@ package events
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/events"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/events"
 	"strconv"
 	"strings"
-	"wplay/src/tools"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/tools"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 func getRequestData(r *http.Request) (string, int64, int64, int64, int, bool, *conf.ApiResponse) {

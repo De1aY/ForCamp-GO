@@ -5,12 +5,12 @@
 package emotional_marks
 
 import (
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"time"
-	"wplay/src/api/orgset/settings"
+	"nullteam.info/wplay/demo/src/api/orgset/settings"
 	"strconv"
-	"wplay/src/api/orgset/teams"
+	"nullteam.info/wplay/demo/src/api/orgset/teams"
 )
 
 

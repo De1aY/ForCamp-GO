@@ -5,8 +5,8 @@
 package events
 
 import (
-	"wplay/src"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
 )
 
 type Event struct {

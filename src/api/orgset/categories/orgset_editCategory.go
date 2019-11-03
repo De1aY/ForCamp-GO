@@ -6,10 +6,10 @@ package categories
 
 import (
 	"net/http"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strconv"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 func EditCategory(token string, category Category, responseWriter http.ResponseWriter) bool{

@@ -5,9 +5,9 @@
 package marks
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset/teams"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset/teams"
 )
 
 type MarkChange struct {

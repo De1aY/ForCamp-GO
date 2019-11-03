@@ -5,12 +5,12 @@
 package mainSite
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset"
-	"wplay/src/api/orgset/settings"
-	"wplay/src/api/users"
-	"wplay/src/tools"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/orgset/settings"
+	"nullteam.info/wplay/demo/src/api/users"
+	"nullteam.info/wplay/demo/src/tools"
 	"html/template"
 	"net/http"
 	"net/url"

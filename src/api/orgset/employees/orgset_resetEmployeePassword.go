@@ -6,9 +6,9 @@ package employees
 
 import (
 	"net/http"
-	"wplay/src/api/orgset"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 )
 
 type resetEmployeePassword_Success struct {

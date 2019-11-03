@@ -6,11 +6,11 @@ package settings
 
 import (
 	"net/http"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/conf"
 	"database/sql"
-	"wplay/src/api/authorization"
-	"wplay/src"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 type OrgSettings struct {

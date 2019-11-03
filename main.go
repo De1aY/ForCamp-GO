@@ -6,20 +6,21 @@
 package main
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/handlers"
-	"wplay/src/handlers/api/apanel"
-	"wplay/src/handlers/api/emotional_marks"
-	"wplay/src/handlers/api/events"
-	"wplay/src/handlers/api/marks"
-	"wplay/src/handlers/api/orgset/orgset_add"
-	"wplay/src/handlers/api/orgset/orgset_delete"
-	"wplay/src/handlers/api/orgset/orgset_edit"
-	"wplay/src/handlers/api/orgset/orgset_get"
-	"wplay/src/handlers/api/users/users_edit"
-	"wplay/src/handlers/api/users/users_get"
 	"net/http"
+
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/handlers"
+	"nullteam.info/wplay/demo/src/handlers/api/apanel"
+	"nullteam.info/wplay/demo/src/handlers/api/emotional_marks"
+	"nullteam.info/wplay/demo/src/handlers/api/events"
+	"nullteam.info/wplay/demo/src/handlers/api/marks"
+	"nullteam.info/wplay/demo/src/handlers/api/orgset/orgset_add"
+	"nullteam.info/wplay/demo/src/handlers/api/orgset/orgset_delete"
+	"nullteam.info/wplay/demo/src/handlers/api/orgset/orgset_edit"
+	"nullteam.info/wplay/demo/src/handlers/api/orgset/orgset_get"
+	"nullteam.info/wplay/demo/src/handlers/api/users/users_edit"
+	"nullteam.info/wplay/demo/src/handlers/api/users/users_get"
 
 	"github.com/gorilla/mux"
 )

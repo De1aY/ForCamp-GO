@@ -6,9 +6,9 @@ package mainSite
 
 import (
 	"net/http"
-	"wplay/src"
+	"nullteam.info/wplay/demo/src"
 	"html/template"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/conf"
 )
 
 type indexTemplateData struct {

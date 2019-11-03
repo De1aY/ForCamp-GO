@@ -7,11 +7,11 @@ package events
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strings"
 	"strconv"
-	"wplay/src/api/events"
+	"nullteam.info/wplay/demo/src/api/events"
 )
 
 func getDeleteEventPostValues(r *http.Request) (string, int64, *conf.ApiResponse){

@@ -5,9 +5,9 @@
 package apanel
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/apanel"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/apanel"
 	"net/http"
 	"strings"
 

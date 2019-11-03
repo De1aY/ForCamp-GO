@@ -7,7 +7,7 @@ package authorization
 import (
 	"crypto/sha512"
 	"encoding/base64"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/conf"
 	"net/http"
 	"time"
 	"math/rand"

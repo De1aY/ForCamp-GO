@@ -7,10 +7,10 @@ package orgset_get
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset/settings"
-	"wplay/src/handlers"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset/settings"
+	"nullteam.info/wplay/demo/src/handlers"
 )
 
 func GetOrgSettingsHandler(w http.ResponseWriter, r *http.Request){

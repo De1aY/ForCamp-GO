@@ -6,9 +6,9 @@ package emotional_marks
 
 import (
 	"net/http"
-	"wplay/src"
-	"wplay/src/api/emotional_marks"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/emotional_marks"
+	"nullteam.info/wplay/demo/conf"
 	"strconv"
 	"strings"
 	"github.com/gorilla/mux"

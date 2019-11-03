@@ -6,9 +6,9 @@ package participants
 
 import (
 	"net/http"
-	"wplay/src/api/orgset"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 )
 
 func EditParticipant(token string, participant Participant, responseWriter http.ResponseWriter) bool{

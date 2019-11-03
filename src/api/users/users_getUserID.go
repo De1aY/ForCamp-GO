@@ -6,9 +6,9 @@ package users
 
 import (
 	"net/http"
-	"wplay/conf"
-	"wplay/src/api/authorization"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src"
 	"strings"
 	"strconv"
 )

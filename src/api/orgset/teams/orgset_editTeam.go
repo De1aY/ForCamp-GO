@@ -6,9 +6,9 @@ package teams
 
 import (
 	"net/http"
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 func EditTeam(token string, name string, id int64, responseWriter http.ResponseWriter) bool{

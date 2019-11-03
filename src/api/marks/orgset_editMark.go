@@ -5,13 +5,13 @@
 package marks
 
 import (
-	"wplay/src"
+	"nullteam.info/wplay/demo/src"
 	"net/http"
-	"wplay/src/api/authorization"
-	"wplay/conf"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src/api/orgset"
 	"strconv"
-	"wplay/src/api/orgset/reasons"
+	"nullteam.info/wplay/demo/src/api/orgset/reasons"
 )
 
 func EditMark(token string, participant_id int64, category_id int64, reason_id int64, responseWriter http.ResponseWriter) bool {

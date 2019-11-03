@@ -6,9 +6,9 @@ package employees
 
 import (
 	"net/http"
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 func DeleteEmployee(token string, employee_id int64, responseWriter http.ResponseWriter) bool {

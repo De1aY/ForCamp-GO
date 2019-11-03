@@ -11,3 +11,5 @@ debug
 /wwwroot/node_modules
 /wwwroot/dist
 /data
+demo
+conf/tls

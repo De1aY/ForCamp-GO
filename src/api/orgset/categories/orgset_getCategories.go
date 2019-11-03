@@ -6,11 +6,11 @@ package categories
 
 import (
 	"net/http"
-	"wplay/src/api/authorization"
-	"wplay/src"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
 	"database/sql"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 type Category struct {

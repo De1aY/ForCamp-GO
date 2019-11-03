@@ -5,9 +5,9 @@
 package users_edit
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/users"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/users"
 	"net/http"
 	"strings"
 

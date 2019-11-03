@@ -5,11 +5,12 @@
 package handlers
 
 import (
-	"wplay/conf"
 	"crypto/tls"
-	"github.com/gorilla/mux"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/mux"
+	"nullteam.info/wplay/demo/conf"
 )
 
 // Read TLS certificates to TlsConfig
@@ -26,9 +27,9 @@ func getTlsConfig() *tls.Config {
 func HandleTLS(router *mux.Router) {
 	TlsConfig := getTlsConfig()
 	Server := http.Server{
-		TLSConfig: TlsConfig,
-		Handler: router,
-		ReadTimeout: 5 * time.Second,
+		TLSConfig:    TlsConfig,
+		Handler:      router,
+		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 	TLSListener, _ := tls.Listen("tcp", conf.TLS_PORT, TlsConfig)

@@ -5,10 +5,10 @@
 package users
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/authorization"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src/api/orgset"
 	"net/http"
 )
 

@@ -5,8 +5,9 @@
 package src
 
 import (
-	"wplay/conf"
 	"net/http"
+
+	"nullteam.info/wplay/demo/conf"
 )
 
 /*

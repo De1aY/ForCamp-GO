@@ -5,13 +5,14 @@
 package mainSite
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/orgset"
-	"wplay/src/tools"
 	"html/template"
 	"net/http"
 	"net/url"
+
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/src/tools"
 )
 
 type apanelTemplateData struct {
@@ -23,13 +24,13 @@ func ApanelHandler(responseWriter http.ResponseWriter, r *http.Request) {
 		src.SetHeaders_Main(responseWriter)
 		token, err := r.Cookie("token")
 		if err != nil {
-			http.Redirect(responseWriter, r, "https://" + conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, "https://"+conf.MAIN_SITE_DOMAIN+"/exit", http.StatusTemporaryRedirect)
 		}
 		token.Value, err = url.QueryUnescape(token.Value)
 		if err == nil && tools.CheckToken(token.Value) {
 			isAdmin := isUserAdmin(token.Value)
 			if isAdmin != nil {
-				http.Redirect(responseWriter, r, "https://" + conf.MAIN_SITE_DOMAIN + "/profile", http.StatusTemporaryRedirect)
+				http.Redirect(responseWriter, r, "https://"+conf.MAIN_SITE_DOMAIN+"/profile", http.StatusTemporaryRedirect)
 				return
 			}
 			apanelHTML, err := template.New(conf.FILE_APANEL).ParseFiles(conf.FILE_APANEL)
@@ -40,7 +41,7 @@ func ApanelHandler(responseWriter http.ResponseWriter, r *http.Request) {
 			atd := getApanelTemplateData(token.Value, r)
 			apanelHTML.ExecuteTemplate(responseWriter, "apanel", atd)
 		} else {
-			http.Redirect(responseWriter, r, "https://" + conf.MAIN_SITE_DOMAIN + "/exit", http.StatusTemporaryRedirect)
+			http.Redirect(responseWriter, r, "https://"+conf.MAIN_SITE_DOMAIN+"/exit", http.StatusTemporaryRedirect)
 		}
 	} else {
 		http.Redirect(responseWriter, r, "https://"+r.Host+r.URL.Path, http.StatusTemporaryRedirect)

@@ -7,10 +7,10 @@ package orgset_add
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strings"
-	"wplay/src/api/orgset/participants"
+	"nullteam.info/wplay/demo/src/api/orgset/participants"
 	"strconv"
 )
 

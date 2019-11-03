@@ -7,11 +7,11 @@ package orgset_edit
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strings"
 	"strconv"
-	"wplay/src/api/orgset/teams"
+	"nullteam.info/wplay/demo/src/api/orgset/teams"
 )
 
 func getEditTeamPostValues(r *http.Request) (string, string, int64, *conf.ApiResponse){

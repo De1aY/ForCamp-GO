@@ -5,8 +5,9 @@
 package tools
 
 import (
-	"wplay/src"
 	"strings"
+
+	"nullteam.info/wplay/demo/src"
 )
 
 func CheckToken(token string) bool {
@@ -29,7 +30,7 @@ func StringToBoolean(data string) bool {
 	}
 }
 
-func IsLatinLetter (r rune) bool{
+func IsLatinLetter(r rune) bool {
 	return r < 'A' || r > 'z'
 }
 
@@ -50,6 +51,6 @@ func TimestampToDate(t string) string {
 	return ymd[2] + "." + ymd[1] + "." + ymd[0]
 }
 
-func IsNegative (val int64) bool {
+func IsNegative(val int64) bool {
 	return val < 0
 }

@@ -7,10 +7,10 @@ package orgset_add
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strings"
-	"wplay/src/api/orgset/categories"
+	"nullteam.info/wplay/demo/src/api/orgset/categories"
 )
 
 func getAddCategoryPostValues(r *http.Request) (categories.Category, string){

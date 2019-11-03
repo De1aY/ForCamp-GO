@@ -6,13 +6,13 @@ package employees
 
 import (
 	"net/http"
-	"wplay/src/api/authorization"
-	"wplay/src/api/orgset"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"database/sql"
 	"strconv"
-	"wplay/src/api/orgset/categories"
+	"nullteam.info/wplay/demo/src/api/orgset/categories"
 )
 
 type Permission struct {

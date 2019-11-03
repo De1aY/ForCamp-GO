@@ -18,7 +18,7 @@ $('#submit').click(function () {
         preloader.off();
         if (data.code === 200) {
             $.cookie('token', data.message.token.replace('%3D', '='), {expires: 366, path: '/', secure: true});
-            window.location.href = "https://wplay.nullteam.info";
+            window.location.href = __MainSiteDomain;
         } else {
             notie.alert({type: 3, text: data.message.ru, time: 3});
         }

@@ -6,9 +6,9 @@ package employees
 
 import (
 	"net/http"
-	"wplay/src"
-	"wplay/src/api/orgset"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/conf"
 	"strconv"
 )
 

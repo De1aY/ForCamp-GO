@@ -6,11 +6,11 @@ package events
 
 import (
 	"net/http"
-	"wplay/src/api/authorization"
-	"wplay/src/api/orgset"
-	"wplay/src"
-	"wplay/conf"
-	"wplay/src/api/marks"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src/api/marks"
 )
 
 func DeleteEvent(token string, event_id int64, responseWriter http.ResponseWriter) bool {

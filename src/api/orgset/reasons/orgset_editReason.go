@@ -5,10 +5,10 @@
 package reasons
 
 import (
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/orgset"
 	"net/http"
-	"wplay/src"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
 )
 
 func EditReason(token string, reason Reason, responseWriter http.ResponseWriter) bool{

@@ -5,8 +5,8 @@
 package authorization
 
 import (
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"html"
 	"net/http"
 )

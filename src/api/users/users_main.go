@@ -5,8 +5,8 @@
 package users
 
 import (
-	"wplay/src/api/orgset/teams"
-	"wplay/src/api/events"
+	"nullteam.info/wplay/demo/src/api/orgset/teams"
+	"nullteam.info/wplay/demo/src/api/events"
 )
 
 type getUserLogin_Success struct {

@@ -5,12 +5,12 @@
 package users_get
 
 import (
-	"wplay/src/api/users"
+	"nullteam.info/wplay/demo/src/api/users"
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/handlers"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/handlers"
 )
 
 

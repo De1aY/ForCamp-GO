@@ -7,10 +7,10 @@ package orgset_delete
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strconv"
-	"wplay/src/api/orgset/categories"
+	"nullteam.info/wplay/demo/src/api/orgset/categories"
 	"strings"
 )
 

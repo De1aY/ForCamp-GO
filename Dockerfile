@@ -1,9 +1,8 @@
-FROM golang:1.12.1
+FROM golang:latest
+WORKDIR /usr/app
+COPY . /usr/app
 
-WORKDIR $GOPATH/src/wplay
-COPY . .
-
-RUN go get
-EXPOSE 80 443
-
-CMD ["go", "run", "main.go"]
+RUN go get -d -v ./...
+RUN go build -o app
+RUN chmod 777 ./app
+RUN rm -rf /go/pkg

@@ -7,11 +7,11 @@ package orgset_add
 import (
 	"net/http"
 	"github.com/gorilla/mux"
-	"wplay/conf"
-	"wplay/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
 	"strings"
 	"strconv"
-	"wplay/src/api/orgset/reasons"
+	"nullteam.info/wplay/demo/src/api/orgset/reasons"
 )
 
 func getAddReasonPostValues(r *http.Request) (string, reasons.Reason, *conf.ApiResponse){

@@ -6,10 +6,10 @@ package emotional_marks
 
 import (
 	"net/http"
-	"wplay/src/api/authorization"
-	"wplay/src"
-	"wplay/conf"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src/api/orgset"
 )
 
 func SetEmotionalMark(token string, emotional_mark int64, responseWriter http.ResponseWriter) bool {

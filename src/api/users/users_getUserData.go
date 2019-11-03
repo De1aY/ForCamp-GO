@@ -5,18 +5,18 @@
 package users
 
 import (
-	"wplay/src/api/authorization"
-	"wplay/src"
+	"nullteam.info/wplay/demo/src/api/authorization"
+	"nullteam.info/wplay/demo/src"
 	"net/http"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/conf"
 	"database/sql"
-	"wplay/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/orgset"
 	"strconv"
-	"wplay/src/api/orgset/participants"
-	"wplay/src/api/orgset/employees"
-	"wplay/src/api/orgset/categories"
-	"wplay/src/api/orgset/teams"
-	"wplay/src/api/events"
+	"nullteam.info/wplay/demo/src/api/orgset/participants"
+	"nullteam.info/wplay/demo/src/api/orgset/employees"
+	"nullteam.info/wplay/demo/src/api/orgset/categories"
+	"nullteam.info/wplay/demo/src/api/orgset/teams"
+	"nullteam.info/wplay/demo/src/api/events"
 )
 
 type participantAdditionalData struct {

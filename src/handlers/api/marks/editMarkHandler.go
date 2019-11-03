@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"strings"
 	"strconv"
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/marks"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/marks"
 )
 
 func getEditMarkPostValues(r *http.Request) (string, int64, int64, int64, *conf.ApiResponse){

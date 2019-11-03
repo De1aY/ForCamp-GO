@@ -5,10 +5,11 @@
 package handlers
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/handlers/mainSite"
 	"net/http"
+
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/handlers/mainSite"
 
 	"github.com/gorilla/mux"
 )

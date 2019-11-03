@@ -5,9 +5,9 @@
 package orgset
 
 import (
-	"wplay/conf"
-	"wplay/src"
-	"wplay/src/api/authorization"
+	"nullteam.info/wplay/demo/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/src/api/authorization"
 	"math/rand"
 	"net/http"
 	"strconv"

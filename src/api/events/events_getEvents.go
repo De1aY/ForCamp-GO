@@ -5,14 +5,14 @@
 package events
 
 import (
-	"wplay/src/api/authorization"
+	"nullteam.info/wplay/demo/src/api/authorization"
 	"net/http"
-	"wplay/src"
-	"wplay/conf"
+	"nullteam.info/wplay/demo/src"
+	"nullteam.info/wplay/demo/conf"
 	"database/sql"
-	"wplay/src/api/marks"
-	"wplay/src/api/orgset"
-	"wplay/src/api/emotional_marks"
+	"nullteam.info/wplay/demo/src/api/marks"
+	"nullteam.info/wplay/demo/src/api/orgset"
+	"nullteam.info/wplay/demo/src/api/emotional_marks"
 )
 
 type getEvents_Success struct {
