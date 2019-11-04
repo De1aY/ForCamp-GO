@@ -26,6 +26,7 @@ import (
 )
 
 func main() {
+	conf.GetEnvVars()
 	// Domains routing
 	Router := mux.NewRouter()
 	// WWWSite := Router.Host(conf.WWW_MAIN_SITE_DOMAIN).Subrouter()
