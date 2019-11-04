@@ -11,20 +11,20 @@ import (
 )
 
 var (
-	MysqlServerAddr string = "database"
-	MySqlDbMain = "forcamp"
-	MysqlServerPort = ""
-	MysqlLogin = "root"
-	MysqlPassword = "root"
-	MysqlMaxUserConnections = 151
+	MysqlServerAddr         string = "database"
+	MySqlDbMain                    = "wplay"
+	MysqlServerPort                = ""
+	MysqlLogin                     = "root"
+	MysqlPassword                  = "root"
+	MysqlMaxUserConnections        = 151
 )
 
 func GetEnvVars() {
-	MysqlServerAddr = parseEnvVar(os.Getenv("GO_APP_MYSQL_SERVER_ADDR"),"database")
-	MySqlDbMain = parseEnvVar(os.Getenv("GO_APP_MYSQL_DB_MAIN"), "forcamp")
+	MysqlServerAddr = parseEnvVar(os.Getenv("GO_APP_MYSQL_SERVER_ADDR"), "database")
+	MySqlDbMain = parseEnvVar(os.Getenv("GO_APP_MYSQL_DB_MAIN"), "wplay")
 	MysqlServerPort = ":" + parseEnvVar(os.Getenv("GO_APP_MYSQL_SERVER_PORT"), "3306")
 	MysqlLogin = parseEnvVar(os.Getenv("GO_APP_MYSQL_LOGIN"), "root")
-	MysqlPassword = parseEnvVar(os.Getenv("GO_APP_MYSQL_PASSWORD"), "root")
+	MysqlPassword = parseEnvVar(os.Getenv("GO_APP_MYSQL_PASSWORD"), "WP95123657")
 	var err error
 	MysqlMaxUserConnections, err = strconv.Atoi(parseEnvVar(os.Getenv("GO_APP_MYSQL_MAX_USER_CONNECTIONS"), "151"))
 	if err != nil {
