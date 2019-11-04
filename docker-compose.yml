@@ -20,7 +20,7 @@ services:
     build: ./
     command: bash -c "sleep 5 && /usr/app/app run"
     volumes:
-      - /usr/app/source/wwwroot/data:/usr/app/wwwroot/data
+      - /usr/app/data:/usr/app/wwwroot/data
       - /usr/app/ssl:/usr/app/conf/tls
     depends_on:
       - database
