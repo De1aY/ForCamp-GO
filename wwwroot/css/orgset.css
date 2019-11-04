@@ -36,6 +36,9 @@ body .fc-modal .mdl-card {
 body .fc-modal:not(.mdl-card) {
   background: rgba(0, 0, 0, 0.6);
 }
+body .mdl-layout__drawer .mdl-layout-title {
+  text-transform: capitalize;
+}
 body .mdl-layout__drawer-button {
   display: flex;
   justify-content: center;
