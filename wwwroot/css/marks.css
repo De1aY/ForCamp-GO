@@ -1,259 +1,335 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic");
 * {
-  font-family: 'Roboto', sans-serif;
-  outline: none; }
+  font-family: "Roboto", sans-serif;
+  outline: none;
+}
 
 body {
-  margin: 0; }
-  body #materialPreloader {
-    z-index: 1000; }
-  body .user-select--none {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
-  body .notie-alert {
-    z-index: 1000; }
-  body .fc-modal {
-    position: fixed;
-    min-width: 100%;
-    min-height: 100%;
+  margin: 0;
+}
+body #materialPreloader {
+  z-index: 1000;
+}
+body .user-select--none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body .notie-alert {
+  z-index: 1000;
+}
+body .fc-modal {
+  position: fixed;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 900;
+}
+body .fc-modal .mdl-card {
+  width: auto;
+  min-width: 400px;
+}
+body .fc-modal:not(.mdl-card) {
+  background: rgba(0, 0, 0, 0.6);
+}
+body .mdl-layout__drawer-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 489px) {
+  body .dataTables_wrapper .dataTables_filter label {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    z-index: 900; }
-    body .fc-modal .mdl-card {
-      width: auto;
-      min-width: 400px; }
-  body .fc-modal:not(.mdl-card) {
-    background: rgba(0, 0, 0, 0.6); }
-  body .mdl-layout__drawer-button {
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-  body .mdl-navigation__link, body .mdl-layout-title {
-    text-transform: capitalize; }
-  @media (max-width: 489px) {
-    body .dataTables_wrapper .dataTables_filter label {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center; } }
-  body .dataTables_wrapper .dataTables_filter label input {
-    border: none; }
-  @media (max-width: 489px) {
-    body .dataTables_wrapper .dataTables_filter label span {
-      position: absolute;
-      margin-top: 10px;
-      margin-left: 57px; } }
-  body .dataTables_wrapper .dataTables_filter label span:after {
-    content: ' ';
-    display: block;
-    height: 2px;
-    width: 0;
-    margin-top: 2px;
-    margin-right: 159px;
-    margin-left: auto;
-    transition: width 300ms ease-in-out, margin-right 300ms ease-in-out;
-    background: #3f51b5; }
-  body .dataTables_wrapper .dataTables_filter label input:hover + span:after {
-    width: 159px;
-    margin-right: 0; }
-  body .dataTables_wrapper .dataTables_filter label input:focus + span:after {
-    width: 159px;
-    margin-right: 0; }
-  @media (max-width: 479px) {
-    body .dataTables_wrapper .dataTables_filter {
-      max-width: 207px; } }
-  body .mdl-card {
-    width: 100%;
-    min-height: 125px; }
-    body .mdl-card .mdl-card__title .mdl-card__title-photo--round {
-      border-radius: 100px; }
-    body .mdl-card .mdl-card__title--photo {
-      display: flex;
-      justify-content: center;
-      align-items: center; }
-    body .mdl-card .mdl-card__body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: stretch; }
-      body .mdl-card .mdl-card__body .mdl-card__body-row {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 5px 0; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-icon {
-          margin-right: 10px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--editing {
-          margin-top: 4px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--editing:after {
-          content: ' ';
-          display: block;
-          margin-top: 2px;
-          height: 2px;
-          width: 100%;
-          background: #3f51b5; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--bold {
-          font-weight: 700; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--italic {
-          font-style: inherit; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--capitalize {
-          text-transform: capitalize; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--uppercase {
-          text-transform: uppercase; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch .mdl-switch__track {
-          margin-top: 1px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch .mdl-switch__thumb {
-          margin-top: 1px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch .mdl-switch__ripple-container {
-          margin-top: 1px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch--16px .mdl-switch__label {
-          font-size: 16px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch--24px .mdl-switch__label {
-          font-size: 24px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch--32px .mdl-switch__label {
-          font-size: 32px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions {
-          margin-left: auto;
-          margin-right: 0;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center; }
-          body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions button[display=block]:not(:last-child) {
-            margin-right: 5px; }
-          body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions .mdl-card__body-row-button--off {
-            display: none; }
-          body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions .mdl-card__body-row-button--accept {
-            color: #57bf57; }
-          body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions .mdl-card__body-row-button--decline {
-            color: #e1515b; }
-      body .mdl-card .mdl-card__body .mdl-card__body-row--16px {
-        font-size: 16px; }
-      body .mdl-card .mdl-card__body .mdl-card__body-row--24px {
-        font-size: 24px; }
-      body .mdl-card .mdl-card__body .mdl-card__body-row--32px {
-        font-size: 32px; }
-      body .mdl-card .mdl-card__body .mdl-card__body-row--nopad {
-        padding: 0; }
-      body .mdl-card .mdl-card__body .mdl-card__body-row--table {
-        margin: 5px 0;
-        justify-content: space-between;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-      body .mdl-card .mdl-card__body .mdl-card__body-table {
-        width: 100%; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing {
-          margin-top: 4px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing:after {
-          content: ' ';
-          display: block;
-          height: 2px;
-          width: 0;
-          margin-top: 2px;
-          transition: width 300ms ease-in-out;
-          background: #3f51b5; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing:focus:after {
-          width: 100%; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--capitalize {
-          text-transform: capitalize; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul {
-          z-index: 20;
-          margin: 0;
-          padding: 0;
-          max-height: 0;
-          position: absolute;
-          top: 0;
-          right: 70px;
-          background: #FFF;
-          font-weight: 400;
-          text-align: center;
-          list-style-type: none;
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-          overflow-y: auto;
-          overflow-x: hidden;
-          -ms-overflow-style: none;
-          transition: max-height 300ms ease-in-out; }
-          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul li {
-            display: block;
-            font-size: 14px;
-            text-align: left;
-            height: 52px; }
-            body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul li span {
-              display: block;
-              padding: 14px 16px;
-              color: #3f51b5;
-              cursor: pointer; }
-          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul li:hover {
-            background: #eee; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul::-webkit-scrollbar {
-          display: none; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown--editing .mdl-card__body-table-row__dropdown-ttl ~ ul {
-          max-height: 120px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul {
-          z-index: 20;
-          margin: 0;
-          padding: 0;
-          max-height: 0;
-          position: absolute;
-          top: 0;
-          background: #FFF;
-          font-weight: 400;
-          text-align: center;
-          list-style-type: none;
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-          overflow-y: auto;
-          overflow-x: hidden;
-          -ms-overflow-style: none;
-          transition: max-height 300ms ease-in-out; }
-          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li {
-            display: block;
-            font-size: 14px;
-            text-align: left;
-            height: 52px; }
-            body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li div {
-              display: block;
-              padding: 14px 16px;
-              color: #3f51b5; }
-            body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button {
-              font-size: 16px;
-              text-align: center;
-              cursor: pointer; }
-            body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button:hover {
-              background: #eee; }
-          body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li:hover {
-            background: #eee; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul::-webkit-scrollbar {
-          display: none; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown--editing .mdl-card__body-table-row__switch-dropdown-ttl ~ ul {
-          max-height: 120px; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--create {
-          color: #57bf57; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--decline {
-          color: #e1515b; }
-        body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--delete {
-          color: #e1515b; }
-      body .mdl-card .mdl-card__body .dt-table .mdl-cell {
-        -ms-overflow-style: none;
-        padding-bottom: 65px;
-        overflow-x: scroll; }
-      body .mdl-card .mdl-card__body .dt-table .mdl-cell::-webkit-scrollbar {
-        display: none; }
-      body .mdl-card .mdl-card__body .dt-table ~ .mdl-grid {
-        margin-top: -50px; }
-    body .mdl-card .mdl-card__body--nopad {
-      padding: 0; }
-  body .emotional_mark--very_dissatisfied {
-    color: #e1515b; }
-  body .emotional_mark--dissatisfied {
-    color: #f5656f; }
-  body .emotional_mark--neutral {
-    color: #d6a14d; }
-  body .emotional_mark--satisfied {
-    color: #6bd36b; }
-  body .emotional_mark--very_satisfied {
-    color: #57bf57; }
+  }
+}
+body .dataTables_wrapper .dataTables_filter label input {
+  border: none;
+}
+@media (max-width: 489px) {
+  body .dataTables_wrapper .dataTables_filter label span {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 57px;
+  }
+}
+body .dataTables_wrapper .dataTables_filter label span:after {
+  content: " ";
+  display: block;
+  height: 2px;
+  width: 0;
+  margin-top: 2px;
+  margin-right: 159px;
+  margin-left: auto;
+  transition: width 300ms ease-in-out, margin-right 300ms ease-in-out;
+  background: #3f51b5;
+}
+body .dataTables_wrapper .dataTables_filter label input:hover + span:after {
+  width: 159px;
+  margin-right: 0;
+}
+body .dataTables_wrapper .dataTables_filter label input:focus + span:after {
+  width: 159px;
+  margin-right: 0;
+}
+@media (max-width: 479px) {
+  body .dataTables_wrapper .dataTables_filter {
+    max-width: 207px;
+  }
+}
+body .mdl-card {
+  width: 100%;
+  min-height: 125px;
+}
+body .mdl-card .mdl-card__title .mdl-card__title-photo--round {
+  border-radius: 100px;
+}
+body .mdl-card .mdl-card__title--photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .mdl-card .mdl-card__body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 0;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-icon {
+  margin-right: 10px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--editing {
+  margin-top: 4px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--editing:after {
+  content: " ";
+  display: block;
+  margin-top: 2px;
+  height: 2px;
+  width: 100%;
+  background: #3f51b5;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--bold {
+  font-weight: 700;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--italic {
+  font-style: inherit;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--capitalize {
+  text-transform: capitalize;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-text--uppercase {
+  text-transform: uppercase;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch .mdl-switch__track {
+  margin-top: 1px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch .mdl-switch__thumb {
+  margin-top: 1px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch .mdl-switch__ripple-container {
+  margin-top: 1px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch--16px .mdl-switch__label {
+  font-size: 16px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch--24px .mdl-switch__label {
+  font-size: 24px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-switch--32px .mdl-switch__label {
+  font-size: 32px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions {
+  margin-left: auto;
+  margin-right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions button[display=block]:not(:last-child) {
+  margin-right: 5px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions .mdl-card__body-row-button--off {
+  display: none;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions .mdl-card__body-row-button--accept {
+  color: #57bf57;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row .mdl-card__body-row-actions .mdl-card__body-row-button--decline {
+  color: #e1515b;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row--16px {
+  font-size: 16px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row--24px {
+  font-size: 24px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row--32px {
+  font-size: 32px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row--nopad {
+  padding: 0;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-row--table {
+  margin: 5px 0;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table {
+  width: 100%;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing {
+  margin-top: 4px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing:after {
+  content: " ";
+  display: block;
+  height: 2px;
+  width: 0;
+  margin-top: 2px;
+  transition: width 300ms ease-in-out;
+  background: #3f51b5;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--editing:focus:after {
+  width: 100%;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__field--capitalize {
+  text-transform: capitalize;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul {
+  z-index: 20;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  position: absolute;
+  top: 0;
+  right: 70px;
+  background: #FFF;
+  font-weight: 400;
+  text-align: center;
+  list-style-type: none;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  transition: max-height 300ms ease-in-out;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul li {
+  display: block;
+  font-size: 14px;
+  text-align: left;
+  height: 52px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul li span {
+  display: block;
+  padding: 14px 16px;
+  color: #3f51b5;
+  cursor: pointer;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul li:hover {
+  background: #eee;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown ul::-webkit-scrollbar {
+  display: none;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__dropdown--editing .mdl-card__body-table-row__dropdown-ttl ~ ul {
+  max-height: 120px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul {
+  z-index: 20;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  position: absolute;
+  top: 0;
+  background: #FFF;
+  font-weight: 400;
+  text-align: center;
+  list-style-type: none;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  transition: max-height 300ms ease-in-out;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li {
+  display: block;
+  font-size: 14px;
+  text-align: left;
+  height: 52px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li div {
+  display: block;
+  padding: 14px 16px;
+  color: #3f51b5;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button {
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li .mdl-card__body-table-row__switch-dropdown-button:hover {
+  background: #eee;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul li:hover {
+  background: #eee;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown ul::-webkit-scrollbar {
+  display: none;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row__switch-dropdown--editing .mdl-card__body-table-row__switch-dropdown-ttl ~ ul {
+  max-height: 120px;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--create {
+  color: #57bf57;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--decline {
+  color: #e1515b;
+}
+body .mdl-card .mdl-card__body .mdl-card__body-table .mdl-card__body-table-row_actions .mdl-card__body-table-row_actions--delete {
+  color: #e1515b;
+}
+body .mdl-card .mdl-card__body .dt-table .mdl-cell {
+  -ms-overflow-style: none;
+  padding-bottom: 65px;
+  overflow-x: scroll;
+}
+body .mdl-card .mdl-card__body .dt-table .mdl-cell::-webkit-scrollbar {
+  display: none;
+}
+body .mdl-card .mdl-card__body .dt-table ~ .mdl-grid {
+  margin-top: -50px;
+}
+body .mdl-card .mdl-card__body--nopad {
+  padding: 0;
+}
+body .emotional_mark--very_dissatisfied {
+  color: #e1515b;
+}
+body .emotional_mark--dissatisfied {
+  color: #f5656f;
+}
+body .emotional_mark--neutral {
+  color: #d6a14d;
+}
+body .emotional_mark--satisfied {
+  color: #6bd36b;
+}
+body .emotional_mark--very_satisfied {
+  color: #57bf57;
+}
 
 /*# sourceMappingURL=marks.css.map */
